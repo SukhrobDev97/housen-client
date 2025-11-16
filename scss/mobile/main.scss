@@ -1,6 +1,149 @@
 @import '/scss/variables.scss';
 
 #mobile-wrap {
+  #top {
+    .navbar {
+      &.mobile-navbar {
+        width: 100%;
+        .navbar-main {
+          &.mobile {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 80px;
+            background-color: #1C2D37;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            z-index: 100;
+            .container {
+              width: 100%;
+              padding: 16px 20px;
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: space-between;
+              .logo-box {
+                .logo-container {
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  cursor: pointer;
+                  .logo-text-container {
+                    display: flex;
+                    flex-direction: column;
+                    .logo-text {
+                      font-family: 'Century Gothic', 'Futura', 'Trebuchet MS', Arial, sans-serif;
+                      font-size: 24px;
+                      font-weight: 400;
+                      line-height: 1.22607421875em;
+                      text-transform: uppercase;
+                      color: #FFFFFF;
+                      margin: 0;
+                    }
+                    .logo-subtitle {
+                      font-family: 'Glory', sans-serif;
+                      font-size: 10px;
+                      font-weight: 500;
+                      line-height: 1.12em;
+                      letter-spacing: 0.07em;
+                      color: #FFFFFF;
+                      margin: 0;
+                    }
+                  }
+                }
+              }
+              .mobile-actions {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 12px;
+                .auth-button {
+                  &.mobile {
+                    width: 40px;
+                    height: 40px;
+                    padding: 0;
+                    min-width: auto;
+                    .auth-icon {
+                      font-size: 20px;
+                    }
+                  }
+                }
+                .side-menu-toggle {
+                  background: none;
+                  border: none;
+                  cursor: pointer;
+                  padding: 0;
+                  width: 32px;
+                  height: 21px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  svg {
+                    width: 32px;
+                    height: 21px;
+                  }
+                }
+              }
+            }
+          }
+        }
+        .mobile-menu {
+          position: fixed;
+          top: 80px;
+          left: 0;
+          right: 0;
+          width: 100%;
+          background-color: #1C2D37;
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          z-index: 99;
+          padding: 20px 0;
+          display: flex;
+          flex-direction: column;
+          gap: 0;
+          max-height: calc(100vh - 80px);
+          overflow-y: auto;
+          .mobile-menu-item {
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            &:hover {
+              background-color: rgba(255, 255, 255, 0.05);
+            }
+            span {
+              color: #FFFFFF;
+              font-family: 'Inter', sans-serif;
+              font-size: 16px;
+              font-weight: 400;
+              line-height: 1.5em;
+            }
+            &.contact-button {
+              background-color: #EED26E;
+              span {
+                color: #0D0D0C;
+                font-weight: 500;
+              }
+            }
+            &.auth-button-mobile {
+              background-color: rgba(255, 255, 255, 0.1);
+              .auth-icon {
+                color: #ffffff;
+                font-size: 20px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   .top {
     height: 100px;
     display: flex;

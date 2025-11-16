@@ -32,6 +32,7 @@ const Top = () => {
 	const [bgColor, setBgColor] = useState<boolean>(false);
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
+	const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -97,6 +98,14 @@ const Top = () => {
 		}
 	};
 
+	const toggleMobileMenu = () => {
+		setMobileMenuOpen(!mobileMenuOpen);
+	};
+
+	const closeMobileMenu = () => {
+		setMobileMenuOpen(false);
+	};
+
 	const StyledMenu = styled((props: MenuProps) => (
 		<Menu
 			elevation={0}
@@ -141,22 +150,107 @@ const Top = () => {
 
 	if (device == 'mobile') {
 		return (
-			<Stack className={'top'}>
-				<Link href={'/'}>
-					<div>{t('Home')}</div>
-				</Link>
-				<Link href={'/property'}>
-					<div>{t('Properties')}</div>
-				</Link>
-				<Link href={'/agent'}>
-					<div> {t('Agents')} </div>
-				</Link>
-				<Link href={'/community?articleCategory=FREE'}>
-					<div> {t('Community')} </div>
-				</Link>
-				<Link href={'/cs'}>
-					<div> {t('CS')} </div>
-				</Link>
+			<Stack className={'navbar mobile-navbar'}>
+				<Stack className={'navbar-main mobile'}>
+					<Stack className={'container'}>
+						<Box component={'div'} className={'logo-box'}>
+							<Link href={'/'} onClick={closeMobileMenu}>
+								<div className={'logo-container'}>
+									<div className={'logo-text-container'}>
+										<span className={'logo-text'}>Housen</span>
+										<span className={'logo-subtitle'}>LIVING SOLUTIONS</span>
+									</div>
+								</div>
+							</Link>
+						</Box>
+						<Box component={'div'} className={'mobile-actions'}>
+							{!user?._id && (
+								<Link href={'/account/join'}>
+									<div className={'auth-button mobile'}>
+										<AccountCircleOutlinedIcon className={'auth-icon'} />
+									</div>
+								</Link>
+							)}
+							<button className={'side-menu-toggle'} onClick={toggleMobileMenu}>
+								<svg width="32" height="21" viewBox="0 0 32 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<line x1="0" y1="0.5" x2="32" y2="0.5" stroke="white" strokeWidth="1"/>
+									<line x1="6" y1="10.5" x2="26" y2="10.5" stroke="white" strokeWidth="1"/>
+									<line x1="0" y1="20.5" x2="32" y2="20.5" stroke="white" strokeWidth="1"/>
+								</svg>
+							</button>
+						</Box>
+					</Stack>
+				</Stack>
+				{mobileMenuOpen && (
+					<Stack className={'mobile-menu'}>
+						<Link href={'/'} onClick={closeMobileMenu}>
+							<div className={'mobile-menu-item'}>
+								<span>{t('Home')}</span>
+							</div>
+						</Link>
+						<Link href={'/about'} onClick={closeMobileMenu}>
+							<div className={'mobile-menu-item'}>
+								<span>About Us</span>
+							</div>
+						</Link>
+						<Link href={'/property'} onClick={closeMobileMenu}>
+							<div className={'mobile-menu-item'}>
+								<span>{t('Properties')}</span>
+							</div>
+						</Link>
+						<Link href={'/agent'} onClick={closeMobileMenu}>
+							<div className={'mobile-menu-item'}>
+								<span>{t('Agents')}</span>
+							</div>
+						</Link>
+						<Link href={'/community?articleCategory=FREE'} onClick={closeMobileMenu}>
+							<div className={'mobile-menu-item'}>
+								<span>Pages</span>
+							</div>
+						</Link>
+						{user?._id && (
+							<Link href={'/mypage'} onClick={closeMobileMenu}>
+								<div className={'mobile-menu-item'}>
+									<span>Blog</span>
+								</div>
+							</Link>
+						)}
+						<Link href={'/cs'} onClick={closeMobileMenu}>
+							<div className={'mobile-menu-item contact-button'}>
+								<span>Contact Us</span>
+							</div>
+						</Link>
+						{user?._id ? (
+							<div className={'mobile-menu-item'} onClick={(event: any) => {
+								setLogoutAnchor(event.currentTarget);
+								closeMobileMenu();
+							}}>
+								<span>Logout</span>
+							</div>
+						) : (
+							<Link href={'/account/join'} onClick={closeMobileMenu}>
+								<div className={'mobile-menu-item auth-button-mobile'}>
+									<AccountCircleOutlinedIcon className={'auth-icon'} />
+									<span>{t('Login')} / {t('Register')}</span>
+								</div>
+							</Link>
+						)}
+					</Stack>
+				)}
+				<Menu
+					id="basic-menu"
+					anchorEl={logoutAnchor}
+					open={logoutOpen}
+					onClose={() => {
+						setLogoutAnchor(null);
+					}}
+					sx={{ mt: '5px' }}
+				>
+					<MenuItem onClick={() => logOut()}>
+						<Logout fontSize="small" style={{ color: 'blue', marginRight: '10px' }} />
+						Logout
+					</MenuItem>
+				</Menu>
 			</Stack>
 		);
 	} else {
@@ -166,34 +260,74 @@ const Top = () => {
 					<Stack className={'container'}>
 						<Box component={'div'} className={'logo-box'}>
 							<Link href={'/'}>
-								<img src="/img/logo/logoWhite.svg" alt="" />
+								<div className={'logo-container'}>
+									<div className={'logo-text-container'}>
+										<span className={'logo-text'}>Housen</span>
+										<span className={'logo-subtitle'}>LIVING SOLUTIONS</span>
+									</div>
+								</div>
 							</Link>
 						</Box>
 						<Box component={'div'} className={'router-box'}>
 							<Link href={'/'}>
-								<div>{t('Home')}</div>
+								<div className={'menu-item'}>
+									<span>{t('Home')}</span>
+									<svg className={'down-arrow'} width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M3 4.5L6 7.5L9 4.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+									</svg>
+								</div>
+							</Link>
+							<Link href={'/about'}>
+								<div className={'menu-item no-arrow'}>
+									<span>About Us</span>
+								</div>
 							</Link>
 							<Link href={'/property'}>
-								<div>{t('Properties')}</div>
+								<div className={'menu-item'}>
+									<span>{t('Properties')}</span>
+									<svg className={'down-arrow'} width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M3 4.5L6 7.5L9 4.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+									</svg>
+								</div>
 							</Link>
 							<Link href={'/agent'}>
-								<div> {t('Agents')} </div>
+								<div className={'menu-item'}>
+									<span>{t('Agents')}</span>
+									<svg className={'down-arrow'} width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M3 4.5L6 7.5L9 4.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+									</svg>
+								</div>
 							</Link>
 							<Link href={'/community?articleCategory=FREE'}>
-								<div> {t('Community')} </div>
+								<div className={'menu-item'}>
+									<span>Pages</span>
+									<svg className={'down-arrow'} width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M3 4.5L6 7.5L9 4.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+									</svg>
+								</div>
 							</Link>
 							{user?._id && (
 								<Link href={'/mypage'}>
-									<div> {t('My Page')} </div>
+									<div className={'menu-item'}>
+										<span>Blog</span>
+										<svg className={'down-arrow'} width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M3 4.5L6 7.5L9 4.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+									</div>
 								</Link>
 							)}
-							<Link href={'/cs'}>
-								<div> {t('CS')} </div>
-							</Link>
 						</Box>
 						<Box component={'div'} className={'user-box'}>
 							{user?._id ? (
 								<>
+									<Link href={'/cs'}>
+										<div className={'contact-us-button'}>
+											<span>Contact Us</span>
+											<svg className={'right-arrow'} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<path d="M6 12L10 8L6 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+											</svg>
+										</div>
+									</Link>
 									<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
 										<img
 											src={
@@ -219,14 +353,24 @@ const Top = () => {
 									</Menu>
 								</>
 							) : (
-								<Link href={'/account/join'}>
-									<div className={'join-box'}>
-										<AccountCircleOutlinedIcon />
-										<span>
-											{t('Login')} / {t('Register')}
-										</span>
-									</div>
-								</Link>
+								<>
+									<Link href={'/cs'}>
+										<div className={'contact-us-button'}>
+											<span>Contact Us</span>
+											<svg className={'right-arrow'} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<path d="M6 12L10 8L6 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+											</svg>
+										</div>
+									</Link>
+									<Link href={'/account/join'}>
+										<div className={'auth-button'}>
+											<AccountCircleOutlinedIcon className={'auth-icon'} />
+											<span className={'auth-text'}>
+												{t('Login')} / {t('Register')}
+											</span>
+										</div>
+									</Link>
+								</>
 							)}
 
 							<div className={'lan-box'}>

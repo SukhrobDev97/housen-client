@@ -48,91 +48,162 @@ body::-webkit-scrollbar {
 		.navbar {
 			.navbar-main {
 				position: fixed;
-				padding: 22px 0px;
 				width: 100%;
-				height: 87px;
+				height: 120px;
+				background-color: #1C2D37;
 				display: flex;
 				flex-direction: row;
 				box-sizing: border-box;
 				z-index: 99;
 				align-items: center;
-				border-top: 1px solid rgba(255, 255, 255, 0.07);
 				&.transparent {
-					background-color: #181a209e;
+					background-color: #1C2D37;
 				}
 				.container {
+					width: 100%;
+					max-width: 1604px;
+					margin: 0 auto;
+					padding: 32px 158px;
 					flex-direction: row;
 					align-items: center;
 					justify-content: space-between;
 					.logo-box {
-						img {
-							width: 150px;
+						.logo-container {
+							display: flex;
+							flex-direction: row;
+							align-items: center;
 							cursor: pointer;
+							.logo-text-container {
+								display: flex;
+								flex-direction: column;
+								.logo-text {
+									font-family: 'Century Gothic', 'Futura', 'Trebuchet MS', Arial, sans-serif;
+									font-size: 32px;
+									font-weight: 400;
+									line-height: 1.22607421875em;
+									text-transform: uppercase;
+									color: #FFFFFF;
+									margin: 0;
+								}
+								.logo-subtitle {
+									font-family: 'Glory', sans-serif;
+									font-size: 14px;
+									font-weight: 500;
+									line-height: 1.12em;
+									letter-spacing: 0.07em;
+									color: #FFFFFF;
+									margin: 0;
+								}
+							}
 						}
 					}
 					.router-box {
-						position: relative;
-						width: 617px;
 						display: flex;
 						flex-direction: row;
-						justify-content: space-between;
-						div {
-							position: relative;
-							color: #eeeeeeed;
-							font-family: $font;
-							font-size: 15px;
-							font-style: normal;
-							font-weight: 600;
-							line-height: normal;
+						align-items: center;
+						gap: 48px;
+						.menu-item {
+							display: flex;
+							flex-direction: row;
+							align-items: center;
+							justify-content: center;
+							gap: 8px;
 							cursor: pointer;
-							.community_menu {
-								position: absolute;
-								left: -177%;
-								top: 30px;
-								width: 434px;
-								height: 33px;
-								background: white;
-								transition: all ease 2s;
-								&:before {
-									content: '';
-									display: block;
-									position: absolute;
-									top: 0;
-									right: 50%;
-									width: 10px;
-									height: 10px;
-									background: white;
-									transform: translateY(-50%) rotate(45deg);
-									z-index: 0;
+							position: relative;
+							transition: all 0.3s ease;
+							padding: 8px 4px;
+							&:hover {
+								span {
+									color: #EED26E;
+								}
+								.down-arrow {
+									transform: translateY(2px);
+								}
+							}
+							span {
+								color: #FFFFFF;
+								font-family: 'Inter', sans-serif;
+								font-size: 16px;
+								font-weight: 400;
+								line-height: 1.7em;
+								transition: color 0.3s ease;
+							}
+							.down-arrow {
+								width: 12px;
+								height: 12px;
+								flex-shrink: 0;
+								transition: transform 0.3s ease;
+							}
+							&.no-arrow {
+								.down-arrow {
+									display: none;
 								}
 							}
 						}
 					}
 					.user-box {
-						width: 270px;
 						display: flex;
 						flex-direction: row;
-						justify-content: flex-end;
-						.join-box {
-							width: 184px;
-							height: 47px;
+						align-items: center;
+						gap: 24px;
+						.contact-us-button {
+							width: 157px;
+							height: 48px;
+							background-color: #EED26E;
+							border-radius: 4px;
+							display: flex;
+							flex-direction: row;
+							align-items: center;
+							justify-content: center;
+							gap: 8px;
+							padding: 16px 24px;
+							cursor: pointer;
+							transition: all 0.3s ease;
+							&:hover {
+								opacity: 0.9;
+							}
+							span {
+								color: #0D0D0C;
+								font-family: 'Inter', sans-serif;
+								font-size: 16px;
+								font-weight: 400;
+								line-height: 1.5em;
+							}
+							.right-arrow {
+								width: 16px;
+								height: 16px;
+								flex-shrink: 0;
+							}
+						}
+						.auth-button {
 							display: flex;
 							align-items: center;
 							justify-content: center;
-							border-radius: 60px;
-							border: 1px solid #ffffff;
+							gap: 10px;
+							padding: 12px 28px;
+							background-color: rgba(255, 255, 255, 0.1);
+							backdrop-filter: blur(10px);
+							border: 1px solid rgba(255, 255, 255, 0.2);
+							border-radius: 8px;
 							cursor: pointer;
-							svg {
-								color: #ffffff;
-								margin-right: 10px;
+							transition: all 0.3s ease;
+							&:hover {
+								background-color: rgba(255, 255, 255, 0.15);
+								border-color: rgba(255, 255, 255, 0.3);
+								transform: translateY(-1px);
+								box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 							}
-							span {
-								font-family: $font;
-								font-size: 14px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
+							.auth-icon {
 								color: #ffffff;
+								font-size: 20px;
+							}
+							.auth-text {
+								font-family: 'Inter', sans-serif;
+								font-size: 15px;
+								font-weight: 500;
+								line-height: 1.5em;
+								color: #ffffff;
+								white-space: nowrap;
 							}
 						}
 						.login-user {
@@ -141,29 +212,34 @@ body::-webkit-scrollbar {
 								height: 42px;
 								border-radius: 50%;
 								object-fit: cover;
+								cursor: pointer;
 							}
 						}
-					}
-					.lan-box {
-						margin-left: 28px;
-						display: flex;
-						align-items: center;
-						.notification-icon {
-							color: white;
-						}
-						.btn-lang {
-							border-radius: 4px;
-							img {
+						.lan-box {
+							display: flex;
+							align-items: center;
+							gap: 12px;
+							.notification-icon {
+								color: white;
+								cursor: pointer;
+							}
+							.btn-lang {
+								border-radius: 4px;
+								img {
+									width: 24px;
+									height: 17px;
+									border-radius: 2px;
+								}
+							}
+							.img-flag {
 								width: 24px;
 								height: 17px;
 								border-radius: 2px;
+								margin-right: 8px;
 							}
 						}
-						.img-flag {
-							width: 24px;
-							height: 17px;
-							border-radius: 2px;
-							margin-right: 8px;
+						.side-menu-toggle {
+							display: none;
 						}
 					}
 				}
