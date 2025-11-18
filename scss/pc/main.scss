@@ -226,17 +226,24 @@ body::-webkit-scrollbar {
 							}
 							.btn-lang {
 								border-radius: 4px;
-								img {
-									width: 24px;
-									height: 17px;
-									border-radius: 2px;
+								.lang-text {
+									color: #616161;
+									font-family: 'Inter', sans-serif;
+									font-size: 16px;
+									font-weight: 500;
+									line-height: 1.5em;
+									white-space: nowrap;
 								}
 							}
-							.img-flag {
-								width: 24px;
-								height: 17px;
-								border-radius: 2px;
+							.lang-text-menu {
+								color: #616161;
+								font-family: 'Inter', sans-serif;
+								font-size: 16px;
+								font-weight: 500;
+								line-height: 1.5em;
 								margin-right: 8px;
+								white-space: nowrap;
+								min-width: 40px;
 							}
 						}
 						.side-menu-toggle {
