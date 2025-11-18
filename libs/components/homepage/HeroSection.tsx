@@ -15,24 +15,37 @@ const HeroSection = () => {
 	];
 
 	const [activeSlide, setActiveSlide] = useState(0);
+	const [direction, setDirection] = useState<'next' | 'prev'>('next');
+	const [isTransitioning, setIsTransitioning] = useState(false);
 
 	// Auto-play carousel on desktop, looping through slides smoothly
 	useEffect(() => {
 		if (device === 'mobile') return;
 
 		const intervalId = setInterval(() => {
-			setActiveSlide((prev) => (prev + 1) % slides.length);
-		}, 8000); // ozgina tezlatildi, lekin hanuz smooth
+			if (!isTransitioning) {
+				setDirection('next');
+				setActiveSlide((prev) => (prev + 1) % slides.length);
+			}
+		}, 5000);
 
 		return () => clearInterval(intervalId);
-	}, [device, slides.length]);
+	}, [device, slides.length, isTransitioning]);
 
 	const goToNextSlide = () => {
+		if (isTransitioning) return;
+		setIsTransitioning(true);
+		setDirection('next');
 		setActiveSlide((prev) => (prev + 1) % slides.length);
+		setTimeout(() => setIsTransitioning(false), 600);
 	};
 
 	const goToPrevSlide = () => {
+		if (isTransitioning) return;
+		setIsTransitioning(true);
+		setDirection('prev');
 		setActiveSlide((prev) => (prev - 1 + slides.length) % slides.length);
+		setTimeout(() => setIsTransitioning(false), 600);
 	};
 
 	if (device === 'mobile') {
@@ -88,48 +101,51 @@ const HeroSection = () => {
 					<div className={'hero-image-container'}>
 						<div className={'hero-image'}></div>
 					</div>
-					<div className={'slide-images'}>
+					<div className={'slide-images-container'}>
 						<button
 							className={'slide-arrow slide-arrow-left'}
 							type={'button'}
 							onClick={goToPrevSlide}
 							aria-label="Previous slide"
 						>
-							<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<path
-									d="M10 4L6 8L10 12"
-									stroke="#0D0D0C"
-									strokeWidth="1.5"
-									strokeLinecap="round"
-									strokeLinejoin="round"
-								/>
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ transform: 'rotate(180deg)' }}>
+								<path d="M2.5 12L21.5 12M21.5 12L15.5 6M21.5 12L15.5 18" stroke="#0D0D0C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
 							</svg>
 						</button>
-						{[0, 1, 2].map((offset) => {
-							const index = (activeSlide + offset) % slides.length;
-							const src = slides[index];
-							return (
-								<div
-									key={index}
-									className={`slide-image ${index === activeSlide ? 'active' : ''}`}
-									style={{ backgroundImage: `url('${src}')` }}
-								/>
-							);
-						})}
+						<div className={'slide-images'}>
+							<div 
+								className={'slide-images-wrapper'}
+								style={{
+									transform: `translateX(-${activeSlide * (306 + 24)}px)`
+								}}
+							>
+								{slides.map((src, index) => {
+									const isActive = index === activeSlide;
+									
+									return (
+										<div
+											key={index}
+											className={`slide-image ${isActive ? 'active' : ''}`}
+											style={{ backgroundImage: `url('${src}')` }}
+										>
+											{isActive && (
+												<div className={'slide-number'}>
+													{String(activeSlide + 1).padStart(2, '0')}
+												</div>
+											)}
+										</div>
+									);
+								})}
+							</div>
+						</div>
 						<button
 							className={'slide-arrow slide-arrow-right'}
 							type={'button'}
 							onClick={goToNextSlide}
 							aria-label="Next slide"
 						>
-							<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<path
-									d="M6 4L10 8L6 12"
-									stroke="#0D0D0C"
-									strokeWidth="1.5"
-									strokeLinecap="round"
-									strokeLinejoin="round"
-								/>
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M2.5 12L21.5 12M21.5 12L15.5 6M21.5 12L15.5 18" stroke="#0D0D0C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
 							</svg>
 						</button>
 					</div>

@@ -288,15 +288,33 @@ body::-webkit-scrollbar {
 					border-radius: 24px;
 				}
 			}
-			.slide-images {
+			.slide-images-container {
 				position: absolute;
 				left: 902px;
 				top: 712px;
 				display: flex;
 				flex-direction: row;
-				gap: 24px;
+				gap: 0;
 				z-index: 4;
 				align-items: center;
+				.slide-images {
+					position: relative;
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					overflow: hidden;
+					width: 978px; // 3 ta image + 2 ta gap: (306 * 3) + (24 * 2) = 918 + 60 = 978
+					.slide-images-wrapper {
+						position: relative;
+						display: flex;
+						flex-direction: row;
+						gap: 24px;
+						align-items: center;
+						width: auto;
+						height: 192px;
+						transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+					}
+				}
 				.slide-image {
 					width: 306px;
 					height: 192px;
@@ -305,22 +323,36 @@ body::-webkit-scrollbar {
 					background-position: center;
 					background-image: url('/img/banner/header1.svg');
 					position: relative;
+					flex-shrink: 0;
+					overflow: hidden;
+					// Default state - ko'rinadi lekin opacity past
 					opacity: 1;
-					transition: opacity 1.2s ease-in-out;
+					// Active slide - markazda, to'liq ko'rinadi
 					&.active {
+						opacity: 1;
 						background-color: rgba(13, 13, 12, 0.2);
 						background-blend-mode: overlay;
 					}
+					// Slide number overlay
+					.slide-number {
+						position: absolute;
+						top: 16px;
+						left: 16px;
+						color: #FFFFFF;
+						font-family: 'Inter', sans-serif;
+						font-size: 18px;
+						font-weight: 600;
+						line-height: 1;
+						z-index: 2;
+						text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+					}
 				}
 				.slide-arrow {
-					
 					position: absolute;
-					top: 50%;
-					transform: translateY(-50%);
 					width: 40px;
 					height: 40px;
 					border-radius: 50%;
-					border: 1px solid #0d0d0c;
+					border: 1px solid #373736;
 					background-color: #ffffff;
 					display: flex;
 					align-items: center;
@@ -329,30 +361,37 @@ body::-webkit-scrollbar {
 					padding: 0;
 					outline: none;
 					z-index: 10;
-					transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+					flex-shrink: 0;
+					transition: all 0.3s ease;
+					top: 50%;
+					transform: translateY(-50%);
 					svg {
-						width: 16px;
-						height: 16px;
+						width: 24px;
+						height: 24px;
 						path {
 							stroke: #0d0d0c;
+							transition: stroke 0.3s ease;
 						}
 					}
 					&:hover {
 						background-color: #0d0d0c;
-						transform: translateY(-50%) translateX(1px);
-						box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+						transform: translateY(-50%) scale(1.05);
+						box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 						svg {
 							path {
 								stroke: #ffffff;
 							}
 						}
 					}
-				}
-				.slide-arrow-left {
-					left: -20px;
-				}
-				.slide-arrow-right {
-					right: -20px;
+					&:active {
+						transform: translateY(-50%) scale(0.95);
+					}
+					&.slide-arrow-left {
+						left: -20px;
+					}
+					&.slide-arrow-right {
+						right: -20px;
+					}
 				}
 			}
 			.hero-content {
