@@ -31,8 +31,12 @@ const Footer = () => {
 					<Stack className={'left'}>
 						<Box component={'div'} className={'footer-logo-section'}>
 							<div className={'logo-wrapper'}>
+								<svg className={'logo-icon'} width="62" height="56" viewBox="0 0 62 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path d="M26.5484 33.3874L29.6755 31.1775V55.9973H26.5484V33.3874ZM46.9149 26.2033V14.3923L26.5484 0V25.848L23.0738 28.3028V14.4004L0 30.7065V56H3.1271V32.2461L19.944 20.3624V30.518L9.97059 37.5648V56H23.0711V35.8448L19.944 38.0547V52.9692H13.0977V39.1017L29.6755 27.3876V5.96203L43.785 15.9319V23.9935L34.0896 17.1432V55.9973H37.2167V23.1025L58.8701 38.4019V52.9665H46.9121V33.74L43.785 31.5328V55.9973H62V36.865L46.9149 26.2033Z" fill="#0D0D0C"/>
+								</svg>
 								<div className={'logo-text-wrapper'}>
 									<span className={'logo-text'}>HOUSEN</span>
+									<span className={'logo-subtitle'}>LIVING SOLUTIONS</span>
 								</div>
 							</div>
 							<p className={'footer-description'}>
@@ -183,8 +187,12 @@ const Footer = () => {
 					<Stack className={'left'}>
 						<Box component={'div'} className={'footer-logo-section'}>
 							<div className={'logo-wrapper'}>
+								<svg className={'logo-icon'} width="62" height="56" viewBox="0 0 62 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path d="M26.5484 33.3874L29.6755 31.1775V55.9973H26.5484V33.3874ZM46.9149 26.2033V14.3923L26.5484 0V25.848L23.0738 28.3028V14.4004L0 30.7065V56H3.1271V32.2461L19.944 20.3624V30.518L9.97059 37.5648V56H23.0711V35.8448L19.944 38.0547V52.9692H13.0977V39.1017L29.6755 27.3876V5.96203L43.785 15.9319V23.9935L34.0896 17.1432V55.9973H37.2167V23.1025L58.8701 38.4019V52.9665H46.9121V33.74L43.785 31.5328V55.9973H62V36.865L46.9149 26.2033Z" fill="#0D0D0C"/>
+								</svg>
 								<div className={'logo-text-wrapper'}>
 									<span className={'logo-text'}>HOUSEN</span>
+									<span className={'logo-subtitle'}>LIVING SOLUTIONS</span>
 								</div>
 							</div>
 							<p className={'footer-description'}>

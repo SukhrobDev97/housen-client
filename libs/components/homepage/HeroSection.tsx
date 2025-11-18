@@ -17,6 +17,16 @@ const HeroSection = () => {
 	const [activeSlide, setActiveSlide] = useState(0);
 	const [direction, setDirection] = useState<'next' | 'prev'>('next');
 	const [isTransitioning, setIsTransitioning] = useState(false);
+	const [isContentVisible, setIsContentVisible] = useState(false);
+
+	// Animate hero content on mount
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setIsContentVisible(true);
+		}, 100);
+
+		return () => clearTimeout(timer);
+	}, []);
 
 	// Auto-play carousel on desktop, looping through slides smoothly
 	useEffect(() => {
@@ -149,7 +159,7 @@ const HeroSection = () => {
 							</svg>
 						</button>
 					</div>
-					<Stack className={'hero-content'}>
+					<Stack className={`hero-content ${isContentVisible ? 'visible' : ''}`}>
 						<div className={'hero-title-section'}>
 							<h1 className={'hero-title'}>Discover Quality Living Space</h1>
 							<p className={'hero-description'}>
