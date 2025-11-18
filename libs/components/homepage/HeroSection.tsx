@@ -47,8 +47,8 @@ const HeroSection = () => {
 						<Link href={'/property'}>
 							<Box className={'explore-button mobile'}>
 								<span>Explore Properties</span>
-								<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<path d="M6 12L10 8L6 4" stroke="#0D0D0C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path d="M2.5 12L21.5 12M21.5 12L15.5 6M21.5 12L15.5 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
 								</svg>
 							</Box>
 						</Link>
@@ -143,8 +143,8 @@ const HeroSection = () => {
 						<Link href={'/property'}>
 							<Box className={'explore-button'}>
 								<span>Explore Properties</span>
-								<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<path d="M6 12L10 8L6 4" stroke="#0D0D0C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path d="M2.5 12L21.5 12M21.5 12L15.5 6M21.5 12L15.5 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
 								</svg>
 							</Box>
 						</Link>

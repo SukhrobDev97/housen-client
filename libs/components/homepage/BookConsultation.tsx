@@ -217,14 +217,8 @@ const BookConsultation = () => {
 					</div>
 					<button type="submit" className={'submit-button'}>
 						<span>Submit Message</span>
-						<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-							<path
-								d="M1.66667 8L14.3333 8M14.3333 8L9.66667 3.33333M14.3333 8L9.66667 12.6667"
-								stroke="#0D0D0C"
-								strokeWidth="1.5"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-							/>
+						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M2.5 12L21.5 12M21.5 12L15.5 6M21.5 12L15.5 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
 						</svg>
 					</button>
 					</form>

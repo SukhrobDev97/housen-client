@@ -45,16 +45,15 @@
 						}
 						.explore-button {
 							&.mobile {
-								width: auto;
-								height: auto;
-								background-color: #EED26E;
-								border-radius: 4px;
+								height: 64px;
+								background-color: #364440;
+								border-radius: 48px;
 								display: flex;
 								flex-direction: row;
 								align-items: center;
 								justify-content: center;
 								gap: 8px;
-								padding: 8px 12px;
+								padding: 20px 32px;
 								cursor: pointer;
 								transition: all 0.3s ease;
 								text-decoration: none;
@@ -62,19 +61,15 @@
 									opacity: 0.9;
 								}
 								span {
-									color: #0D0D0C;
+									color: #FFFFFF;
 									font-family: 'Inter', sans-serif;
-									font-size: 16px;
-									font-weight: 400;
-									line-height: 1.5em;
+									font-size: 18px;
+									font-weight: 500;
+									line-height: 1.333em;
+									white-space: nowrap;
 								}
 								svg {
-									width: 16px;
-									height: 16px;
 									flex-shrink: 0;
-									path {
-										stroke: #0D0D0C;
-									}
 								}
 							}
 						}
@@ -1247,16 +1242,15 @@
 
           .submit-button {
             &.mobile {
-              width: auto;
-              height: auto;
-              background-color: #EED26E;
-              border-radius: 4px;
+              height: 64px;
+              background-color: #364440;
+              border-radius: 48px;
               display: flex;
               flex-direction: row;
               align-items: center;
               justify-content: center;
               gap: 8px;
-              padding: 8px 12px;
+              padding: 20px 32px;
               cursor: pointer;
               transition: all 0.3s ease;
               text-decoration: none;
@@ -1268,26 +1262,16 @@
               }
 
               span {
-                color: #0D0D0C;
+                color: #FFFFFF;
                 font-family: 'Inter', sans-serif;
-                font-size: 16px;
-                font-weight: 400;
-                line-height: 1.5em;
+                font-size: 18px;
+                font-weight: 500;
+                line-height: 1.333em;
                 white-space: nowrap;
               }
 
               svg {
-                width: 16px;
-                height: 16px;
                 flex-shrink: 0;
-                display: block;
-
-                path {
-                  stroke: #0D0D0C;
-                  stroke-width: 1;
-                  stroke-linecap: round;
-                  stroke-linejoin: round;
-                }
               }
             }
           }

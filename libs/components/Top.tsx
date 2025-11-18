@@ -323,8 +323,8 @@ const Top = () => {
 									<Link href={'/cs'}>
 										<div className={'contact-us-button'}>
 											<span>Contact Us</span>
-											<svg className={'right-arrow'} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-												<path d="M6 12L10 8L6 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+											<svg className={'right-arrow'} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<path d="M2.5 12L21.5 12M21.5 12L15.5 6M21.5 12L15.5 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
 											</svg>
 										</div>
 									</Link>
@@ -357,8 +357,8 @@ const Top = () => {
 									<Link href={'/cs'}>
 										<div className={'contact-us-button'}>
 											<span>Contact Us</span>
-											<svg className={'right-arrow'} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-												<path d="M6 12L10 8L6 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+											<svg className={'right-arrow'} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<path d="M2.5 12L21.5 12M21.5 12L15.5 6M21.5 12L15.5 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
 											</svg>
 										</div>
 									</Link>

@@ -1,10 +1,12 @@
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import InstagramIcon from '@mui/icons-material/Instagram';
-import TelegramIcon from '@mui/icons-material/Telegram';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/Twitter';
+import YouTubeIcon from '@mui/icons-material/YouTube';
 import useDeviceDetect from '../hooks/useDeviceDetect';
 import { Stack, Box } from '@mui/material';
 import moment from 'moment';
+import Link from 'next/link';
 
 const Footer = () => {
 	const device = useDeviceDetect();
@@ -12,124 +14,304 @@ const Footer = () => {
 	if (device == 'mobile') {
 		return (
 			<Stack className={'footer-container'}>
+				<Box component={'div'} className={'newsletter-section'}>
+					<h2 className={'newsletter-title'}>Newsletter to get updated the latest news</h2>
+					<div className={'newsletter-form'}>
+						<input type="email" placeholder="Enter Email" className={'newsletter-input'} />
+						<button className={'newsletter-button'}>
+							<span>Subscribe Now</span>
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M2.5 12L21.5 12M21.5 12L15.5 6M21.5 12L15.5 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+							</svg>
+						</button>
+					</div>
+				</Box>
+				<div className={'footer-divider'}></div>
 				<Stack className={'main'}>
 					<Stack className={'left'}>
-						<Box component={'div'} className={'footer-box'}>
-							<img src="/img/logo/logoWhite.svg" alt="" className={'logo'} />
-						</Box>
-						<Box component={'div'} className={'footer-box'}>
-							<span>total free customer care</span>
-							<p>+82 10 4867 2909</p>
-						</Box>
-						<Box component={'div'} className={'footer-box'}>
-							<span>nee live</span>
-							<p>+82 10 4867 2909</p>
-							<span>Support?</span>
-						</Box>
-						<Box component={'div'} className={'footer-box'}>
-							<p>follow us on social media</p>
-							<div className={'media-box'}>
-								<FacebookOutlinedIcon />
-								<TelegramIcon />
-								<InstagramIcon />
-								<TwitterIcon />
+						<Box component={'div'} className={'footer-logo-section'}>
+							<div className={'logo-wrapper'}>
+								<div className={'logo-text-wrapper'}>
+									<span className={'logo-text'}>HOUSEN</span>
+								</div>
+							</div>
+							<p className={'footer-description'}>
+								Rapidiously myocardinate cross-platform intellectual capital model. Appropriately create interactive infrastructures
+							</p>
+							<div className={'social-media-box'}>
+								<FacebookOutlinedIcon className={'social-icon'} />
+								<TwitterIcon className={'social-icon'} />
+								<LinkedInIcon className={'social-icon'} />
+								<YouTubeIcon className={'social-icon'} />
+								<InstagramIcon className={'social-icon'} />
 							</div>
 						</Box>
 					</Stack>
 					<Stack className={'right'}>
-						<Box component={'div'} className={'bottom'}>
-							<div>
-								<strong>Popular Search</strong>
-								<span>Property for Rent</span>
-								<span>Property Low to hide</span>
+						<Box component={'div'} className={'footer-links-section'}>
+							<div className={'footer-link-group'}>
+								<h3 className={'footer-link-title'}>Get In Touch</h3>
+								<div className={'contact-info'}>
+									<div className={'contact-item'}>
+										<svg className={'contact-icon'} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<rect width="40" height="40" rx="8" fill="#1C2D37"/>
+											<path d="M20 10C15.58 10 12 13.58 12 18C12 23.5 20 30 20 30C20 30 28 23.5 28 18C28 13.58 24.42 10 20 10ZM20 21C17.79 21 16 19.21 16 17C16 14.79 17.79 13 20 13C22.21 13 24 14.79 24 17C24 19.21 22.21 21 20 21Z" fill="#FFFFFF"/>
+										</svg>
+										<span className={'contact-text'}>Seoul Gangnam</span>
+									</div>
+									<div className={'contact-item'}>
+										<svg className={'contact-icon'} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<rect width="40" height="40" rx="8" fill="#1C2D37"/>
+											<path d="M24 10H16C14.8954 10 14 10.8954 14 12V28C14 29.1046 14.8954 30 16 30H24C25.1046 30 26 29.1046 26 28V12C26 10.8954 25.1046 10 24 10Z" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+											<path d="M18 12H22" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round"/>
+											<path d="M20 26V26.01" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round"/>
+										</svg>
+										<span className={'contact-text'}>062-7788-8877</span>
+									</div>
+									<div className={'contact-item'}>
+										<svg className={'contact-icon'} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<rect width="40" height="40" rx="8" fill="#1C2D37"/>
+											<path d="M28 14L20 20L12 14V28H28V14Z" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+										</svg>
+										<div className={'contact-text-wrapper'}>
+											<span className={'contact-text'}>mailinfo00@housen.com</span>
+											<span className={'contact-text'}>support24@housen.com</span>
+										</div>
+									</div>
+								</div>
 							</div>
-							<div>
-								<strong>Quick Links</strong>
-								<span>Terms of Use</span>
-								<span>Privacy Policy</span>
-								<span>Pricing Plans</span>
-								<span>Our Services</span>
-								<span>Contact Support</span>
-								<span>FAQs</span>
+							<div className={'footer-link-group'}>
+								<h3 className={'footer-link-title'}>Useful Link</h3>
+								<div className={'link-list'}>
+									<Link href="/about" className={'footer-link'}>
+										<svg className={'link-arrow'} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M7.5 5L12.5 10L7.5 15" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+										<span>About us</span>
+									</Link>
+									<Link href="/properties" className={'footer-link'}>
+										<svg className={'link-arrow'} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M7.5 5L12.5 10L7.5 15" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+										<span>Featured Properties</span>
+									</Link>
+									<Link href="/services" className={'footer-link'}>
+										<svg className={'link-arrow'} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M7.5 5L12.5 10L7.5 15" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+										<span>Our Best Services</span>
+									</Link>
+									<Link href="/visit" className={'footer-link'}>
+										<svg className={'link-arrow'} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M7.5 5L12.5 10L7.5 15" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+										<span>Request Visit</span>
+									</Link>
+									<Link href="/faq" className={'footer-link'}>
+										<svg className={'link-arrow'} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M7.5 5L12.5 10L7.5 15" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+										<span>FAQ</span>
+									</Link>
+								</div>
 							</div>
-							<div>
-								<strong>Discover</strong>
-								<span>Seoul</span>
-								<span>Gyeongido</span>
-								<span>Busan</span>
-								<span>Jejudo</span>
+							<div className={'footer-link-group'}>
+								<h3 className={'footer-link-title'}>Explore</h3>
+								<div className={'link-list'}>
+									<Link href="/properties" className={'footer-link'}>
+										<svg className={'link-arrow'} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M7.5 5L12.5 10L7.5 15" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+										<span>All Properties</span>
+									</Link>
+									<Link href="/agents" className={'footer-link'}>
+										<svg className={'link-arrow'} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M7.5 5L12.5 10L7.5 15" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+										<span>Our Agents</span>
+									</Link>
+									<Link href="/projects" className={'footer-link'}>
+										<svg className={'link-arrow'} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M7.5 5L12.5 10L7.5 15" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+										<span>All Projects</span>
+									</Link>
+									<Link href="/process" className={'footer-link'}>
+										<svg className={'link-arrow'} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M7.5 5L12.5 10L7.5 15" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+										<span>Our Process</span>
+									</Link>
+									<Link href="/neighborhood" className={'footer-link'}>
+										<svg className={'link-arrow'} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M7.5 5L12.5 10L7.5 15" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+										<span>Neighborhood</span>
+									</Link>
+								</div>
 							</div>
 						</Box>
 					</Stack>
 				</Stack>
-				<Stack className={'second'}>
-					<span>© Nestar - All rights reserved. Nestar {moment().year()}</span>
+				<Stack className={'footer-bottom'}>
+					<span className={'copyright-text'}>Copyright © {moment().year()} Housen, All rights reserved.</span>
+					<div className={'footer-bottom-links'}>
+						<Link href="/terms" className={'bottom-link'}>Terms of service</Link>
+						<Link href="/privacy" className={'bottom-link'}>Privacy policy</Link>
+						<Link href="/cookies" className={'bottom-link'}>cookies</Link>
+					</div>
 				</Stack>
 			</Stack>
 		);
 	} else {
 		return (
 			<Stack className={'footer-container'}>
+				<Box component={'div'} className={'newsletter-section'}>
+					<h2 className={'newsletter-title'}>Newsletter to get updated the latest news</h2>
+					<div className={'newsletter-form'}>
+						<input type="email" placeholder="Enter Email" className={'newsletter-input'} />
+						<button className={'newsletter-button'}>
+							<span>Subscribe Now</span>
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M2.5 12L21.5 12M21.5 12L15.5 6M21.5 12L15.5 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+							</svg>
+						</button>
+					</div>
+				</Box>
+				<div className={'footer-divider'}></div>
 				<Stack className={'main'}>
 					<Stack className={'left'}>
-						<Box component={'div'} className={'footer-box'}>
-							<img src="/img/logo/logoWhite.svg" alt="" className={'logo'} />
-						</Box>
-						<Box component={'div'} className={'footer-box'}>
-							<span>total free customer care</span>
-							<p>+82 10 4867 2909</p>
-						</Box>
-						<Box component={'div'} className={'footer-box'}>
-							<span>nee live</span>
-							<p>+82 10 4867 2909</p>
-							<span>Support?</span>
-						</Box>
-						<Box component={'div'} className={'footer-box'}>
-							<p>follow us on social media</p>
-							<div className={'media-box'}>
-								<FacebookOutlinedIcon />
-								<TelegramIcon />
-								<InstagramIcon />
-								<TwitterIcon />
+						<Box component={'div'} className={'footer-logo-section'}>
+							<div className={'logo-wrapper'}>
+								<div className={'logo-text-wrapper'}>
+									<span className={'logo-text'}>HOUSEN</span>
+								</div>
+							</div>
+							<p className={'footer-description'}>
+								Rapidiously myocardinate cross-platform intellectual capital model. Appropriately create interactive infrastructures
+							</p>
+							<div className={'social-media-box'}>
+								<FacebookOutlinedIcon className={'social-icon'} />
+								<TwitterIcon className={'social-icon'} />
+								<LinkedInIcon className={'social-icon'} />
+								<YouTubeIcon className={'social-icon'} />
+								<InstagramIcon className={'social-icon'} />
 							</div>
 						</Box>
 					</Stack>
 					<Stack className={'right'}>
-						<Box component={'div'} className={'top'}>
-							<strong>keep yourself up to date</strong>
-							<div>
-								<input type="text" placeholder={'Your Email'} />
-								<span>Subscribe</span>
+						<Box component={'div'} className={'footer-links-section'}>
+							<div className={'footer-link-group'}>
+								<h3 className={'footer-link-title'}>Get In Touch</h3>
+								<div className={'contact-info'}>
+									<div className={'contact-item'}>
+										<svg className={'contact-icon'} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<rect width="40" height="40" rx="8" fill="#1C2D37"/>
+											<path d="M20 10C15.58 10 12 13.58 12 18C12 23.5 20 30 20 30C20 30 28 23.5 28 18C28 13.58 24.42 10 20 10ZM20 21C17.79 21 16 19.21 16 17C16 14.79 17.79 13 20 13C22.21 13 24 14.79 24 17C24 19.21 22.21 21 20 21Z" fill="#FFFFFF"/>
+										</svg>
+										<span className={'contact-text'}>Seoul Gangnam</span>
+									</div>
+									<div className={'contact-item'}>
+										<svg className={'contact-icon'} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<rect width="40" height="40" rx="8" fill="#1C2D37"/>
+											<path d="M24 10H16C14.8954 10 14 10.8954 14 12V28C14 29.1046 14.8954 30 16 30H24C25.1046 30 26 29.1046 26 28V12C26 10.8954 25.1046 10 24 10Z" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+											<path d="M18 12H22" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round"/>
+											<path d="M20 26V26.01" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round"/>
+										</svg>
+										<span className={'contact-text'}>062-7788-8877</span>
+									</div>
+									<div className={'contact-item'}>
+										<svg className={'contact-icon'} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<rect width="40" height="40" rx="8" fill="#1C2D37"/>
+											<path d="M28 14L20 20L12 14V28H28V14Z" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+										</svg>
+										<div className={'contact-text-wrapper'}>
+											<span className={'contact-text'}>mailinfo00@housen.com</span>
+											<span className={'contact-text'}>support24@housen.com</span>
+										</div>
+									</div>
+								</div>
 							</div>
-						</Box>
-						<Box component={'div'} className={'bottom'}>
-							<div>
-								<strong>Popular Search</strong>
-								<span>Property for Rent</span>
-								<span>Property Low to hide</span>
+							<div className={'footer-link-group'}>
+								<h3 className={'footer-link-title'}>Useful Link</h3>
+								<div className={'link-list'}>
+									<Link href="/about" className={'footer-link'}>
+										<svg className={'link-arrow'} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M7.5 5L12.5 10L7.5 15" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+										<span>About us</span>
+									</Link>
+									<Link href="/properties" className={'footer-link'}>
+										<svg className={'link-arrow'} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M7.5 5L12.5 10L7.5 15" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+										<span>Featured Properties</span>
+									</Link>
+									<Link href="/services" className={'footer-link'}>
+										<svg className={'link-arrow'} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M7.5 5L12.5 10L7.5 15" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+										<span>Our Best Services</span>
+									</Link>
+									<Link href="/visit" className={'footer-link'}>
+										<svg className={'link-arrow'} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M7.5 5L12.5 10L7.5 15" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+										<span>Request Visit</span>
+									</Link>
+									<Link href="/faq" className={'footer-link'}>
+										<svg className={'link-arrow'} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M7.5 5L12.5 10L7.5 15" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+										<span>FAQ</span>
+									</Link>
+								</div>
 							</div>
-							<div>
-								<strong>Quick Links</strong>
-								<span>Terms of Use</span>
-								<span>Privacy Policy</span>
-								<span>Pricing Plans</span>
-								<span>Our Services</span>
-								<span>Contact Support</span>
-								<span>FAQs</span>
+							<div className={'footer-link-group'}>
+								<h3 className={'footer-link-title'}>Explore</h3>
+								<div className={'link-list'}>
+									<Link href="/properties" className={'footer-link'}>
+										<svg className={'link-arrow'} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M7.5 5L12.5 10L7.5 15" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+										<span>All Properties</span>
+									</Link>
+									<Link href="/agents" className={'footer-link'}>
+										<svg className={'link-arrow'} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M7.5 5L12.5 10L7.5 15" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+										<span>Our Agents</span>
+									</Link>
+									<Link href="/projects" className={'footer-link'}>
+										<svg className={'link-arrow'} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M7.5 5L12.5 10L7.5 15" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+										<span>All Projects</span>
+									</Link>
+									<Link href="/process" className={'footer-link'}>
+										<svg className={'link-arrow'} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M7.5 5L12.5 10L7.5 15" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+										<span>Our Process</span>
+									</Link>
+									<Link href="/neighborhood" className={'footer-link'}>
+										<svg className={'link-arrow'} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M7.5 5L12.5 10L7.5 15" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+										<span>Neighborhood</span>
+									</Link>
 							</div>
-							<div>
-								<strong>Discover</strong>
-								<span>Seoul</span>
-								<span>Gyeongido</span>
-								<span>Busan</span>
-								<span>Jejudo</span>
 							</div>
 						</Box>
 					</Stack>
 				</Stack>
-				<Stack className={'second'}>
-					<span>© Nestar - All rights reserved. Nestar {moment().year()}</span>
-					<span>Privacy · Terms · Sitemap</span>
+				<Stack className={'footer-bottom'}>
+					<span className={'copyright-text'}>Copyright © {moment().year()} Housen, All rights reserved.</span>
+					<div className={'footer-bottom-links'}>
+						<Link href="/terms" className={'bottom-link'}>Terms of service</Link>
+						<Link href="/privacy" className={'bottom-link'}>Privacy policy</Link>
+						<Link href="/cookies" className={'bottom-link'}>cookies</Link>
+					</div>
 				</Stack>
 			</Stack>
 		);
