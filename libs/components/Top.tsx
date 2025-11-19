@@ -33,6 +33,7 @@ const Top = () => {
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
 	const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+	const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -41,6 +42,16 @@ const Top = () => {
 			setLang('en');
 		} else {
 			setLang(localStorage.getItem('locale'));
+		}
+
+		// Load theme from localStorage
+		const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
+		if (savedTheme) {
+			setTheme(savedTheme);
+			document.documentElement.setAttribute('data-theme', savedTheme);
+		} else {
+			setTheme('light');
+			document.documentElement.setAttribute('data-theme', 'light');
 		}
 	}, [router]);
 
@@ -84,6 +95,13 @@ const Top = () => {
 		} else {
 			setColorChange(false);
 		}
+	};
+
+	const toggleTheme = () => {
+		const newTheme = theme === 'light' ? 'dark' : 'light';
+		setTheme(newTheme);
+		localStorage.setItem('theme', newTheme);
+		document.documentElement.setAttribute('data-theme', newTheme);
 	};
 
 	const handleClose = () => {
@@ -403,6 +421,19 @@ const Top = () => {
 										{t('Russian')}
 									</MenuItem>
 								</StyledMenu>
+
+								<button className={'theme-toggle-button'} onClick={toggleTheme} aria-label="Toggle theme">
+									{theme === 'light' ? (
+										<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<circle cx="12" cy="12" r="4" stroke="#0D0D0C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+											<path d="M12 2V4M12 20V22M22 12H20M4 12H2M19.07 4.93L17.66 6.34M6.34 17.66L4.93 19.07M19.07 19.07L17.66 17.66M6.34 6.34L4.93 4.93" stroke="#0D0D0C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+									) : (
+										<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="#0D0D0C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+									)}
+								</button>
 							</div>
 						</Box>
 					</Stack>

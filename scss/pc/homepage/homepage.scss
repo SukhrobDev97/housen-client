@@ -1,3 +1,44 @@
+/* Dark Mode Styles for Homepage */
+[data-theme='dark'] {
+	#pc-wrap {
+		.home-page {
+			background-color: #1a1a1a;
+			
+			.info-box {
+				.left {
+					span {
+						color: #ffffff;
+						&.white {
+							color: #ffffff;
+						}
+					}
+					p {
+						color: #b0b0b0;
+						&.white {
+							color: #ffffff;
+						}
+					}
+				}
+				.right {
+					.more-box {
+						span {
+							color: #ffffff;
+						}
+					}
+				}
+			}
+			
+			.trend-properties, .popular-properties, .top-properties, .top-agents, .events, .community-board {
+				background-color: #1a1a1a;
+			}
+			
+			.book-consultation-section {
+				background-color: #1a1a1a;
+			}
+		}
+	}
+}
+
 #pc-wrap {
 	.home-page {
 		position: relative;

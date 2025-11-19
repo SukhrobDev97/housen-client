@@ -40,6 +40,20 @@ body {
 		box-shadow: none;
 	}
 }
+
+[data-theme='dark'] {
+	background-color: #2b2525;
+	color: #ffffff;
+	
+	body {
+		background-color: #1a1a1a;
+		color: #ffffff;
+	}
+	
+	a {
+		color: #ffffff;
+	}
+}
 hr {
 	border-width: 0;
 	border-bottom-width: thin;

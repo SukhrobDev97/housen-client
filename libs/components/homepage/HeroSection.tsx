@@ -2,16 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { Stack, Box } from '@mui/material';
 import Link from 'next/link';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
+import HeaderFilter from './HeaderFilter';
 
 const HeroSection = () => {
 	const device = useDeviceDetect();
 
 	const slides = [
-		'/img/banner/header1.svg',
-		'/img/banner/header2.svg',
-		'/img/banner/header3.svg',
-		'/img/banner/header1.svg',
-		'/img/banner/header2.svg',
+		'/img/banner/header1.jpg',
+		'/img/banner/header2.jpg',
+		'/img/banner/header3.jpg',
+		'/img/banner/header1.jpg',
+		'/img/banner/header2.jpg',
+		'/img/banner/header3.jpg',
+		'/img/banner/header1.jpg',
 	];
 
 	const [activeSlide, setActiveSlide] = useState(0);
@@ -80,27 +83,10 @@ const HeroSection = () => {
 						<div className={'hero-image'}></div>
 					</div>
 				</Stack>
-				<Stack className={'hero-stats-wrapper mobile'}>
-					<Box className={'hero-stats-bg'}>
-						<Stack className={'hero-stats'}>
-							<Box className={'stat-item'}>
-								<span className={'stat-number'}>20+</span>
-								<span className={'stat-label'}>Years of Experiences</span>
-							</Box>
-							<Box className={'stat-item'}>
-								<span className={'stat-number'}>270+</span>
-								<span className={'stat-label'}>Projects</span>
-							</Box>
-							<Box className={'stat-item'}>
-								<span className={'stat-number'}>85+</span>
-								<span className={'stat-label'}>Team Members</span>
-							</Box>
-							<Box className={'stat-item'}>
-								<span className={'stat-number'}>1200+</span>
-								<span className={'stat-label'}>Satisfied Clients</span>
-							</Box>
-						</Stack>
-					</Box>
+				<Stack className={'filter-section'}>
+					<Stack className={'container'}>
+						<HeaderFilter />
+					</Stack>
 				</Stack>
 			</>
 		);
@@ -109,7 +95,10 @@ const HeroSection = () => {
 			<>
 				<Stack className={'hero-section'}>
 					<div className={'hero-image-container'}>
-						<div className={'hero-image'}></div>
+						<div 
+							className={'hero-image'}
+							style={{ backgroundImage: `url('${slides[activeSlide]}')` }}
+						></div>
 					</div>
 					<div className={'slide-images-container'}>
 						<button
@@ -199,27 +188,10 @@ const HeroSection = () => {
 						</div>
 					</Link>
 				</Stack>
-				<Stack className={'hero-stats-wrapper'}>
-					<Box className={'hero-stats-bg'}>
-						<Stack className={'hero-stats'}>
-							<Box className={'stat-item'}>
-								<span className={'stat-number'}>20+</span>
-								<span className={'stat-label'}>Years of Experiences</span>
-							</Box>
-							<Box className={'stat-item'}>
-								<span className={'stat-number'}>270+</span>
-								<span className={'stat-label'}>Projects</span>
-							</Box>
-							<Box className={'stat-item'}>
-								<span className={'stat-number'}>85+</span>
-								<span className={'stat-label'}>Team Members</span>
-							</Box>
-							<Box className={'stat-item'}>
-								<span className={'stat-number'}>1200+</span>
-								<span className={'stat-label'}>Satisfied Clients</span>
-							</Box>
-						</Stack>
-					</Box>
+				<Stack className={'filter-section'}>
+					<Stack className={'container'}>
+						<HeaderFilter />
+					</Stack>
 				</Stack>
 			</>
 		);
