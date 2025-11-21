@@ -4,36 +4,36 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import IconButton from '@mui/material/IconButton';
 import ModeIcon from '@mui/icons-material/Mode';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Property } from '../../types/property/property';
+import { Project } from '../../types/property/property';
 import { formatterStr } from '../../utils';
 import Moment from 'react-moment';
 import { useRouter } from 'next/router';
-import { PropertyStatus } from '../../enums/property.enum';
+import { ProjectStatus } from '../../enums/property.enum';
 
-interface PropertyCardProps {
-	property: Property;
-	deletePropertyHandler?: any;
+interface ProjectCardProps {
+	project: Project;
+	deleteProjectHandler?: any;
 	memberPage?: boolean;
-	updatePropertyHandler?: any;
+	updateProjectHandler?: any;
 }
 
-export const PropertyCard = (props: PropertyCardProps) => {
-	const { property, deletePropertyHandler, memberPage, updatePropertyHandler } = props;
+export const ProjectCard = (props: ProjectCardProps) => {
+	const { project, deleteProjectHandler, memberPage, updateProjectHandler } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 
 	/** HANDLERS **/
-	const pushEditProperty = async (id: string) => {
-		console.log('+pushEditProperty: ', id);
+	const pushEditProject = async (id: string) => {
+		console.log('+pushEditProject: ', id);
 		await router.push({
 			pathname: '/mypage',
-			query: { category: 'addProperty', propertyId: id },
+			query: { category: 'addProject', projectId: id },
 		});
 	};
 
-	const pushPropertyDetail = async (id: string) => {
+	const pushProjectDetail = async (id: string) => {
 		if (memberPage)
 			await router.push({
 				pathname: '/property/detail',
@@ -51,33 +51,33 @@ export const PropertyCard = (props: PropertyCardProps) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>MOBILE PROPERTY CARD</div>;
+		return <div>MOBILE PROJECT CARD</div>;
 	} else
 		return (
 			<Stack className="property-card-box">
-				<Stack className="image-box" onClick={() => pushPropertyDetail(property?._id)}>
-					<img src={`${process.env.REACT_APP_API_URL}/${property.propertyImages[0]}`} alt="" />
+				<Stack className="image-box" onClick={() => pushProjectDetail(project?._id)}>
+					<img src={`${process.env.REACT_APP_API_URL}/${project.projectImages[0]}`} alt="" />
 				</Stack>
-				<Stack className="information-box" onClick={() => pushPropertyDetail(property?._id)}>
-					<Typography className="name">{property.propertyTitle}</Typography>
-					<Typography className="address">{property.propertyAddress}</Typography>
+				<Stack className="information-box" onClick={() => pushProjectDetail(project?._id)}>
+					<Typography className="name">{project.projectTitle}</Typography>
+					<Typography className="address">{project.projectStyle}</Typography>
 					<Typography className="price">
-						<strong>${formatterStr(property?.propertyPrice)}</strong>/ mo
+						<strong>${formatterStr(project?.projectPrice)}</strong>/ mo
 					</Typography>
 				</Stack>
 				<Stack className="date-box">
 					<Typography className="date">
-						<Moment format="DD MMMM, YYYY">{property.createdAt}</Moment>
+						<Moment format="DD MMMM, YYYY">{project.createdAt}</Moment>
 					</Typography>
 				</Stack>
 				<Stack className="status-box">
 					<Stack className="coloured-box" sx={{ background: '#E5F0FD' }} onClick={handleClick}>
 						<Typography className="status" sx={{ color: '#3554d1' }}>
-							{property.propertyStatus}
+							{project.projectStatus}
 						</Typography>
 					</Stack>
 				</Stack>
-				{!memberPage && property.propertyStatus !== 'SOLD' && (
+				{!memberPage && project.projectStatus !== 'COMPLETED' && (
 					<Menu
 						anchorEl={anchorEl}
 						open={open}
@@ -98,16 +98,16 @@ export const PropertyCard = (props: PropertyCardProps) => {
 							},
 						}}
 					>
-						{property.propertyStatus === 'ACTIVE' && (
+						{project.projectStatus === 'ACTIVE' && (
 							<>
 								<MenuItem
 									disableRipple
 									onClick={() => {
 										handleClose();
-										updatePropertyHandler(PropertyStatus.SOLD, property?._id);
+										updateProjectHandler(ProjectStatus.COMPLETED, project?._id);
 									}}
 								>
-									Sold
+									Completed
 								</MenuItem>
 							</>
 						)}
@@ -115,14 +115,14 @@ export const PropertyCard = (props: PropertyCardProps) => {
 				)}
 
 				<Stack className="views-box">
-					<Typography className="views">{property.propertyViews.toLocaleString()}</Typography>
+					<Typography className="views">{project.projectViews.toLocaleString()}</Typography>
 				</Stack>
 				{!memberPage && (
 					<Stack className="action-box">
-						<IconButton className="icon-button" onClick={() => pushEditProperty(property._id)}>
+						<IconButton className="icon-button" onClick={() => pushEditProject(project._id)}>
 							<ModeIcon className="buttons" />
 						</IconButton>
-						<IconButton className="icon-button" onClick={() => deletePropertyHandler(property._id)}>
+						<IconButton className="icon-button" onClick={() => deleteProjectHandler(project._id)}>
 							<DeleteIcon className="buttons" />
 						</IconButton>
 					</Stack>

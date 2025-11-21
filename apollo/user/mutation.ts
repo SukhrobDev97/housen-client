@@ -6,31 +6,34 @@ import { gql } from '@apollo/client';
 
 export const SIGN_UP = gql`
 	mutation Signup($input: MemberInput!) {
-		signup(input: $input) {
-			_id
-			memberType
-			memberStatus
-			memberAuthType
-			memberPhone
-			memberNick
-			memberFullName
-			memberImage
-			memberAddress
-			memberDesc
-			memberWarnings
-			memberBlocks
-			memberProperties
-			memberRank
-			memberArticles
-			memberPoints
-			memberLikes
-			memberViews
-			deletedAt
-			createdAt
-			updatedAt
-			accessToken
-		}
-	}
+    signup(input: $input) {
+        _id
+        memberType
+        memberStatus
+        memberAuthType
+        memberPhone
+        memberNick
+        memberFullName
+        memberImage
+        memberAddress
+        memberDesc
+        memberProjects
+        memberArticles
+        memberFollowers
+        memberFollowings
+        memberPoints
+        memberLikes
+        memberViews
+        memberComments
+        memberRank
+        memberWarnings
+        memberBlocks
+        deletedAt
+        createdAt
+        updatedAt
+        accessToken
+    }
+}
 `;
 
 export const LOGIN = gql`
@@ -48,7 +51,7 @@ export const LOGIN = gql`
 			memberDesc
 			memberWarnings
 			memberBlocks
-			memberProperties
+			memberProjects
 			memberRank
 			memberPoints
 			memberLikes
@@ -74,7 +77,7 @@ export const UPDATE_MEMBER = gql`
 			memberImage
 			memberAddress
 			memberDesc
-			memberProperties
+			memberProjects
 			memberRank
 			memberArticles
 			memberPoints
@@ -105,7 +108,7 @@ export const LIKE_TARGET_MEMBER = gql`
 			memberDesc
 			memberWarnings
 			memberBlocks
-			memberProperties
+			memberProjects
 			memberRank
 			memberPoints
 			memberLikes
@@ -122,25 +125,18 @@ export const LIKE_TARGET_MEMBER = gql`
  *        PROPERTY        *
  *************************/
 
-export const CREATE_PROPERTY = gql`
-	mutation CreateProperty($input: PropertyInput!) {
-		createProperty(input: $input) {
+export const CREATE_PROJECT = gql`
+	mutation CreateProject($input: ProjectInput!) {
+		createProject(input: $input) {
 			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
+			projectType
+			projectStatus
+			projectStyle
+			projectTitle
+			projectPrice
+			projectDuration
+			projectImages
+			projectDesc
 			memberId
 			soldAt
 			deletedAt
@@ -151,25 +147,18 @@ export const CREATE_PROPERTY = gql`
 	}
 `;
 
-export const UPDATE_PROPERTY = gql`
-	mutation UpdateProperty($input: PropertyUpdate!) {
-		updateProperty(input: $input) {
+export const UPDATE_PROJECT = gql`
+	mutation UpdateProject($input: ProjectUpdate!) {
+		updateProject(input: $input) {
 			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
+			projectType
+			projectStatus
+			projectStyle
+			projectTitle
+			projectPrice
+			projectDuration
+			projectImages
+			projectDesc
 			memberId
 			soldAt
 			deletedAt
@@ -180,25 +169,18 @@ export const UPDATE_PROPERTY = gql`
 	}
 `;
 
-export const LIKE_TARGET_PROPERTY = gql`
-	mutation LikeTargetProperty($input: String!) {
-		likeTargetProperty(propertyId: $input) {
+export const LIKE_TARGET_PROJECT = gql`
+	mutation LikeTargetProject($input: String!) {
+		likeTargetProject(projectId: $input) {
 			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
+			projectType
+			projectStatus
+			projectStyle
+			projectTitle
+			projectPrice
+			projectDuration
+			projectImages
+			projectDesc
 			memberId
 			soldAt
 			deletedAt

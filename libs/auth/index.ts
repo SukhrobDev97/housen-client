@@ -75,7 +75,7 @@ export const signUp = async (nick: string, password: string, phone: string, type
 	} catch (err) {
 		console.warn('login err', err);
 		logOut();
-		throw new Error('Login Err');
+		// throw new Error('Login Err');
 	}
 };
 
@@ -142,7 +142,7 @@ export const updateUserInfo = (jwtToken: any) => {
 				: `${claims.memberImage}`,
 		memberAddress: claims.memberAddress ?? '',
 		memberDesc: claims.memberDesc ?? '',
-		memberProperties: claims.memberProperties,
+		memberProjects: claims.memberProjects,
 		memberRank: claims.memberRank,
 		memberArticles: claims.memberArticles,
 		memberPoints: claims.memberPoints,
@@ -175,7 +175,7 @@ const deleteUserInfo = () => {
 		memberImage: '',
 		memberAddress: '',
 		memberDesc: '',
-		memberProperties: 0,
+		memberProjects: 0,
 		memberRank: 0,
 		memberArticles: 0,
 		memberPoints: 0,

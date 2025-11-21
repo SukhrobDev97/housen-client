@@ -10,27 +10,27 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 
-interface AgentCardProps {
-	agent: any;
+interface AgencyCardProps {
+	agency: any;
 }
 
-const AgentCard = (props: AgentCardProps) => {
-	const { agent } = props;
+const AgencyCard = (props: AgencyCardProps) => {
+	const { agency } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
-	const imagePath: string = agent?.memberImage
-		? `${REACT_APP_API_URL}/${agent?.memberImage}`
+	const imagePath: string = agency?.memberImage
+		? `${REACT_APP_API_URL}/${agency?.memberImage}`
 		: '/img/profile/defaultUser.svg';
 
 	if (device === 'mobile') {
-		return <div>AGENT CARD</div>;
+		return <div>AGENCY CARD</div>;
 	} else {
 		return (
 			<Stack className="agent-general-card">
 				<Link
 					href={{
 						pathname: '/agent/detail',
-						query: { agentId: agent?._id },
+						query: { agencyId: agency?._id },
 					}}
 				>
 					<Box
@@ -43,7 +43,7 @@ const AgentCard = (props: AgentCardProps) => {
 							backgroundRepeat: 'no-repeat',
 						}}
 					>
-						<div>{agent?.memberProperties} properties</div>
+						<div>{agency?.memberProjects} projects</div>
 					</Box>
 				</Link>
 
@@ -52,26 +52,26 @@ const AgentCard = (props: AgentCardProps) => {
 						<Link
 							href={{
 								pathname: '/agent/detail',
-								query: { agentId: 'id' },
+								query: { agencyId: 'id' },
 							}}
 						>
-							<strong>{agent?.memberFullName ?? agent?.memberNick}</strong>
+							<strong>{agency?.memberFullName ?? agency?.memberNick}</strong>
 						</Link>
-						<span>Agent</span>
+						<span>Agency</span>
 					</Box>
 					<Box component={'div'} className={'buttons'}>
 						<IconButton color={'default'}>
 							<RemoveRedEyeIcon />
 						</IconButton>
-						<Typography className="view-cnt">{agent?.memberViews}</Typography>
+						<Typography className="view-cnt">{agency?.memberViews}</Typography>
 						<IconButton color={'default'}>
-							{agent?.meLiked && agent?.meLiked[0]?.myFavorite ? (
+							{agency?.meLiked && agency?.meLiked[0]?.myFavorite ? (
 								<FavoriteIcon color={'primary'} />
 							) : (
 								<FavoriteBorderIcon />
 							)}
 						</IconButton>
-						<Typography className="view-cnt">{agent?.memberLikes}</Typography>
+						<Typography className="view-cnt">{agency?.memberLikes}</Typography>
 					</Box>
 				</Stack>
 			</Stack>
@@ -79,4 +79,4 @@ const AgentCard = (props: AgentCardProps) => {
 	}
 };
 
-export default AgentCard;
+export default AgencyCard;

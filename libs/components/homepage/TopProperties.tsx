@@ -5,18 +5,18 @@ import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
-import TopPropertyCard from './TopPropertyCard';
-import { PropertiesInquiry } from '../../types/property/property.input';
-import { Property } from '../../types/property/property';
+import { ProjectsInquiry } from '../../types/property/property.input';
+import { Project } from '../../types/property/property';
+import TopProjectCard from './TopPropertyCard';
 
-interface TopPropertiesProps {
-	initialInput: PropertiesInquiry;
+interface TopProjectsProps {
+	initialInput: ProjectsInquiry;
 }
 
-const TopProperties = (props: TopPropertiesProps) => {
+const TopProjects = (props: TopProjectsProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
-	const [topProperties, setTopProperties] = useState<Property[]>([]);
+	const [topProjects, setTopProjects] = useState<Project[]>([]);
 
 	/** APOLLO REQUESTS **/
 	/** HANDLERS **/
@@ -26,7 +26,7 @@ const TopProperties = (props: TopPropertiesProps) => {
 			<Stack className={'top-properties'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<span>Top properties</span>
+						<span>Top Projects</span>
 					</Stack>
 					<Stack className={'card-box'}>
 						<Swiper
@@ -36,10 +36,10 @@ const TopProperties = (props: TopPropertiesProps) => {
 							spaceBetween={15}
 							modules={[Autoplay]}
 						>
-							{topProperties.map((property: Property) => {
+							{topProjects.map((project: Project) => {
 								return (
-									<SwiperSlide className={'top-property-slide'} key={property?._id}>
-										<TopPropertyCard property={property} />
+									<SwiperSlide className={'top-property-slide'} key={project?._id}>
+										<TopProjectCard project={project} />
 									</SwiperSlide>
 								);
 							})}
@@ -54,8 +54,8 @@ const TopProperties = (props: TopPropertiesProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Top properties</span>
-							<p>Check out our Top Properties</p>
+							<span>Top projects</span>
+							<p>Check out our Top Projects</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className={'pagination-box'}>
@@ -79,10 +79,10 @@ const TopProperties = (props: TopPropertiesProps) => {
 								el: '.swiper-top-pagination',
 							}}
 						>
-							{topProperties.map((property: Property) => {
+							{topProjects.map((project: Project) => {
 								return (
-									<SwiperSlide className={'top-property-slide'} key={property?._id}>
-										<TopPropertyCard property={property} />
+									<SwiperSlide className={'top-property-slide'} key={project?._id}>
+										<TopProjectCard project={project} />
 									</SwiperSlide>
 								);
 							})}
@@ -94,14 +94,14 @@ const TopProperties = (props: TopPropertiesProps) => {
 	}
 };
 
-TopProperties.defaultProps = {
+TopProjects.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 8,
-		sort: 'propertyRank',
+		sort: 'projectRank',
 		direction: 'DESC',
 		search: {},
 	},
 };
 
-export default TopProperties;
+export default TopProjects;

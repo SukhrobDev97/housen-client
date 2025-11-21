@@ -42,7 +42,7 @@ const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
 					{memberBoArticles?.length === 0 && (
 						<div className={'no-data'}>
 							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Articles found!</p>
+							<p>No articles available!</p>
 						</div>
 					)}
 					{memberBoArticles?.map((boardArticle: BoardArticle) => {
@@ -61,7 +61,7 @@ const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
 							/>
 						</Stack>
 						<Stack className="total-result">
-							<Typography>{total} property available</Typography>
+							<Typography>{total} project available</Typography>
 						</Stack>
 					</Stack>
 				)}

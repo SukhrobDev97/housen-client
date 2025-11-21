@@ -52,7 +52,7 @@ const Join: NextPage = () => {
 	}, [input]);
 
 	const doSignUp = useCallback(async () => {
-		console.warn(input);
+		console.warn("eeeeeeeeeeeeeeeeee",input);
 		try {
 			await signUp(input.nick, input.password, input.phone, input.type);
 			await router.push(`${router.query.referrer ?? '/'}`);
@@ -74,7 +74,7 @@ const Join: NextPage = () => {
 							{/* @ts-ignore */}
 							<Box className={'logo'}>
 								<img src="/img/logo/logoText.svg" alt="" />
-								<span>Nestar</span>
+								<span>Housen</span>
 							</Box>
 							<Box className={'info'}>
 								<span>{loginView ? 'login' : 'signup'}</span>
@@ -145,12 +145,12 @@ const Join: NextPage = () => {
 													control={
 														<Checkbox
 															size="small"
-															name={'AGENT'}
+															name={'AGENCY'}
 															onChange={checkUserTypeHandler}
-															checked={input?.type == 'AGENT'}
+															checked={input?.type == 'AGENCY'}
 														/>
 													}
-													label="Agent"
+													label="Agency"
 												/>
 											</FormGroup>
 										</div>
@@ -162,7 +162,7 @@ const Join: NextPage = () => {
 										<FormGroup>
 											<FormControlLabel control={<Checkbox defaultChecked size="small" />} label="Remember me" />
 										</FormGroup>
-										<a>Lost your password?</a>
+										<a>Forgot password?</a>
 									</div>
 								)}
 

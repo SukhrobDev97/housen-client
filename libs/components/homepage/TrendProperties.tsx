@@ -5,36 +5,37 @@ import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
-import { Property } from '../../types/property/property';
-import { PropertiesInquiry } from '../../types/property/property.input';
+import { Project } from '../../types/property/property';
+import { ProjectsInquiry } from '../../types/property/property.input';
 import TrendPropertyCard from './TrendPropertyCard';
+import TrendProjectCard from './TrendPropertyCard';
 
-interface TrendPropertiesProps {
-	initialInput: PropertiesInquiry;
+interface TrendProjectsProps {
+	initialInput: ProjectsInquiry;
 }
 
-const TrendProperties = (props: TrendPropertiesProps) => {
+const TrendProjects = (props: TrendProjectsProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
-	const [trendProperties, setTrendProperties] = useState<Property[]>([]);
+	const [trendProjects, setTrendProjects] = useState<Project[]>([]);
 
 	/** APOLLO REQUESTS **/
 	/** HANDLERS **/
 
-	if (trendProperties) console.log('trendProperties:', trendProperties);
-	if (!trendProperties) return null;
+	if (trendProjects) console.log('trendProjects:', trendProjects);
+	if (!trendProjects) return null;
 
 	if (device === 'mobile') {
 		return (
 			<Stack className={'trend-properties'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<span>Trend Properties</span>
+						<span>Trend Projects</span>
 					</Stack>
 					<Stack className={'card-box'}>
-						{trendProperties.length === 0 ? (
+						{trendProjects.length === 0 ? (
 							<Box component={'div'} className={'empty-list'}>
-								Trends Empty
+								Trending Projects Empty
 							</Box>
 						) : (
 							<Swiper
@@ -44,10 +45,10 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 								spaceBetween={15}
 								modules={[Autoplay]}
 							>
-								{trendProperties.map((property: Property) => {
+								{trendProjects.map((project: Project) => {
 									return (
-										<SwiperSlide key={property._id} className={'trend-property-slide'}>
-											<TrendPropertyCard property={property} />
+										<SwiperSlide key={project._id} className={'trend-property-slide'}>
+											<TrendProjectCard project={project} />
 										</SwiperSlide>
 									);
 								})}
@@ -63,8 +64,8 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Trend Properties</span>
-							<p>Trend is based on likes</p>
+							<span>Trend Projects</span>
+							<p>Most viewed projects</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className={'pagination-box'}>
@@ -75,9 +76,9 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 						</Box>
 					</Stack>
 					<Stack className={'card-box'}>
-						{trendProperties.length === 0 ? (
+						{trendProjects.length === 0 ? (
 							<Box component={'div'} className={'empty-list'}>
-								Trends Empty
+								Trending Projects Empty
 							</Box>
 						) : (
 							<Swiper
@@ -93,10 +94,10 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 									el: '.swiper-trend-pagination',
 								}}
 							>
-								{trendProperties.map((property: Property) => {
+								{trendProjects.map((project: Project) => {
 									return (
-										<SwiperSlide key={property._id} className={'trend-property-slide'}>
-											<TrendPropertyCard property={property} />
+										<SwiperSlide key={project._id} className={'trend-property-slide'}>
+											<TrendProjectCard project={project} />
 										</SwiperSlide>
 									);
 								})}
@@ -109,7 +110,7 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 	}
 };
 
-TrendProperties.defaultProps = {
+TrendProjects.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 8,
@@ -119,4 +120,4 @@ TrendProperties.defaultProps = {
 	},
 };
 
-export default TrendProperties;
+export default TrendProjects;

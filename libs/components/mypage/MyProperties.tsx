@@ -2,19 +2,19 @@ import React, { useState } from 'react';
 import { NextPage } from 'next';
 import { Pagination, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { PropertyCard } from './PropertyCard';
 import { useReactiveVar } from '@apollo/client';
-import { Property } from '../../types/property/property';
-import { AgentPropertiesInquiry } from '../../types/property/property.input';
+import { Project } from '../../types/property/property';
+import { AgencyProjectsInquiry } from '../../types/property/property.input';
 import { T } from '../../types/common';
-import { PropertyStatus } from '../../enums/property.enum';
+import { ProjectStatus } from '../../enums/property.enum';
 import { userVar } from '../../../apollo/store';
 import { useRouter } from 'next/router';
+import { ProjectCard } from './PropertyCard';
 
-const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
+const MyProjects: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
-	const [searchFilter, setSearchFilter] = useState<AgentPropertiesInquiry>(initialInput);
-	const [agentProperties, setAgentProperties] = useState<Property[]>([]);
+	const [searchFilter, setSearchFilter] = useState<AgencyProjectsInquiry>(initialInput);
+	const [agencyProjects, setAgencyProjects] = useState<Project[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const user = useReactiveVar(userVar);
 	const router = useRouter();
@@ -26,42 +26,42 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 		setSearchFilter({ ...searchFilter, page: value });
 	};
 
-	const changeStatusHandler = (value: PropertyStatus) => {
-		setSearchFilter({ ...searchFilter, search: { propertyStatus: value } });
+	const changeStatusHandler = (value: ProjectStatus) => {
+		setSearchFilter({ ...searchFilter, search: { projectStatus: value } });
 	};
 
-	const deletePropertyHandler = async (id: string) => {};
+	const deleteProjectHandler = async (id: string) => {};
 
-	const updatePropertyHandler = async (status: string, id: string) => {};
+	const updateProjectHandler = async (status: string, id: string) => {};
 
-	if (user?.memberType !== 'AGENT') {
+	if (user?.memberType !== 'AGENCY') {
 		router.back();
 	}
 
 	if (device === 'mobile') {
-		return <div>NESTAR PROPERTIES MOBILE</div>;
+		return <div>HOUSEN PROJECTS MOBILE</div>;
 	} else {
 		return (
 			<div id="my-property-page">
 				<Stack className="main-title-box">
 					<Stack className="right-box">
-						<Typography className="main-title">My Properties</Typography>
+						<Typography className="main-title">My Projects</Typography>
 						<Typography className="sub-title">We are glad to see you again!</Typography>
 					</Stack>
 				</Stack>
 				<Stack className="property-list-box">
 					<Stack className="tab-name-box">
 						<Typography
-							onClick={() => changeStatusHandler(PropertyStatus.ACTIVE)}
-							className={searchFilter.search.propertyStatus === 'ACTIVE' ? 'active-tab-name' : 'tab-name'}
+							onClick={() => changeStatusHandler(ProjectStatus.ACTIVE)}
+							className={searchFilter.search.projectStatus === 'ACTIVE' ? 'active-tab-name' : 'tab-name'}
 						>
-							On Sale
+							Processing
 						</Typography>
 						<Typography
-							onClick={() => changeStatusHandler(PropertyStatus.SOLD)}
-							className={searchFilter.search.propertyStatus === 'SOLD' ? 'active-tab-name' : 'tab-name'}
+							onClick={() => changeStatusHandler(ProjectStatus.COMPLETED)}
+							className={searchFilter.search.projectStatus === 'COMPLETED' ? 'active-tab-name' : 'tab-name'}
 						>
-							On Sold
+							Completed
 						</Typography>
 					</Stack>
 					<Stack className="list-box">
@@ -73,24 +73,24 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 							<Typography className="title-text">Action</Typography>
 						</Stack>
 
-						{agentProperties?.length === 0 ? (
+						{agencyProjects?.length === 0 ? (
 							<div className={'no-data'}>
 								<img src="/img/icons/icoAlert.svg" alt="" />
-								<p>No Property found!</p>
+								<p>No Project available!</p>
 							</div>
 						) : (
-							agentProperties.map((property: Property) => {
+							agencyProjects.map((project: Project) => {
 								return (
-									<PropertyCard
-										property={property}
-										deletePropertyHandler={deletePropertyHandler}
-										updatePropertyHandler={updatePropertyHandler}
+									<ProjectCard
+										project={project}
+										deleteProjectHandler={deleteProjectHandler}
+										updateProjectHandler={updateProjectHandler}
 									/>
 								);
 							})
 						)}
 
-						{agentProperties.length !== 0 && (
+						{agencyProjects.length !== 0 && (
 							<Stack className="pagination-config">
 								<Stack className="pagination-box">
 									<Pagination
@@ -102,7 +102,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 									/>
 								</Stack>
 								<Stack className="total-result">
-									<Typography>{total} property available</Typography>
+									<Typography>{total} project exist</Typography>
 								</Stack>
 							</Stack>
 						)}
@@ -113,15 +113,15 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 	}
 };
 
-MyProperties.defaultProps = {
+MyProjects.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 5,
 		sort: 'createdAt',
 		search: {
-			propertyStatus: 'ACTIVE',
+			projectStatus: 'ACTIVE',
 		},
 	},
 };
 
-export default MyProperties;
+export default MyProjects;

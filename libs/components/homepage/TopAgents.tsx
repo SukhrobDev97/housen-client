@@ -5,19 +5,19 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
-import TopAgentCard from './TopAgentCard';
+import TopAgencyCard from './TopAgentCard';
 import { Member } from '../../types/member/member';
-import { AgentsInquiry } from '../../types/member/member.input';
+import { AgenciesInquiry } from '../../types/member/member.input';
 
-interface TopAgentsProps {
-	initialInput: AgentsInquiry;
+interface TopAgenciesProps {
+	initialInput: AgenciesInquiry;
 }
 
-const TopAgents = (props: TopAgentsProps) => {
+const TopAgencies = (props: TopAgenciesProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
-	const [topAgents, setTopAgents] = useState<Member[]>([]);
+	const [topAgencies, setTopAgencies] = useState<Member[]>([]);
 
 	/** APOLLO REQUESTS **/
 	/** HANDLERS **/
@@ -27,7 +27,7 @@ const TopAgents = (props: TopAgentsProps) => {
 			<Stack className={'top-agents'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<span>Top Agents</span>
+						<span>Top Agencies</span>
 					</Stack>
 					<Stack className={'wrapper'}>
 						<Swiper
@@ -37,10 +37,10 @@ const TopAgents = (props: TopAgentsProps) => {
 							spaceBetween={29}
 							modules={[Autoplay]}
 						>
-							{topAgents.map((agent: Member) => {
+							{topAgencies.map((agency: Member) => {
 								return (
-									<SwiperSlide className={'top-agents-slide'} key={agent?._id}>
-										<TopAgentCard agent={agent} key={agent?.memberNick} />
+									<SwiperSlide className={'top-agents-slide'} key={agency?._id}>
+										<TopAgencyCard agency={agency} key={agency?.memberNick} />
 									</SwiperSlide>
 								);
 							})}
@@ -55,12 +55,12 @@ const TopAgents = (props: TopAgentsProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Top Agents</span>
-							<p>Our Top Agents always ready to serve you</p>
+							<span>Top Agencies</span>
+							<p>Our Top Agencies always ready to serve you</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className={'more-box'}>
-								<span>See All Agents</span>
+								<span>Explore More Agencies</span>
 								<img src="/img/icons/rightup.svg" alt="" />
 							</div>
 						</Box>
@@ -80,10 +80,10 @@ const TopAgents = (props: TopAgentsProps) => {
 									prevEl: '.swiper-agents-prev',
 								}}
 							>
-								{topAgents.map((agent: Member) => {
+								{topAgencies.map((agency: Member) => {
 									return (
-										<SwiperSlide className={'top-agents-slide'} key={agent?._id}>
-											<TopAgentCard agent={agent} key={agent?.memberNick} />
+										<SwiperSlide className={'top-agents-slide'} key={agency?._id}>
+											<TopAgencyCard agency={agency} key={agency?.memberNick} />
 										</SwiperSlide>
 									);
 								})}
@@ -99,7 +99,7 @@ const TopAgents = (props: TopAgentsProps) => {
 	}
 };
 
-TopAgents.defaultProps = {
+TopAgencies.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 10,
@@ -109,4 +109,4 @@ TopAgents.defaultProps = {
 	},
 };
 
-export default TopAgents;
+export default TopAgencies;

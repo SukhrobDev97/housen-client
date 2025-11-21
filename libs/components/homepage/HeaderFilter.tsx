@@ -6,7 +6,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { propertySquare, propertyYears } from '../../config';
 import { ProjectStyle, ProjectType } from '../../enums/property.enum';
 import { ProjectsInquiry } from '../../types/property/property.input';
 import { useRouter } from 'next/router';
@@ -159,7 +158,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 							<ExpandMoreIcon />
 						</Box>
 						<Box className={`box ${openType ? 'on' : ''}`} onClick={typeStateChangeHandler}>
-							<span> {searchFilter?.search?.typeList ? searchFilter?.search?.typeList[0] : t('Property type')} </span>
+							<span> {searchFilter?.search?.typeList ? searchFilter?.search?.typeList[0] : t('Project type')} </span>
 							<ExpandMoreIcon />
 						</Box>
 					</Stack>

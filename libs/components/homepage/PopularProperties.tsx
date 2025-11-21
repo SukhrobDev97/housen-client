@@ -5,31 +5,31 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
-import PopularPropertyCard from './PopularPropertyCard';
-import { Property } from '../../types/property/property';
+import PopularProjectCard from './PopularPropertyCard';
+import { Project } from '../../types/property/property';
 import Link from 'next/link';
-import { PropertiesInquiry } from '../../types/property/property.input';
+import { ProjectsInquiry } from '../../types/property/property.input';
 
-interface PopularPropertiesProps {
-	initialInput: PropertiesInquiry;
+interface PopularProjectsProps {
+	initialInput: ProjectsInquiry;
 }
 
-const PopularProperties = (props: PopularPropertiesProps) => {
+const PopularProjects = (props: PopularProjectsProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
-	const [popularProperties, setPopularProperties] = useState<Property[]>([]);
+	const [popularProjects, setPopularProjects] = useState<Project[]>([]);
 
 	/** APOLLO REQUESTS **/
 	/** HANDLERS **/
 
-	if (!popularProperties) return null;
+	if (!popularProjects) return null;
 
 	if (device === 'mobile') {
 		return (
 			<Stack className={'popular-properties'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<span>Popular properties</span>
+						<span>Popular projects</span>
 					</Stack>
 					<Stack className={'card-box'}>
 						<Swiper
@@ -39,10 +39,10 @@ const PopularProperties = (props: PopularPropertiesProps) => {
 							spaceBetween={25}
 							modules={[Autoplay]}
 						>
-							{popularProperties.map((property: Property) => {
+							{popularProjects.map((project: Project) => {
 								return (
-									<SwiperSlide key={property._id} className={'popular-property-slide'}>
-										<PopularPropertyCard property={property} />
+									<SwiperSlide key={project._id} className={'popular-property-slide'}>
+										<PopularProjectCard project={project} />
 									</SwiperSlide>
 								);
 							})}
@@ -57,13 +57,13 @@ const PopularProperties = (props: PopularPropertiesProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Popular properties</span>
-							<p>Popularity is based on views</p>
+							<span>Popular projects</span>
+							<p> Most viewed projects</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className={'more-box'}>
 								<Link href={'/property'}>
-									<span>See All Categories</span>
+									<span>Explore more projects</span>
 								</Link>
 								<img src="/img/icons/rightup.svg" alt="" />
 							</div>
@@ -83,10 +83,10 @@ const PopularProperties = (props: PopularPropertiesProps) => {
 								el: '.swiper-popular-pagination',
 							}}
 						>
-							{popularProperties.map((property: Property) => {
+							{popularProjects.map((project: Project) => {
 								return (
-									<SwiperSlide key={property._id} className={'popular-property-slide'}>
-										<PopularPropertyCard property={property} />
+									<SwiperSlide key={project._id} className={'popular-property-slide'}>
+										<PopularProjectCard project={project} />
 									</SwiperSlide>
 								);
 							})}
@@ -103,14 +103,14 @@ const PopularProperties = (props: PopularPropertiesProps) => {
 	}
 };
 
-PopularProperties.defaultProps = {
+PopularProjects.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 7,
-		sort: 'propertyViews',
+		sort: 'projectViews',
 		direction: 'DESC',
 		search: {},
 	},
 };
 
-export default PopularProperties;
+export default PopularProjects;

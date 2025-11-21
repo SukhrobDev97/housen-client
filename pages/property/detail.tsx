@@ -6,14 +6,12 @@ import { NextPage } from 'next';
 import Review from '../../libs/components/property/Review';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Autoplay, Navigation, Pagination } from 'swiper';
-import PropertyBigCard from '../../libs/components/common/PropertyBigCard';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
 import { useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { Property } from '../../libs/types/property/property';
 import moment from 'moment';
 import { formatterStr } from '../../libs/utils';
 import { REACT_APP_API_URL } from '../../libs/config';
@@ -27,6 +25,8 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import { Project } from '../../libs/types/property/property';
+import ProjectBigCard from '../../libs/components/common/PropertyBigCard';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -36,19 +36,19 @@ export const getStaticProps = async ({ locale }: any) => ({
 	},
 });
 
-const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
+const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
-	const [propertyId, setPropertyId] = useState<string | null>(null);
-	const [property, setProperty] = useState<Property | null>(null);
+	const [projectId, setProjectId] = useState<string | null>(null);
+	const [project, setProject] = useState<Project | null>(null);
 	const [slideImage, setSlideImage] = useState<string>('');
-	const [destinationProperty, setDestinationProperty] = useState<Property[]>([]);
+	const [destinationProject, setDestinationProject] = useState<Project[]>([]);
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
-	const [propertyComments, setPropertyComments] = useState<Comment[]>([]);
+	const [projectComments, setProjectComments] = useState<Comment[]>([]);
 	const [commentTotal, setCommentTotal] = useState<number>(0);
 	const [insertCommentData, setInsertCommentData] = useState<CommentInput>({
-		commentGroup: CommentGroup.PROPERTY,
+		commentGroup: CommentGroup.PROJECT,
 		commentContent: '',
 		commentRefId: '',
 	});
@@ -58,7 +58,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	/** LIFECYCLES **/
 	useEffect(() => {
 		if (router.query.id) {
-			setPropertyId(router.query.id as string);
+			setProjectId(router.query.id as string);
 			setCommentInquiry({
 				...commentInquiry,
 				search: {
@@ -85,7 +85,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>PROPERTY DETAIL PAGE</div>;
+		return <div>PROJECT DETAIL PAGE</div>;
 	} else {
 		return (
 			<div id={'property-detail-page'}>
@@ -94,30 +94,30 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 						<Stack className={'property-info-config'}>
 							<Stack className={'info'}>
 								<Stack className={'left-box'}>
-									<Typography className={'title-main'}>{property?.propertyTitle}</Typography>
+									<Typography className={'title-main'}>{project?.projectTitle}</Typography>
 									<Stack className={'top-box'}>
-										<Typography className={'city'}>{property?.propertyLocation}</Typography>
+										<Typography className={'city'}>{project?.projectStyle}</Typography>
 										<Stack className={'divider'}></Stack>
 										<Stack className={'buy-rent-box'}>
-											{property?.propertyBarter && (
+											{project?.projectCollaboration && (
 												<>
 													<Stack className={'circle'}>
 														<svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" viewBox="0 0 6 6" fill="none">
 															<circle cx="3" cy="3" r="3" fill="#EB6753" />
 														</svg>
 													</Stack>
-													<Typography className={'buy-rent'}>Barter</Typography>
+													<Typography className={'buy-rent'}>Collaboration</Typography>
 												</>
 											)}
 
-											{property?.propertyRent && (
+											{project?.projectPublic && (
 												<>
 													<Stack className={'circle'}>
 														<svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" viewBox="0 0 6 6" fill="none">
 															<circle cx="3" cy="3" r="3" fill="#EB6753" />
 														</svg>
 													</Stack>
-													<Typography className={'buy-rent'}>rent</Typography>
+													<Typography className={'buy-rent'}>Public</Typography>
 												</>
 											)}
 										</Stack>
@@ -139,17 +139,14 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 												</clipPath>
 											</defs>
 										</svg>
-										<Typography className={'date'}>{moment().diff(property?.createdAt, 'days')} days ago</Typography>
+										<Typography className={'date'}>{moment().diff(project?.createdAt, 'days')} days ago</Typography>
 									</Stack>
 									<Stack className={'bottom-box'}>
 										<Stack className="option">
-											<img src="/img/icons/bed.svg" alt="" /> <Typography>{property?.propertyBeds} bed</Typography>
+											<img src="/img/icons/bed.svg" alt="" /> <Typography>{project?.projectDuration} duration</Typography>
 										</Stack>
 										<Stack className="option">
-											<img src="/img/icons/room.svg" alt="" /> <Typography>{property?.propertyRooms} room</Typography>
-										</Stack>
-										<Stack className="option">
-											<img src="/img/icons/expand.svg" alt="" /> <Typography>{property?.propertySquare} m2</Typography>
+											<img src="/img/icons/room.svg" alt="" /> <Typography>{project?.projectPrice} price</Typography>
 										</Stack>
 									</Stack>
 								</Stack>
@@ -157,22 +154,22 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									<Stack className="buttons">
 										<Stack className="button-box">
 											<RemoveRedEyeIcon fontSize="medium" />
-											<Typography>{property?.propertyViews}</Typography>
+											<Typography>{project?.projectViews}</Typography>
 										</Stack>
 										<Stack className="button-box">
-											{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
+											{project?.meLiked && project?.meLiked[0]?.myFavorite ? (
 												<FavoriteIcon color="primary" fontSize={'medium'} />
 											) : (
 												<FavoriteBorderIcon
 													fontSize={'medium'}
 													// @ts-ignore
-													onClick={() => likePropertyHandler(user, property?._id)}
+													onClick={() => likeProjectHandler(user, project?._id)}
 												/>
 											)}
-											<Typography>{property?.propertyLikes}</Typography>
+											<Typography>{project?.projectLikes}</Typography>
 										</Stack>
 									</Stack>
-									<Typography>${formatterStr(property?.propertyPrice)}</Typography>
+									<Typography>${formatterStr(project?.projectPrice)}</Typography>
 								</Stack>
 							</Stack>
 							<Stack className={'images'}>
@@ -183,7 +180,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									/>
 								</Stack>
 								<Stack className={'sub-images'}>
-									{property?.propertyImages.map((subImg: string) => {
+									{project?.projectImages.map((subImg: string) => {
 										const imagePath: string = `${REACT_APP_API_URL}/${subImg}`;
 										return (
 											<Stack className={'sub-img-box'} onClick={() => changeImageHandler(subImg)} key={subImg}>
@@ -207,8 +204,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											</svg>
 										</Stack>
 										<Stack className={'option-includes'}>
-											<Typography className={'title'}>Bedroom</Typography>
-											<Typography className={'option-data'}>{property?.propertyBeds}</Typography>
+											<Typography className={'title'}>Project Type</Typography>
+											<Typography className={'option-data'}>{project?.projectType}</Typography>
 										</Stack>
 									</Stack>
 									<Stack className={'option'}>
@@ -216,27 +213,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											<img src={'/img/icons/room.svg'} />
 										</Stack>
 										<Stack className={'option-includes'}>
-											<Typography className={'title'}>Room</Typography>
-											<Typography className={'option-data'}>{property?.propertyRooms}</Typography>
+											<Typography className={'title'}>Project Style</Typography>
+											<Typography className={'option-data'}>{project?.projectStyle}</Typography>
 										</Stack>
 									</Stack>
 									<Stack className={'option'}>
-										<Stack className={'svg-box'}>
-											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 24 20" fill="none">
-												<path
-													d="M20.0464 2.29271H16.7196V1.10938H15.3839V2.29271H8.73021V1.10938H7.39448V2.29271H4.06766C3.53793 2.29271 3.0299 2.48001 2.65532 2.81341C2.28075 3.14681 2.07031 3.59899 2.07031 4.07049V17.1094C2.07031 17.5809 2.28075 18.0331 2.65532 18.3665C3.0299 18.6999 3.53793 18.8872 4.06766 18.8872H20.0464C20.5761 18.8872 21.0842 18.6999 21.4587 18.3665C21.8333 18.0331 22.0438 17.5809 22.0438 17.1094V4.07049C22.0438 3.59899 21.8333 3.14681 21.4587 2.81341C21.0842 2.48001 20.5761 2.29271 20.0464 2.29271ZM4.06766 3.4816H7.39448V4.66493H8.72397V3.4816H15.3839V4.66493H16.7133V3.4816H20.0464C20.2235 3.4816 20.3934 3.54423 20.5187 3.65571C20.6439 3.76719 20.7143 3.91839 20.7143 4.07604V7.03715H3.39979V4.07049C3.40144 3.91379 3.47253 3.76402 3.5976 3.65374C3.72267 3.54346 3.8916 3.48159 4.06766 3.4816ZM20.0464 17.7038H4.06766C3.89053 17.7038 3.72066 17.6412 3.59541 17.5297C3.47016 17.4182 3.39979 17.267 3.39979 17.1094V8.22049H20.7143V17.1094C20.7143 17.267 20.6439 17.4182 20.5187 17.5297C20.3934 17.6412 20.2235 17.7038 20.0464 17.7038Z"
-													fill="#181A20"
-												/>
-												<path
-													d="M15.1397 11.8023L13.6042 11.2801L12.5744 10.1412C12.5117 10.0727 12.4327 10.0174 12.3431 9.97949C12.2535 9.94156 12.1555 9.92188 12.0563 9.92188C11.9571 9.92188 11.8591 9.94156 11.7695 9.97949C11.6798 10.0174 11.6009 10.0727 11.5382 10.1412L10.5083 11.2801L8.97289 11.8023C8.88037 11.8343 8.79703 11.8842 8.72892 11.9485C8.66081 12.0127 8.60965 12.0897 8.57916 12.1738C8.54868 12.2578 8.53962 12.3469 8.55267 12.4345C8.56571 12.5221 8.60052 12.606 8.65456 12.6801L9.55961 13.8912L9.64075 15.3523C9.64596 15.4408 9.67332 15.5271 9.72083 15.6049C9.76835 15.6828 9.83482 15.7502 9.91539 15.8023C9.99685 15.8535 10.0898 15.8884 10.1878 15.9047C10.2858 15.921 10.3866 15.9183 10.4834 15.8967L12.0563 15.5245L13.6417 15.9078C13.7387 15.9304 13.8401 15.9332 13.9385 15.9161C14.0369 15.8991 14.1297 15.8625 14.21 15.8091C14.2903 15.7558 14.3562 15.687 14.4026 15.6079C14.449 15.5288 14.4748 15.4414 14.4781 15.3523L14.553 13.8912L15.4518 12.6634C15.5058 12.5893 15.5406 12.5054 15.5537 12.4178C15.5667 12.3302 15.5577 12.2412 15.5272 12.1571C15.4967 12.073 15.4455 11.9961 15.3774 11.9318C15.3093 11.8675 15.226 11.8176 15.1334 11.7856L15.1397 11.8023ZM13.3483 13.3912C13.2844 13.4793 13.2478 13.5808 13.2422 13.6856L13.1923 14.5745L12.2311 14.3412C12.1166 14.3138 11.996 14.3138 11.8815 14.3412L10.9203 14.5745L10.8704 13.6856C10.8648 13.5808 10.8282 13.4793 10.7643 13.3912L10.2212 12.6467L11.1512 12.3301C11.2614 12.2921 11.3584 12.2289 11.4321 12.1467L12.0563 11.4523L12.6805 12.1467C12.7542 12.2289 12.8511 12.2921 12.9613 12.3301L13.8913 12.6467L13.3483 13.3912Z"
-													fill="#181A20"
-												/>
-											</svg>
-										</Stack>
-										<Stack className={'option-includes'}>
-											<Typography className={'title'}>Year Build</Typography>
-											<Typography className={'option-data'}>{moment(property?.createdAt).format('YYYY')}</Typography>
-										</Stack>
 									</Stack>
 									<Stack className={'option'}>
 										<Stack className={'svg-box'}>
@@ -262,91 +243,50 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											</svg>
 										</Stack>
 										<Stack className={'option-includes'}>
-											<Typography className={'title'}>Size</Typography>
-											<Typography className={'option-data'}>{property?.propertySquare} m2</Typography>
+											<Typography className={'title'}>Duration</Typography>
+											<Typography className={'option-data'}>{project?.projectDuration} months</Typography>
 										</Stack>
 									</Stack>
-									<Stack className={'option'}>
-										<Stack className={'svg-box'}>
-											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 24 20" fill="none">
-												<path
-													d="M17.2955 18.8863H6.64714C5.76532 18.8848 4.92008 18.5724 4.29654 18.0174C3.673 17.4624 3.32196 16.7101 3.32031 15.9252V7.21961C3.32207 6.73455 3.45794 6.25732 3.71592 5.83005C3.97391 5.40277 4.34608 5.03858 4.7996 4.76961L10.0988 1.6085C10.6506 1.27315 11.3032 1.09375 11.9713 1.09375C12.6394 1.09375 13.292 1.27315 13.8438 1.6085L19.168 4.76961C19.618 5.04048 19.9866 5.4055 20.2412 5.83265C20.4958 6.25981 20.6289 6.73605 20.6285 7.21961V15.9252C20.6269 16.711 20.275 17.4642 19.6501 18.0193C19.0252 18.5745 18.1784 18.8863 17.2955 18.8863ZM11.9713 2.29183C11.5779 2.29281 11.1936 2.39717 10.8665 2.59183L5.53612 5.75294C5.26468 5.91407 5.04189 6.1321 4.88734 6.38784C4.73279 6.64359 4.65122 6.92922 4.64979 7.21961V15.9252C4.64979 16.3967 4.86023 16.8488 5.2348 17.1822C5.60938 17.5156 6.11741 17.7029 6.64714 17.7029H17.2955C17.8252 17.7029 18.3332 17.5156 18.7078 17.1822C19.0824 16.8488 19.2928 16.3967 19.2928 15.9252V7.21961C19.2935 6.92734 19.2129 6.63946 19.0582 6.38163C18.9036 6.12379 18.6797 5.904 18.4065 5.74183L13.0761 2.59183C12.7492 2.39687 12.3648 2.29248 11.9713 2.29183Z"
-													fill="#181A20"
-												/>
-												<path d="M9.30469 14.7422H14.6289V15.9255H9.30469V14.7422Z" fill="#181A20" />
-											</svg>
-										</Stack>
-										<Stack className={'option-includes'}>
-											<Typography className={'title'}>Property Type</Typography>
-											<Typography className={'option-data'}>{property?.propertyType}</Typography>
-										</Stack>
-									</Stack>
+									
 								</Stack>
 								<Stack className={'prop-desc-config'}>
 									<Stack className={'top'}>
-										<Typography className={'title'}>Property Description</Typography>
-										<Typography className={'desc'}>{property?.propertyDesc ?? 'No Description!'}</Typography>
+										<Typography className={'title'}>Project Description</Typography>
+										<Typography className={'desc'}>{project?.projectDesc ?? 'No Description!'}</Typography>
 									</Stack>
 									<Stack className={'bottom'}>
-										<Typography className={'title'}>Property Details</Typography>
+										<Typography className={'title'}>Project Details</Typography>
 										<Stack className={'info-box'}>
 											<Stack className={'left'}>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>Price</Typography>
-													<Typography className={'data'}>${formatterStr(property?.propertyPrice)}</Typography>
+													<Typography className={'data'}>${formatterStr(project?.projectPrice)}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Property Size</Typography>
-													<Typography className={'data'}>{property?.propertySquare} m2</Typography>
+													<Typography className={'title'}>Project Duration</Typography>
+													<Typography className={'data'}>{project?.projectDuration} months</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Rooms</Typography>
-													<Typography className={'data'}>{property?.propertyRooms}</Typography>
-												</Box>
-												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Bedrooms</Typography>
-													<Typography className={'data'}>{property?.propertyBeds}</Typography>
-												</Box>
+													<Typography className={'title'}>Project Type</Typography>
+													<Typography className={'data'}>{project?.projectType}</Typography>
+												</Box>										
 											</Stack>
 											<Stack className={'right'}>
-												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Year Built</Typography>
-													<Typography className={'data'}>{moment(property?.createdAt).format('YYYY')}</Typography>
+											   <Box component={'div'} className={'info'}>
+													<Typography className={'title'}>Project Style</Typography>
+													<Typography className={'data'}>{project?.projectStyle}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Property Type</Typography>
-													<Typography className={'data'}>{property?.propertyType}</Typography>
-												</Box>
-												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Property Options</Typography>
+													<Typography className={'title'}>Project Options</Typography>
 													<Typography className={'data'}>
-														For {property?.propertyBarter && 'Barter'} {property?.propertyRent && 'Rent'}
+														For {project?.projectCollaboration && 'Collaboration'} {project?.projectPublic && 'Public'}
 													</Typography>
 												</Box>
 											</Stack>
 										</Stack>
 									</Stack>
 								</Stack>
-								<Stack className={'floor-plans-config'}>
-									<Typography className={'title'}>Floor Plans</Typography>
-									<Stack className={'image-box'}>
-										<img src={'/img/property/floorPlan.png'} alt={'image'} />
-									</Stack>
-								</Stack>
-								<Stack className={'address-config'}>
-									<Typography className={'title'}>Address</Typography>
-									<Stack className={'map-box'}>
-										<iframe
-											src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25867.098915951767!2d128.68632810247993!3d35.86402299180927!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x35660bba427bf179%3A0x1fc02da732b9072f!2sGeumhogangbyeon-ro%2C%20Dong-gu%2C%20Daegu!5e0!3m2!1suz!2skr!4v1695537640704!5m2!1suz!2skr"
-											width="100%"
-											height="100%"
-											style={{ border: 0 }}
-											allowFullScreen={true}
-											loading="lazy"
-											referrerPolicy="no-referrer-when-downgrade"
-										></iframe>
-									</Stack>
-								</Stack>
+								
 								{commentTotal !== 0 && (
 									<Stack className={'reviews-config'}>
 										<Stack className={'filter-box'}>
@@ -364,11 +304,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 														</clipPath>
 													</defs>
 												</svg>
-												<Typography className={'reviews'}>{commentTotal} reviews</Typography>
+												<Typography className={'reviews'}>{commentTotal} comments</Typography>
 											</Stack>
 										</Stack>
 										<Stack className={'review-list'}>
-											{propertyComments?.map((comment: Comment) => {
+											{projectComments?.map((comment: Comment) => {
 												return <Review comment={comment} key={comment?._id} />;
 											})}
 											<Box component={'div'} className={'pagination-box'}>
@@ -384,8 +324,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									</Stack>
 								)}
 								<Stack className={'leave-review-config'}>
-									<Typography className={'main-title'}>Leave A Review</Typography>
-									<Typography className={'review-title'}>Review</Typography>
+									<Typography className={'main-title'}>Leave a Comment</Typography>
+									<Typography className={'review-title'}>Comment</Typography>
 									<textarea
 										onChange={({ target: { value } }: any) => {
 											setInsertCommentData({ ...insertCommentData, commentContent: value });
@@ -397,7 +337,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											className={'submit-review'}
 											disabled={insertCommentData.commentContent === '' || user?._id === ''}
 										>
-											<Typography className={'title'}>Submit Review</Typography>
+											<Typography className={'title'}>Leave Comment</Typography>
 											<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
 												<g clipPath="url(#clip0_6975_3642)">
 													<path
@@ -417,19 +357,19 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							</Stack>
 							<Stack className={'right-config'}>
 								<Stack className={'info-box'}>
-									<Typography className={'main-title'}>Get More Information</Typography>
+									<Typography className={'main-title'}>Project Owner</Typography>
 									<Stack className={'image-info'}>
 										<img
 											className={'member-image'}
 											src={
-												property?.memberData?.memberImage
-													? `${REACT_APP_API_URL}/${property?.memberData?.memberImage}`
+												project?.memberData?.memberImage
+													? `${REACT_APP_API_URL}/${project?.memberData?.memberImage}`
 													: '/img/profile/defaultUser.svg'
 											}
 										/>
 										<Stack className={'name-phone-listings'}>
-											<Link href={`/member?memberId=${property?.memberData?._id}`}>
-												<Typography className={'name'}>{property?.memberData?.memberNick}</Typography>
+											<Link href={`/member?memberId=${project?.memberData?._id}`}>
+												<Typography className={'name'}>{project?.memberData?.memberNick}</Typography>
 											</Link>
 											<Stack className={'phone-number'}>
 												<svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
@@ -445,9 +385,9 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 														</clipPath>
 													</defs>
 												</svg>
-												<Typography className={'number'}>{property?.memberData?.memberPhone}</Typography>
+												<Typography className={'number'}>{project?.memberData?.memberPhone}</Typography>
 											</Stack>
-											<Typography className={'listings'}>View Listings</Typography>
+											<Typography className={'listings'}>Projects Posted</Typography>
 										</Stack>
 									</Stack>
 								</Stack>
@@ -487,11 +427,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								</Stack>
 							</Stack>
 						</Stack>
-						{destinationProperty.length !== 0 && (
+						{destinationProject.length !== 0 && (
 							<Stack className={'similar-properties-config'}>
 								<Stack className={'title-pagination-box'}>
 									<Stack className={'title-box'}>
-										<Typography className={'main-title'}>Destination Property</Typography>
+										<Typography className={'main-title'}>Destination Project</Typography>
 										<Typography className={'sub-title'}>Aliquam lacinia diam quis lacus euismod</Typography>
 									</Stack>
 									<Stack className={'pagination-box'}>
@@ -514,10 +454,10 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											el: '.swiper-similar-pagination',
 										}}
 									>
-										{destinationProperty.map((property: Property) => {
+										{destinationProject.map((project: Project) => {
 											return (
-												<SwiperSlide className={'similar-homes-slide'} key={property.propertyTitle}>
-													<PropertyBigCard property={property} key={property?._id} />
+												<SwiperSlide className={'similar-homes-slide'} key={project.projectTitle}>
+													<ProjectBigCard project={project} key={project?._id} />
 												</SwiperSlide>
 											);
 										})}
@@ -532,7 +472,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	}
 };
 
-PropertyDetail.defaultProps = {
+ProjectDetail.defaultProps = {
 	initialComment: {
 		page: 1,
 		limit: 5,
@@ -544,4 +484,4 @@ PropertyDetail.defaultProps = {
 	},
 };
 
-export default withLayoutFull(PropertyDetail);
+export default withLayoutFull(ProjectDetail);

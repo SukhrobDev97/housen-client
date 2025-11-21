@@ -8,16 +8,17 @@ import { Box, Button, Pagination, Stack, Typography } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { Property } from '../../libs/types/property/property';
+import { Project } from '../../libs/types/property/property';
 import { Member } from '../../libs/types/member/member';
 import { sweetErrorHandling } from '../../libs/sweetAlert';
 import { userVar } from '../../apollo/store';
-import { PropertiesInquiry } from '../../libs/types/property/property.input';
+import { ProjectsInquiry } from '../../libs/types/property/property.input';
 import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
 import { Comment } from '../../libs/types/comment/comment';
 import { CommentGroup } from '../../libs/enums/comment.enum';
 import { REACT_APP_API_URL } from '../../libs/config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import ProjectBigCard from '../../libs/components/common/PropertyBigCard';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -30,10 +31,10 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const [mbId, setMbId] = useState<string | null>(null);
-	const [agent, setAgent] = useState<Member | null>(null);
-	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(initialInput);
-	const [agentProperties, setAgentProperties] = useState<Property[]>([]);
-	const [propertyTotal, setPropertyTotal] = useState<number>(0);
+	const [agency, setAgency] = useState<Member | null>(null);
+	const [searchFilter, setSearchFilter] = useState<ProjectsInquiry>(initialInput);
+	const [agencyProjects, setAgencyProjects] = useState<Project[]>([]);
+	const [projectTotal, setProjectTotal] = useState<number>(0);
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
 	const [agentComments, setAgentComments] = useState<Comment[]>([]);
 	const [commentTotal, setCommentTotal] = useState<number>(0);
@@ -62,7 +63,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		}
 	};
 
-	const propertyPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
+	const projectPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
 		searchFilter.page = value;
 		setSearchFilter({ ...searchFilter });
 	};
@@ -80,54 +81,54 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	};
 
 	if (device === 'mobile') {
-		return <div>AGENT DETAIL PAGE MOBILE</div>;
+		return <div>AGENCY DETAIL PAGE MOBILE</div>;
 	} else {
 		return (
 			<Stack className={'agent-detail-page'}>
 				<Stack className={'container'}>
 					<Stack className={'agent-info'}>
 						<img
-							src={agent?.memberImage ? `${REACT_APP_API_URL}/${agent?.memberImage}` : '/img/profile/defaultUser.svg'}
+							src={agency?.memberImage ? `${REACT_APP_API_URL}/${agency?.memberImage}` : '/img/profile/defaultUser.svg'}
 							alt=""
 						/>
-						<Box component={'div'} className={'info'} onClick={() => redirectToMemberPageHandler(agent?._id as string)}>
-							<strong>{agent?.memberFullName ?? agent?.memberNick}</strong>
+						<Box component={'div'} className={'info'} onClick={() => redirectToMemberPageHandler(agency?._id as string)}>
+							<strong>{agency?.memberFullName ?? agency?.memberNick}</strong>
 							<div>
 								<img src="/img/icons/call.svg" alt="" />
-								<span>{agent?.memberPhone}</span>
+								<span>{agency?.memberPhone}</span>
 							</div>
 						</Box>
 					</Stack>
 					<Stack className={'agent-home-list'}>
 						<Stack className={'card-wrap'}>
-							{agentProperties.map((property: Property) => {
+							{agencyProjects.map((project: Project) => {
 								return (
-									<div className={'wrap-main'} key={property?._id}>
-										<PropertyBigCard property={property} key={property?._id} />
+									<div className={'wrap-main'} key={project?._id}>
+										<ProjectBigCard project={project} key={project?._id} />
 									</div>
 								);
 							})}
 						</Stack>
 						<Stack className={'pagination'}>
-							{propertyTotal ? (
+							{projectTotal ? (
 								<>
 									<Stack className="pagination-box">
 										<Pagination
 											page={searchFilter.page}
-											count={Math.ceil(propertyTotal / searchFilter.limit) || 1}
-											onChange={propertyPaginationChangeHandler}
+											count={Math.ceil(projectTotal / searchFilter.limit) || 1}
+											onChange={projectPaginationChangeHandler}
 											shape="circular"
 											color="primary"
 										/>
 									</Stack>
 									<span>
-										Total {propertyTotal} propert{propertyTotal > 1 ? 'ies' : 'y'} available
+										Total {projectTotal} project{projectTotal > 1 ? 'ies' : 'y'} available
 									</span>
 								</>
 							) : (
 								<div className={'no-data'}>
 									<img src="/img/icons/icoAlert.svg" alt="" />
-									<p>No properties found!</p>
+									<p>No projects available!</p>
 								</div>
 							)}
 						</Stack>

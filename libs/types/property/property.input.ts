@@ -1,13 +1,13 @@
 import { Direction } from '../../enums/common.enum';
 import { ProjectStatus, ProjectStyle, ProjectType } from '../../enums/property.enum';
 
-export interface ProjetInput {
+export interface ProjectInput {
 	projectType: ProjectType;
 	projectStyle: ProjectStyle;
-	
+	projectPrice: number;
 	projectTitle: string;
 	projectDuration: number;
-	propertyImages: string[];
+	projectImages: string[];
 	projectDesc?: string;
 	projectCollaboration?: boolean;
 	projectPublic?: boolean;

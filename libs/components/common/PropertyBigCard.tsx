@@ -3,7 +3,7 @@ import { Stack, Box, Divider, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { Property } from '../../types/property/property';
+import { Project } from '../../types/property/property';
 import { REACT_APP_API_URL } from '../../config';
 import { formatterStr } from '../../utils';
 import { useReactiveVar } from '@apollo/client';
@@ -11,81 +11,77 @@ import { userVar } from '../../../apollo/store';
 import { useRouter } from 'next/router';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
-interface PropertyBigCardProps {
-	property: Property;
+interface ProjectBigCardProps {
+	project: Project;
 }
 
-const PropertyBigCard = (props: PropertyBigCardProps) => {
-	const { property } = props;
+const ProjectBigCard = (props: ProjectBigCardProps) => {
+	const { project } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const router = useRouter();
 
 	/** HANDLERS **/
-	const goPropertyDetatilPage = (propertyId: string) => {
-		router.push(`/property/detail?id=${propertyId}`);
+	const goProjectDetatilPage = (projectId: string) => {
+		router.push(`/property/detail?id=${projectId}`);
 	};
 
 	if (device === 'mobile') {
-		return <div>APARTMEND BIG CARD</div>;
+		return <div>PROJECT BIG CARD</div>;
 	} else {
 		return (
-			<Stack className="property-big-card-box" onClick={() => goPropertyDetatilPage(property?._id)}>
+			<Stack className="property-big-card-box" onClick={() => goProjectDetatilPage(project?._id)}>
 				<Box
 					component={'div'}
 					className={'card-img'}
-					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.propertyImages?.[0]})` }}
+					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${project?.projectImages?.[0]})` }}
 				>
-					{property?.propertyRank && property?.propertyRank >= 50 && (
+					{project?.projectRank && project?.projectRank >= 50 && (
 						<div className={'status'}>
 							<img src="/img/icons/electricity.svg" alt="" />
-							<span>top</span>
+							<span>best</span>
 						</div>
 					)}
 
-					<div className={'price'}>${formatterStr(property?.propertyPrice)}</div>
+					<div className={'price'}>${formatterStr(project?.projectPrice)}</div>
 				</Box>
 				<Box component={'div'} className={'info'}>
-					<strong className={'title'}>{property?.propertyTitle}</strong>
-					<p className={'desc'}>{property?.propertyAddress}</p>
+					<strong className={'title'}>{project?.projectTitle}</strong>
+					<p className={'desc'}>{project?.projectDesc}</p>
 					<div className={'options'}>
 						<div>
 							<img src="/img/icons/bed.svg" alt="" />
-							<span>{property?.propertyBeds} bed</span>
+							<span>{project?.projectType} type</span>
 						</div>
 						<div>
 							<img src="/img/icons/room.svg" alt="" />
-							<span>{property?.propertyRooms} rooms</span>
-						</div>
-						<div>
-							<img src="/img/icons/expand.svg" alt="" />
-							<span>{property?.propertySquare} m2</span>
+							<span>{project?.projectDuration} months</span>
 						</div>
 					</div>
 					<Divider sx={{ mt: '15px', mb: '17px' }} />
 					<div className={'bott'}>
 						<div>
-							{property?.propertyRent ? <p>Rent</p> : <span>Rent</span>}
-							{property?.propertyBarter ? <p>Barter</p> : <span>Barter</span>}
+							{project?.projectPublic ? <p>Rent</p> : <span>Public</span>}
+							{project?.projectCollaboration ? <p>Barter</p> : <span>Collaboration</span>}
 						</div>
 						<div className="buttons-box">
 							<IconButton color={'default'}>
 								<RemoveRedEyeIcon />
 							</IconButton>
-							<Typography className="view-cnt">{property?.propertyViews}</Typography>
+							<Typography className="view-cnt">{project?.projectViews}</Typography>
 							<IconButton
 								color={'default'}
-								onClick={(e) => {
+								onClick={(e: any) => {
 									e.stopPropagation();
 								}}
 							>
-								{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
+								{project?.meLiked && project?.meLiked[0]?.myFavorite ? (
 									<FavoriteIcon style={{ color: 'red' }} />
 								) : (
 									<FavoriteIcon />
 								)}
 							</IconButton>
-							<Typography className="view-cnt">{property?.propertyLikes}</Typography>
+							<Typography className="view-cnt">{project?.projectLikes}</Typography>
 						</div>
 					</div>
 				</Box>
@@ -94,4 +90,4 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 	}
 };
 
-export default PropertyBigCard;
+export default ProjectBigCard;

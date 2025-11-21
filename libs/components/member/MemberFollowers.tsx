@@ -46,7 +46,7 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>NESTAR FOLLOWS MOBILE</div>;
+		return <div>HOUSEN FOLLOWS MOBILE</div>;
 	} else {
 		return (
 			<div id="member-follows-page">
@@ -64,7 +64,7 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 					{memberFollowers?.length === 0 && (
 						<div className={'no-data'}>
 							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Followers yet!</p>
+							<p>No followers available!</p>
 						</div>
 					)}
 					{memberFollowers.map((follower: Follower) => {

@@ -4,9 +4,9 @@ import { gql } from '@apollo/client';
  *         MEMBER         *
  *************************/
 
-export const GET_AGENTS = gql`
-	query GetAgents($input: AgentsInquiry!) {
-		getAgents(input: $input) {
+export const GET_AGENCIES = gql`
+	query GetAgencies($input: AgenciesInquiry!) {
+		getAgencies(input: $input) {
 			list {
 				_id
 				memberType
@@ -20,7 +20,7 @@ export const GET_AGENTS = gql`
 				memberDesc
 				memberWarnings
 				memberBlocks
-				memberProperties
+				memberProjects
 				memberRank
 				memberPoints
 				memberLikes
@@ -55,7 +55,7 @@ query GetMember($input: String!) {
         memberImage
         memberAddress
         memberDesc
-        memberProperties
+        memberProjects
         memberArticles
         memberPoints
         memberLikes
@@ -82,25 +82,20 @@ query GetMember($input: String!) {
  *        PROPERTY        *
  *************************/
 
-export const GET_PROPERTY = gql`
-	query GetProperty($input: String!) {
-		getProperty(propertyId: $input) {
+export const GET_PROJECT = gql`
+	query GetProject($input: String!) {
+		getProject(projectId: $input) {
 			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
+			projectType
+			projectStatus
+			projectStyle
+			projectTitle
+			projectPrice
+			projectDuration
+			projectImages
+			projectDesc
+			projectCollaboration
+			projectPublic
 			memberId
 			soldAt
 			deletedAt
@@ -137,27 +132,21 @@ export const GET_PROPERTY = gql`
 	}
 `;
 
-export const GET_PROPERTIES = gql`
-	query GetProperties($input: PropertiesInquiry!) {
-		getProperties(input: $input) {
+export const GET_PROJECTS = gql`
+	query GetProjects($input: ProjectsInquiry!) {
+		getProjects(input: $input) {
 			list {
 				_id
-				propertyType
-				propertyStatus
-				propertyLocation
-				propertyAddress
-				propertyTitle
-				propertyPrice
-				propertySquare
-				propertyBeds
-				propertyRooms
-				propertyViews
-				propertyLikes
-				propertyRank
-				propertyImages
-				propertyDesc
-				propertyBarter
-				propertyRent
+				projectType
+				projectStatus
+				projectStyle
+				projectTitle
+				projectPrice
+				projectDuration
+				projectImages
+				projectDesc
+				projectCollaboration
+				projectPublic
 				memberId
 				soldAt
 				deletedAt
@@ -177,7 +166,7 @@ export const GET_PROPERTIES = gql`
 					memberDesc
 					memberWarnings
 					memberBlocks
-					memberProperties
+					memberProjects
 					memberRank
 					memberPoints
 					memberLikes
@@ -199,26 +188,21 @@ export const GET_PROPERTIES = gql`
 	}
 `;
 
-export const GET_AGENT_PROPERTIES = gql`
-	query GetAgentProperties($input: AgentPropertiesInquiry!) {
-		getAgentProperties(input: $input) {
+export const GET_AGENT_PROJECTS = gql`
+	query GetAgentProjects($input: AgentProjectsInquiry!) {
+		getAgentProjects(input: $input) {
 			list {
 				_id
-				propertyType
-				propertyStatus
-				propertyLocation
-				propertyAddress
-				propertyTitle
-				propertyPrice
-				propertySquare
-				propertyBeds
-				propertyRooms
-				propertyViews
-				propertyLikes
-				propertyImages
-				propertyDesc
-				propertyBarter
-				propertyRent
+				projectType
+				projectStatus
+				projectStyle
+				projectTitle
+				projectPrice
+				projectDuration
+				projectImages
+				projectDesc
+				projectCollaboration
+				projectPublic
 				memberId
 				soldAt
 				deletedAt
@@ -238,23 +222,16 @@ export const GET_FAVORITES = gql`
 		getFavorites(input: $input) {
 			list {
 				_id
-				propertyType
-				propertyStatus
-				propertyLocation
-				propertyAddress
-				propertyTitle
-				propertyPrice
-				propertySquare
-				propertyBeds
-				propertyRooms
-				propertyViews
-				propertyLikes
-				propertyComments
-				propertyRank
-				propertyImages
-				propertyDesc
-				propertyBarter
-				propertyRent
+				projectType	
+				projectStatus
+				projectStyle
+				projectTitle
+				projectPrice
+				projectDuration
+				projectImages
+				projectDesc
+				projectCollaboration
+				projectPublic
 				memberId
 				soldAt
 				deletedAt
@@ -272,7 +249,7 @@ export const GET_FAVORITES = gql`
 					memberImage
 					memberAddress
 					memberDesc
-					memberProperties
+					memberProjects
 					memberArticles
 					memberPoints
 					memberLikes
@@ -301,23 +278,16 @@ export const GET_VISITED = gql`
 		getVisited(input: $input) {
 			list {
 				_id
-				propertyType
-				propertyStatus
-				propertyLocation
-				propertyAddress
-				propertyTitle
-				propertyPrice
-				propertySquare
-				propertyBeds
-				propertyRooms
-				propertyViews
-				propertyLikes
-				propertyComments
-				propertyRank
-				propertyImages
-				propertyDesc
-				propertyBarter
-				propertyRent
+				projectType
+				projectStatus
+				projectStyle
+				projectTitle
+				projectPrice
+				projectDuration
+				projectImages
+				projectDesc
+				projectCollaboration
+				projectPublic
 				memberId
 				soldAt
 				deletedAt
@@ -335,7 +305,7 @@ export const GET_VISITED = gql`
 					memberImage
 					memberAddress
 					memberDesc
-					memberProperties
+					memberProjects
 					memberArticles
 					memberPoints
 					memberLikes
@@ -391,7 +361,7 @@ export const GET_BOARD_ARTICLE = gql`
 				memberDesc
 				memberWarnings
 				memberBlocks
-				memberProperties
+				memberProjects
 				memberRank
 				memberPoints
 				memberLikes
@@ -443,7 +413,7 @@ export const GET_BOARD_ARTICLES = gql`
 					memberDesc
 					memberWarnings
 					memberBlocks
-					memberProperties
+					memberProjects
 					memberRank
 					memberPoints
 					memberLikes
@@ -489,7 +459,7 @@ export const GET_COMMENTS = gql`
 					memberDesc
 					memberWarnings
 					memberBlocks
-					memberProperties
+					memberProjects
 					memberRank
 					memberPoints
 					memberLikes
@@ -540,7 +510,7 @@ export const GET_MEMBER_FOLLOWERS = gql`
 					memberImage
 					memberAddress
 					memberDesc
-					memberProperties
+					memberProjects
 					memberArticles
 					memberPoints
 					memberLikes
@@ -583,7 +553,7 @@ export const GET_MEMBER_FOLLOWINGS = gql`
 					memberImage
 					memberAddress
 					memberDesc
-					memberProperties
+					memberProjects
 					memberArticles
 					memberPoints
 					memberLikes

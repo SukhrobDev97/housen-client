@@ -13,7 +13,7 @@ export interface TotalCounter {
 
 export interface Project {
 	_id: string;
-	propertyType: ProjectType;
+	projectType: ProjectType;
 	projectStatus: ProjectStatus;
 	projectStyle: ProjectStyle;
 	projectTitle: string;

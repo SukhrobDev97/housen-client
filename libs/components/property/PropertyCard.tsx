@@ -28,7 +28,7 @@ const ProjectCard = (props: ProjectCardType) => {
 		: '/img/banner/header1.svg';
 
 	if (device === 'mobile') {
-		return <div>PROJECTCARD CARD</div>;
+		return <div>PROJECT CARD</div>;
 	} else {
 		return (
 			<Stack className="card-config">

@@ -3,19 +3,19 @@ import { Stack, Box, Divider, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { Property } from '../../types/property/property';
+import { Project } from '../../types/property/property';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { REACT_APP_API_URL } from '../../config';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 
-interface TrendPropertyCardProps {
-	property: Property;
+interface TrendProjectCardProps {
+	project: Project;
 }
 
-const TrendPropertyCard = (props: TrendPropertyCardProps) => {
-	const { property } = props;
+const TrendProjectCard = (props: TrendProjectCardProps) => {
+	const { project } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
@@ -24,50 +24,47 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 
 	if (device === 'mobile') {
 		return (
-			<Stack className="trend-card-box" key={property._id}>
+			<Stack className="trend-card-box" key={project._id}>
 				<Box
 					component={'div'}
 					className={'card-img'}
-					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.propertyImages[0]})` }}
+					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${project?.projectImages[0]})` }}
 				>
-					<div>${property.propertyPrice}</div>
+					<div>${project.projectPrice}</div>
 				</Box>
 				<Box component={'div'} className={'info'}>
-					<strong className={'title'}>{property.propertyTitle}</strong>
-					<p className={'desc'}>{property.propertyDesc ?? 'no description'}</p>
+					<strong className={'title'}>{project.projectTitle}</strong>
+					<p className={'desc'}>{project.projectDesc ?? 'no description'}</p>
 					<div className={'options'}>
 						<div>
 							<img src="/img/icons/bed.svg" alt="" />
-							<span>{property.propertyBeds} bed</span>
+							<span>{project.projectStyle} style</span>
 						</div>
 						<div>
 							<img src="/img/icons/room.svg" alt="" />
-							<span>{property.propertyRooms} rooms</span>
+							<span>{project.projectDuration} months</span>
 						</div>
-						<div>
-							<img src="/img/icons/expand.svg" alt="" />
-							<span>{property.propertySquare} m2</span>
-						</div>
+						
 					</div>
 					<Divider sx={{ mt: '15px', mb: '17px' }} />
 					<div className={'bott'}>
 						<p>
-							{property.propertyRent ? 'Rent' : ''} {property.propertyRent && property.propertyBarter && '/'}{' '}
-							{property.propertyBarter ? 'Barter' : ''}
+							{project.projectCollaboration ? 'Collaboration' : ''} {project.projectCollaboration && project.projectPublic && '/'}{' '}
+							{project.projectPublic ? 'Public' : ''}
 						</p>
 						<div className="view-like-box">
 							<IconButton color={'default'}>
 								<RemoveRedEyeIcon />
 							</IconButton>
-							<Typography className="view-cnt">{property?.propertyViews}</Typography>
+							<Typography className="view-cnt">{project?.projectViews}</Typography>
 							<IconButton color={'default'}>
-								{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
+								{project?.meLiked && project?.meLiked[0]?.myFavorite ? (
 									<FavoriteIcon style={{ color: 'red' }} />
 								) : (
 									<FavoriteIcon />
 								)}
 							</IconButton>
-							<Typography className="view-cnt">{property?.propertyLikes}</Typography>
+							<Typography className="view-cnt">{project?.projectLikes}</Typography>
 						</div>
 					</div>
 				</Box>
@@ -75,50 +72,46 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 		);
 	} else {
 		return (
-			<Stack className="trend-card-box" key={property._id}>
+			<Stack className="trend-card-box" key={project._id}>
 				<Box
 					component={'div'}
 					className={'card-img'}
-					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.propertyImages[0]})` }}
+					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${project?.projectImages[0]})` }}
 				>
-					<div>${property.propertyPrice}</div>
+					<div>${project.projectPrice}</div>
 				</Box>
 				<Box component={'div'} className={'info'}>
-					<strong className={'title'}>{property.propertyTitle}</strong>
-					<p className={'desc'}>{property.propertyDesc ?? 'no description'}</p>
+					<strong className={'title'}>{project.projectTitle}</strong>
+					<p className={'desc'}>{project.projectDesc ?? 'no description'}</p>
 					<div className={'options'}>
 						<div>
 							<img src="/img/icons/bed.svg" alt="" />
-							<span>{property.propertyBeds} bed</span>
+							<span>{project.projectStyle} style</span>
 						</div>
 						<div>
 							<img src="/img/icons/room.svg" alt="" />
-							<span>{property.propertyRooms} rooms</span>
-						</div>
-						<div>
-							<img src="/img/icons/expand.svg" alt="" />
-							<span>{property.propertySquare} m2</span>
+							<span>{project.projectDuration} months</span>
 						</div>
 					</div>
 					<Divider sx={{ mt: '15px', mb: '17px' }} />
 					<div className={'bott'}>
 						<p>
-							{property.propertyRent ? 'Rent' : ''} {property.propertyRent && property.propertyBarter && '/'}{' '}
-							{property.propertyBarter ? 'Barter' : ''}
+							{project.projectCollaboration ? 'Collaboration' : ''} {project.projectCollaboration && project.projectPublic && '/'}{' '}
+							{project.projectPublic ? 'Public' : ''}
 						</p>
 						<div className="view-like-box">
 							<IconButton color={'default'}>
 								<RemoveRedEyeIcon />
 							</IconButton>
-							<Typography className="view-cnt">{property?.propertyViews}</Typography>
+							<Typography className="view-cnt">{project?.projectViews}</Typography>
 							<IconButton color={'default'}>
-								{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
+								{project?.meLiked && project?.meLiked[0]?.myFavorite ? (
 									<FavoriteIcon style={{ color: 'red' }} />
 								) : (
 									<FavoriteIcon />
 								)}
 							</IconButton>
-							<Typography className="view-cnt">{property?.propertyLikes}</Typography>
+							<Typography className="view-cnt">{project?.projectLikes}</Typography>
 						</div>
 					</div>
 				</Box>
@@ -127,4 +120,4 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 	}
 };
 
-export default TrendPropertyCard;
+export default TrendProjectCard;
