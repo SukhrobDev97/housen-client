@@ -1,21 +1,17 @@
-import { PropertyLocation, PropertyStatus, PropertyType } from '../../enums/property.enum';
+import { ProjectStatus, ProjectStyle, ProjectType } from '../../enums/property.enum';
 
-export interface PropertyUpdate {
+export interface ProjectUpdate {
 	_id: string;
-	propertyType?: PropertyType;
-	propertyStatus?: PropertyStatus;
-	propertyLocation?: PropertyLocation;
-	propertyAddress?: string;
-	propertyTitle?: string;
-	propertyPrice?: number;
-	propertySquare?: number;
-	propertyBeds?: number;
-	propertyRooms?: number;
-	propertyImages?: string[];
-	propertyDesc?: string;
-	propertyBarter?: boolean;
-	propertyRent?: boolean;
-	soldAt?: Date;
+	projectType?: ProjectType;
+	projectStatus?: ProjectStatus;
+	projectStyle?: ProjectStyle;
+	projectDuration?: string;
+	projectTitle?: string;
+	projectPrice?: number;
+	projectImages?: string[];
+	projectDesc?: string;
+	projectCollaboration?: boolean;
+	projectRent?: boolean;
 	deletedAt?: Date;
 	constructedAt?: Date;
 }

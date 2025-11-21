@@ -1,23 +1,21 @@
-export enum PropertyType {
-	APARTMENT = 'APARTMENT',
-	VILLA = 'VILLA',
-	HOUSE = 'HOUSE',
+export enum ProjectType {
+	RESIDENTIAL = 'RESIDENTIAL',
+	COMMERCIAL = 'COMMERCIAL',
+	OFFICE = 'OFFICE',
+	ENTERTAINMENT = 'ENTERTAINMENT'
 }
 
-export enum PropertyStatus {
+export enum ProjectStatus {
 	ACTIVE = 'ACTIVE',
-	SOLD = 'SOLD',
+	COMPLETED = 'COMPLETED',
 	DELETE = 'DELETE',
 }
 
-export enum PropertyLocation {
-	SEOUL = 'SEOUL',
-	BUSAN = 'BUSAN',
-	INCHEON = 'INCHEON',
-	DAEGU = 'DAEGU',
-	GYEONGJU = 'GYEONGJU',
-	GWANGJU = 'GWANGJU',
-	CHONJU = 'CHONJU',
-	DAEJON = 'DAEJON',
-	JEJU = 'JEJU',
+export enum ProjectStyle {
+	MODERN = 'MODERN',
+	MINIMAL = 'MINIMAL',
+	CLASSIC = 'CLASSIC',
+	TRADITIONAL = 'TRADITIONAL',
+	INDUSTRIAL = 'INDUSTRIAL',
+	SCANDINAVIAN = 'SCANDINAVIAN',
 }

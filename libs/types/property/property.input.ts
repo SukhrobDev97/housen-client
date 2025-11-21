@@ -1,37 +1,30 @@
-import { PropertyLocation, PropertyStatus, PropertyType } from '../../enums/property.enum';
 import { Direction } from '../../enums/common.enum';
+import { ProjectStatus, ProjectStyle, ProjectType } from '../../enums/property.enum';
 
-export interface PropertyInput {
-	propertyType: PropertyType;
-	propertyLocation: PropertyLocation;
-	propertyAddress: string;
-	propertyTitle: string;
-	propertyPrice: number;
-	propertySquare: number;
-	propertyBeds: number;
-	propertyRooms: number;
+export interface ProjetInput {
+	projectType: ProjectType;
+	projectStyle: ProjectStyle;
+	
+	projectTitle: string;
+	projectDuration: number;
 	propertyImages: string[];
-	propertyDesc?: string;
-	propertyBarter?: boolean;
-	propertyRent?: boolean;
+	projectDesc?: string;
+	projectCollaboration?: boolean;
+	projectPublic?: boolean;
 	memberId?: string;
-	constructedAt?: Date;
 }
 
 interface PISearch {
 	memberId?: string;
-	locationList?: PropertyLocation[];
-	typeList?: PropertyType[];
-	roomsList?: Number[];
+	projectStyleList?: ProjectStyle[];
+	typeList?: ProjectType[];
 	options?: string[];
-	bedsList?: Number[];
 	pricesRange?: Range;
 	periodsRange?: PeriodsRange;
-	squaresRange?: Range;
 	text?: string;
 }
 
-export interface PropertiesInquiry {
+export interface ProjectsInquiry {
 	page: number;
 	limit: number;
 	sort?: string;
@@ -40,10 +33,10 @@ export interface PropertiesInquiry {
 }
 
 interface APISearch {
-	propertyStatus?: PropertyStatus;
+	projectStatus?: ProjectStatus;
 }
 
-export interface AgentPropertiesInquiry {
+export interface AgencyProjectsInquiry {
 	page: number;
 	limit: number;
 	sort?: string;
@@ -52,11 +45,11 @@ export interface AgentPropertiesInquiry {
 }
 
 interface ALPISearch {
-	propertyStatus?: PropertyStatus;
-	propertyLocationList?: PropertyLocation[];
+	projectStatus?: ProjectStatus;
+	projectStyleList?: ProjectStyle[];
 }
 
-export interface AllPropertiesInquiry {
+export interface AllProjectsInquiry {
 	page: number;
 	limit: number;
 	sort?: string;

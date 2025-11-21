@@ -1,4 +1,4 @@
-import { PropertyLocation, PropertyStatus, PropertyType } from '../../enums/property.enum';
+import { ProjectStatus, ProjectStyle, ProjectType } from '../../enums/property.enum';
 import { Member } from '../member/member';
 
 export interface MeLiked {
@@ -11,27 +11,23 @@ export interface TotalCounter {
 	total: number;
 }
 
-export interface Property {
+export interface Project {
 	_id: string;
-	propertyType: PropertyType;
-	propertyStatus: PropertyStatus;
-	propertyLocation: PropertyLocation;
-	propertyAddress: string;
-	propertyTitle: string;
-	propertyPrice: number;
-	propertySquare: number;
-	propertyBeds: number;
-	propertyRooms: number;
-	propertyViews: number;
-	propertyLikes: number;
-	propertyComments: number;
-	propertyRank: number;
-	propertyImages: string[];
-	propertyDesc?: string;
-	propertyBarter: boolean;
-	propertyRent: boolean;
+	propertyType: ProjectType;
+	projectStatus: ProjectStatus;
+	projectStyle: ProjectStyle;
+	projectTitle: string;
+	projectPrice: number;
+	projectDuration: number;
+	projectViews: number;
+	projectLikes: number;
+	projectComments: number;
+	projectRank: number;
+	projectImages: string[];
+	projectDesc?: string;
+	projectCollaboration: boolean;
+	projectPublic: boolean;
 	memberId: string;
-	soldAt?: Date;
 	deletedAt?: Date;
 	constructedAt?: Date;
 	createdAt: Date;
@@ -41,7 +37,7 @@ export interface Property {
 	memberData?: Member;
 }
 
-export interface Properties {
-	list: Property[];
+export interface Projects {
+	list: Project[];
 	metaCounter: TotalCounter[];
 }
