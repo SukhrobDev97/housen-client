@@ -11,10 +11,13 @@ const HeroSection = () => {
 		'/img/banner/header1.jpg',
 		'/img/banner/header2.jpg',
 		'/img/banner/header3.jpg',
-		'/img/banner/header1.jpg',
-		'/img/banner/header2.jpg',
-		'/img/banner/header3.jpg',
-		'/img/banner/header1.jpg',
+		'/img/banner/real-estate-6893060.jpg',
+		'/img/banner/cafe-5755763_1920.jpg',
+		'/img/banner/kitchen1.jpg',
+		'/img/banner/scandinavin.jpg',
+		'/img/banner/residential.webp',
+		'/img/banner/comercial.webp',
+		'/img/banner/entertainment.webp',
 	];
 
 	const [activeSlide, setActiveSlide] = useState(0);
@@ -166,7 +169,10 @@ const HeroSection = () => {
 					</Stack>
 					<Link href={'/agent'}>
 						<div className={'circular-text-container'}>
-							<div className={'circular-image'}>
+							<div 
+								className={'circular-image'}
+								style={{ backgroundImage: `url('/img/banner/header1.jpg')` }}
+							>
 								<div className={'circular-star-icon'}>
 									<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<path d="M7 0L8.63 5.26L14 5.26L9.68 8.51L11.32 13.77L7 10.51L2.68 13.77L4.32 8.51L0 5.26L5.37 5.26L7 0Z" fill="#FFFFFF" />

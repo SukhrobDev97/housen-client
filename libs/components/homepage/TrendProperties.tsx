@@ -9,6 +9,9 @@ import { Project } from '../../types/property/property';
 import { ProjectsInquiry } from '../../types/property/property.input';
 import TrendPropertyCard from './TrendPropertyCard';
 import TrendProjectCard from './TrendPropertyCard';
+import { GET_PROJECTS } from '../../../apollo/user/query';
+import { useQuery } from '@apollo/client';
+import { T } from '../../types/common';
 
 interface TrendProjectsProps {
 	initialInput: ProjectsInquiry;
@@ -20,6 +23,19 @@ const TrendProjects = (props: TrendProjectsProps) => {
 	const [trendProjects, setTrendProjects] = useState<Project[]>([]);
 
 	/** APOLLO REQUESTS **/
+	const {
+		loading: getProjectssLoading,
+		data: getProjectssData,
+		error: getProjectsError,
+		refetch: getProjectsRefetch,
+	  } = useQuery(GET_PROJECTS, {
+		fetchPolicy: 'cache-and-network',
+		variables: { input: initialInput },
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T ) => {
+		  setTrendProjects(data?.getProjects?.list);
+		},
+	  });
 	/** HANDLERS **/
 
 	if (trendProjects) console.log('trendProjects:', trendProjects);

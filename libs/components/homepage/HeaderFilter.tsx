@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Stack, Box, Modal, Divider, Button } from '@mui/material';
+import { Stack, Box, Modal, Divider, Button, Checkbox } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import CloseIcon from '@mui/icons-material/Close';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -154,7 +156,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				<Stack className={'search-box'}>
 					<Stack className={'select-box'}>
 						<Box component={'div'} className={`box ${openStyle ? 'on' : ''}`} onClick={styleStateChangeHandler}>
-							<span>{searchFilter?.search?.projectStyleList ? searchFilter?.search?.projectStyleList[0] : t('Location')} </span>
+							<span>{searchFilter?.search?.projectStyleList ? searchFilter?.search?.projectStyleList[0] : t('Project style')} </span>
 							<ExpandMoreIcon />
 						</Box>
 						<Box className={`box ${openType ? 'on' : ''}`} onClick={typeStateChangeHandler}>
@@ -163,17 +165,31 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 						</Box>
 					</Stack>
 					<Stack className={'search-box-other'}>
-						<Box className={'search-btn'} onClick={pushSearchHandler}>
-							<img src="/img/icons/search_white.svg" alt="" />
+						<Box className={'search-btn white-btn'} onClick={pushSearchHandler}>
+							<span>Search</span>
+							<img src="/img/icons/rightup.svg" alt="" />
 						</Box>
 					</Stack>
 
 					{/*MENU */}
 					<div className={`filter-location ${openStyle ? 'on' : ''}`} ref={locationRef}>
-						{projectStyle.map((location: string) => {
+						{projectStyle.map((location: ProjectStyle) => {
+							const isSelected = searchFilter?.search?.projectStyleList?.some((item: ProjectStyle) => item === location);
 							return (
-								<div onClick={() => projectStyleSelectHandler(location)} key={location}>
-									<img src={`img/banner/cities/${location}.webp`} alt="" />
+								<div 
+									className={`filter-option ${isSelected ? 'selected' : ''}`}
+									onClick={() => projectStyleSelectHandler(location)} 
+									key={location}
+								>
+									<Checkbox
+										checked={isSelected}
+										icon={<RadioButtonUncheckedIcon sx={{ color: '#999', fontSize: 20 }} />}
+										checkedIcon={<CheckCircleIcon sx={{ color: '#1976d2', fontSize: 20 }} />}
+										sx={{ 
+											padding: '4px',
+											'&:hover': { backgroundColor: 'transparent' }
+										}}
+									/>
 									<span>{location}</span>
 								</div>
 							);
@@ -181,13 +197,23 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					</div>
 
 					<div className={`filter-type ${openType ? 'on' : ''}`} ref={typeRef}>
-						{projectType.map((type: string) => {
+						{projectType.map((type: ProjectType) => {
+							const isSelected = searchFilter?.search?.typeList?.some((item: ProjectType) => item === type);
 							return (
 								<div
-									style={{ backgroundImage: `url(/img/banner/types/${type.toLowerCase()}.webp)` }}
+									className={`filter-option ${isSelected ? 'selected' : ''}`}
 									onClick={() => projectTypeSelectHandler(type)}
 									key={type}
 								>
+									<Checkbox
+										checked={isSelected}
+										icon={<RadioButtonUncheckedIcon sx={{ color: '#999', fontSize: 20 }} />}
+										checkedIcon={<CheckCircleIcon sx={{ color: '#1976d2', fontSize: 20 }} />}
+										sx={{ 
+											padding: '4px',
+											'&:hover': { backgroundColor: 'transparent' }
+										}}
+									/>
 									<span>{type}</span>
 								</div>
 							);
