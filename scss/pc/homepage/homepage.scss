@@ -26,13 +26,16 @@
 						}
 					}
 					.pagination-box {
-						.swiper-trend-pagination {
+						.swiper-trend-pagination,
+						.swiper-popular-pagination {
 							span {
 								color: #ffffff;
 							}
 						}
 						.swiper-trend-next,
-						.swiper-trend-prev {
+						.swiper-trend-prev,
+						.swiper-popular-next,
+						.swiper-popular-prev {
 							color: #ffffff;
 							&:hover {
 								color: #b0b0b0;
@@ -44,6 +47,53 @@
 			
 			.trend-properties, .popular-properties, .top-properties, .top-agents, .events, .community-board, .services-section {
 				background-color: #1a1a1a;
+			}
+			
+			.popular-card-box {
+				background: transparent;
+				.info {
+					background: #2a2a2a;
+					box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.3);
+					.title {
+						color: #ffffff;
+					}
+					.project-type {
+						color: #b0b0b0;
+					}
+					.style-duration {
+						.detail-item {
+							span {
+								color: #b0b0b0;
+							}
+							svg {
+								color: #b0b0b0 !important;
+							}
+						}
+					}
+					.price-options-view {
+						border-top: 1px solid rgba(255, 255, 255, 0.1);
+						.price-btn {
+							background: #3a3a3a;
+							color: #ffffff;
+							&:hover {
+								background: #4a4a4a;
+							}
+						}
+						.project-option {
+							color: #b0b0b0;
+						}
+						.view-icon {
+							.view-cnt {
+								color: #b0b0b0;
+							}
+						}
+					}
+				}
+				&:hover {
+					.info {
+						box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.4);
+					}
+				}
 			}
 			
 			.trend-card-box {
@@ -187,6 +237,45 @@
 						}
 					}
 					.swiper-trend-prev {
+						margin-right: 20px;
+						cursor: pointer;
+						color: #181a20;
+						transition: color 0.3s ease;
+						&:hover {
+							color: #666;
+						}
+					}
+					.swiper-popular-pagination {
+						display: flex !important;
+						flex-direction: row;
+						align-items: center;
+						justify-content: center;
+						position: relative !important;
+						width: auto !important;
+						min-width: 60px;
+						height: auto !important;
+						margin: 0 20px !important;
+						visibility: visible !important;
+						opacity: 1 !important;
+						span {
+							color: #181a20;
+							font-family: $font;
+							font-size: 14px;
+							font-style: normal;
+							font-weight: 500;
+							line-height: normal;
+						}
+					}
+					.swiper-popular-next {
+						margin-left: 20px;
+						cursor: pointer;
+						color: #181a20;
+						transition: color 0.3s ease;
+						&:hover {
+							color: #666;
+						}
+					}
+					.swiper-popular-prev {
 						margin-right: 20px;
 						cursor: pointer;
 						color: #181a20;
@@ -428,7 +517,8 @@
 		.popular-properties {
 			padding: 132px 0px 94px;
 			width: 100%;
-			height: 816px;
+			height: auto;
+			min-height: 816px;
 			display: flex;
 			flex-direction: row;
 			background: #f6f6f6;
@@ -444,49 +534,59 @@
 					justify-content: space-between;
 					.popular-property-swiper {
 						width: 100%;
-						height: 425px;
+						height: auto;
 						display: flex;
 						flex-direction: row;
 						.popular-property-slide {
-							width: auto;
+							width: 100%;
 							height: auto;
 							display: flex;
-							margin: 10px 0 10px 10px;
 						}
 					}
 					.popular-card-box {
 						position: relative;
-						width: 400px;
-						height: 425px;
+						width: 100%;
+						max-width: 550px;
+						height: 420px;
 						display: flex;
-						flex-direction: column;
-						transition: transform 0.3s, opacity 0.3s;
+						flex-direction: row;
+						align-items: center;
+						border-radius: 16px;
+						overflow: visible;
+						background: transparent;
+						transition: transform 0.3s ease;
 						&:hover {
-							opacity: 1;
-							transform: scale(1.05);
+							transform: translateY(-6px);
+							.info {
+								box-shadow: 0px 8px 24px 0px rgba(24, 26, 32, 0.15);
+							}
 						}
 						.card-img {
 							position: relative;
-							width: 100%;
-							height: 203px;
+							width: 70%;
+							height: 100%;
 							background-size: cover;
-							border-radius: 12px 12px 0px 0px;
+							background-position: center;
 							cursor: pointer;
+							border-radius: 16px;
+							overflow: hidden;
 							div.status {
 								position: absolute;
-								padding: 6px 34px;
-								left: 20px;
-								top: 20px;
+								padding: 8px 18px;
+								left: 24px;
+								top: 24px;
 								display: flex;
 								align-items: center;
-								border-radius: 6px;
+								border-radius: 8px;
 								background: #eb6753;
+								z-index: 2;
+								box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
 								img {
 									width: 14px;
 									height: 14px;
 								}
 								span {
-									margin-left: 5px;
+									margin-left: 6px;
 									color: #fff;
 									font-family: $font;
 									font-size: 12px;
@@ -494,135 +594,136 @@
 									font-weight: 600;
 									line-height: normal;
 									text-transform: uppercase;
+									letter-spacing: 0.5px;
 								}
-							}
-							div.price {
-								position: absolute;
-								padding: 8px 12px;
-								left: 20px;
-								bottom: 20px;
-								border-radius: 6px;
-								background: #fff;
-								color: #181a20;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
 							}
 						}
 						.info {
-							padding: 20px 22px 17px;
+							position: relative;
+							width: 55%;
+							min-width: 280px;
+							height: 300px;
+							padding: 24px 28px;
 							display: flex;
 							flex-direction: column;
+							gap: 10px;
 							box-sizing: border-box;
-							border-radius: 0px 0px 12px 12px;
-							border: 1px solid rgba(196, 196, 196, 0.71);
-							border-top: none;
 							background: #fff;
-							box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
+							justify-content: center;
+							margin-left: -25%;
+							z-index: 3;
+							align-self: center;
+							border-radius: 12px;
+							box-shadow: 0px 4px 16px 0px rgba(24, 26, 32, 0.12);
 							.title {
-								overflow: hidden;
 								color: #181a20;
-								text-overflow: ellipsis;
-								white-space: nowrap;
 								font-family: $font;
-								font-size: 15px;
+								font-size: 22px;
 								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
+								font-weight: 700;
+								line-height: 30px;
 								text-transform: capitalize;
 								cursor: pointer;
+								margin: 0;
+								letter-spacing: -0.3px;
 							}
-							.desc {
-								margin-top: 5px;
-								overflow: hidden;
+							.project-type {
 								color: #717171;
 								font-family: $font;
-								font-size: 13px;
+								font-size: 14px;
 								font-style: normal;
 								font-weight: 400;
-								line-height: normal;
-								text-overflow: ellipsis;
-								white-space: nowrap;
+								line-height: 22px;
+								margin: 0;
+								margin-bottom: 8px;
 							}
-							.options {
-								margin-top: 15px;
+							.style-duration {
 								display: flex;
 								flex-direction: row;
-								justify-content: space-between;
-								div {
+								gap: 16px;
+								align-items: center;
+								flex-wrap: wrap;
+								margin: 4px 0 12px 0;
+								.detail-item {
 									display: flex;
 									flex-direction: row;
-									img {
-										margin-right: 5px;
-										width: 17px;
-										height: 17px;
-									}
+									align-items: center;
+									gap: 8px;
 									span {
-										color: #181a20;
+										color: #666;
 										font-family: $font;
-										font-size: 13px;
+										font-size: 14px;
 										font-style: normal;
 										font-weight: 400;
 										line-height: normal;
 									}
+									svg {
+										color: #666 !important;
+										opacity: 0.8;
+									}
 								}
 							}
-							.bott {
+							.price-options-view {
 								display: flex;
 								flex-direction: row;
 								justify-content: space-between;
 								align-items: center;
-								p {
+								gap: 8px;
+								margin-top: 12px;
+								padding-top: 12px;
+								border-top: 1px solid rgba(196, 196, 196, 0.3);
+								flex-wrap: wrap;
+								.price-btn {
+									padding: 8px 16px;
+									border-radius: 8px;
+									background: #f0f0f0;
 									color: #181a20;
 									font-family: $font;
-									font-size: 13px;
+									font-size: 15px;
 									font-style: normal;
-									font-weight: 500;
+									font-weight: 600;
 									line-height: normal;
-									text-transform: capitalize;
+									text-transform: none;
+									cursor: pointer;
+									transition: all 0.2s ease;
+									white-space: nowrap;
+									flex-shrink: 0;
+									&:hover {
+										background: #e0e0e0;
+									}
 								}
-								button {
-									margin-left: 7px;
-									width: 16px;
-									height: 16px;
-									box-sizing: border-box;
+								.project-option {
+									color: #666;
+									font-family: $font;
+									font-size: 12px;
+									font-style: normal;
+									font-weight: 400;
+									line-height: normal;
+									flex: 0 1 auto;
+									text-align: center;
+									white-space: nowrap;
+									min-width: 0;
+									overflow: hidden;
+									text-overflow: ellipsis;
 								}
-								.view-like-box {
+								.view-icon {
 									display: flex;
 									flex-direction: row;
-									gap: 7px;
 									align-items: center;
+									gap: 4px;
+									flex-shrink: 0;
 									.view-cnt {
-										color: #717171;
+										color: #666;
 										font-family: $font;
-										font-size: 13px;
+										font-size: 12px;
 										font-style: normal;
 										font-weight: 400;
 										line-height: normal;
-										text-overflow: ellipsis;
+										white-space: nowrap;
 									}
 								}
 							}
 						}
-					}
-				}
-				.pagination-box {
-					display: flex;
-					flex-direction: row;
-					justify-content: center;
-					align-items: center;
-					.swiper-pagination-bullet.swiper-pagination-bullet-active {
-						background: #000000;
-					}
-					.swiper-popular-next {
-						margin-left: 20px;
-						cursor: pointer;
-					}
-					.swiper-popular-prev {
-						margin-right: 20px;
-						cursor: pointer;
 					}
 				}
 			}

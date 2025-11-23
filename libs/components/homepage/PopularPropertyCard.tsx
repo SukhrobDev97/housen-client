@@ -1,9 +1,13 @@
 import React from 'react';
-import { Stack, Box, Divider, Typography } from '@mui/material';
+import { Stack, Box, Divider, Typography, Button } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Project } from '../../types/property/property';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share';
+import StyleIcon from '@mui/icons-material/Palette';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { REACT_APP_API_URL } from '../../config';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
@@ -68,7 +72,11 @@ const PopularProjectCard = (props: PopularProjectCardProps) => {
 		);
 	} else {
 		return (
-			<Stack className="popular-card-box">
+			<Stack 
+				className="popular-card-box" 
+				onClick={() => router.push(`/property/detail?id=${project._id}`)}
+				sx={{ cursor: 'pointer' }}
+			>
 				<Box
 					component={'div'}
 					className={'card-img'}
@@ -79,33 +87,40 @@ const PopularProjectCard = (props: PopularProjectCardProps) => {
 							<img src="/img/icons/electricity.svg" alt="" />
 							<span>best</span>
 						</div>
-					) : (
-						''
-					)}
-
-					<div className={'price'}>${project.projectPrice}</div>
+					) : null}
 				</Box>
 				<Box component={'div'} className={'info'}>
 					<strong className={'title'}>{project.projectTitle}</strong>
-					<p className={'desc'}>{project.projectType}</p>
-					<div className={'options'}>
-						<div>
-							<img src="/img/icons/bed.svg" alt="" />
-							<span>{project?.projectStyle} style</span>
+					<span className={'project-type'}>{project.projectType || 'Type'}</span>
+					<div className={'style-duration'}>
+						<div className={'detail-item'}>
+							<StyleIcon sx={{ fontSize: 18, color: '#666' }} />
+							<span>{project.projectStyle}</span>
 						</div>
-						<div>
-							<img src="/img/icons/room.svg" alt="" />
-							<span>{project?.projectDuration} months</span>
+						<div className={'detail-item'}>
+							<CalendarTodayIcon sx={{ fontSize: 18, color: '#666' }} />
+							<span><strong>duration:</strong> {project.projectDuration} months</span>
 						</div>
 					</div>
-					<Divider sx={{ mt: '15px', mb: '17px' }} />
-					<div className={'bott'}>
-						<p>{project?.projectCollaboration ? 'Collaboration' : 'Solo'}</p>
-						<div className="view-like-box">
-							<IconButton color={'default'}>
-								<RemoveRedEyeIcon />
+					<div className={'price-options-view'}>
+						<Button className={'price-btn'}>
+							${project.projectPrice.toLocaleString()}
+						</Button>
+						<div className={'project-option'}>
+							{project.projectCollaboration ? 'Collaboration' : ''} 
+							{project.projectCollaboration && project.projectPublic && ' / '}
+							{project.projectPublic ? 'Public' : ''}
+						</div>
+						<div className={'view-icon'}>
+							<IconButton 
+								size="small"
+								onClick={(e) => {
+									e.stopPropagation();
+								}}
+							>
+								<RemoveRedEyeIcon sx={{ fontSize: 18, color: '#666' }} />
 							</IconButton>
-							<Typography className="view-cnt">{project?.projectViews}</Typography>
+							<Typography className="view-cnt">{project?.projectViews || 0}</Typography>
 						</div>
 					</div>
 				</Box>
@@ -115,3 +130,4 @@ const PopularProjectCard = (props: PopularProjectCardProps) => {
 };
 
 export default PopularProjectCard;
+
