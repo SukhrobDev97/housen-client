@@ -57,7 +57,7 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
 				propertyBeds
 				propertyRooms
 				propertyViews
-				propertyLikes
+				projectLikes
 				propertyImages
 				propertyDesc
 				propertyBarter

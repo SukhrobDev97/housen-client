@@ -97,9 +97,7 @@ export const GET_PROJECT = gql`
 			projectCollaboration
 			projectPublic
 			memberId
-			soldAt
 			deletedAt
-			constructedAt
 			createdAt
 			updatedAt
 			memberData {
@@ -148,9 +146,7 @@ export const GET_PROJECTS = gql`
 				projectCollaboration
 				projectPublic
 				memberId
-				soldAt
 				deletedAt
-				constructedAt
 				createdAt
 				updatedAt
 				memberData {
@@ -204,9 +200,7 @@ export const GET_AGENT_PROJECTS = gql`
 				projectCollaboration
 				projectPublic
 				memberId
-				soldAt
 				deletedAt
-				constructedAt
 				createdAt
 				updatedAt
 			}
@@ -233,9 +227,7 @@ export const GET_FAVORITES = gql`
 				projectCollaboration
 				projectPublic
 				memberId
-				soldAt
 				deletedAt
-				constructedAt
 				createdAt
 				updatedAt
 				memberData {
@@ -289,9 +281,7 @@ export const GET_VISITED = gql`
 				projectCollaboration
 				projectPublic
 				memberId
-				soldAt
 				deletedAt
-				constructedAt
 				createdAt
 				updatedAt
 				memberData {

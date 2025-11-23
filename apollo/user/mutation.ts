@@ -138,9 +138,7 @@ export const CREATE_PROJECT = gql`
 			projectImages
 			projectDesc
 			memberId
-			soldAt
 			deletedAt
-			constructedAt
 			createdAt
 			updatedAt
 		}
@@ -160,9 +158,7 @@ export const UPDATE_PROJECT = gql`
 			projectImages
 			projectDesc
 			memberId
-			soldAt
 			deletedAt
-			constructedAt
 			createdAt
 			updatedAt
 		}
@@ -182,9 +178,7 @@ export const LIKE_TARGET_PROJECT = gql`
 			projectImages
 			projectDesc
 			memberId
-			soldAt
 			deletedAt
-			constructedAt
 			createdAt
 			updatedAt
 		}
