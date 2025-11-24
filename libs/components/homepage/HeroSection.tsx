@@ -7,8 +7,11 @@ import HeaderFilter from './HeaderFilter';
 const HeroSection = () => {
 	const device = useDeviceDetect();
 
+	// Main hero image - static
+	const mainHeroImage = '/img/banner/header1.jpg';
+
+	// Slide images
 	const slides = [
-		'/img/banner/header1.jpg',
 		'/img/banner/header2.jpg',
 		'/img/banner/header3.jpg',
 		'/img/banner/real-estate-6893060.jpg',
@@ -97,11 +100,43 @@ const HeroSection = () => {
 		return (
 			<>
 				<Stack className={'hero-section'}>
-					<div className={'hero-image-container'}>
+					<div className={'hero-container'}>
+						<Stack className={'hero-section-inner'}>
+							<div className={'hero-image-container'}>
 						<div 
 							className={'hero-image'}
-							style={{ backgroundImage: `url('${slides[activeSlide]}')` }}
-						></div>
+							style={{ backgroundImage: `url('${mainHeroImage}')` }}
+						>
+							{/* Reviews Badge */}
+							<div className={'hero-reviews-badge'}>
+								<div className={'review-avatars'}>
+									<img src="/img/banner/user1.jpg" alt="Customer" className={'avatar'} />
+									<img src="/img/banner/user2.jpg" alt="Customer" className={'avatar'} />
+									<img src="/img/banner/user3.jpg" alt="Customer" className={'avatar'} />
+									<img src="/img/banner/user4.jpg" alt="Customer" className={'avatar'} />
+								</div>
+								<div className={'review-content'}>
+									<div className={'stars'}>
+										<svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+											<path d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z" fill="#FFB800"/>
+										</svg>
+										<svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+											<path d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z" fill="#FFB800"/>
+										</svg>
+										<svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+											<path d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z" fill="#FFB800"/>
+										</svg>
+										<svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+											<path d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z" fill="#FFB800"/>
+										</svg>
+										<svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+											<path d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z" fill="#FFB800"/>
+										</svg>
+									</div>
+									<span className={'review-text'}>850+ Reviews</span>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div className={'slide-images-container'}>
 						<button
@@ -118,7 +153,7 @@ const HeroSection = () => {
 							<div 
 								className={'slide-images-wrapper'}
 								style={{
-									transform: `translateX(-${activeSlide * (306 + 24)}px)`
+									transform: `translateX(-${activeSlide * (250 + 20)}px)`
 								}}
 							>
 								{slides.map((src, index) => {
@@ -171,7 +206,7 @@ const HeroSection = () => {
 						<div className={'circular-text-container'}>
 							<div 
 								className={'circular-image'}
-								style={{ backgroundImage: `url('/img/banner/header1.jpg')` }}
+								style={{ backgroundImage: `url('/img/banner/banner2.jpg')` }}
 							>
 								<div className={'circular-star-icon'}>
 									<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -193,6 +228,8 @@ const HeroSection = () => {
 							</div>
 						</div>
 					</Link>
+						</Stack>
+					</div>
 				</Stack>
 				<Stack className={'filter-section'}>
 					<Stack className={'container'}>

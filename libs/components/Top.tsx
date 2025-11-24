@@ -34,6 +34,9 @@ const Top = () => {
 	const logoutOpen = Boolean(logoutAnchor);
 	const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 	const [theme, setTheme] = useState<'light' | 'dark'>('light');
+	const [notificationOpen, setNotificationOpen] = useState<boolean>(false);
+	const [activeTab, setActiveTab] = useState<'access' | 'services'>('access');
+	const notificationRef = useRef<HTMLDivElement>(null);
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -69,6 +72,22 @@ const Top = () => {
 		const jwt = getJwtToken();
 		if (jwt) updateUserInfo(jwt);
 	}, []);
+
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
+				closeNotification();
+			}
+		};
+
+		if (notificationOpen) {
+			document.addEventListener('mousedown', handleClickOutside);
+		}
+
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [notificationOpen]);
 
 	/** HANDLERS **/
 	const langClick = (e: any) => {
@@ -122,6 +141,14 @@ const Top = () => {
 
 	const closeMobileMenu = () => {
 		setMobileMenuOpen(false);
+	};
+
+	const toggleNotification = () => {
+		setNotificationOpen(!notificationOpen);
+	};
+
+	const closeNotification = () => {
+		setNotificationOpen(false);
 	};
 
 	const StyledMenu = styled((props: MenuProps) => (
@@ -397,39 +424,132 @@ const Top = () => {
 								</>
 							)}
 
-							<div className={'lan-box'}>
-								{user?._id && <NotificationsOutlinedIcon className={'notification-icon'} />}
-								<Button
-									disableRipple
-									className="btn-lang"
-									onClick={langClick}
-									endIcon={<CaretDown size={14} color="#616161" weight="fill" />}
-								>
-									<Box component={'div'} className={'lang-text'}>
-										{lang === 'en' ? 'EN' : lang === 'ru' ? 'RU' : lang === 'kr' ? 'KOR' : 'EN'}
-									</Box>
-								</Button>
+							<div className={'utility-box'}>
+								{/* Notification Bell */}
+								<div className={'notification-container'} ref={notificationRef}>
+									<button className={'notification-bell-button'} onClick={toggleNotification} aria-label="Notifications">
+										<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M18 8C18 6.4087 17.3679 4.88258 16.2426 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.88258 2.63214 7.75736 3.75736C6.63214 4.88258 6 6.4087 6 8C6 15 3 17 3 17H21C21 17 18 15 18 8Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+											<path d="M13.73 21C13.5542 21.3031 13.3019 21.5547 12.9982 21.7295C12.6946 21.9044 12.3504 21.9965 12 21.9965C11.6496 21.9965 11.3054 21.9044 11.0018 21.7295C10.6982 21.5547 10.4458 21.3031 10.27 21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+										<span className={'notification-badge'}>3</span>
+									</button>
 
-								<StyledMenu anchorEl={anchorEl2} open={drop} onClose={langClose} sx={{ position: 'absolute' }}>
-									<MenuItem disableRipple onClick={langChoice} id="en">
-										{t('English')}
-									</MenuItem>
-									<MenuItem disableRipple onClick={langChoice} id="kr">
-										{t('Korean')}
-									</MenuItem>
-									<MenuItem disableRipple onClick={langChoice} id="ru">
-										{t('Russian')}
-									</MenuItem>
-								</StyledMenu>
+									{/* Notification Dropdown Panel */}
+									{notificationOpen && (
+										<div className={'notification-panel'}>
+											<div className={'notification-header'}>
+												<h3>Notifications</h3>
+												<button className={'close-btn'} onClick={closeNotification}>
+													<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+														<path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+													</svg>
+												</button>
+											</div>
 
+											<div className={'notification-tabs'}>
+												<button 
+													className={`tab ${activeTab === 'access' ? 'active' : ''}`}
+													onClick={() => setActiveTab('access')}
+												>
+													Access
+												</button>
+												<button 
+													className={`tab ${activeTab === 'services' ? 'active' : ''}`}
+													onClick={() => setActiveTab('services')}
+												>
+													Services
+												</button>
+											</div>
+
+											<div className={'notification-content'}>
+												{activeTab === 'access' ? (
+													<>
+														<div className={'notification-item'}>
+															<div className={'notification-icon'}>🏡</div>
+															<div className={'notification-text'}>
+																<h4>New Property Match</h4>
+																<p>3 new properties match your search criteria in Downtown area.</p>
+																<span className={'notification-time'}>2 hours ago</span>
+															</div>
+														</div>
+														<div className={'notification-item'}>
+															<div className={'notification-icon'}>💰</div>
+															<div className={'notification-text'}>
+																<h4>Price Drop Alert</h4>
+																<p>Property on Main Street reduced by $50,000</p>
+																<span className={'notification-time'}>5 hours ago</span>
+															</div>
+														</div>
+														<div className={'notification-item'}>
+															<div className={'notification-icon'}>⭐</div>
+															<div className={'notification-text'}>
+																<h4>Welcome to Housen</h4>
+																<p>Start exploring premium properties and find your dream home today!</p>
+																<span className={'notification-time'}>1 day ago</span>
+															</div>
+														</div>
+													</>
+												) : (
+													<>
+														<div className={'notification-item'}>
+															<div className={'notification-icon'}>📅</div>
+															<div className={'notification-text'}>
+																<h4>Viewing Scheduled</h4>
+																<p>Your property viewing is confirmed for tomorrow at 2 PM</p>
+																<span className={'notification-time'}>1 hour ago</span>
+															</div>
+														</div>
+														<div className={'notification-item'}>
+															<div className={'notification-icon'}>💬</div>
+															<div className={'notification-text'}>
+																<h4>New Message</h4>
+																<p>Agent John replied to your inquiry</p>
+																<span className={'notification-time'}>3 hours ago</span>
+															</div>
+														</div>
+													</>
+												)}
+											</div>
+										</div>
+									)}
+								</div>
+
+								{/* Language Selector */}
+								<div className={'lan-box'}>
+									<Button
+										disableRipple
+										className="btn-lang"
+										onClick={langClick}
+										endIcon={<CaretDown size={12} color="#616161" weight="fill" />}
+									>
+										<Box component={'div'} className={'lang-text'}>
+											{lang === 'en' ? 'EN' : lang === 'ru' ? 'RU' : lang === 'kr' ? 'KOR' : 'EN'}
+										</Box>
+									</Button>
+
+									<StyledMenu anchorEl={anchorEl2} open={drop} onClose={langClose} sx={{ position: 'absolute' }}>
+										<MenuItem disableRipple onClick={langChoice} id="en">
+											{t('English')}
+										</MenuItem>
+										<MenuItem disableRipple onClick={langChoice} id="kr">
+											{t('Korean')}
+										</MenuItem>
+										<MenuItem disableRipple onClick={langChoice} id="ru">
+											{t('Russian')}
+										</MenuItem>
+									</StyledMenu>
+								</div>
+
+								{/* Theme Toggle */}
 								<button className={'theme-toggle-button'} onClick={toggleTheme} aria-label="Toggle theme">
 									{theme === 'light' ? (
-										<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 											<circle cx="12" cy="12" r="4" stroke="#0D0D0C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
 											<path d="M12 2V4M12 20V22M22 12H20M4 12H2M19.07 4.93L17.66 6.34M6.34 17.66L4.93 19.07M19.07 19.07L17.66 17.66M6.34 6.34L4.93 4.93" stroke="#0D0D0C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
 										</svg>
 									) : (
-										<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 											<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="#0D0D0C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
 										</svg>
 									)}

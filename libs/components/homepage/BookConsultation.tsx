@@ -139,7 +139,8 @@ const BookConsultation = () => {
 		return (
 			<Stack className={'book-consultation-section'}>
 				<div className={'book-consultation-bg'}></div>
-				<div className={'book-consultation-content'}>
+				<Stack className={'container'}>
+					<div className={'book-consultation-content'}>
 					<h2 className={'book-consultation-title'}>Book a consultation</h2>
 					<form className={'consultation-form'} onSubmit={handleSubmit}>
 					<div className={'form-inputs'}>
@@ -244,7 +245,8 @@ const BookConsultation = () => {
 							</div>
 						</div>
 					</div>
-				</div>
+					</div>
+				</Stack>
 			</Stack>
 		);
 	}

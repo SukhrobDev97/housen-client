@@ -45,9 +45,9 @@
 				}
 			}
 			
-			.trend-properties, .popular-properties, .top-properties, .top-agents, .events, .community-board, .services-section {
-				background-color: #1a1a1a;
-			}
+		.trend-properties, .popular-properties, .top-properties, .top-agents, .events, .community-board {
+			background-color: #1a1a1a;
+		}
 			
 			.popular-card-box {
 				background: transparent;
@@ -131,28 +131,7 @@
 				}
 			}
 			
-			.services-section {
-				.section-title {
-					h2 {
-						color: #ffffff;
-					}
-					p {
-						color: #b0b0b0;
-					}
-				}
-				.service-card {
-					.service-header {
-						h3 {
-							color: #ffffff;
-						}
-					}
-					p {
-						color: #b0b0b0;
-					}
-				}
-			}
-			
-			.book-consultation-section {
+		.book-consultation-section {
 				background-color: #1a1a1a;
 			}
 		}
@@ -409,11 +388,11 @@
 								z-index: 10;
 								.view-cnt-overlay {
 									color: #ffffff;
-									font-family: $font;
+								font-family: $font;
 									font-size: 13px;
-									font-style: normal;
+								font-style: normal;
 									font-weight: 500;
-									line-height: normal;
+								line-height: normal;
 									margin: 0 2px;
 								}
 							}
@@ -480,12 +459,12 @@
 									line-height: normal;
 								}
 								.location {
-									color: #717171;
-									font-family: $font;
+										color: #717171;
+										font-family: $font;
 									font-size: 14px;
-									font-style: normal;
-									font-weight: 400;
-									line-height: normal;
+										font-style: normal;
+										font-weight: 400;
+										line-height: normal;
 									flex: 1;
 								}
 								.details-btn {
@@ -660,8 +639,8 @@
 									svg {
 										color: #666 !important;
 										opacity: 0.8;
-									}
 								}
+							}
 							}
 							.price-options-view {
 								display: flex;
@@ -1215,143 +1194,14 @@
 							}
 						}
 					}
-			}
-		}
-		.services-section {
-			position: relative;
-			padding: 120px 0;
-			width: 100%;
-			height: auto;
-			display: flex;
-			flex-direction: row;
-			justify-content: center;
-			overflow: hidden;
-			.container {
-				flex-direction: column;
-				.section-header {
-					width: 100%;
-					display: flex;
-					flex-direction: row;
-					justify-content: space-between;
-					align-items: flex-start;
-					margin-bottom: 48px;
-					.section-title {
-						display: flex;
-						flex-direction: column;
-						gap: 24px;
-						max-width: 671px;
-						h2 {
-							color: #0D0D0C;
-							font-family: $font;
-							font-size: 48px;
-							font-style: normal;
-							font-weight: 600;
-							line-height: 1.3333333333333333em;
-							margin: 0;
-							padding: 0;
-						}
-						p {
-							color: #6E7070;
-							font-family: $font;
-							font-size: 18px;
-							font-style: normal;
-							font-weight: 400;
-							line-height: 1.7777777777777777em;
-							margin: 0;
-							padding: 0;
-						}
-					}
-					.browse-btn {
-						padding: 20px 32px;
-						border-radius: 48px;
-						background: #0D0D0C;
-						color: #FFFFFF;
-						font-family: $font;
-						font-size: 18px;
-						font-style: normal;
-						font-weight: 500;
-						line-height: 1.3333333333333333em;
-						text-transform: none;
-						cursor: pointer;
-						transition: all 0.3s ease;
-						&:hover {
-							background: #2a2a2a;
-						}
-						svg {
-							width: 24px;
-							height: 24px;
-						}
-					}
-				}
-				.services-content {
-					display: flex;
-					flex-direction: row;
-					gap: 24px;
-					align-items: flex-start;
-					.services-list {
-						display: flex;
-						flex-direction: column;
-						gap: 32px;
-						flex: 1;
-						.service-card {
-							display: flex;
-							flex-direction: column;
-							gap: 24px;
-							.service-header {
-								display: flex;
-								flex-direction: column;
-								gap: 24px;
-								.service-icon {
-									width: 96px;
-									height: 96px;
-									object-fit: contain;
-								}
-								h3 {
-									color: #0D0D0C;
-									font-family: $font;
-									font-size: 24px;
-									font-style: normal;
-									font-weight: 600;
-									line-height: 1.6666666666666667em;
-									margin: 0;
-									padding: 0;
-								}
-							}
-							p {
-								color: #6E7070;
-								font-family: $font;
-								font-size: 16px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: 1.75em;
-								margin: 0;
-								padding: 0;
-								max-width: 416px;
-							}
-						}
-					}
-					.service-image {
-						flex: 0 0 auto;
-						width: 416px;
-						height: 334px;
-						border-radius: 12px;
-						overflow: hidden;
-						img {
-							width: 100%;
-							height: 100%;
-							object-fit: cover;
-						}
-					}
 				}
 			}
-		}
 	}
-}
+	}
 
 	.book-consultation-section {
 		position: relative;
 		width: 100%;
-		max-width: 1920px;
 		height: 900px;
 		margin: 0 auto;
 		display: flex;
@@ -1368,19 +1218,27 @@
 			z-index: 0;
 		}
 
+		.container {
+			position: relative;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+			gap: 40px;
+		}
+
 		.book-consultation-content {
-			
-			position: absolute;
-			left: 0;
-			top: 0;
-			width: 960px;
-			height: 776px;
+			position: relative;
+			width: 550px;
+			height: auto;
 			background-color: #DDE8DD;
 			z-index: 1;
-			padding: 120px 312px;
+			padding: 100px 0;
 			display: flex;
 			flex-direction: column;
-			gap: 48px;
+			gap: 40px;
 
 			.book-consultation-title {
 				font-family: 'Inter', sans-serif;
@@ -1396,8 +1254,9 @@
 			.consultation-form {
 				display: flex;
 				flex-direction: column;
-				gap: 48px;
-				width: 706px;
+				gap: 40px;
+				width: 100%;
+				max-width: 550px;
 
 				.form-inputs {
 					display: flex;
@@ -1411,7 +1270,7 @@
 
 						.form-input {
 							position: relative;
-							width: 341px;
+							width: calc(50% - 12px);
 							display: flex;
 							align-items: center;
 
@@ -1448,7 +1307,7 @@
 						border: 1px solid black;
 						border-radius: 24px;
 						position: relative;
-						width: 706px;
+						width: 100%;
 						display: flex;
 						align-items: flex-start;
 
@@ -1544,12 +1403,9 @@
 		}
 
 		.book-consultation-image {
-			margin: 212px;
-			position: absolute;
-			right: 0;
-			top: 0;
-			width: 560px;
-			height: 576px;
+			position: relative;
+			width: 550px;
+			height: 530px;
 			z-index: 1;
 
 			.image-container {
