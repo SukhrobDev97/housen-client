@@ -190,12 +190,12 @@ const HeroSection = () => {
 						<div className={'hero-title-section'}>
 							<h1 className={'hero-title'}>Discover Quality Living Space</h1>
 							<p className={'hero-description'}>
-								We aim to build contemporary homes whose beauty perishes in the delicate touches of minutiae lines and shapes. Within our plan, we endowed Villa with interestingly high-contrast spatial experiences.
+								We aim to design contemporary homes whose beauty perishes in the delicate touches of minutiae lines and shapes. Within our plan, we endowed Villa with interestingly high-contrast spatial experiences.
 							</p>
 						</div>
 						<Link href={'/property'}>
 							<Box className={'explore-button'}>
-								<span>Explore Properties</span>
+								<span>Explore Projects</span>
 								<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path d="M2.5 12L21.5 12M21.5 12L15.5 6M21.5 12L15.5 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
 								</svg>
@@ -221,7 +221,7 @@ const HeroSection = () => {
 									</defs>
 									<text className={'circular-text-path'}>
 										<textPath href="#circularPath" startOffset="50%">
-											Housen Living Solutions • Best Agencies •
+										• Housen Living Solutions • Best Agencies •
 										</textPath>
 									</text>
 								</svg>

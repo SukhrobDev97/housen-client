@@ -45,8 +45,44 @@
 				}
 			}
 			
-		.trend-properties, .popular-properties, .top-properties, .top-agents, .events, .community-board {
+		.trend-properties, .top-properties, .top-agents, .events, .community-board {
 			background-color: #1a1a1a;
+		}
+		
+		.popular-properties {
+			background-color: #1a1a1a;
+			
+			.popular-left-content {
+				.hot-title {
+					color: #ffffff;
+				}
+				
+				.hot-description {
+					color: rgba(255, 255, 255, 0.7);
+				}
+				
+				.explore-projects-btn {
+					background: #2a2a2a;
+					color: #ffffff;
+					
+					&:hover {
+						background: #3a3a3a;
+					}
+				}
+			}
+			
+			.popular-right-content {
+				.pagination-controls {
+					.swiper-popular-prev,
+					.swiper-popular-next {
+						background: rgba(255, 255, 255, 0.15);
+						
+						&:hover {
+							background: rgba(255, 255, 255, 0.25);
+						}
+					}
+				}
+			}
 		}
 			
 			.popular-card-box {
@@ -322,18 +358,18 @@
 				}
 			}
 		}
-		.trend-properties {
-			padding: 108px 0px 76px;
-			width: 100%;
-			height: auto;
-			min-height: 697px;
-			display: flex;
-			flex-direction: row;
+	.trend-properties {
+		padding: 32px 0px 76px;
+		width: 100%;
+		height: auto;
+		min-height: 697px;
+		display: flex;
+		flex-direction: row;
 			.container {
 				flex-direction: column;
 				.card-box {
 					position: relative;
-					margin-top: 64px;
+					margin-top: 32px;
 					display: flex;
 					flex-direction: row;
 					.empty-list {
@@ -494,35 +530,177 @@
 			}
 		}
 		.popular-properties {
-			padding: 132px 0px 94px;
+			padding: 120px 0px 100px;
 			width: 100%;
 			height: auto;
-			min-height: 816px;
+			min-height: 600px;
 			display: flex;
 			flex-direction: row;
 			background: #f6f6f6;
+			
 			.container {
-				flex-direction: column;
-				align-items: center;
-				.card-box {
-					margin-top: 34px;
-					width: 100%;
-					height: auto;
+				max-width: 1300px;
+				width: 100%;
+				margin: 0 auto;
+				padding: 0 40px;
+				position: relative;
+				z-index: 1;
+				
+				.popular-content-wrapper {
 					display: flex;
 					flex-direction: row;
-					justify-content: space-between;
-					.popular-property-swiper {
-						width: 100%;
-						height: auto;
+					align-items: flex-start;
+					gap: 60px;
+					
+					.popular-left-content {
+						flex: 0 0 280px;
 						display: flex;
-						flex-direction: row;
-						.popular-property-slide {
+						flex-direction: column;
+						justify-content: flex-start;
+						padding-top: 80px;
+						align-self: flex-start;
+						
+						.hot-title {
+							font-family: $font;
+							font-size: 42px;
+							font-weight: 600;
+							color: #181a20;
+							line-height: 1.2;
+							margin: 0 0 20px 0;
+							letter-spacing: -0.5px;
+						}
+						
+						.hot-description {
+							font-family: $font;
+							font-size: 14px;
+							font-weight: 400;
+							color: #666;
+							line-height: 1.6;
+							margin: 0 0 32px 0;
+						}
+						
+						.explore-projects-btn {
+							width: fit-content;
+							height: 52px;
+							padding: 12px 28px;
+							background-color: #364440;
+							color: #ffffff;
+							font-family: $font;
+							font-size: 14px;
+							font-weight: 500;
+							border-radius: 32px;
+							text-transform: none;
+							display: flex;
+							flex-direction: row;
+							justify-content: center;
+							align-items: center;
+							gap: 8px;
+							cursor: pointer;
+							transition: all 0.3s ease;
+							box-shadow: none;
+							
+							&:hover {
+								background-color: #2a3532;
+								transform: translateY(-2px);
+								box-shadow: 0 8px 20px rgba(54, 68, 64, 0.3);
+							}
+							
+							svg {
+								margin-left: 0;
+							}
+						}
+					}
+					
+					.popular-right-content {
+						flex: 1;
+						display: flex;
+						flex-direction: column;
+						gap: 32px;
+						align-items: center;
+						
+						.card-box {
+							margin-top: 0;
 							width: 100%;
 							height: auto;
 							display: flex;
+							flex-direction: row;
+							justify-content: center;
+							align-items: center;
+							
+							.popular-property-swiper {
+								width: 100%;
+								height: auto;
+								display: flex;
+								flex-direction: row;
+								gap: 24px;
+								
+								.popular-property-slide {
+									flex: 1 1 calc(50% - 12px);
+									max-width: calc(50% - 12px);
+									width: 100%;
+									height: auto;
+									display: flex;
+								}
+							}
+						}
+						
+						.pagination-controls {
+							display: flex;
+							flex-direction: row;
+							align-items: center;
+							justify-content: center;
+							margin-top: 8px;
+							
+							.swiper-popular-prev {
+								margin-right: 20px;
+								cursor: pointer;
+								color: #181a20;
+								transition: color 0.3s ease;
+								
+								&:hover {
+									color: #666;
+								}
+							}
+							
+							.swiper-popular-pagination {
+								display: flex !important;
+								flex-direction: row;
+								align-items: center;
+								justify-content: center;
+								position: relative !important;
+								width: auto !important;
+								min-width: 60px;
+								height: auto !important;
+								margin: 0 20px !important;
+								visibility: visible !important;
+								opacity: 1 !important;
+								
+								span {
+									color: #181a20;
+									font-family: $font;
+									font-size: 14px;
+									font-style: normal;
+									font-weight: 500;
+									line-height: normal;
+								}
+							}
+							
+							.swiper-popular-next {
+								margin-left: 20px;
+								cursor: pointer;
+								color: #181a20;
+								transition: color 0.3s ease;
+								
+								&:hover {
+									color: #666;
+								}
+							}
 						}
 					}
-					.popular-card-box {
+				}
+			}
+			
+			.popular-card-box {
 						position: relative;
 						width: 100%;
 						max-width: 550px;
@@ -542,7 +720,7 @@
 						}
 						.card-img {
 							position: relative;
-							width: 70%;
+							width: 100%;
 							height: 100%;
 							background-size: cover;
 							background-position: center;
@@ -579,7 +757,7 @@
 						}
 						.info {
 							position: relative;
-							width: 55%;
+							width: 35%;
 							min-width: 280px;
 							height: 300px;
 							padding: 24px 28px;
@@ -589,7 +767,7 @@
 							box-sizing: border-box;
 							background: #fff;
 							justify-content: center;
-							margin-left: -25%;
+							margin-left: -45%;
 							z-index: 3;
 							align-self: center;
 							border-radius: 12px;
@@ -704,9 +882,129 @@
 							}
 						}
 					}
+			
+			// Tablet Responsive
+			@media (max-width: 1200px) {
+				padding: 100px 0px 80px;
+				
+				.container {
+					padding: 0 30px;
+					
+					.popular-content-wrapper {
+						gap: 40px;
+						
+					.popular-left-content {
+						flex: 0 0 320px;
+						
+						.hot-title {
+							font-size: 38px;
+						}
+						
+						.hot-description {
+							font-size: 13px;
+						}
+						
+						.explore-projects-btn {
+							padding: 11px 22px;
+							font-size: 13px;
+						}
+					}
+						
+						.popular-right-content {
+							.card-box {
+								.popular-property-swiper {
+									.popular-property-slide {
+										flex: 1 1 calc(50% - 12px);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			// Mobile Tablet
+			@media (max-width: 1024px) {
+				padding: 80px 0px 60px;
+				
+				.container {
+					padding: 0 24px;
+					
+					.popular-content-wrapper {
+						flex-direction: column;
+						gap: 40px;
+						
+						.popular-left-content {
+							flex: 1;
+							width: 100%;
+							text-align: center;
+							align-items: center;
+							
+							.hot-title {
+								font-size: 36px;
+							}
+							
+							.hot-description {
+								font-size: 13px;
+							}
+							
+							.explore-projects-btn {
+								width: 100%;
+								max-width: 280px;
+								padding: 11px 22px;
+								font-size: 13px;
+							}
+						}
+						
+						.popular-right-content {
+							width: 100%;
+							
+							.card-box {
+								.popular-property-swiper {
+									flex-direction: column;
+									
+									.popular-property-slide {
+										flex: 1 1 100%;
+										max-width: 100%;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			// Mobile
+			@media (max-width: 768px) {
+				padding: 60px 0px 50px;
+				
+				.container {
+					padding: 0 20px;
+					
+					.popular-content-wrapper {
+						gap: 32px;
+						
+						.popular-left-content {
+							.hot-title {
+								font-size: 32px;
+								margin-bottom: 16px;
+							}
+							
+							.hot-description {
+								font-size: 13px;
+								margin-bottom: 28px;
+							}
+							
+							.explore-projects-btn {
+								padding: 11px 22px;
+								font-size: 13px;
+							}
+						}
+					}
 				}
 			}
 		}
+
 		.video-frame {
 			width: 100%;
 			height: 678px;
