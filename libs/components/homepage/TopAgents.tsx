@@ -8,6 +8,9 @@ import { Autoplay, Navigation, Pagination } from 'swiper';
 import TopAgencyCard from './TopAgentCard';
 import { Member } from '../../types/member/member';
 import { AgenciesInquiry } from '../../types/member/member.input';
+import { GET_AGENCIES } from '../../../apollo/user/query';
+import { T } from '../../types/common';
+import { useQuery } from '@apollo/client';
 
 interface TopAgenciesProps {
 	initialInput: AgenciesInquiry;
@@ -20,6 +23,19 @@ const TopAgencies = (props: TopAgenciesProps) => {
 	const [topAgencies, setTopAgencies] = useState<Member[]>([]);
 
 	/** APOLLO REQUESTS **/
+	const {
+		loading: getAgenciesLoading,
+		data: getAgenciesData,
+		error: getAgenciesError,
+		refetch: getAgenciesRefetch,
+	  } = useQuery(GET_AGENCIES, {
+		fetchPolicy: 'cache-and-network',
+		variables: { input: initialInput },
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T ) => {
+			setTopAgencies(data?.getAgencies?.list);
+		},
+	  });
 	/** HANDLERS **/
 
 	if (device === 'mobile') {
@@ -27,7 +43,7 @@ const TopAgencies = (props: TopAgenciesProps) => {
 			<Stack className={'top-agents'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<span>Top Agencies</span>
+						<span>High Rated Interior Agencies</span>
 					</Stack>
 					<Stack className={'wrapper'}>
 						<Swiper
@@ -55,8 +71,8 @@ const TopAgencies = (props: TopAgenciesProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Top Agencies</span>
-							<p>Our Top Agencies always ready to serve you</p>
+							<span>High Rated Interior Agencies</span>
+							<p>Meet Our High Rated Interior Agencies</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className={'more-box'}>

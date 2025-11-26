@@ -938,7 +938,7 @@
         align-items: center;
         .top-agents-swiper {
           width: 100%;
-          height: 280px;
+          height: auto;
           display: flex;
           flex-direction: row;
           .top-agents-slide {
@@ -947,37 +947,83 @@
             display: flex;
             .top-agent-card {
               width: 100%;
-              height: 280px;
+              height: auto;
               display: flex;
-              flex-direction: column;
-              align-items: center;
-              img {
-                width: 209px;
-                height: 209px;
-                border-radius: 50%;
-                cursor: pointer;
-                object-fit: cover;
+              flex-direction: row;
+              gap: 16px;
+              padding: 20px;
+              background: #ffffff;
+              border-radius: 12px;
+              box-shadow: 0px 2px 8px 0px rgba(24, 26, 32, 0.08);
+              .agent-image-container {
+                flex-shrink: 0;
+                width: 120px;
+                height: 120px;
+                border-radius: 12px;
+                overflow: hidden;
+                img {
+                  width: 100%;
+                  height: 100%;
+                  border-radius: 12px;
+                  object-fit: cover;
+                }
               }
-              strong {
-                margin-top: 10px;
-                color: #181a20;
-                text-align: center;
-                font-family: $font;
-                font-size: 24px;
-                font-style: normal;
-                font-weight: 600;
-                line-height: normal;
-                text-transform: capitalize;
-                cursor: pointer;
-              }
-              span {
-                color: #181a20;
-                text-align: center;
-                font-family: $font;
-                font-size: 15px;
-                font-style: normal;
-                font-weight: 400;
-                line-height: 28px;
+              .agent-content {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                gap: 8px;
+                .agent-name {
+                  color: #181a20;
+                  font-family: $font;
+                  font-size: 18px;
+                  font-style: normal;
+                  font-weight: 600;
+                  line-height: 24px;
+                  text-transform: capitalize;
+                  margin: 0;
+                }
+                .agent-verified {
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  gap: 6px;
+                  margin: -4px 0 4px 0;
+                  .verified-text {
+                    color: #4CAF50;
+                    font-family: $font;
+                    font-size: 12px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 16px;
+                    margin: 0;
+                  }
+                }
+                .agent-rating {
+                  color: #666;
+                  font-family: $font;
+                  font-size: 14px;
+                  font-style: normal;
+                  font-weight: 400;
+                  line-height: 20px;
+                  margin: 0;
+                }
+                .view-profile-btn {
+                  width: fit-content;
+                  padding: 6px 12px;
+                  border-radius: 6px;
+                  background: transparent;
+                  border: 1px solid #181a20;
+                  color: #181a20;
+                  font-family: $font;
+                  font-size: 12px;
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: normal;
+                  text-transform: none;
+                  margin-top: 6px;
+                }
               }
             }
           }

@@ -336,10 +336,6 @@ body::-webkit-scrollbar {
 			}
 			
 			// Events
-			.events {
-				background-color: #1a1a1a;
-			}
-			
 			// Community Board
 			.community-board {
 				background-color: #1a1a1a;
@@ -1804,20 +1800,20 @@ body::-webkit-scrollbar {
 					flex-direction: row;
 					justify-content: flex-start;
 					gap: 8px;
-				.box {
+					.box {
 					padding: 12px 20px;
 					min-width: 180px;
 					flex: 0 0 auto;
 					height: 48px;
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					justify-content: space-between;
-					border-radius: 12px;
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+						justify-content: space-between;
+						border-radius: 12px;
 					background: #faf9f7;
 					border: 1px solid transparent;
-					box-sizing: border-box;
-					cursor: pointer;
+						box-sizing: border-box;
+						cursor: pointer;
 					transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 					&:hover {
 						background: #f5f3f0;
@@ -1901,18 +1897,18 @@ body::-webkit-scrollbar {
 					padding: 0 28px;
 					width: 200px;
 					height: 52px;
-					display: flex;
-					flex-direction: row;
-					align-items: center;
+						display: flex;
+						flex-direction: row;
+						align-items: center;
 					justify-content: center;
 					gap: 8px;
 					border-radius: 32px;
-					font-family: $font;
+							font-family: $font;
 					font-size: 14px;
-					font-style: normal;
+							font-style: normal;
 					font-weight: 500;
-					line-height: normal;
-					cursor: pointer;
+							line-height: normal;
+							cursor: pointer;
 					transition: all 0.3s ease;
 					&.white-btn {
 						color: #ffffff;
@@ -1935,8 +1931,8 @@ body::-webkit-scrollbar {
 					}
 					span {
 						color: inherit;
+						}
 					}
-				}
 				}
 				.filter-location {
 					position: absolute;
@@ -1972,7 +1968,7 @@ body::-webkit-scrollbar {
 						align-items: center;
 						gap: 10px;
 						border-radius: 10px;
-						cursor: pointer;
+							cursor: pointer;
 						transition: all 0.2s ease;
 						&:hover {
 							background: #faf9f7;
