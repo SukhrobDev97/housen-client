@@ -12,6 +12,7 @@ import { REACT_APP_API_URL } from '../../config';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import { T } from '../../types/common';
 
 interface TrendProjectCardProps {
 	project: Project;
@@ -89,7 +90,7 @@ const TrendProjectCard = (props: TrendProjectCardProps) => {
 								backgroundColor: 'transparent',
 								'&:hover': { backgroundColor: 'transparent' }
 							}}
-							onClick={(e) => {
+							onClick={(e: T) => {
 								e.stopPropagation();
 							}}
 						>
@@ -103,7 +104,7 @@ const TrendProjectCard = (props: TrendProjectCardProps) => {
 								backgroundColor: 'transparent',
 								'&:hover': { backgroundColor: 'transparent' }
 							}}
-							onClick={(e) => {
+							onClick={(e: T) => {
 								e.stopPropagation();
 							}}
 						>
@@ -135,7 +136,7 @@ const TrendProjectCard = (props: TrendProjectCardProps) => {
 						<Button 
 							className={'details-btn'} 
 							endIcon={<EastIcon sx={{ fontSize: 16 }} />}
-							onClick={(e) => {
+							onClick={(e: T) => {
 								e.stopPropagation();
 								router.push(`/property/detail?id=${project._id}`);
 							}}

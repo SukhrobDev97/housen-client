@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Stack, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation, Pagination } from 'swiper';
+import { Autoplay } from 'swiper';
 import { ProjectsInquiry } from '../../types/property/property.input';
 import { Project } from '../../types/property/property';
 import TopProjectCard from './TopPropertyCard';
+import { GET_PROJECTS } from '../../../apollo/user/query';
+import { useQuery } from '@apollo/client';
+import { T } from '../../types/common';
 
 interface TopProjectsProps {
 	initialInput: ProjectsInquiry;
@@ -17,9 +20,54 @@ const TopProjects = (props: TopProjectsProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
 	const [topProjects, setTopProjects] = useState<Project[]>([]);
+	const [currentPage, setCurrentPage] = useState<number>(1);
+	const [displayedProjects, setDisplayedProjects] = useState<Project[]>([]);
+	const [totalPages, setTotalPages] = useState<number>(1);
+
+	const queryInput = {
+		...initialInput,
+		limit: 8,
+		page: 1,
+	};
 
 	/** APOLLO REQUESTS **/
+		
+	const {
+		loading: getProjectsLoading,
+		data: getProjectsData,
+		error: getProjectsError,
+		refetch: getProjectsRefetch,
+	  } = useQuery(GET_PROJECTS, {
+		fetchPolicy: 'cache-and-network',
+		variables: { input: queryInput },
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T ) => {
+			setTopProjects(data?.getProjects?.list || []);
+		},
+	  });
+
+	/** LIFECYCLES **/
+	useEffect(() => {
+		if (topProjects.length > 0) {
+			const startIndex = (currentPage - 1) * 4;
+			const endIndex = startIndex + 4;
+			setDisplayedProjects(topProjects.slice(startIndex, endIndex));
+			setTotalPages(Math.ceil(topProjects.length / 4));
+		}
+	}, [topProjects, currentPage]);
+
 	/** HANDLERS **/
+	const handleNextPage = () => {
+		if (currentPage < totalPages) {
+			setCurrentPage(currentPage + 1);
+		}
+	};
+
+	const handlePrevPage = () => {
+		if (currentPage > 1) {
+			setCurrentPage(currentPage - 1);
+		}
+	};
 
 	if (device === 'mobile') {
 		return (
@@ -49,44 +97,66 @@ const TopProjects = (props: TopProjectsProps) => {
 			</Stack>
 		);
 	} else {
+		if (!topProjects || topProjects.length === 0) return null;
+
 		return (
 			<Stack className={'top-properties'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Top projects</span>
-							<p>Check out our Top Projects</p>
+							<span>Leading projects</span>
+							<p>Explore our leading project designs</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className={'pagination-box'}>
-								<WestIcon className={'swiper-top-prev'} />
-								<div className={'swiper-top-pagination'}></div>
-								<EastIcon className={'swiper-top-next'} />
+								<WestIcon 
+									className={'swiper-top-prev'} 
+									onClick={handlePrevPage}
+									sx={{ 
+										cursor: currentPage > 1 ? 'pointer' : 'not-allowed',
+										opacity: currentPage > 1 ? 1 : 0.5,
+									}}
+								/>
+								<div className={'swiper-top-pagination'}>
+									<span>{currentPage} / {totalPages}</span>
+								</div>
+								<EastIcon 
+									className={'swiper-top-next'} 
+									onClick={handleNextPage}
+									sx={{ 
+										cursor: currentPage < totalPages ? 'pointer' : 'not-allowed',
+										opacity: currentPage < totalPages ? 1 : 0.5,
+									}}
+								/>
 							</div>
 						</Box>
 					</Stack>
 					<Stack className={'card-box'}>
-						<Swiper
-							className={'top-property-swiper'}
-							slidesPerView={'auto'}
-							spaceBetween={15}
-							modules={[Autoplay, Navigation, Pagination]}
-							navigation={{
-								nextEl: '.swiper-top-next',
-								prevEl: '.swiper-top-prev',
-							}}
-							pagination={{
-								el: '.swiper-top-pagination',
-							}}
-						>
-							{topProjects.map((project: Project) => {
-								return (
-									<SwiperSlide className={'top-property-slide'} key={project?._id}>
-										<TopProjectCard project={project} />
-									</SwiperSlide>
-								);
-							})}
-						</Swiper>
+						{topProjects.length === 0 ? (
+							<Box component={'div'} className={'empty-list'}>
+								Top Projects Empty
+							</Box>
+						) : (
+							<Stack 
+								className={'top-property-swiper'}
+								direction={'row'}
+								spacing={3}
+								sx={{
+									width: '100%',
+									display: 'flex',
+									flexDirection: 'row',
+									gap: '24px',
+								}}
+							>
+								{displayedProjects.map((project: Project) => {
+									return (
+										<Box key={project._id} className={'top-property-slide'} sx={{ flex: '1 1 calc(25% - 18px)' }}>
+											<TopProjectCard project={project} />
+										</Box>
+									);
+								})}
+							</Stack>
+						)}
 					</Stack>
 				</Stack>
 			</Stack>

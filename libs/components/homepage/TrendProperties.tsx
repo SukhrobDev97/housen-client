@@ -8,7 +8,6 @@ import { Autoplay } from 'swiper';
 import 'swiper/css';
 import { Project } from '../../types/property/property';
 import { ProjectsInquiry } from '../../types/property/property.input';
-import TrendPropertyCard from './TrendPropertyCard';
 import TrendProjectCard from './TrendPropertyCard';
 import { GET_PROJECTS } from '../../../apollo/user/query';
 import { useQuery } from '@apollo/client';
