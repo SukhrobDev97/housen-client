@@ -1,15 +1,14 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import Head from 'next/head';
 import Top from '../Top';
 import Footer from '../Footer';
-import { Stack } from '@mui/material';
+import { Stack, Box } from '@mui/material';
 import { getJwtToken, updateUserInfo } from '../../auth';
 import Chat from '../Chat';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import { useTranslation } from 'next-i18next';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -17,69 +16,8 @@ import 'swiper/css/navigation';
 const withLayoutBasic = (Component: any) => {
 	return (props: any) => {
 		const router = useRouter();
-		const { t, i18n } = useTranslation('common');
 		const device = useDeviceDetect();
-		const [authHeader, setAuthHeader] = useState<boolean>(false);
 		const user = useReactiveVar(userVar);
-
-		const memoizedValues = useMemo(() => {
-			let title = '',
-				desc = '',
-				bgImage = '';
-
-			switch (router.pathname) {
-				case '/property':
-					title = 'Project Search';
-					desc = 'We are glad to see you again!';
-					bgImage = '/img/banner/properties.png';
-					break;
-				case '/agent':
-					title = 'Agencies';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/agents.webp';
-					break;
-				case '/agent/detail':
-					title = 'Agency Page';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header2.svg';
-					break;
-				case '/mypage':
-					title = 'my page';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header1.svg';
-					break;
-				case '/community':
-					title = 'Community';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header2.svg';
-					break;
-				case '/community/detail':
-					title = 'Community Detail';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header2.svg';
-					break;
-				case '/cs':
-					title = 'CS';
-					desc = 'We are glad to see you again!';
-					bgImage = '/img/banner/header2.svg';
-					break;
-				case '/account/join':
-					title = 'Login/Signup';
-					desc = 'Authentication Process';
-					bgImage = '/img/banner/header2.svg';
-					setAuthHeader(true);
-					break;
-				case '/member':
-					title = 'Member Page';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header1.svg';
-					break;
-				default:
-					break;
-			}
-
-			return { title, desc, bgImage };
-		}, [router.pathname]);
 
 		/** LIFECYCLES **/
 		useEffect(() => {
@@ -87,14 +25,70 @@ const withLayoutBasic = (Component: any) => {
 			if (jwt) updateUserInfo(jwt);
 		}, []);
 
+		/** MEMOIZED VALUES **/
+		const memoizedValues = useMemo(() => {
+			let title = 'Housen';
+			let desc = 'Home';
+			let bgImage = '/img/banner/header1.jpg';
+
+			switch (router.pathname) {
+				case '/about':
+					title = 'Service Listing';
+					desc = 'Home / Service Listing';
+					bgImage = '/img/banner/header3.jpg';
+					break;
+				case '/property':
+					title = 'Property';
+					desc = 'Home / Property';
+					bgImage = '/img/banner/header1.jpg';
+					break;
+				case '/agent':
+					title = 'Agent';
+					desc = 'Home / Agent';
+					bgImage = '/img/banner/header1.jpg';
+					break;
+				case '/member':
+					title = 'Member';
+					desc = 'Home / Member';
+					bgImage = '/img/banner/header1.jpg';
+					break;
+				case '/community':
+					title = 'Community';
+					desc = 'Home / Community';
+					bgImage = '/img/banner/header1.jpg';
+					break;
+				case '/cs':
+					title = 'CS Center';
+					desc = 'Home / CS Center';
+					bgImage = '/img/banner/header1.jpg';
+					break;
+				case '/account/join':
+					title = 'Join';
+					desc = 'Home / Join';
+					bgImage = '/img/banner/header1.jpg';
+					break;
+				case '/mypage':
+					title = 'My Page';
+					desc = 'Home / My Page';
+					bgImage = '/img/banner/header1.jpg';
+					break;
+				default:
+					title = 'Housen';
+					desc = 'Home';
+					bgImage = '/img/banner/header1.jpg';
+			}
+
+			return { title, desc, bgImage };
+		}, [router.pathname]);
+
 		/** HANDLERS **/
 
 		if (device == 'mobile') {
 			return (
 				<>
 					<Head>
-						<title>Housen</title>
-						<meta name={'title'} content={`Housen`} />
+						<title>{memoizedValues.title}</title>
+						<meta name={'title'} content={memoizedValues.title} />
 					</Head>
 					<Stack id="mobile-wrap">
 						<Stack id={'top'}>
@@ -115,27 +109,22 @@ const withLayoutBasic = (Component: any) => {
 			return (
 				<>
 					<Head>
-						<title>Housen</title>
-						<meta name={'title'} content={`Housen`} />
+						<title>{memoizedValues.title}</title>
+						<meta name={'title'} content={memoizedValues.title} />
 					</Head>
 					<Stack id="pc-wrap">
 						<Stack id={'top'}>
 							<Top />
 						</Stack>
 
-						<Stack
-							className={`header-basic ${authHeader && 'auth'}`}
-							style={{
-								backgroundImage: `url(${memoizedValues.bgImage})`,
-								backgroundSize: 'cover',
-								boxShadow: 'inset 10px 40px 150px 40px rgb(24 22 36)',
-							}}
-						>
-							<Stack className={'container'}>
-								<strong>{t(memoizedValues.title)}</strong>
-								<span>{t(memoizedValues.desc)}</span>
-							</Stack>
-						</Stack>
+						{router.pathname !== '/about' && (
+							<Box component={'div'} className={'header-basic'} style={{ backgroundImage: `url(${memoizedValues.bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+								<Stack className={'container'}>
+									<strong>{memoizedValues.title}</strong>
+									<span>{memoizedValues.desc}</span>
+								</Stack>
+							</Box>
+						)}
 
 						<Stack id={'main'}>
 							<Component {...props} />

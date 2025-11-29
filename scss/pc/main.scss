@@ -97,16 +97,6 @@ body::-webkit-scrollbar {
 							}
 						}
 						.user-box {
-							.contact-us-button {
-								span {
-									color: #ffffff;
-								}
-								svg {
-									path {
-										stroke: #ffffff;
-									}
-								}
-							}
 							.auth-button {
 								.auth-icon {
 									color: #ffffff;
@@ -437,100 +427,6 @@ body::-webkit-scrollbar {
 							&:hover {
 								opacity: 0.9;
 							}
-						}
-					}
-				}
-			}
-			
-			.search-box {
-				background: #2a2a2a;
-				box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-				
-				.select-box {
-					.box {
-						background: #333;
-						border-color: transparent;
-						
-						&:hover {
-							background: #3a3a3a;
-							border-color: #4a4a4a;
-						}
-						
-						&.on {
-							background: #404040;
-							border-color: #ffffff;
-							color: #ffffff;
-							box-shadow: 0 4px 16px rgba(255, 255, 255, 0.1);
-						}
-						
-						span {
-							color: #ffffff;
-						}
-						
-						svg {
-							color: #b0b0b0;
-						}
-						
-						&.on svg {
-							color: #ffffff;
-						}
-					}
-					
-					.search-input-box {
-						background: #333;
-						border-color: transparent;
-						
-						&:focus-within {
-							background: #404040;
-							border-color: #ffffff;
-							box-shadow: 0 4px 16px rgba(255, 255, 255, 0.1);
-						}
-						
-						svg {
-							color: #b0b0b0;
-						}
-						
-						.search-input {
-							color: #ffffff;
-							
-							&::placeholder {
-								color: #808080;
-							}
-						}
-					}
-				}
-				
-			.search-box-other .search-btn.white-btn {
-				background: #364440;
-				color: #ffffff;
-				
-				&:hover {
-					background: #2a3532;
-					opacity: 0.9;
-				}
-				
-				img {
-					filter: brightness(0) invert(1);
-				}
-			}
-				
-				.filter-location,
-				.filter-type,
-				.filter-price {
-					background: #2a2a2a;
-					box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
-					
-					.filter-option {
-						&:hover {
-							background: #333;
-						}
-						
-						&.selected {
-							background: #1e3a1e;
-						}
-						
-						span {
-							color: #ffffff;
 						}
 					}
 				}

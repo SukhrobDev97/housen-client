@@ -238,7 +238,7 @@ const Top = () => {
 						</Link>
 						<Link href={'/about'} onClick={closeMobileMenu}>
 							<div className={'mobile-menu-item'}>
-								<span>About Us</span>
+								<span>Services</span>
 							</div>
 						</Link>
 						<Link href={'/property'} onClick={closeMobileMenu}>
@@ -325,7 +325,7 @@ const Top = () => {
 							</Link>
 							<Link href={'/about'}>
 								<div className={'menu-item no-arrow'}>
-									<span>About Us</span>
+									<span>Services</span>
 								</div>
 							</Link>
 							<Link href={'/property'}>
