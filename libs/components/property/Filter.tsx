@@ -44,27 +44,51 @@ const Filter = (props: FilterType) => {
 
 	/** LIFECYCLES **/
 	useEffect(() => {
-		const queryParams = JSON.stringify({
-			...searchFilter,
-			search: {
-				...searchFilter.search,
-			},
-		});
 
 		if (searchFilter?.search?.projectStyleList?.length == 0) {
 			delete searchFilter.search.projectStyleList;
 			setShowMore(false);
-			router.push(`/property?input=${queryParams}`, `/property?input=${queryParams}`, { scroll: false }).then();
+			router.push(`/property?input=${JSON.stringify({
+				...searchFilter,
+				search: {
+					...searchFilter.search,
+				},
+			})}`, `/property?input=${JSON.stringify({
+				...searchFilter,
+				search: {
+					...searchFilter.search,
+				},
+			})}`, { scroll: false }).then();
 		}
 
 		if (searchFilter?.search?.typeList?.length == 0) {
 			delete searchFilter.search.typeList;
-			router.push(`/property?input=${queryParams}`, `/property?input=${queryParams}`, { scroll: false }).then();
+			router.push(`/property?input=${JSON.stringify({
+				...searchFilter,
+				search: {
+					...searchFilter.search,
+				},
+			})}`, `/property?input=${JSON.stringify({
+				...searchFilter,
+				search: {
+					...searchFilter.search,
+				},
+			})}`, { scroll: false }).then();
 		}
 
 		if (searchFilter?.search?.options?.length == 0) {
 			delete searchFilter.search.options;
-			router.push(`/property?input=${queryParams}`, `/property?input=${queryParams}`, { scroll: false }).then();
+			router.push(`/property?input=${JSON.stringify({
+				...searchFilter,
+				search: {
+					...searchFilter.search,
+				},
+			})}`, `/property?input=${JSON.stringify({
+				...searchFilter,
+				search: {
+					...searchFilter.search,
+				},
+			})}`, { scroll: false }).then();
 		}
 
 		if (searchFilter?.search?.projectStyleList) setShowMore(true);

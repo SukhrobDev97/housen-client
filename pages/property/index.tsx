@@ -12,6 +12,9 @@ import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownR
 import { Direction } from '../../libs/enums/common.enum';
 import { ProjectsInquiry } from '../../libs/types/property/property.input';
 import ProjectCard from '../../libs/components/property/PropertyCard';
+import { useQuery } from '@apollo/client';
+import { GET_PROJECTS } from '../../apollo/user/query';
+import { T } from '../../libs/types/common';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -34,6 +37,21 @@ const ProjectList: NextPage = ({ initialInput, ...props }: any) => {
 
 	/** APOLLO REQUESTS **/
 
+	const {
+		loading: getProjectsLoading,
+		data: getProjectsData,
+		error: getProjectsError,
+		refetch: getProjectsRefetch,
+	  } = useQuery(GET_PROJECTS, {
+		fetchPolicy: 'network-only',
+		variables: { input: searchFilter },
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T ) => {
+		  setProjects(data?.getProjects?.list);
+		  setTotal(data?.getProjects?.metaCounter[0].total);
+		},
+	  });
+
 	/** LIFECYCLES **/
 	useEffect(() => {
 		if (router.query.input) {
@@ -44,7 +62,9 @@ const ProjectList: NextPage = ({ initialInput, ...props }: any) => {
 		setCurrentPage(searchFilter.page === undefined ? 1 : searchFilter.page);
 	}, [router]);
 
-	useEffect(() => {}, [searchFilter]);
+	useEffect(() => {
+		console.log("searchFilter:", searchFilter);
+	}, [searchFilter]);
 
 	/** HANDLERS **/
 	const handlePaginationChange = async (event: ChangeEvent<unknown>, value: number) => {
