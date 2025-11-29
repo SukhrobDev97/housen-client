@@ -37,7 +37,6 @@ const HeroSection = () => {
 		return () => clearTimeout(timer);
 	}, []);
 
-	// Auto-play carousel on desktop, looping through slides smoothly
 	useEffect(() => {
 		if (device === 'mobile') return;
 

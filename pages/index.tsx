@@ -3,6 +3,7 @@ import useDeviceDetect from '../libs/hooks/useDeviceDetect';
 import withLayoutMain from '../libs/components/layout/LayoutHome';
 import CommunityBoards from '../libs/components/homepage/CommunityBoards';
 import PopularProperties from '../libs/components/homepage/PopularProperties';
+import BeforeAfterTestimonials from '../libs/components/homepage/BeforeAfterTestimonials';
 import TopAgents from '../libs/components/homepage/TopAgents';
 import TrendProperties from '../libs/components/homepage/TrendProperties';
 import TopProperties from '../libs/components/homepage/TopProperties';
@@ -25,6 +26,7 @@ const Home: NextPage = () => {
 				<TrendProperties />
 				<BookConsultation />
 				<PopularProperties />
+				<BeforeAfterTestimonials />
 				<TopProperties />
 				<TopAgents />
 			</Stack>
@@ -35,6 +37,7 @@ const Home: NextPage = () => {
 				<TrendProperties />
 				<BookConsultation />
 				<PopularProperties />
+				<BeforeAfterTestimonials />
 				<TopProperties />
 				<TopAgents />
 				<CommunityBoards />

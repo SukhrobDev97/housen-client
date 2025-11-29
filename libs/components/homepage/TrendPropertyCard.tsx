@@ -82,59 +82,65 @@ const TrendProjectCard = (props: TrendProjectCardProps) => {
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${project?.projectImages[0]})` }}
 				>
-					<div className={'view-like-box-overlay'}>
-						<IconButton 
-							color={'default'} 
-							size="small"
-							sx={{ 
-								backgroundColor: 'transparent',
-								'&:hover': { backgroundColor: 'transparent' }
-							}}
-							onClick={(e: T) => {
-								e.stopPropagation();
-							}}
-						>
-							<RemoveRedEyeIcon sx={{ fontSize: 16, color: '#ffffff' }} />
-						</IconButton>
-						<Typography className="view-cnt-overlay">{project?.projectViews || 0}</Typography>
-						<IconButton 
-							color={'default'} 
-							size="small"
-							sx={{ 
-								backgroundColor: 'transparent',
-								'&:hover': { backgroundColor: 'transparent' }
-							}}
-							onClick={(e: T) => {
-								e.stopPropagation();
-							}}
-						>
-							{project?.meLiked && project?.meLiked[0]?.myFavorite ? (
-								<FavoriteIcon style={{ color: '#ffffff', fontSize: 16 }} />
-							) : (
-								<FavoriteIcon sx={{ fontSize: 16, color: '#ffffff' }} />
-							)}
-						</IconButton>
-						<Typography className="view-cnt-overlay">{project?.projectLikes || 0}</Typography>
+					{/* Project Type Badge - Always Visible */}
+					<div className={'project-type-badge'}>
+						<span>{project.projectType || 'Type'}</span>
 					</div>
 				</Box>
 				<Box component={'div'} className={'info'}>
-					<div className={'property-details'}>
+					{/* Hidden by default, shown on hover */}
+					<div className={'property-details hover-content'}>
 						<div className={'detail-item'}>
-							<StyleIcon sx={{ fontSize: 18, color: '#666' }} />
+							<StyleIcon sx={{ fontSize: 18, color: '#ffffff' }} />
 							<span>{project.projectStyle}</span>
 						</div>
 						<div className={'detail-item'}>
-							<CalendarTodayIcon sx={{ fontSize: 18, color: '#666' }} />
+							<CalendarTodayIcon sx={{ fontSize: 18, color: '#ffffff' }} />
 							<span><strong>duration:</strong> {project.projectDuration} months</span>
 						</div>
 					</div>
-					<Divider className={'property-details-divider'} />
-					<strong className={'title'}>{project.projectTitle}</strong>
+					<Divider className={'property-details-divider hover-content'} />
+					<strong className={'title hover-content'}>{project.projectTitle}</strong>
 					<div className={'price-location'}>
-						<span className={'price'}>${project.projectPrice.toLocaleString()}</span>
-						<span className={'location'}>{project.projectType || 'Type'}</span>
+						<span className={'price hover-content'}>${project.projectPrice.toLocaleString()}</span>
+						<div className={'view-like-box-info hover-content'}>
+							<IconButton 
+								color={'default'} 
+								size="small"
+								className={'view-like-icon'}
+								sx={{ 
+									backgroundColor: 'transparent',
+									'&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.1)' }
+								}}
+								onClick={(e: T) => {
+									e.stopPropagation();
+								}}
+							>
+								<RemoveRedEyeIcon sx={{ fontSize: 18, color: '#ffffff' }} />
+							</IconButton>
+							<Typography className="view-cnt-info">{project?.projectViews || 0}</Typography>
+							<IconButton 
+								color={'default'} 
+								size="small"
+								className={'view-like-icon'}
+								sx={{ 
+									backgroundColor: 'transparent',
+									'&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.1)' }
+								}}
+								onClick={(e: T) => {
+									e.stopPropagation();
+								}}
+							>
+								{project?.meLiked && project?.meLiked[0]?.myFavorite ? (
+									<FavoriteIcon style={{ color: '#ff6b6b', fontSize: 18 }} />
+								) : (
+									<FavoriteIcon sx={{ fontSize: 18, color: '#ffffff' }} />
+								)}
+							</IconButton>
+							<Typography className="view-cnt-info">{project?.projectLikes || 0}</Typography>
+						</div>
 						<Button 
-							className={'details-btn'} 
+							className={'details-btn hover-content'} 
 							endIcon={<EastIcon sx={{ fontSize: 16 }} />}
 							onClick={(e: T) => {
 								e.stopPropagation();

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Stack, Box, Button } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -13,6 +13,7 @@ import { GET_PROJECTS } from '../../../apollo/user/query';
 import { T } from '../../types/common';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
+import { ProjectType } from '../../enums/property.enum';
 
 interface PopularProjectsProps {
 	initialInput: ProjectsInquiry;
@@ -26,6 +27,7 @@ const PopularProjects = (props: PopularProjectsProps) => {
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [displayedProjects, setDisplayedProjects] = useState<Project[]>([]);
 	const [totalPages, setTotalPages] = useState<number>(1);
+	const [selectedType, setSelectedType] = useState<ProjectType | null>(null);
 
 	const queryInput = {
 		...initialInput,
@@ -48,19 +50,35 @@ const PopularProjects = (props: PopularProjectsProps) => {
 		},
 	  });
 
+	/** FILTERED PROJECTS **/
+	const filteredProjects = useMemo(() => {
+		if (selectedType === null) {
+			return popularProjects;
+		}
+		return popularProjects.filter((project) => project.projectType === selectedType);
+	}, [popularProjects, selectedType]);
+
 	/** LIFECYCLES **/
 	useEffect(() => {
-		if (popularProjects.length > 0) {
-			const startIndex = (currentPage - 1) * 2;
-			const endIndex = startIndex + 2;
-			setDisplayedProjects(popularProjects.slice(startIndex, endIndex));
-			setTotalPages(Math.ceil(popularProjects.length / 2));
+		if (filteredProjects.length > 0) {
+			const startIndex = (currentPage - 1) * 3;
+			const endIndex = startIndex + 3;
+			setDisplayedProjects(filteredProjects.slice(startIndex, endIndex));
+			setTotalPages(Math.ceil(filteredProjects.length / 3));
+		} else {
+			setDisplayedProjects([]);
+			setTotalPages(1);
 		}
-	}, [popularProjects, currentPage]);
+	}, [filteredProjects, currentPage]);
 
 	/** HANDLERS **/
 	const handleExploreProjects = () => {
 		router.push('/property');
+	};
+
+	const handleTypeFilter = (type: ProjectType | null) => {
+		setSelectedType(type);
+		setCurrentPage(1);
 	};
 
 	const handleNextPage = () => {
@@ -84,6 +102,24 @@ const PopularProjects = (props: PopularProjectsProps) => {
 					<Stack className={'info-box'}>
 						<span>Featured projects</span>
 					</Stack>
+					{/* Category Filter Buttons */}
+					<Box className={'category-filter-buttons'}>
+						<Button 
+							className={`category-btn ${selectedType === null ? 'active' : ''}`}
+							onClick={() => handleTypeFilter(null)}
+						>
+							ALL
+						</Button>
+						{Object.values(ProjectType).map((type) => (
+							<Button
+								key={type}
+								className={`category-btn ${selectedType === type ? 'active' : ''}`}
+								onClick={() => handleTypeFilter(type)}
+							>
+								{type}
+							</Button>
+						))}
+					</Box>
 					<Stack className={'card-box'}>
 						<Swiper
 							className={'popular-property-swiper'}
@@ -92,7 +128,7 @@ const PopularProjects = (props: PopularProjectsProps) => {
 							spaceBetween={25}
 							modules={[Autoplay]}
 						>
-							{popularProjects.map((project: Project) => {
+							{filteredProjects.map((project: Project) => {
 								return (
 									<SwiperSlide key={project._id} className={'popular-property-slide'}>
 										<PopularProjectCard project={project} />
@@ -108,73 +144,95 @@ const PopularProjects = (props: PopularProjectsProps) => {
 		return (
 			<Stack className={'popular-properties'}>
 				<Stack className={'container'}>
-					<Stack className={'popular-content-wrapper'}>
-						<Box className={'popular-left-content'}>
-							<h2 className={'hot-title'}>Hot this year</h2>
-							<p className={'hot-description'}>
-								Discover the most trending properties and exclusive listings that are making waves this year.
-							</p>
-							<Button 
-								className={'explore-projects-btn'}
-								onClick={handleExploreProjects}
-								endIcon={<ArrowForwardIcon />}
+					{/* Category Filter Buttons */}
+					<Box className={'category-filter-buttons'}>
+						<Button 
+							className={`category-btn ${selectedType === null ? 'active' : ''}`}
+							onClick={() => handleTypeFilter(null)}
+						>
+							ALL
+						</Button>
+						{Object.values(ProjectType).map((type) => (
+							<Button
+								key={type}
+								className={`category-btn ${selectedType === type ? 'active' : ''}`}
+								onClick={() => handleTypeFilter(type)}
 							>
-								Explore Projects
+								{type}
 							</Button>
-						</Box>
-						<Box className={'popular-right-content'}>
-							<Stack className={'card-box'}>
-								{displayedProjects.length === 0 ? (
-									<Box component={'div'} className={'empty-list'}>
-										Popular Projects Empty
-									</Box>
-								) : (
-									<Stack 
-										className={'popular-property-swiper'}
-										direction={'row'}
-										spacing={3}
-										sx={{
-											width: '100%',
-											display: 'flex',
-											flexDirection: 'row',
-											gap: '24px',
-										}}
-									>
-										{displayedProjects.map((project: Project) => {
-											return (
-												<Box key={project._id} className={'popular-property-slide'} sx={{ flex: '1 1 calc(50% - 12px)' }}>
-													<PopularProjectCard project={project} />
-												</Box>
-											);
-										})}
-									</Stack>
-								)}
+						))}
+					</Box>
+					
+					{/* Centered Title Section */}
+					<Box className={'popular-title-section'}>
+						<p className={'popular-collections-text'}>our popular collections</p>
+						<h2 className={'hot-title'}>Hot This Year</h2>
+					</Box>
+					
+					{/* Cards Section */}
+					<Stack className={'card-box'}>
+						{displayedProjects.length === 0 ? (
+							<Box component={'div'} className={'empty-list'}>
+								Popular Projects Empty
+							</Box>
+						) : (
+							<Stack 
+								className={'popular-property-swiper'}
+								direction={'row'}
+								spacing={3}
+								sx={{
+									width: '100%',
+									display: 'flex',
+									flexDirection: 'row',
+									gap: '24px',
+								}}
+							>
+								{displayedProjects.map((project: Project) => {
+									return (
+										<Box key={project._id} className={'popular-property-slide'} sx={{ flex: '1 1 calc(33.333% - 16px)' }}>
+											<PopularProjectCard project={project} />
+										</Box>
+									);
+								})}
 							</Stack>
-							{totalPages > 1 && (
-								<Box className={'pagination-controls'}>
-									<WestIcon 
-										className={'swiper-popular-prev'} 
-										onClick={handlePrevPage}
-										sx={{ 
-											cursor: currentPage > 1 ? 'pointer' : 'not-allowed',
-											opacity: currentPage > 1 ? 1 : 0.5,
-										}}
-									/>
-									<div className={'swiper-popular-pagination'}>
-										<span>{currentPage} / {totalPages}</span>
-									</div>
-									<EastIcon 
-										className={'swiper-popular-next'} 
-										onClick={handleNextPage}
-										sx={{ 
-											cursor: currentPage < totalPages ? 'pointer' : 'not-allowed',
-											opacity: currentPage < totalPages ? 1 : 0.5,
-										}}
-									/>
-								</Box>
-							)}
-						</Box>
+						)}
 					</Stack>
+					
+					{/* Pagination */}
+					{totalPages > 1 && (
+						<Box className={'pagination-controls'}>
+							<WestIcon 
+								className={'swiper-popular-prev'} 
+								onClick={handlePrevPage}
+								sx={{ 
+									cursor: currentPage > 1 ? 'pointer' : 'not-allowed',
+									opacity: currentPage > 1 ? 1 : 0.5,
+								}}
+							/>
+							<div className={'swiper-popular-pagination'}>
+								<span>{currentPage} / {totalPages}</span>
+							</div>
+							<EastIcon 
+								className={'swiper-popular-next'} 
+								onClick={handleNextPage}
+								sx={{ 
+									cursor: currentPage < totalPages ? 'pointer' : 'not-allowed',
+									opacity: currentPage < totalPages ? 1 : 0.5,
+								}}
+							/>
+						</Box>
+					)}
+					
+					{/* Explore Collections Button */}
+					<Box className={'explore-collections-btn-wrapper'}>
+						<Button 
+							className={'explore-collections-btn'}
+							onClick={handleExploreProjects}
+							endIcon={<ArrowForwardIcon />}
+						>
+							Explore Collections
+						</Button>
+					</Box>
 				</Stack>
 			</Stack>
 		);

@@ -52,6 +52,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 	const [openStyle, setOpenStyle] = useState(false);
 	const [openType, setOpenType] = useState(false);
 	const [openPrice, setOpenPrice] = useState(false);
+	const [listingType, setListingType] = useState<'sale' | 'rent'>('sale');
 	const [projectStyle, setProjectStyle] = useState<ProjectStyle[]>(Object.values(ProjectStyle));
 	const [projectType, setProjectType] = useState<ProjectType[]>(Object.values(ProjectType));
 	
@@ -127,7 +128,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 						projectStyleList: [value],
 					},
 				});
-				typeStateChangeHandler();
+				setOpenStyle(false);
 			} catch (err: any) {
 				console.log('ERROR, projectStyleSelectHandler:', err);
 			}
@@ -145,7 +146,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 						typeList: [value],
 					},
 				});
-				
+				setOpenType(false);
 			} catch (err: any) {
 				console.log('ERROR, projectTypeSelectHandler:', err);
 			}
@@ -203,128 +204,144 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 	} else {
 		return (
 			<>
-				<Stack className={'search-box'}>
-					<Stack className={'select-box'}>
-						<Box component={'div'} className={`box ${openStyle ? 'on' : ''}`} onClick={styleStateChangeHandler}>
-							<span>{searchFilter?.search?.projectStyleList ? searchFilter?.search?.projectStyleList[0] : t('Project style')} </span>
-							<ExpandMoreIcon />
+				<Stack className={'premium-filter-card'}>
+					{/* Toggle Buttons */}
+					<Stack className={'filter-toggles'}>
+						<Box 
+							className={`toggle-btn ${listingType === 'sale' ? 'active' : ''}`}
+							onClick={() => setListingType('sale')}
+						>
+							<span>Public</span>
 						</Box>
-						<Box className={`box ${openType ? 'on' : ''}`} onClick={typeStateChangeHandler}>
-							<span> {searchFilter?.search?.typeList ? searchFilter?.search?.typeList[0] : t('Project type')} </span>
-							<ExpandMoreIcon />
+						<Box 
+							className={`toggle-btn ${listingType === 'rent' ? 'active' : ''}`}
+							onClick={() => setListingType('rent')}
+						>
+							<span>Collaboration</span>
 						</Box>
-						<Box className={`box ${openPrice ? 'on' : ''}`} onClick={priceStateChangeHandler}>
-							<span>
-								{searchFilter?.search?.pricesRange?.start === 0 && searchFilter?.search?.pricesRange?.end === 2000000
-									? 'Price Range'
-									: searchFilter?.search?.pricesRange?.end === 2000000
-									? `$${(searchFilter?.search?.pricesRange?.start / 1000).toFixed(0)}K+`
-									: `$${(searchFilter?.search?.pricesRange?.start / 1000).toFixed(0)}K - $${(searchFilter?.search?.pricesRange?.end / 1000).toFixed(0)}K`}
-							</span>
-							<ExpandMoreIcon />
-						</Box>
-						<Box className={'search-input-box'}>
-							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-								<path d="M21 21L16.65 16.65" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-							</svg>
-							<input 
-								type="text"
-								placeholder="Search by category..."
-								className={'search-input'}
-								value={searchFilter?.search?.text || ''}
-								onChange={(e) => setSearchFilter({
-									...searchFilter,
-									search: {
-										...searchFilter.search,
-										text: e.target.value,
-									},
+					</Stack>
+
+					{/* Filter Dropdowns */}
+					<Stack className={'filter-dropdowns'}>
+						<Box className={'filter-dropdown-group'}>
+							<Box component={'div'} className={`filter-dropdown-btn ${openStyle ? 'active' : ''}`} onClick={styleStateChangeHandler}>
+								<span className={'filter-label'}>Style</span>
+								<span className={'filter-value'}>
+									{searchFilter?.search?.projectStyleList?.length ? searchFilter?.search?.projectStyleList[0] : 'All Styles'}
+								</span>
+								<ExpandMoreIcon className={`expand-icon ${openStyle ? 'rotated' : ''}`} />
+							</Box>
+							
+							{/* Dropdown Menu */}
+							<div className={`filter-location ${openStyle ? 'on' : ''}`} ref={locationRef}>
+								{projectStyle.map((location: ProjectStyle) => {
+									const isSelected = searchFilter?.search?.projectStyleList?.some((item: ProjectStyle) => item === location);
+									return (
+										<div 
+											className={`filter-option ${isSelected ? 'selected' : ''}`}
+											onClick={() => projectStyleSelectHandler(location)} 
+											key={location}
+										>
+											<Checkbox
+												checked={isSelected}
+												icon={<RadioButtonUncheckedIcon sx={{ color: '#999', fontSize: 20 }} />}
+												checkedIcon={<CheckCircleIcon sx={{ color: '#364440', fontSize: 20 }} />}
+												sx={{ 
+													padding: '4px',
+													'&:hover': { backgroundColor: 'transparent' }
+												}}
+											/>
+											<span>{location}</span>
+										</div>
+									);
 								})}
-							/>
+							</div>
 						</Box>
-					</Stack>
-					<Stack className={'search-box-other'}>
-						<Box className={'search-btn white-btn'} onClick={pushSearchHandler}>
+
+						<Box className={'filter-dropdown-group'}>
+							<Box className={`filter-dropdown-btn ${openType ? 'active' : ''}`} onClick={typeStateChangeHandler}>
+								<span className={'filter-label'}>Type</span>
+								<span className={'filter-value'}>
+									{searchFilter?.search?.typeList?.length ? searchFilter?.search?.typeList[0] : 'All Types'}
+								</span>
+								<ExpandMoreIcon className={`expand-icon ${openType ? 'rotated' : ''}`} />
+							</Box>
+							
+							{/* Dropdown Menu */}
+							<div className={`filter-type ${openType ? 'on' : ''}`} ref={typeRef}>
+								{projectType.map((type: ProjectType) => {
+									const isSelected = searchFilter?.search?.typeList?.some((item: ProjectType) => item === type);
+									return (
+										<div
+											className={`filter-option ${isSelected ? 'selected' : ''}`}
+											onClick={() => projectTypeSelectHandler(type)}
+											key={type}
+										>
+											<Checkbox
+												checked={isSelected}
+												icon={<RadioButtonUncheckedIcon sx={{ color: '#999', fontSize: 20 }} />}
+												checkedIcon={<CheckCircleIcon sx={{ color: '#364440', fontSize: 20 }} />}
+												sx={{ 
+													padding: '4px',
+													'&:hover': { backgroundColor: 'transparent' }
+												}}
+											/>
+											<span>{type}</span>
+										</div>
+									);
+								})}
+							</div>
+						</Box>
+
+						<Box className={'filter-dropdown-group'}>
+							<Box className={`filter-dropdown-btn ${openPrice ? 'active' : ''}`} onClick={priceStateChangeHandler}>
+								<span className={'filter-label'}>Price</span>
+								<span className={'filter-value'}>
+									{searchFilter?.search?.pricesRange?.start === 0 && searchFilter?.search?.pricesRange?.end === 2000000
+										? 'All Prices'
+										: searchFilter?.search?.pricesRange?.end === 2000000
+										? `$${(searchFilter?.search?.pricesRange?.start / 1000).toFixed(0)}K+`
+										: `$${(searchFilter?.search?.pricesRange?.start / 1000).toFixed(0)}K - $${(searchFilter?.search?.pricesRange?.end / 1000).toFixed(0)}K`}
+								</span>
+								<ExpandMoreIcon className={`expand-icon ${openPrice ? 'rotated' : ''}`} />
+							</Box>
+							
+							{/* Dropdown Menu */}
+							<div className={`filter-price ${openPrice ? 'on' : ''}`} ref={priceRef}>
+								{priceRanges.map((range, index) => {
+									const isSelected = 
+										searchFilter?.search?.pricesRange?.start === range.start && 
+										searchFilter?.search?.pricesRange?.end === range.end;
+									return (
+										<div
+											className={`filter-option ${isSelected ? 'selected' : ''}`}
+											onClick={() => priceRangeSelectHandler(range.start, range.end)}
+											key={index}
+										>
+											<Checkbox
+												checked={isSelected}
+												icon={<RadioButtonUncheckedIcon sx={{ color: '#999', fontSize: 20 }} />}
+												checkedIcon={<CheckCircleIcon sx={{ color: '#364440', fontSize: 20 }} />}
+												sx={{ 
+													padding: '4px',
+													'&:hover': { backgroundColor: 'transparent' }
+												}}
+											/>
+											<span>{range.label}</span>
+										</div>
+									);
+								})}
+							</div>
+						</Box>
+
+						{/* Search Button */}
+						<Box className={'filter-search-btn'} onClick={pushSearchHandler}>
 							<span>Search</span>
-							<img src="/img/icons/rightup.svg" alt="" />
+							<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+								<path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+							</svg>
 						</Box>
 					</Stack>
-
-					{/*MENU */}
-					<div className={`filter-location ${openStyle ? 'on' : ''}`} ref={locationRef}>
-						{projectStyle.map((location: ProjectStyle) => {
-							const isSelected = searchFilter?.search?.projectStyleList?.some((item: ProjectStyle) => item === location);
-							return (
-								<div 
-									className={`filter-option ${isSelected ? 'selected' : ''}`}
-									onClick={() => projectStyleSelectHandler(location)} 
-									key={location}
-								>
-									<Checkbox
-										checked={isSelected}
-										icon={<RadioButtonUncheckedIcon sx={{ color: '#999', fontSize: 20 }} />}
-										checkedIcon={<CheckCircleIcon sx={{ color: '#1976d2', fontSize: 20 }} />}
-										sx={{ 
-											padding: '4px',
-											'&:hover': { backgroundColor: 'transparent' }
-										}}
-									/>
-									<span>{location}</span>
-								</div>
-							);
-						})}
-					</div>
-
-					<div className={`filter-type ${openType ? 'on' : ''}`} ref={typeRef}>
-						{projectType.map((type: ProjectType) => {
-							const isSelected = searchFilter?.search?.typeList?.some((item: ProjectType) => item === type);
-							return (
-								<div
-									className={`filter-option ${isSelected ? 'selected' : ''}`}
-									onClick={() => projectTypeSelectHandler(type)}
-									key={type}
-								>
-									<Checkbox
-										checked={isSelected}
-										icon={<RadioButtonUncheckedIcon sx={{ color: '#999', fontSize: 20 }} />}
-										checkedIcon={<CheckCircleIcon sx={{ color: '#1976d2', fontSize: 20 }} />}
-										sx={{ 
-											padding: '4px',
-											'&:hover': { backgroundColor: 'transparent' }
-										}}
-									/>
-									<span>{type}</span>
-								</div>
-							);
-						})}
-					</div>
-
-					<div className={`filter-price ${openPrice ? 'on' : ''}`} ref={priceRef}>
-						{priceRanges.map((range, index) => {
-							const isSelected = 
-								searchFilter?.search?.pricesRange?.start === range.start && 
-								searchFilter?.search?.pricesRange?.end === range.end;
-							return (
-								<div
-									className={`filter-option ${isSelected ? 'selected' : ''}`}
-									onClick={() => priceRangeSelectHandler(range.start, range.end)}
-									key={index}
-								>
-									<Checkbox
-										checked={isSelected}
-										icon={<RadioButtonUncheckedIcon sx={{ color: '#999', fontSize: 20 }} />}
-										checkedIcon={<CheckCircleIcon sx={{ color: '#1976d2', fontSize: 20 }} />}
-										sx={{ 
-											padding: '4px',
-											'&:hover': { backgroundColor: 'transparent' }
-										}}
-									/>
-									<span>{range.label}</span>
-								</div>
-							);
-						})}
-					</div>
-
 				</Stack>
 			</>
 		);

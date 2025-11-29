@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Stack, Box } from '@mui/material';
+import { Stack, Box, Button } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -71,14 +71,17 @@ const TopAgencies = (props: TopAgenciesProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>High Rated Interior Agencies</span>
-							<p>Meet Our High Rated Interior Agencies</p>
+							<span>Top Interior Agencies</span>
+							<p>Discover premium interior design agencies trusted by thousands</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
-							<div className={'more-box'}>
-								<span>Explore More Agencies</span>
-								<img src="/img/icons/rightup.svg" alt="" />
-							</div>
+							<Button 
+								className={'explore-agencies-btn'}
+								endIcon={<img src="/img/icons/rightup.svg" alt="" style={{ width: '16px', height: '16px' }} />}
+								onClick={() => router.push('/agent')}
+							>
+								Explore All Agencies
+							</Button>
 						</Box>
 					</Stack>
 					<Stack className={'wrapper'}>

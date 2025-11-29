@@ -263,11 +263,6 @@ const Top = () => {
 								</div>
 							</Link>
 						)}
-						<Link href={'/cs'} onClick={closeMobileMenu}>
-							<div className={'mobile-menu-item contact-button'}>
-								<span>Contact Us</span>
-							</div>
-						</Link>
 						{user?._id ? (
 							<div className={'mobile-menu-item'} onClick={(event: any) => {
 								setLogoutAnchor(event.currentTarget);
@@ -371,14 +366,6 @@ const Top = () => {
 						<Box component={'div'} className={'user-box'}>
 							{user?._id ? (
 								<>
-									<Link href={'/cs'}>
-										<div className={'contact-us-button'}>
-											<span>Contact Us</span>
-											<svg className={'right-arrow'} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-												<path d="M2.5 12L21.5 12M21.5 12L15.5 6M21.5 12L15.5 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-											</svg>
-										</div>
-									</Link>
 									<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
 										<img
 											src={
@@ -405,14 +392,6 @@ const Top = () => {
 								</>
 							) : (
 								<>
-									<Link href={'/cs'}>
-										<div className={'contact-us-button'}>
-											<span>Contact Us</span>
-											<svg className={'right-arrow'} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-												<path d="M2.5 12L21.5 12M21.5 12L15.5 6M21.5 12L15.5 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-											</svg>
-										</div>
-									</Link>
 									<Link href={'/account/join'}>
 										<div className={'auth-button'}>
 											<AccountCircleOutlinedIcon className={'auth-icon'} />

@@ -49,10 +49,10 @@ const TopProjects = (props: TopProjectsProps) => {
 	/** LIFECYCLES **/
 	useEffect(() => {
 		if (topProjects.length > 0) {
-			const startIndex = (currentPage - 1) * 4;
-			const endIndex = startIndex + 4;
+			const startIndex = (currentPage - 1) * 3;
+			const endIndex = startIndex + 3;
 			setDisplayedProjects(topProjects.slice(startIndex, endIndex));
-			setTotalPages(Math.ceil(topProjects.length / 4));
+			setTotalPages(Math.ceil(topProjects.length / 3));
 		}
 	}, [topProjects, currentPage]);
 
@@ -132,7 +132,7 @@ const TopProjects = (props: TopProjectsProps) => {
 						</Box>
 					</Stack>
 					<Stack className={'card-box'}>
-						{topProjects.length === 0 ? (
+						{displayedProjects.length === 0 ? (
 							<Box component={'div'} className={'empty-list'}>
 								Top Projects Empty
 							</Box>
@@ -148,13 +148,23 @@ const TopProjects = (props: TopProjectsProps) => {
 									gap: '24px',
 								}}
 							>
-								{displayedProjects.map((project: Project) => {
-									return (
-										<Box key={project._id} className={'top-property-slide'} sx={{ flex: '1 1 calc(25% - 18px)' }}>
-											<TopProjectCard project={project} />
-										</Box>
-									);
-								})}
+								{/* Left Column - 2 Cards */}
+								<Box className={'left-column-cards'}>
+									{displayedProjects.slice(0, 2).map((project: Project) => {
+										return (
+											<Box key={project._id} className={'top-property-slide left-card'}>
+												<TopProjectCard project={project} />
+											</Box>
+										);
+									})}
+								</Box>
+								
+								{/* Right Side - 1 Large Card */}
+								{displayedProjects[2] && (
+									<Box className={'top-property-slide right-card'}>
+										<TopProjectCard project={displayedProjects[2]} />
+									</Box>
+								)}
 							</Stack>
 						)}
 					</Stack>
