@@ -9,12 +9,14 @@ import { useRouter } from 'next/router';
 import { Project } from '../../libs/types/property/property';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
-import { Direction } from '../../libs/enums/common.enum';
+import { Direction, Message } from '../../libs/enums/common.enum';
 import { ProjectsInquiry } from '../../libs/types/property/property.input';
 import ProjectCard from '../../libs/components/property/PropertyCard';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { GET_PROJECTS } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
+import { LIKE_TARGET_PROJECT } from '../../apollo/user/mutation';
+import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -36,6 +38,7 @@ const ProjectList: NextPage = ({ initialInput, ...props }: any) => {
 	const [filterSortName, setFilterSortName] = useState('New');
 
 	/** APOLLO REQUESTS **/
+	const [likeTargetProject] = useMutation(LIKE_TARGET_PROJECT)
 
 	const {
 		loading: getProjectsLoading,
@@ -77,6 +80,25 @@ const ProjectList: NextPage = ({ initialInput, ...props }: any) => {
 			},
 		);
 		setCurrentPage(value);
+	};
+
+
+	const likeProjectHandler = async (userId: string, id: string) => {
+		try {
+		if (!id) return;
+		if (!userId) throw new Error(Message.NOT_AUTHENTICATED);
+	
+		await likeTargetProject({
+			variables: { input: id },
+		});
+	
+		await getProjectsRefetch({ input: initialInput });
+	
+		await sweetTopSmallSuccessAlert('success', 800);
+		} catch (err: any) {
+		console.log('ERROR_LikePropertyHandler:', err.message);
+		sweetMixinErrorAlert(err.message).then();
+		}
 	};
 
 	const sortingClickHandler = (e: MouseEvent<HTMLElement>) => {
@@ -161,7 +183,7 @@ const ProjectList: NextPage = ({ initialInput, ...props }: any) => {
 									</div>
 								) : (
 									projects.map((project: Project) => {
-										return <ProjectCard project={project} key={project?._id} />;
+										return <ProjectCard project={project} likeProjectHandler={likeProjectHandler} key={project?._id} />;
 									})
 								)}
 							</Stack>
