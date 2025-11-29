@@ -118,7 +118,7 @@ const TrendProjects = (props: TrendProjectsProps) => {
 								{trendProjects.map((project: Project) => {
 									return (
 										<SwiperSlide key={project._id} className={'trend-property-slide'}>
-											{/*<TrendProjectCard project={project} /> */}
+											<TrendProjectCard project={project} likeProjectHandler={likeProjectHandler} />
 										</SwiperSlide>
 									);
 								})}

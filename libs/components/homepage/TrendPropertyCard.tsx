@@ -62,7 +62,7 @@ const TrendProjectCard = (props: TrendProjectCardProps) => {
 								<RemoveRedEyeIcon />
 							</IconButton>
 							<Typography className="view-cnt">{project?.projectViews}</Typography>
-							<IconButton color={'default'}>
+							<IconButton color={'default'} onClick={() => likeProjectHandler(user, project._id)}>
 								{project?.meLiked && project?.meLiked[0]?.myFavorite ? (
 									<FavoriteIcon style={{ color: 'red' }} />
 								) : (

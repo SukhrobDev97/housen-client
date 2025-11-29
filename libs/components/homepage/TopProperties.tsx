@@ -109,7 +109,7 @@ const TopProjects = (props: TopProjectsProps) => {
 							{topProjects.map((project: Project) => {
 								return (
 									<SwiperSlide className={'top-property-slide'} key={project?._id}>
-										{/*<TopProjectCard project={project} />*/}
+										<TopProjectCard project={project} likeProjectHandler={likeProjectHandler} />
 									</SwiperSlide>
 								);
 							})}
