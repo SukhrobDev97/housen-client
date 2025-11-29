@@ -75,14 +75,14 @@ const PopularProjectCard = (props: PopularProjectCardProps) => {
 	} else {
 		return (
 			<Stack 
-				className="popular-card-box" 
-				onClick={() => router.push(`/property/detail?id=${project._id}`)}
-				sx={{ cursor: 'pointer' }}
+				className="popular-card-box"
 			>
 				<Box
 					component={'div'}
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${project?.projectImages[0]})` }}
+					onClick={() => router.push(`/property/detail?id=${project._id}`)}
+					sx={{ cursor: 'pointer' }}
 				>
 					{/* Project Type Badge - Always Visible */}
 					<div className={'project-type-badge'}>
@@ -114,9 +114,6 @@ const PopularProjectCard = (props: PopularProjectCardProps) => {
 									backgroundColor: 'transparent',
 									'&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.05)' }
 								}}
-								onClick={(e: T) => {
-									e.stopPropagation();
-								}}
 							>
 								<RemoveRedEyeIcon sx={{ fontSize: 18, color: '#666' }} />
 							</IconButton>
@@ -128,9 +125,6 @@ const PopularProjectCard = (props: PopularProjectCardProps) => {
 								sx={{ 
 									backgroundColor: 'transparent',
 									'&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.05)' }
-								}}
-								onClick={(e: T) => {
-									e.stopPropagation();
 								}}
 							>
 								{project?.meLiked && project?.meLiked[0]?.myFavorite ? (
@@ -144,10 +138,7 @@ const PopularProjectCard = (props: PopularProjectCardProps) => {
 						<Button 
 							className={'details-btn'} 
 							endIcon={<EastIcon sx={{ fontSize: 16 }} />}
-							onClick={(e: T) => {
-								e.stopPropagation();
-								router.push(`/property/detail?id=${project._id}`);
-							}}
+							onClick={() => router.push(`/property/detail?id=${project._id}`)}
 						>
 							Details
 						</Button>

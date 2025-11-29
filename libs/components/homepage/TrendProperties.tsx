@@ -10,8 +10,11 @@ import { Project } from '../../types/property/property';
 import { ProjectsInquiry } from '../../types/property/property.input';
 import TrendProjectCard from './TrendPropertyCard';
 import { GET_PROJECTS } from '../../../apollo/user/query';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { T } from '../../types/common';
+import { LIKE_TARGET_PROJECT } from '../../../apollo/user/mutation';
+import { Message } from '../../enums/common.enum';
+import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 
 interface TrendProjectsProps {
 	initialInput: ProjectsInquiry;
@@ -32,6 +35,8 @@ const TrendProjects = (props: TrendProjectsProps) => {
 	};
 
 	/** APOLLO REQUESTS **/
+	const [likeTargetProject] = useMutation(LIKE_TARGET_PROJECT)
+
 	const {
 		loading: getProjectssLoading,
 		data: getProjectssData,
@@ -57,6 +62,24 @@ const TrendProjects = (props: TrendProjectsProps) => {
 	}, [trendProjects, currentPage]);
 
 	/** HANDLERS **/
+	const likeProjectHandler = async (userId: string, id: string) => {
+		try {
+		if (!id) return;
+		if (!userId) throw new Error(Message.NOT_AUTHENTICATED);
+	
+		await likeTargetProject({
+			variables: { input: id },
+		});
+	
+		await getProjectsRefetch({ input: initialInput });
+	
+		await sweetTopSmallSuccessAlert('success', 800);
+		} catch (err: any) {
+		console.log('ERROR_LikeProjectHandler:', err.message);
+		sweetMixinErrorAlert(err.message).then();
+		}
+	};
+
 	const handleNextPage = () => {
 		if (currentPage < totalPages) {
 			setCurrentPage(currentPage + 1);
@@ -95,7 +118,7 @@ const TrendProjects = (props: TrendProjectsProps) => {
 								{trendProjects.map((project: Project) => {
 									return (
 										<SwiperSlide key={project._id} className={'trend-property-slide'}>
-											<TrendProjectCard project={project} />
+											{/*<TrendProjectCard project={project} /> */}
 										</SwiperSlide>
 									);
 								})}
@@ -158,7 +181,7 @@ const TrendProjects = (props: TrendProjectsProps) => {
 								{displayedProjects.map((project: Project) => {
 									return (
 										<Box key={project._id} className={'trend-property-slide'} sx={{ flex: '1 1 calc(33.333% - 16px)' }}>
-											<TrendProjectCard project={project} />
+											<TrendProjectCard project={project} likeProjectHandler={likeProjectHandler} />
 										</Box>
 									);
 								})}

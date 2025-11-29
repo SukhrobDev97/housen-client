@@ -9,8 +9,11 @@ import { ProjectsInquiry } from '../../types/property/property.input';
 import { Project } from '../../types/property/property';
 import TopProjectCard from './TopPropertyCard';
 import { GET_PROJECTS } from '../../../apollo/user/query';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { T } from '../../types/common';
+import { LIKE_TARGET_PROJECT } from '../../../apollo/user/mutation';
+import { Message } from '../../enums/common.enum';
+import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 
 interface TopProjectsProps {
 	initialInput: ProjectsInquiry;
@@ -31,6 +34,7 @@ const TopProjects = (props: TopProjectsProps) => {
 	};
 
 	/** APOLLO REQUESTS **/
+	const [likeTargetProject] = useMutation(LIKE_TARGET_PROJECT)
 		
 	const {
 		loading: getProjectsLoading,
@@ -57,6 +61,24 @@ const TopProjects = (props: TopProjectsProps) => {
 	}, [topProjects, currentPage]);
 
 	/** HANDLERS **/
+	const likeProjectHandler = async (userId: string, id: string) => {
+		try {
+		  if (!id) return;
+		  if (!userId) throw new Error(Message.NOT_AUTHENTICATED);
+	  
+		  await likeTargetProject({
+			variables: { input: id },
+		  });
+	  
+		  await getProjectsRefetch({ input: initialInput });
+	  
+		  await sweetTopSmallSuccessAlert('success', 800);
+		} catch (err: any) {
+		  console.log('ERROR_LikeProjectHandler:', err.message);
+		  sweetMixinErrorAlert(err.message).then();
+		}
+	  };
+	
 	const handleNextPage = () => {
 		if (currentPage < totalPages) {
 			setCurrentPage(currentPage + 1);
@@ -87,7 +109,7 @@ const TopProjects = (props: TopProjectsProps) => {
 							{topProjects.map((project: Project) => {
 								return (
 									<SwiperSlide className={'top-property-slide'} key={project?._id}>
-										<TopProjectCard project={project} />
+										{/*<TopProjectCard project={project} />*/}
 									</SwiperSlide>
 								);
 							})}
@@ -153,7 +175,7 @@ const TopProjects = (props: TopProjectsProps) => {
 									{displayedProjects.slice(0, 2).map((project: Project) => {
 										return (
 											<Box key={project._id} className={'top-property-slide left-card'}>
-												<TopProjectCard project={project} />
+												<TopProjectCard project={project} likeProjectHandler={likeProjectHandler} />
 											</Box>
 										);
 									})}
@@ -162,7 +184,7 @@ const TopProjects = (props: TopProjectsProps) => {
 								{/* Right Side - 1 Large Card */}
 								{displayedProjects[2] && (
 									<Box className={'top-property-slide right-card'}>
-										<TopProjectCard project={displayedProjects[2]} />
+										<TopProjectCard project={displayedProjects[2]} likeProjectHandler={likeProjectHandler} />
 									</Box>
 								)}
 							</Stack>

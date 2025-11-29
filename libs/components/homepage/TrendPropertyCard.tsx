@@ -16,10 +16,11 @@ import { T } from '../../types/common';
 
 interface TrendProjectCardProps {
 	project: Project;
+	likeProjectHandler: any;
 }
 
 const TrendProjectCard = (props: TrendProjectCardProps) => {
-	const { project } = props;
+	const { project, likeProjectHandler } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
@@ -76,11 +77,13 @@ const TrendProjectCard = (props: TrendProjectCardProps) => {
 		);
 	} else {
 		return (
-			<Stack className="trend-card-box" key={project._id} onClick={() => router.push(`/property/detail?id=${project._id}`)}>
+			<Stack className="trend-card-box" key={project._id}>
 				<Box
 					component={'div'}
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${project?.projectImages[0]})` }}
+					onClick={() => router.push(`/property/detail?id=${project._id}`)}
+					sx={{ cursor: 'pointer' }}
 				>
 					{/* Project Type Badge - Always Visible */}
 					<div className={'project-type-badge'}>
@@ -112,9 +115,6 @@ const TrendProjectCard = (props: TrendProjectCardProps) => {
 									backgroundColor: 'transparent',
 									'&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.1)' }
 								}}
-								onClick={(e: T) => {
-									e.stopPropagation();
-								}}
 							>
 								<RemoveRedEyeIcon sx={{ fontSize: 18, color: '#ffffff' }} />
 							</IconButton>
@@ -127,9 +127,7 @@ const TrendProjectCard = (props: TrendProjectCardProps) => {
 									backgroundColor: 'transparent',
 									'&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.1)' }
 								}}
-								onClick={(e: T) => {
-									e.stopPropagation();
-								}}
+								onClick={() => likeProjectHandler(user, project._id)}
 							>
 								{project?.meLiked && project?.meLiked[0]?.myFavorite ? (
 									<FavoriteIcon style={{ color: '#ff6b6b', fontSize: 18 }} />
@@ -142,10 +140,7 @@ const TrendProjectCard = (props: TrendProjectCardProps) => {
 						<Button 
 							className={'details-btn hover-content'} 
 							endIcon={<EastIcon sx={{ fontSize: 16 }} />}
-							onClick={(e: T) => {
-								e.stopPropagation();
-								router.push(`/property/detail?id=${project._id}`);
-							}}
+							onClick={() => router.push(`/property/detail?id=${project._id}`)}
 						>
 							Details
 						</Button>
