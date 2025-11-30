@@ -96,6 +96,9 @@ export const GET_PROJECT = gql`
 			projectDesc
 			projectCollaboration
 			projectPublic
+			projectViews
+			projectLikes
+			projectRank
 			memberId
 			deletedAt
 			createdAt
@@ -145,6 +148,9 @@ export const GET_PROJECTS = gql`
 				projectDesc
 				projectCollaboration
 				projectPublic
+				projectViews
+				projectLikes
+				projectRank
 				memberId
 				deletedAt
 				createdAt

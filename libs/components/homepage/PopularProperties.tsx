@@ -10,10 +10,14 @@ import PopularProjectCard from './PopularPropertyCard';
 import { Project } from '../../types/property/property';
 import { ProjectsInquiry } from '../../types/property/property.input';
 import { GET_PROJECTS } from '../../../apollo/user/query';
+import { LIKE_TARGET_PROJECT } from '../../../apollo/user/mutation';
 import { T } from '../../types/common';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation, useReactiveVar } from '@apollo/client';
+import { userVar } from '../../../apollo/store';
 import { useRouter } from 'next/router';
 import { ProjectType } from '../../enums/property.enum';
+import { Message } from '../../enums/common.enum';
+import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 
 interface PopularProjectsProps {
 	initialInput: ProjectsInquiry;
@@ -23,6 +27,7 @@ const PopularProjects = (props: PopularProjectsProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
+	const user = useReactiveVar(userVar);
 	const [popularProjects, setPopularProjects] = useState<Project[]>([]);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [displayedProjects, setDisplayedProjects] = useState<Project[]>([]);
@@ -36,6 +41,8 @@ const PopularProjects = (props: PopularProjectsProps) => {
 	};
 
 	/** APOLLO REQUESTS **/
+	const [likeTargetProject] = useMutation(LIKE_TARGET_PROJECT);
+
 	const {
 		loading: getProjectsLoading,
 		data: getProjectsData,
@@ -49,6 +56,24 @@ const PopularProjects = (props: PopularProjectsProps) => {
 			setPopularProjects(data?.getProjects?.list || []);
 		},
 	  });
+
+	const likeProjectHandler = async (user: any, id: string) => {
+		try {
+			if (!id) return;
+			if (!user?._id) throw new Error(Message.NOT_AUTHENTICATED);
+
+			await likeTargetProject({
+				variables: { input: id },
+			});
+
+			await getProjectsRefetch({ input: queryInput });
+
+			await sweetTopSmallSuccessAlert('success', 800);
+		} catch (err: any) {
+			console.log('ERROR_LikeProjectHandler:', err.message);
+			sweetMixinErrorAlert(err.message).then();
+		}
+	};
 
 	/** FILTERED PROJECTS **/
 	const filteredProjects = useMemo(() => {
@@ -131,7 +156,7 @@ const PopularProjects = (props: PopularProjectsProps) => {
 							{filteredProjects.map((project: Project) => {
 								return (
 									<SwiperSlide key={project._id} className={'popular-property-slide'}>
-										<PopularProjectCard project={project} />
+										<PopularProjectCard project={project} likeProjectHandler={likeProjectHandler} />
 									</SwiperSlide>
 								);
 							})}
@@ -190,7 +215,7 @@ const PopularProjects = (props: PopularProjectsProps) => {
 								{displayedProjects.map((project: Project) => {
 									return (
 										<Box key={project._id} className={'popular-property-slide'} sx={{ flex: '1 1 calc(33.333% - 16px)' }}>
-											<PopularProjectCard project={project} />
+											<PopularProjectCard project={project} likeProjectHandler={likeProjectHandler} />
 										</Box>
 									);
 								})}

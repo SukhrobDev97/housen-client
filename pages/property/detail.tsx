@@ -27,7 +27,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Project } from '../../libs/types/property/property';
 import ProjectBigCard from '../../libs/components/common/PropertyBigCard';
-import { GET_PROJECT, GET_PROJECTS } from '../../apollo/user/query';
+import { GET_COMMENTS, GET_PROJECT, GET_PROJECTS } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { LIKE_TARGET_PROJECT } from '../../apollo/user/mutation';
@@ -101,6 +101,26 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 		 	if(data?.getProjects.list) setDestinationProjects(data?.getProjects?.list);
 		},
 		});
+
+
+		const {
+			loading: getCommentsLoading,
+			data: getCommentsData,
+			error: getCommentsError,
+			refetch: getCommentsRefetch,
+			} = useQuery(GET_COMMENTS, {
+			fetchPolicy: 'cache-and-network',
+			variables: { 
+				input:{ initialComment}
+			 },
+			skip: !commentInquiry.search.commentRefId,
+			notifyOnNetworkStatusChange: true,
+			onCompleted: (data: T ) => {
+				 if(data?.getComments?.list) setProjectComments(data?.getComments?.list);
+				 setCommentTotal(data?.getComments?.metaCounter[0]?.total ?? 0);
+			},
+			})
+		
 		
 	  
 
@@ -121,17 +141,23 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 		}
 	}, [router]);
 
-	useEffect(() => {}, [commentInquiry]);
+	useEffect(() => {
+		if(commentInquiry.search.commentRefId){
+			getCommentsRefetch({ input: commentInquiry });
+
+		}
+	}, [commentInquiry]);
+
 
 	/** HANDLERS **/
 	const changeImageHandler = (image: string) => {
 		setSlideImage(image);
 	};
 
-	const likeProjectHandler = async (userId: string, id: string) => {
+	const likeProjectHandler = async (user: any, id: string | undefined) => {
 		try {
 		if (!id) return;
-		if (!userId) throw new Error(Message.NOT_AUTHENTICATED);
+		if (!user?._id) throw new Error(Message.NOT_AUTHENTICATED);
 	
 		await likeTargetProject({
 			variables: { input: id },
@@ -237,11 +263,16 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 										<Stack className="button-box">
 											{project?.meLiked && project?.meLiked[0]?.myFavorite ? (
-												<FavoriteIcon color="primary" fontSize={'medium'} />
+												<FavoriteIcon 
+													color="primary" 
+													fontSize={'medium'} 
+													sx={{ cursor: 'pointer' }}
+													onClick={() => likeProjectHandler(user, project?._id)}
+												/>
 											) : (
 												<FavoriteBorderIcon
 													fontSize={'medium'}
-													// @ts-ignore
+													sx={{ cursor: 'pointer' }}
 													onClick={() => likeProjectHandler(user, project?._id)}
 												/>
 											)}

@@ -17,10 +17,11 @@ import { T } from '../../types/common';
 
 interface PopularProjectCardProps {
 	project: Project;
+	likeProjectHandler?: any;
 }
 
 const PopularProjectCard = (props: PopularProjectCardProps) => {
-	const { project } = props;
+	const { project, likeProjectHandler } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
@@ -134,6 +135,7 @@ const PopularProjectCard = (props: PopularProjectCardProps) => {
 									backgroundColor: 'transparent',
 									'&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.05)' }
 								}}
+								onClick={() => likeProjectHandler && likeProjectHandler(user, project?._id)}
 							>
 								{project?.meLiked && project?.meLiked[0]?.myFavorite ? (
 									<FavoriteIcon style={{ color: '#ff6b6b', fontSize: 18 }} />
