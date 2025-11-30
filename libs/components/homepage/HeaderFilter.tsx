@@ -233,29 +233,29 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 							</Box>
 							
 							{/* Dropdown Menu */}
-							<div className={`filter-location ${openStyle ? 'on' : ''}`} ref={locationRef}>
-								{projectStyle.map((location: ProjectStyle) => {
-									const isSelected = searchFilter?.search?.projectStyleList?.some((item: ProjectStyle) => item === location);
-									return (
-										<div 
-											className={`filter-option ${isSelected ? 'selected' : ''}`}
-											onClick={() => projectStyleSelectHandler(location)} 
-											key={location}
-										>
-											<Checkbox
-												checked={isSelected}
-												icon={<RadioButtonUncheckedIcon sx={{ color: '#999', fontSize: 20 }} />}
+					<div className={`filter-location ${openStyle ? 'on' : ''}`} ref={locationRef}>
+						{projectStyle.map((location: ProjectStyle) => {
+							const isSelected = searchFilter?.search?.projectStyleList?.some((item: ProjectStyle) => item === location);
+							return (
+								<div 
+									className={`filter-option ${isSelected ? 'selected' : ''}`}
+									onClick={() => projectStyleSelectHandler(location)} 
+									key={location}
+								>
+									<Checkbox
+										checked={isSelected}
+										icon={<RadioButtonUncheckedIcon sx={{ color: '#999', fontSize: 20 }} />}
 												checkedIcon={<CheckCircleIcon sx={{ color: '#364440', fontSize: 20 }} />}
-												sx={{ 
-													padding: '4px',
-													'&:hover': { backgroundColor: 'transparent' }
-												}}
-											/>
-											<span>{location}</span>
-										</div>
-									);
-								})}
-							</div>
+										sx={{ 
+											padding: '4px',
+											'&:hover': { backgroundColor: 'transparent' }
+										}}
+									/>
+									<span>{location}</span>
+								</div>
+							);
+						})}
+					</div>
 						</Box>
 
 						<Box className={'filter-dropdown-group'}>
@@ -268,29 +268,29 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 							</Box>
 							
 							{/* Dropdown Menu */}
-							<div className={`filter-type ${openType ? 'on' : ''}`} ref={typeRef}>
-								{projectType.map((type: ProjectType) => {
-									const isSelected = searchFilter?.search?.typeList?.some((item: ProjectType) => item === type);
-									return (
-										<div
-											className={`filter-option ${isSelected ? 'selected' : ''}`}
-											onClick={() => projectTypeSelectHandler(type)}
-											key={type}
-										>
-											<Checkbox
-												checked={isSelected}
-												icon={<RadioButtonUncheckedIcon sx={{ color: '#999', fontSize: 20 }} />}
+					<div className={`filter-type ${openType ? 'on' : ''}`} ref={typeRef}>
+						{projectType.map((type: ProjectType) => {
+							const isSelected = searchFilter?.search?.typeList?.some((item: ProjectType) => item === type);
+							return (
+								<div
+									className={`filter-option ${isSelected ? 'selected' : ''}`}
+									onClick={() => projectTypeSelectHandler(type)}
+									key={type}
+								>
+									<Checkbox
+										checked={isSelected}
+										icon={<RadioButtonUncheckedIcon sx={{ color: '#999', fontSize: 20 }} />}
 												checkedIcon={<CheckCircleIcon sx={{ color: '#364440', fontSize: 20 }} />}
-												sx={{ 
-													padding: '4px',
-													'&:hover': { backgroundColor: 'transparent' }
-												}}
-											/>
-											<span>{type}</span>
-										</div>
-									);
-								})}
-							</div>
+										sx={{ 
+											padding: '4px',
+											'&:hover': { backgroundColor: 'transparent' }
+										}}
+									/>
+									<span>{type}</span>
+								</div>
+							);
+						})}
+					</div>
 						</Box>
 
 						<Box className={'filter-dropdown-group'}>
@@ -307,31 +307,31 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 							</Box>
 							
 							{/* Dropdown Menu */}
-							<div className={`filter-price ${openPrice ? 'on' : ''}`} ref={priceRef}>
-								{priceRanges.map((range, index) => {
-									const isSelected = 
-										searchFilter?.search?.pricesRange?.start === range.start && 
-										searchFilter?.search?.pricesRange?.end === range.end;
-									return (
-										<div
-											className={`filter-option ${isSelected ? 'selected' : ''}`}
-											onClick={() => priceRangeSelectHandler(range.start, range.end)}
-											key={index}
-										>
-											<Checkbox
-												checked={isSelected}
-												icon={<RadioButtonUncheckedIcon sx={{ color: '#999', fontSize: 20 }} />}
+					<div className={`filter-price ${openPrice ? 'on' : ''}`} ref={priceRef}>
+						{priceRanges.map((range, index) => {
+							const isSelected = 
+								searchFilter?.search?.pricesRange?.start === range.start && 
+								searchFilter?.search?.pricesRange?.end === range.end;
+							return (
+								<div
+									className={`filter-option ${isSelected ? 'selected' : ''}`}
+									onClick={() => priceRangeSelectHandler(range.start, range.end)}
+									key={index}
+								>
+									<Checkbox
+										checked={isSelected}
+										icon={<RadioButtonUncheckedIcon sx={{ color: '#999', fontSize: 20 }} />}
 												checkedIcon={<CheckCircleIcon sx={{ color: '#364440', fontSize: 20 }} />}
-												sx={{ 
-													padding: '4px',
-													'&:hover': { backgroundColor: 'transparent' }
-												}}
-											/>
-											<span>{range.label}</span>
-										</div>
-									);
-								})}
-							</div>
+										sx={{ 
+											padding: '4px',
+											'&:hover': { backgroundColor: 'transparent' }
+										}}
+									/>
+									<span>{range.label}</span>
+								</div>
+							);
+						})}
+					</div>
 						</Box>
 
 						{/* Search Button */}

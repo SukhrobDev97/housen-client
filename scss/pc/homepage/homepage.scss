@@ -91,15 +91,15 @@
 						}
 
 						.section-title {
-							color: #ffffff;
+					color: #ffffff;
 
 							.highlight {
-								color: rgba(255, 255, 255, 0.7);
+					color: rgba(255, 255, 255, 0.7);
 							}
-						}
-
+				}
+				
 						.toggle-button-wrapper {
-							background: #2a2a2a;
+					background: #2a2a2a;
 
 							.toggle-btn {
 								color: rgba(255, 255, 255, 0.6);
@@ -121,14 +121,14 @@
 							.navigation-arrows {
 								.nav-btn {
 									background: rgba(255, 255, 255, 0.1);
-									color: #ffffff;
-
-									&:hover {
+					color: #ffffff;
+					
+					&:hover {
 										background: rgba(255, 255, 255, 0.2);
-									}
-								}
-							}
-
+					}
+				}
+			}
+			
 							.testimonial-card {
 								background: #2a2a2a;
 							}
@@ -167,7 +167,7 @@
 					.nav-btn {
 						background: #2a2a2a;
 						color: #ffffff;
-
+						
 						&:hover {
 							background: #3a3a3a;
 						}
@@ -1193,8 +1193,8 @@
 			z-index: 1;
 			background: #ffffff;
 			overflow: hidden;
-
-			.container {
+				
+				.container {
 				max-width: 1300px;
 				width: 100%;
 				margin: 0 auto;
@@ -1205,7 +1205,7 @@
 				.before-after-content-wrapper {
 					display: flex;
 					flex-direction: row;
-					gap: 40px;
+						gap: 40px;
 					align-items: flex-start;
 					position: relative;
 
@@ -1239,7 +1239,7 @@
 								color: #3B3F2B;
 							}
 						}
-
+						
 						.toggle-button-wrapper {
 							display: flex;
 							flex-direction: row;
@@ -1336,9 +1336,9 @@
 								box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
 								z-index: 5;
 								display: flex;
-								flex-direction: column;
+						flex-direction: column;
 								gap: 20px;
-
+						
 								.testimonial-quote {
 									color: #ffffff;
 									font-family: $font;
@@ -1361,8 +1361,8 @@
 									display: flex;
 									flex-direction: row;
 									gap: 14px;
-									align-items: center;
-
+					align-items: center;
+							
 									img {
 										width: 52px;
 										height: 52px;
@@ -1376,17 +1376,17 @@
 										font-size: 15px;
 										font-weight: 600;
 										margin: 0;
-									}
-
+							}
+							
 									.author-role {
 										color: rgba(255, 255, 255, 0.7);
 										font-family: $font;
-										font-size: 13px;
+								font-size: 13px;
 										font-weight: 400;
 										margin: 0;
 									}
-								}
-
+							}
+							
 								.watch-review-btn {
 									padding: 10px 20px;
 									background: transparent;
@@ -1394,7 +1394,7 @@
 									border-radius: 8px;
 									color: #ffffff;
 									font-family: $font;
-									font-size: 13px;
+								font-size: 13px;
 									font-weight: 600;
 									text-transform: none;
 									display: flex;
@@ -1481,7 +1481,7 @@
 
 				// Mobile Image
 				.image-section-mobile {
-					width: 100%;
+							width: 100%;
 					margin-bottom: 24px;
 
 					.main-image-mobile {
@@ -1501,7 +1501,7 @@
 					padding: 24px;
 					border-radius: 16px;
 					display: flex;
-					flex-direction: column;
+									flex-direction: column;
 					gap: 16px;
 					margin-bottom: 24px;
 
@@ -1565,8 +1565,8 @@
 
 						&:hover {
 							background: #e0e0e0;
+							}
 						}
-					}
 
 					.pagination-text {
 						color: rgba(24, 26, 32, 0.6);
@@ -1576,17 +1576,17 @@
 					}
 				}
 			}
-
+			
 			// Tablet
 			@media (max-width: 1200px) {
 				padding: 80px 0px 100px;
-
+				
 				.container {
 					padding: 0 30px;
-
+					
 					.before-after-content-wrapper {
 						gap: 32px;
-
+						
 						.left-content-section {
 							flex: 0 0 260px;
 
@@ -1611,7 +1611,7 @@
 
 									.testimonial-description {
 										font-size: 14px;
-									}
+							}
 								}
 							}
 						}

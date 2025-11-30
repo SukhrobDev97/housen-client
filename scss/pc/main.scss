@@ -7,6 +7,8 @@
 @import '/scss/pc/property/property';
 @import '/scss/pc/property/detail.scss';
 
+@import '/scss/pc/products/products';
+
 @import '/scss/pc/agent/agent';
 @import '/scss/pc/agent/detail.scss';
 @import '/scss/pc/mypage/mypage.scss';
@@ -338,83 +340,83 @@ body::-webkit-scrollbar {
 			
 			.container {
 				.premium-filter-card {
-					background: #2a2a2a;
+				background: #2a2a2a;
 					box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-					
+				
 					.filter-toggles {
 						.toggle-btn {
-							background: #333;
+						background: #333;
 							
 							span {
 								color: #b0b0b0;
 							}
-							
-							&:hover {
-								background: #3a3a3a;
-							}
-							
+						
+						&:hover {
+							background: #3a3a3a;
+						}
+						
 							&.active {
 								background: #364440;
 								border-color: #364440;
-								
-								span {
-									color: #ffffff;
-								}
-							}
+						
+						span {
+							color: #ffffff;
+						}
+						}
 						}
 					}
 					
 					.filter-dropdowns {
 						.filter-dropdown-group {
 							.filter-dropdown-btn {
-								background: #333;
+						background: #333;
 								border-color: #444;
-								
+						
 								&:hover {
 									border-color: #364440;
 									box-shadow: 0 2px 8px rgba(54, 68, 64, 0.2);
-								}
-								
+						}
+						
 								&.active {
 									border-color: #364440;
 									box-shadow: 0 2px 12px rgba(54, 68, 64, 0.3);
-								}
-								
+						}
+						
 								.filter-label {
 									color: #999;
-								}
-								
+				}
+				
 								.filter-value {
-									color: #ffffff;
-									
+				color: #ffffff;
+				
 									.expand-icon {
 										color: #b0b0b0;
-									}
-								}
-							}
-							
-							.filter-location,
-							.filter-type,
-							.filter-price {
-								background: #2a2a2a;
-								box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
+				}
+				}
+			}
+				
+				.filter-location,
+				.filter-type,
+				.filter-price {
+					background: #2a2a2a;
+					box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
 								border: 1px solid #444;
-								
-								.filter-option {
-									&:hover {
-										background: #333;
-									}
-									
-									&.selected {
+					
+					.filter-option {
+						&:hover {
+							background: #333;
+						}
+						
+						&.selected {
 										background: rgba(54, 68, 64, 0.2);
 										
 										span {
 											color: #364440;
 										}
-									}
-									
-									span {
-										color: #ffffff;
+						}
+						
+						span {
+							color: #ffffff;
 									}
 								}
 							}
@@ -1896,11 +1898,11 @@ body::-webkit-scrollbar {
 									
 									&.rotated {
 										transform: rotate(180deg);
-									}
-								}
-							}
-						}
-						
+					}
+				}
+			}
+		}
+		
 						.filter-location,
 						.filter-type,
 						.filter-price {
@@ -1925,7 +1927,7 @@ body::-webkit-scrollbar {
 							box-sizing: border-box;
 							z-index: 99999 !important;
 							transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-							
+				
 							&.on {
 						opacity: 1;
 								visibility: visible;
@@ -1945,8 +1947,8 @@ body::-webkit-scrollbar {
 							
 							&:hover {
 									background: #f8f8f8;
-								}
-								
+							}
+							
 							&.selected {
 								background: rgba(54, 68, 64, 0.1);
 								
@@ -1973,8 +1975,8 @@ body::-webkit-scrollbar {
 						.filter-type {
 							left: auto;
 							right: 0;
-						}
-						
+					}
+					
 						.filter-price {
 							left: auto;
 							right: 0;
@@ -1985,16 +1987,16 @@ body::-webkit-scrollbar {
 								left: 0;
 								right: auto;
 							}
-						}
-						
+								}
+								
 						&:nth-child(3) {
 							.filter-price {
 								left: 0;
 								right: auto;
-							}
 						}
 					}
-					
+				}
+				
 					.filter-search-btn {
 					display: flex;
 					align-items: center;
