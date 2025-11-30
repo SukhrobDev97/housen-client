@@ -3,12 +3,16 @@ import { useState } from 'react';
 import { useRouter, withRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { getJwtToken, logOut, updateUserInfo } from '../auth';
-import { Stack, Box } from '@mui/material';
+import { Stack, Box, IconButton } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import { alpha, styled } from '@mui/material/styles';
 import Menu, { MenuProps } from '@mui/material/Menu';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { CaretDown } from 'phosphor-react';
 import useDeviceDetect from '../hooks/useDeviceDetect';
 import Link from 'next/link';
@@ -17,6 +21,7 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../apollo/store';
 import { Logout } from '@mui/icons-material';
 import { REACT_APP_API_URL } from '../config';
+import { useCart } from '../context/CartContext';
 
 const Top = () => {
 	const device = useDeviceDetect();
@@ -37,6 +42,9 @@ const Top = () => {
 	const [notificationOpen, setNotificationOpen] = useState<boolean>(false);
 	const [activeTab, setActiveTab] = useState<'access' | 'services'>('access');
 	const notificationRef = useRef<HTMLDivElement>(null);
+	const [cartOpen, setCartOpen] = useState<boolean>(false);
+	const cartRef = useRef<HTMLDivElement>(null);
+	const { cartItems, updateQuantity, removeFromCart, getCartTotal, getCartCount } = useCart();
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -88,6 +96,22 @@ const Top = () => {
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
 	}, [notificationOpen]);
+
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (cartRef.current && !cartRef.current.contains(event.target as Node)) {
+				closeCart();
+			}
+		};
+
+		if (cartOpen) {
+			document.addEventListener('mousedown', handleClickOutside);
+		}
+
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [cartOpen]);
 
 	/** HANDLERS **/
 	const langClick = (e: any) => {
@@ -145,10 +169,20 @@ const Top = () => {
 
 	const toggleNotification = () => {
 		setNotificationOpen(!notificationOpen);
+		setCartOpen(false);
 	};
 
 	const closeNotification = () => {
 		setNotificationOpen(false);
+	};
+
+	const toggleCart = () => {
+		setCartOpen(!cartOpen);
+		setNotificationOpen(false);
+	};
+
+	const closeCart = () => {
+		setCartOpen(false);
 	};
 
 	const StyledMenu = styled((props: MenuProps) => (
@@ -500,6 +534,87 @@ const Top = () => {
 													</>
 												)}
 											</div>
+										</div>
+									)}
+								</div>
+
+								{/* Cart */}
+								<div className={'cart-container'} ref={cartRef}>
+									<button className={'cart-button'} onClick={toggleCart} aria-label="Cart">
+										<ShoppingCartOutlinedIcon />
+										{getCartCount() > 0 && (
+											<span className={'cart-badge'}>{getCartCount()}</span>
+										)}
+									</button>
+
+									{/* Cart Dropdown Panel */}
+									{cartOpen && (
+										<div className={'cart-panel'}>
+											<div className={'cart-header'}>
+												<h3>Shopping Cart</h3>
+												<button className={'close-btn'} onClick={closeCart}>
+													<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+														<path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+													</svg>
+												</button>
+											</div>
+
+											<div className={'cart-content'}>
+												{cartItems.length === 0 ? (
+													<div className={'cart-empty'}>
+														<ShoppingCartOutlinedIcon />
+														<p>Your cart is empty</p>
+													</div>
+												) : (
+													<>
+														{cartItems.map((item) => (
+															<div key={item.product.id} className={'cart-item'}>
+																<img src={item.product.image} alt={item.product.name} />
+																<div className={'cart-item-info'}>
+																	<h4>{item.product.name}</h4>
+																	<span className={'cart-item-price'}>${item.product.price}</span>
+																</div>
+																<div className={'cart-item-actions'}>
+																	<div className={'quantity-controls'}>
+																		<IconButton 
+																			size="small" 
+																			onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+																		>
+																			<RemoveIcon fontSize="small" />
+																		</IconButton>
+																		<span>{item.quantity}</span>
+																		<IconButton 
+																			size="small" 
+																			onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+																		>
+																			<AddIcon fontSize="small" />
+																		</IconButton>
+																	</div>
+																	<IconButton 
+																		size="small" 
+																		className={'delete-btn'}
+																		onClick={() => removeFromCart(item.product.id)}
+																	>
+																		<DeleteOutlineIcon fontSize="small" />
+																	</IconButton>
+																</div>
+															</div>
+														))}
+													</>
+												)}
+											</div>
+
+											{cartItems.length > 0 && (
+												<div className={'cart-footer'}>
+													<div className={'cart-total'}>
+														<span>Total:</span>
+														<strong>${getCartTotal().toLocaleString()}</strong>
+													</div>
+													<button className={'checkout-btn'}>
+														Checkout
+													</button>
+												</div>
+											)}
 										</div>
 									)}
 								</div>

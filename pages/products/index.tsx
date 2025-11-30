@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { NextPage } from 'next';
-import { Stack, Box, Typography, Button, IconButton, Rating, Select, MenuItem, FormControl } from '@mui/material';
+import { useRouter } from 'next/router';
+import { Box, Typography, Button, IconButton, Rating, Select, MenuItem, FormControl } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import StarIcon from '@mui/icons-material/Star';
+import { useReactiveVar } from '@apollo/client';
+import { userVar } from '../../apollo/store';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import { products, categories, featuredProduct, Product } from '../../libs/data/productsData';
+import { useCart } from '../../libs/context/CartContext';
+import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -25,9 +31,10 @@ interface ProductCardProps {
 	product: Product;
 	onFavorite?: (id: number) => void;
 	isFavorite?: boolean;
+	onAddToCart: (product: Product) => void;
 }
 
-const ProductCard = ({ product, onFavorite, isFavorite }: ProductCardProps) => {
+const ProductCard = ({ product, onFavorite, isFavorite, onAddToCart }: ProductCardProps) => {
 	return (
 		<Box className="product-card">
 			{/* Image Container */}
@@ -49,8 +56,11 @@ const ProductCard = ({ product, onFavorite, isFavorite }: ProductCardProps) => {
 					>
 						{isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
 					</IconButton>
-					<IconButton className="action-btn">
-						<ShoppingCartOutlinedIcon />
+					<IconButton 
+						className="action-btn cart-btn"
+						onClick={() => onAddToCart(product)}
+					>
+						<AddShoppingCartIcon />
 					</IconButton>
 				</Box>
 			</Box>
@@ -90,6 +100,9 @@ const ProductCard = ({ product, onFavorite, isFavorite }: ProductCardProps) => {
    MAIN PRODUCTS PAGE
 ============================================ */
 const ProductsPage: NextPage = () => {
+	const router = useRouter();
+	const user = useReactiveVar(userVar);
+	const { addToCart } = useCart();
 	const [selectedCategory, setSelectedCategory] = useState('All');
 	const [sortBy, setSortBy] = useState('featured');
 	const [searchQuery, setSearchQuery] = useState('');
@@ -101,6 +114,57 @@ const ProductsPage: NextPage = () => {
 			prev.includes(id) ? prev.filter(fid => fid !== id) : [...prev, id]
 		);
 	};
+
+	// Add to cart handler with auth check
+	const handleAddToCart = (product: Product) => {
+		if (!user?._id) {
+			sweetMixinErrorAlert('Please login to add items to cart');
+			router.push('/account/join');
+			return;
+		}
+		addToCart(product);
+		sweetTopSmallSuccessAlert('Added to cart!', 800);
+	};
+
+	// Filter and sort products
+	const filteredProducts = useMemo(() => {
+		let result = [...products];
+
+		// Filter by category
+		if (selectedCategory !== 'All') {
+			result = result.filter(product => product.category === selectedCategory);
+		}
+
+		// Filter by search query
+		if (searchQuery.trim()) {
+			const query = searchQuery.toLowerCase();
+			result = result.filter(product => 
+				product.name.toLowerCase().includes(query) ||
+				product.category.toLowerCase().includes(query)
+			);
+		}
+
+		// Sort products
+		switch (sortBy) {
+			case 'price-low':
+				result.sort((a, b) => a.price - b.price);
+				break;
+			case 'price-high':
+				result.sort((a, b) => b.price - a.price);
+				break;
+			case 'rating':
+				result.sort((a, b) => b.rating - a.rating);
+				break;
+			case 'newest':
+				result.sort((a, b) => b.id - a.id);
+				break;
+			default:
+				// featured - keep original order
+				break;
+		}
+
+		return result;
+	}, [selectedCategory, searchQuery, sortBy]);
 
 	// Get trending products (first 4 with highest rating)
 	const trendingProducts = [...products].sort((a, b) => b.rating - a.rating).slice(0, 4);
@@ -219,19 +283,28 @@ const ProductsPage: NextPage = () => {
 			<section className="products-section">
 				<div className="products-container">
 					<Box className="section-header">
-						<Typography className="section-title">All Products</Typography>
-						<Typography className="section-count">{products.length} items</Typography>
+						<Typography className="section-title">
+							{selectedCategory === 'All' ? 'All Products' : selectedCategory}
+						</Typography>
+						<Typography className="section-count">{filteredProducts.length} items</Typography>
 					</Box>
 					
 					<Box className="products-grid">
-						{products.map((product) => (
-							<ProductCard 
-								key={product.id} 
-								product={product}
-								onFavorite={handleFavorite}
-								isFavorite={favorites.includes(product.id)}
-							/>
-						))}
+						{filteredProducts.length > 0 ? (
+							filteredProducts.map((product) => (
+								<ProductCard 
+									key={product.id} 
+									product={product}
+									onFavorite={handleFavorite}
+									isFavorite={favorites.includes(product.id)}
+									onAddToCart={handleAddToCart}
+								/>
+							))
+						) : (
+							<Box className="no-products">
+								<Typography>No products found</Typography>
+							</Box>
+						)}
 					</Box>
 				</div>
 			</section>
@@ -259,6 +332,7 @@ const ProductsPage: NextPage = () => {
 								product={product}
 								onFavorite={handleFavorite}
 								isFavorite={favorites.includes(product.id)}
+								onAddToCart={handleAddToCart}
 							/>
 						))}
 					</Box>
@@ -288,6 +362,7 @@ const ProductsPage: NextPage = () => {
 								product={product}
 								onFavorite={handleFavorite}
 								isFavorite={favorites.includes(product.id)}
+								onAddToCart={handleAddToCart}
 							/>
 						))}
 					</Box>

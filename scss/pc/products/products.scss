@@ -110,10 +110,6 @@
 			padding: 32px 0;
 			background: #fff;
 			border-bottom: 1px solid #e8e8e8;
-			position: sticky;
-			top: 120px;
-			z-index: 100;
-			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 
 			.filter-container {
 				max-width: 1300px;
@@ -472,6 +468,20 @@
 					display: grid;
 					grid-template-columns: repeat(4, 1fr);
 					gap: 24px;
+
+					.no-products {
+						grid-column: 1 / -1;
+						padding: 60px 20px;
+						text-align: center;
+						background: #f8f8f8;
+						border-radius: 16px;
+
+						p {
+							font-family: $font;
+							font-size: 16px;
+							color: #888;
+						}
+					}
 				}
 
 				.trending-grid,
