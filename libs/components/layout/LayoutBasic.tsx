@@ -38,8 +38,8 @@ const withLayoutBasic = (Component: any) => {
 					bgImage = '/img/banner/header3.jpg';
 					break;
 				case '/property':
-					title = 'Property';
-					desc = 'Home / Property';
+					title = 'Projects';
+					desc = 'Home / Projects';
 					bgImage = '/img/banner/header1.jpg';
 					break;
 				case '/agent':
@@ -117,7 +117,7 @@ const withLayoutBasic = (Component: any) => {
 							<Top />
 						</Stack>
 
-						{router.pathname !== '/about' && (
+						{router.pathname !== '/about' && router.pathname !== '/property' && (
 							<Box component={'div'} className={'header-basic'} style={{ backgroundImage: `url(${memoizedValues.bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
 								<Stack className={'container'}>
 									<strong>{memoizedValues.title}</strong>

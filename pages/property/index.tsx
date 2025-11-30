@@ -6,6 +6,7 @@ import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import Filter from '../../libs/components/property/Filter';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { Project } from '../../libs/types/property/property';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
@@ -134,6 +135,25 @@ const ProjectList: NextPage = ({ initialInput, ...props }: any) => {
 	} else {
 		return (
 			<div id="property-list-page" style={{ position: 'relative' }}>
+				{/* Hero Banner Section */}
+				<Stack className={'property-hero'}>
+					<Box component={'div'} className={'hero-banner'}>
+						<img src="/img/projectsPage/banner.jpeg" alt="Projects Banner" />
+						<Box component={'div'} className={'hero-overlay'}></Box>
+						<Stack className={'hero-content'}>
+							<Stack className={'container'}>
+								<Stack className={'breadcrumb'}>
+									<Link href={'/'}>
+										<span>Home</span>
+									</Link>
+									<span className={'separator'}>Projects</span>
+								</Stack>
+								<h1 className={'page-title'}>Projects</h1>
+							</Stack>
+						</Stack>
+					</Box>
+				</Stack>
+
 				<div className="container">
 					<Box component={'div'} className={'right'}>
 						<span>Sort by</span>
