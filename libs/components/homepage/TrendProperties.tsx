@@ -178,13 +178,13 @@ const TrendProjects = (props: TrendProjectsProps) => {
 									gap: '24px',
 								}}
 							>
-								{displayedProjects.map((project: Project) => {
-									return (
-										<Box key={project._id} className={'trend-property-slide'} sx={{ flex: '1 1 calc(33.333% - 16px)' }}>
-											<TrendProjectCard project={project} likeProjectHandler={likeProjectHandler} />
-										</Box>
-									);
-								})}
+							{displayedProjects.map((project: Project) => {
+								return (
+									<Box key={project._id} className={'trend-property-slide'} sx={{ flex: '1 1 calc(33.333% - 16px)' }}>
+										<TrendProjectCard project={project} likeProjectHandler={likeProjectHandler} />
+									</Box>
+								);
+							})}
 							</Stack>
 						)}
 					</Stack>

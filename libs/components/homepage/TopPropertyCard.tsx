@@ -1,18 +1,17 @@
 import React from 'react';
-import { Stack, Box, Divider, Typography, Button } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
+import { Stack, Box, Typography, Button } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Project } from '../../types/property/property';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import EastIcon from '@mui/icons-material/East';
-import StyleIcon from '@mui/icons-material/Palette';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
+import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
+import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 import { REACT_APP_API_URL } from '../../config';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import { T } from '../../types/common';
 
 interface TopProjectCardProps {
 	project: Project;
@@ -20,58 +19,24 @@ interface TopProjectCardProps {
 }
 
 const TopProjectCard = (props: TopProjectCardProps) => {
-	const { project, likeProjectHandler} = props;
+	const { project, likeProjectHandler } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 
-	/** HANDLERS **/
-
 	if (device === 'mobile') {
 		return (
-			<Stack className="top-card-box">
+			<Stack className="top-card-box" key={project._id}>
 				<Box
 					component={'div'}
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${project?.projectImages[0]})` }}
 				>
-					<div>${project?.projectPrice}</div>
+					<span className="category-badge">{project.projectType}</span>
 				</Box>
-				<Box component={'div'} className={'info'}>
-					<strong className={'title'}>{project?.projectTitle}</strong>
-					<p className={'desc'}>{project?.projectType}</p>
-					<div className={'options'}>
-						<div>
-							<img src="/img/icons/bed.svg" alt="" />
-							<span>{project?.projectStyle} style</span>
-						</div>
-						<div>
-							<img src="/img/icons/room.svg" alt="" />
-							<span>{project?.projectDuration} months</span>
-						</div>
-					</div>
-					<Divider sx={{ mt: '15px', mb: '17px' }} />
-					<div className={'bott'}>
-						<p>
-							{' '}
-							{project.projectCollaboration ? 'Collaboration' : ''} {project.projectCollaboration && project.projectPublic && '/'}{' '}
-							{project.projectPublic ? 'Public' : ''}
-						</p>
-						<div className="view-like-box">
-							<IconButton color={'default'}>
-								<RemoveRedEyeIcon />
-							</IconButton>
-							<Typography className="view-cnt">{project?.projectViews}</Typography>
-							<IconButton color={'default'} onClick={() => likeProjectHandler(user, project._id)}>
-								{project?.meLiked && project?.meLiked[0]?.myFavorite ? (
-									<FavoriteIcon style={{ color: 'red' }} />
-								) : (
-									<FavoriteIcon />
-								)}
-							</IconButton>
-							<Typography className="view-cnt">{project?.projectLikes}</Typography>
-						</div>
-					</div>
+				<Box component={'div'} className={'card-content'}>
+					<Typography className={'card-title'}>{project.projectTitle}</Typography>
+					<Typography className={'card-price'}>${project.projectPrice.toLocaleString()}</Typography>
 				</Box>
 			</Stack>
 		);
@@ -79,74 +44,65 @@ const TopProjectCard = (props: TopProjectCardProps) => {
 		return (
 			<Stack 
 				className="top-card-box"
+				onClick={() => router.push(`/property/detail?id=${project._id}`)}
 			>
-				<Box
-					component={'div'}
-					className={'card-img'}
-					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${project?.projectImages[0]})` }}
-					onClick={() => router.push(`/property/detail?id=${project._id}`)}
-					sx={{ cursor: 'pointer' }}
-				>
-					{/* Project Type Badge */}
-					<div className={'project-type-badge'}>
-						<span>{project.projectType || 'Type'}</span>
-					</div>
+				{/* Image Layer */}
+				<Box className="card-img">
+					<img 
+						src={`${REACT_APP_API_URL}/${project?.projectImages[0]}`} 
+						alt={project.projectTitle}
+						className="card-image"
+					/>
+					<Box className="image-gradient" />
 				</Box>
-				<Box component={'div'} className={'info'}>
-					{/* Hidden by default, shown on hover */}
-					<div className={'property-details hover-content'}>
-						<div className={'detail-item'}>
-							<StyleIcon sx={{ fontSize: 18, color: '#ffffff' }} />
+				
+				{/* Glass Overlay Info Section */}
+				<Box className="glass-info">
+					{/* Top Info Row - Icons */}
+					<Box className="info-icons">
+						<Box className="icon-item">
+							<AutoAwesomeOutlinedIcon />
 							<span>{project.projectStyle}</span>
-						</div>
-						<div className={'detail-item'}>
-							<CalendarTodayIcon sx={{ fontSize: 18, color: '#ffffff' }} />
-							<span><strong>duration:</strong> {project.projectDuration} months</span>
-						</div>
-					</div>
-					<Divider className={'property-details-divider hover-content'} />
-					<strong className={'title hover-content'}>{project.projectTitle}</strong>
-					<div className={'price-location'}>
-						<span className={'price hover-content'}>${project.projectPrice.toLocaleString()}</span>
-						<div className={'view-like-box-info hover-content'}>
-							<IconButton 
-								color={'default'} 
-								size="small"
-								className={'view-like-icon'}
-								sx={{ 
-									backgroundColor: 'transparent',
-									'&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.1)' }
+						</Box>
+						<Box className="icon-item">
+							<AccessTimeOutlinedIcon />
+							<span>{project.projectDuration} months</span>
+						</Box>
+					</Box>
+					
+					{/* Title */}
+					<Typography className="card-title">{project.projectTitle}</Typography>
+					
+					{/* Bottom Row: Stats + CTA */}
+					<Box className="bottom-row">
+						{/* Stats */}
+						<Box className="stats-row">
+							<Box className="stat-item">
+								<VisibilityOutlinedIcon />
+								<span>{project?.projectViews || 0}</span>
+							</Box>
+							<Box 
+								className="stat-item clickable"
+								onClick={(e: React.MouseEvent) => {
+									e.stopPropagation();
+									likeProjectHandler(user, project._id);
 								}}
-							>
-								<RemoveRedEyeIcon sx={{ fontSize: 18, color: '#ffffff' }} />
-							</IconButton>
-							<Typography className="view-cnt-info">{project?.projectViews || 0}</Typography>
-							<IconButton 
-								color={'default'} 
-								size="small"
-								className={'view-like-icon'}
-								sx={{ 
-									backgroundColor: 'transparent',
-									'&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.1)' }
-								}}
-								onClick={() => likeProjectHandler(user, project._id)}
 							>
 								{project?.meLiked && project?.meLiked[0]?.myFavorite ? (
-									<FavoriteIcon style={{ color: '#ff6b6b', fontSize: 18 }} />
+									<FavoriteIcon className="liked" />
 								) : (
-									<FavoriteIcon sx={{ fontSize: 18, color: '#ffffff' }} />
+									<FavoriteBorderIcon />
 								)}
-							</IconButton>
-							<Typography className="view-cnt-info">{project?.projectLikes || 0}</Typography>
-						</div>
-						<Button 
-							className={'details-btn hover-content'} 
-							endIcon={<EastIcon sx={{ fontSize: 16 }} />}
-							onClick={() => router.push(`/property/detail?id=${project._id}`)}
-						>
-							View design
+								<span>{project?.projectLikes || 0}</span>
+							</Box>
+						</Box>
+						
+						{/* Ghost CTA Button */}
+						<Button className="ghost-btn">
+							<span>Explore</span>
+							<ArrowOutwardIcon />
 						</Button>
-					</div>
+					</Box>
 				</Box>
 			</Stack>
 		);
