@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Box, Button, Checkbox, Stack, Typography } from '@mui/material';
+import { Box, Button, Checkbox, CircularProgress, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutFull from '../../libs/components/layout/LayoutFull';
 import { NextPage } from 'next';
@@ -30,8 +30,8 @@ import ProjectBigCard from '../../libs/components/common/PropertyBigCard';
 import { GET_COMMENTS, GET_PROJECT, GET_PROJECTS } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 import { Direction, Message } from '../../libs/enums/common.enum';
-import { LIKE_TARGET_PROJECT } from '../../apollo/user/mutation';
-import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
+import { CREATE_COMMENT, LIKE_TARGET_PROJECT } from '../../apollo/user/mutation';
+import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -60,6 +60,7 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetProject] = useMutation(LIKE_TARGET_PROJECT)
+	const [createComment] = useMutation(CREATE_COMMENT)
 
 	const {
 		loading: getProjectLoading,
@@ -184,10 +185,36 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 		}
 	};
 
+	const createCommentHandler = async (e: any) => {
+		try {
+		  if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+	  
+		  await createComment({
+			variables: { input: insertCommentData },
+		  });
+	  
+		  setInsertCommentData({ ...insertCommentData, commentContent: '' });
+	  
+		  await getCommentsRefetch({ input: commentInquiry });
+		} catch (err: any) {
+		  await sweetErrorHandling(err);
+		}
+	  };
+	  
+
+
 	const commentPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
 		commentInquiry.page = value;
 		setCommentInquiry({ ...commentInquiry });
 	};
+
+	if(getProjectLoading) {
+		return(
+			<Stack sx={{width: '100%', height: '1080px', display: "flex", justifyContent: 'center', alignItems: 'center'}}>
+				<CircularProgress size={'4rem'} />
+			</Stack>
+		)
+	}
 
 	if (device === 'mobile') {
 		return <div>PROJECT DETAIL PAGE</div>;
@@ -446,6 +473,8 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<Button
 											className={'submit-review'}
 											disabled={insertCommentData.commentContent === '' || user?._id === ''}
+											onClick={createCommentHandler}
+
 										>
 											<Typography className={'title'}>Leave Comment</Typography>
 											<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
