@@ -81,7 +81,7 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 		data: getProjectData,
 		error: getProjectError,
 		refetch: getProjectRefetch,
-	} = useQuery(GET_PROJECT, {
+	  } = useQuery(GET_PROJECT, {
 		fetchPolicy: 'cache-and-network',
 		variables: { input: projectId },
 		skip: !projectId,
@@ -90,16 +90,16 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 			if (data?.getProject) setProject(data?.getProject);
 			if (data?.getProject) setSlideImage(data?.getProject?.projectImages[0]);
 		},
-	});
+	  });
 
-	const {
+	  const {
 		loading: getProjectsLoading,
 		data: getProjectsData,
 		error: getProjectsError,
 		refetch: getProjectsRefetch,
-	} = useQuery(GET_PROJECTS, {
+		} = useQuery(GET_PROJECTS, {
 		fetchPolicy: 'cache-and-network',
-		variables: {
+		variables: { 
 			input: {
 				page: 1,
 				limit: 6,
@@ -109,14 +109,14 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 					projectStyleList: [project?.projectStyle],
 				},
 			},
-		},
+		 },
 		skip: !projectId && !project,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
 			if (data?.getProjects.list) setDestinationProjects(data?.getProjects?.list);
 		},
-	});
-
+		});
+		
 	const {
 		loading: getCommentsLoading,
 		data: getCommentsData,
@@ -163,31 +163,31 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 	const likeProjectHandler = async (user: any, id: string | undefined) => {
 		try {
-			if (!id) return;
+		if (!id) return;
 			if (!user?._id) throw new Error(Message.NOT_AUTHENTICATED);
+	
+		await likeTargetProject({
+			variables: { input: id },
+		});
 
-			await likeTargetProject({
-				variables: { input: id },
-			});
-
-			await getProjectRefetch({ input: id });
-
-			await getProjectsRefetch({
-				input: {
-					page: 1,
+		await getProjectRefetch({ input: id });
+	
+		await getProjectsRefetch({ 
+			input: {
+				page: 1,
 					limit: 6,
-					sort: 'createdAt',
-					direction: Direction.DESC,
+				sort: 'createdAt',
+				direction: Direction.DESC,
 					search: {
 						projectStyleList: [project?.projectStyle],
 					},
 				},
-			});
-
-			await sweetTopSmallSuccessAlert('success', 800);
+		});
+	
+		await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
-			console.log('ERROR_LikeProjectHandler:', err.message);
-			sweetMixinErrorAlert(err.message).then();
+		console.log('ERROR_LikeProjectHandler:', err.message);
+		sweetMixinErrorAlert(err.message).then();
 		}
 	};
 
@@ -261,7 +261,7 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 							<Typography className={'hero-price'}>${formatterStr(project?.projectPrice)}</Typography>
 							<div className={'hero-actions'}>
 								<IconButton className={'action-btn'} onClick={() => likeProjectHandler(user, project?._id)}>
-									{project?.meLiked && project?.meLiked[0]?.myFavorite ? (
+											{project?.meLiked && project?.meLiked[0]?.myFavorite ? (
 										<FavoriteIcon sx={{ color: '#ff6b6b' }} />
 									) : (
 										<FavoriteBorderIcon />
@@ -466,20 +466,20 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 								<Typography className={'card-title'}>Project Design Agency</Typography>
 								<div className={'designer-info'}>
 									<Avatar
-										src={
-											project?.memberData?.memberImage
-												? `${REACT_APP_API_URL}/${project?.memberData?.memberImage}`
-												: '/img/profile/defaultUser.svg'
-										}
+											src={
+												project?.memberData?.memberImage
+													? `${REACT_APP_API_URL}/${project?.memberData?.memberImage}`
+													: '/img/profile/defaultUser.svg'
+											}
 										className={'designer-avatar'}
-									/>
+										/>
 									<div className={'designer-details'}>
-										<Link href={`/member?memberId=${project?.memberData?._id}`}>
+											<Link href={`/member?memberId=${project?.memberData?._id}`}>
 											<Typography className={'designer-name'}>
 												{project?.memberData?.memberNick}
 												<VerifiedIcon className={'verified-icon'} />
 											</Typography>
-										</Link>
+											</Link>
 										<Typography className={'designer-role'}>Interior Agency</Typography>
 									</div>
 								</div>
@@ -541,12 +541,12 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 									</IconButton>
 								</div>
 							</div>
-							<Swiper
+									<Swiper
 								className={'related-swiper'}
 								slidesPerView={3}
 								spaceBetween={24}
 								modules={[Navigation]}
-								navigation={{
+										navigation={{
 									nextEl: '.swiper-related-next',
 									prevEl: '.swiper-related-prev',
 								}}
@@ -554,12 +554,12 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 								{destinationProjects.map((proj: Project) => (
 									<SwiperSlide key={proj._id}>
 										<ProjectBigCard project={proj} likeProjectHandler={likeProjectHandler} />
-									</SwiperSlide>
+												</SwiperSlide>
 								))}
-							</Swiper>
+									</Swiper>
 						</div>
 					</section>
-				)}
+						)}
 			</div>
 		);
 	}

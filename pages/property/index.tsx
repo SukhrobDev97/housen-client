@@ -1,6 +1,6 @@
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
-import { Box, Button, Menu, MenuItem, Pagination, Stack, Typography } from '@mui/material';
+import { Box, Button, Menu, MenuItem, Pagination, Stack, Typography, IconButton, Rating } from '@mui/material';
 import PropertyCard from '../../libs/components/property/PropertyCard';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
@@ -10,14 +10,22 @@ import Link from 'next/link';
 import { Project } from '../../libs/types/property/property';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import StarIcon from '@mui/icons-material/Star';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { ProjectsInquiry } from '../../libs/types/property/property.input';
 import ProjectCard from '../../libs/components/property/PropertyCard';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
+import { userVar } from '../../apollo/store';
 import { GET_PROJECTS } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 import { LIKE_TARGET_PROJECT } from '../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
+import { products, Product } from '../../libs/data/productsData';
+import { useCart } from '../../libs/context/CartContext';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -28,6 +36,8 @@ export const getStaticProps = async ({ locale }: any) => ({
 const ProjectList: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
+	const user = useReactiveVar(userVar);
+	const { addToCart } = useCart();
 	const [searchFilter, setSearchFilter] = useState<ProjectsInquiry>(
 		router?.query?.input ? JSON.parse(router?.query?.input as string) : initialInput,
 	);
@@ -37,6 +47,10 @@ const ProjectList: NextPage = ({ initialInput, ...props }: any) => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [sortingOpen, setSortingOpen] = useState(false);
 	const [filterSortName, setFilterSortName] = useState('New');
+	const [productFavorites, setProductFavorites] = useState<number[]>([]);
+
+	// Recommended products (4 items)
+	const recommendedProducts = products.slice(0, 4);
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetProject] = useMutation(LIKE_TARGET_PROJECT)
@@ -130,6 +144,23 @@ const ProjectList: NextPage = ({ initialInput, ...props }: any) => {
 		setAnchorEl(null);
 	};
 
+	// Product handlers
+	const handleProductFavorite = (id: number) => {
+		setProductFavorites(prev => 
+			prev.includes(id) ? prev.filter(fid => fid !== id) : [...prev, id]
+		);
+	};
+
+	const handleAddToCart = (product: Product) => {
+		if (!user?._id) {
+			sweetMixinErrorAlert('Please login to add items to cart');
+			router.push('/account/join');
+			return;
+		}
+		addToCart(product);
+		sweetTopSmallSuccessAlert('Added to cart!', 800);
+	};
+
 	if (device === 'mobile') {
 		return <h1>PROJECTS MOBILE</h1>;
 	} else {
@@ -207,30 +238,96 @@ const ProjectList: NextPage = ({ initialInput, ...props }: any) => {
 									})
 								)}
 							</Stack>
-							<Stack className="pagination-config">
-								{projects.length !== 0 && (
-									<Stack className="pagination-box">
+							{projects.length !== 0 && (
+								<Box className="pagination-section">
+									<Box className="pagination-info">
+										<Typography className="results-text">
+											Showing <span className="highlight">{projects.length}</span> of <span className="highlight">{total}</span> projects
+										</Typography>
+									</Box>
+									<Box className="pagination-controls">
 										<Pagination
 											page={currentPage}
 											count={Math.ceil(total / searchFilter.limit)}
 											onChange={handlePaginationChange}
-											shape="circular"
+											shape="rounded"
 											color="primary"
+											className="custom-pagination"
 										/>
-									</Stack>
-								)}
-
-								{projects.length !== 0 && (
-									<Stack className="total-result">
-										<Typography>
-											Total {total} propert{total > 1 ? 'ies' : 'y'} exist
-										</Typography>
-									</Stack>
-								)}
-							</Stack>
+									</Box>
+								</Box>
+							)}
 						</Stack>
 					</Stack>
 				</div>
+
+				{/* Things You May Like Section */}
+				<section className="things-you-may-like">
+					<div className="container">
+						<Box className="section-header">
+							<Box>
+								<Typography className="section-title">Things You May Like</Typography>
+								<Typography className="section-subtitle">Handpicked products for your home</Typography>
+							</Box>
+							<Link href="/products">
+								<Button className="view-all-btn">
+									View All Products
+									<ArrowForwardIcon />
+								</Button>
+							</Link>
+						</Box>
+						
+						<Box className="products-grid">
+							{recommendedProducts.map((product) => (
+								<Box key={product.id} className="product-card">
+									<Box className="product-image-container">
+										<img src={product.image} alt={product.name} className="product-image" />
+										{product.tag && (
+											<span className={`product-tag tag-${product.tag.toLowerCase()}`}>
+												{product.tag}
+											</span>
+										)}
+										<Box className="quick-actions">
+											<IconButton 
+												className="action-btn"
+												onClick={() => handleProductFavorite(product.id)}
+											>
+												{productFavorites.includes(product.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+											</IconButton>
+											<IconButton 
+												className="action-btn cart-btn"
+												onClick={() => handleAddToCart(product)}
+											>
+												<AddShoppingCartIcon />
+											</IconButton>
+										</Box>
+									</Box>
+									<Box className="product-info">
+										<span className="product-category">{product.category}</span>
+										<Typography className="product-name">{product.name}</Typography>
+										<Box className="product-rating">
+											<Rating 
+												value={product.rating} 
+												precision={0.1} 
+												size="small" 
+												readOnly 
+												icon={<StarIcon fontSize="inherit" />}
+												emptyIcon={<StarIcon fontSize="inherit" />}
+											/>
+											<span className="rating-value">{product.rating}</span>
+										</Box>
+										<Box className="product-price">
+											<span className="current-price">${product.price}</span>
+											{product.originalPrice && (
+												<span className="original-price">${product.originalPrice}</span>
+											)}
+										</Box>
+									</Box>
+								</Box>
+							))}
+						</Box>
+					</div>
+				</section>
 			</div>
 		);
 	}
