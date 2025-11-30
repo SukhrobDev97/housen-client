@@ -10,7 +10,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
-import { useQuery, useReactiveVar } from '@apollo/client';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
 import moment from 'moment';
 import { formatterStr } from '../../libs/utils';
@@ -29,7 +29,9 @@ import { Project } from '../../libs/types/property/property';
 import ProjectBigCard from '../../libs/components/common/PropertyBigCard';
 import { GET_PROJECT, GET_PROJECTS } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
-import { Direction } from '../../libs/enums/common.enum';
+import { Direction, Message } from '../../libs/enums/common.enum';
+import { LIKE_TARGET_PROJECT } from '../../apollo/user/mutation';
+import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -57,6 +59,8 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 	});
 
 	/** APOLLO REQUESTS **/
+	const [likeTargetProject] = useMutation(LIKE_TARGET_PROJECT)
+
 	const {
 		loading: getProjectLoading,
 		data: getProjectData,
@@ -78,19 +82,19 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 		data: getProjectsData,
 		error: getProjectsError,
 		refetch: getProjectsRefetch,
-		} = useQuery(GET_PROJECTS, {
-		fetchPolicy: 'cache-and-network',
-		variables: { 
-			input:{ 
-				page: 1,
-				limit: 4,
-				sort: 'createdAt',
-				direction: Direction.DESC,
-				search:{
-					projectStyle: [project?.projectStyle]
-				}
+	} = useQuery(GET_PROJECTS, {
+	fetchPolicy: 'cache-and-network',
+	variables: { 
+		input:{ 
+			page: 1,
+			limit: 4,
+			sort: 'createdAt',
+			direction: Direction.DESC,
+			search:{
+				projectStyleList: [project?.projectStyle]
 			}
-		 },
+		}
+	 },
 		skip: !projectId && !project,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T ) => {
@@ -122,6 +126,36 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 	/** HANDLERS **/
 	const changeImageHandler = (image: string) => {
 		setSlideImage(image);
+	};
+
+	const likeProjectHandler = async (userId: string, id: string) => {
+		try {
+		if (!id) return;
+		if (!userId) throw new Error(Message.NOT_AUTHENTICATED);
+	
+		await likeTargetProject({
+			variables: { input: id },
+		});
+
+		await getProjectRefetch({ input: id });
+	
+	await getProjectsRefetch({ 
+		input: {
+			page: 1,
+			limit: 4,
+			sort: 'createdAt',
+			direction: Direction.DESC,
+			search:{
+				projectStyleList: [project?.projectStyle]
+			}
+		} 
+	});
+	
+		await sweetTopSmallSuccessAlert('success', 800);
+		} catch (err: any) {
+		console.log('ERROR_LikeProjectHandler:', err.message);
+		sweetMixinErrorAlert(err.message).then();
+		}
 	};
 
 	const commentPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
@@ -502,7 +536,7 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 										{destinationProjects.map((project: Project) => {
 											return (
 												<SwiperSlide className={'similar-homes-slide'} key={project.projectTitle}>
-													<ProjectBigCard project={project} key={project?._id} />
+													<ProjectBigCard project={project} likeProjectHandler={likeProjectHandler} key={project?._id} />
 												</SwiperSlide>
 											);
 										})}

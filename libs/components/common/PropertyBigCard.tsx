@@ -13,10 +13,11 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
 interface ProjectBigCardProps {
 	project: Project;
+	likeProjectHandler?: any;
 }
 
 const ProjectBigCard = (props: ProjectBigCardProps) => {
-	const { project } = props;
+	const { project ,likeProjectHandler} = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const router = useRouter();
@@ -71,8 +72,9 @@ const ProjectBigCard = (props: ProjectBigCardProps) => {
 							<Typography className="view-cnt">{project?.projectViews}</Typography>
 							<IconButton
 								color={'default'}
-								onClick={(e: any) => {
+								onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
 									e.stopPropagation();
+									likeProjectHandler(user, project?._id);
 								}}
 							>
 								{project?.meLiked && project?.meLiked[0]?.myFavorite ? (
