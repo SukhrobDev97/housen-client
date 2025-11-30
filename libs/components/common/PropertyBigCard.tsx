@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Project } from '../../types/property/property';
-import { REACT_APP_API_URL } from '../../config';
+import { REACT_APP_API_URL, topProjectRank } from '../../config';
 import { formatterStr } from '../../utils';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
@@ -36,7 +36,7 @@ const ProjectBigCard = (props: ProjectBigCardProps) => {
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${project?.projectImages?.[0]})` }}
 				>
-					{project?.projectRank && project?.projectRank >= 50 && (
+					{project?.projectRank && project?.projectRank >= topProjectRank && (
 						<div className={'status'}>
 							<img src="/img/icons/electricity.svg" alt="" />
 							<span>best</span>

@@ -10,7 +10,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
-import { useReactiveVar } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
 import moment from 'moment';
 import { formatterStr } from '../../libs/utils';
@@ -27,6 +27,9 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Project } from '../../libs/types/property/property';
 import ProjectBigCard from '../../libs/components/common/PropertyBigCard';
+import { GET_PROJECT, GET_PROJECTS } from '../../apollo/user/query';
+import { T } from '../../libs/types/common';
+import { Direction } from '../../libs/enums/common.enum';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -43,7 +46,7 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const [projectId, setProjectId] = useState<string | null>(null);
 	const [project, setProject] = useState<Project | null>(null);
 	const [slideImage, setSlideImage] = useState<string>('');
-	const [destinationProject, setDestinationProject] = useState<Project[]>([]);
+	const [destinationProjects, setDestinationProjects] = useState<Project[]>([]);
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
 	const [projectComments, setProjectComments] = useState<Comment[]>([]);
 	const [commentTotal, setCommentTotal] = useState<number>(0);
@@ -54,6 +57,48 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 	});
 
 	/** APOLLO REQUESTS **/
+	const {
+		loading: getProjectLoading,
+		data: getProjectData,
+		error: getProjectError,
+		refetch: getProjectRefetch,
+	  } = useQuery(GET_PROJECT, {
+		fetchPolicy: 'cache-and-network',
+		variables: { input: projectId },
+		skip: !projectId,
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T ) => {
+		  if(data?.getProject) setProject(data?.getProject);
+		  if(data?.getProject) setSlideImage(data?.getProject?.projectImages[0]);
+		}
+	  });
+
+	  const {
+		loading: getProjectsLoading,
+		data: getProjectsData,
+		error: getProjectsError,
+		refetch: getProjectsRefetch,
+		} = useQuery(GET_PROJECTS, {
+		fetchPolicy: 'cache-and-network',
+		variables: { 
+			input:{ 
+				page: 1,
+				limit: 4,
+				sort: 'createdAt',
+				direction: Direction.DESC,
+				search:{
+					projectStyle: [project?.projectStyle]
+				}
+			}
+		 },
+		skip: !projectId && !project,
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T ) => {
+		 	if(data?.getProjects.list) setDestinationProjects(data?.getProjects?.list);
+		},
+		});
+		
+	  
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -427,7 +472,7 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 								</Stack>
 							</Stack>
 						</Stack>
-						{destinationProject.length !== 0 && (
+						{destinationProjects.length !== 0 && (
 							<Stack className={'similar-properties-config'}>
 								<Stack className={'title-pagination-box'}>
 									<Stack className={'title-box'}>
@@ -454,7 +499,7 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 											el: '.swiper-similar-pagination',
 										}}
 									>
-										{destinationProject.map((project: Project) => {
+										{destinationProjects.map((project: Project) => {
 											return (
 												<SwiperSlide className={'similar-homes-slide'} key={project.projectTitle}>
 													<ProjectBigCard project={project} key={project?._id} />

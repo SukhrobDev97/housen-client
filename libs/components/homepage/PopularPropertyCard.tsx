@@ -9,7 +9,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import StyleIcon from '@mui/icons-material/Palette';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import EastIcon from '@mui/icons-material/East';
-import { REACT_APP_API_URL } from '../../config';
+import { REACT_APP_API_URL, topProjectRank } from '../../config';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
@@ -35,7 +35,7 @@ const PopularProjectCard = (props: PopularProjectCardProps) => {
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${project?.projectImages[0]})` }}
 				>
-					{project?.projectRank && project?.projectRank >= 50 ? (
+					{project?.projectRank && project?.projectRank >= topProjectRank ? (
 						<div className={'status'}>
 							<img src="/img/icons/electricity.svg" alt="" />
 							<span>best</span>
@@ -84,6 +84,14 @@ const PopularProjectCard = (props: PopularProjectCardProps) => {
 					onClick={() => router.push(`/property/detail?id=${project._id}`)}
 					sx={{ cursor: 'pointer' }}
 				>
+					{project && project?.projectRank >= topProjectRank ? (
+						<div className={'status'}>
+							<img src="/img/icons/electricity.svg" alt="" />
+							<span>top</span>
+						</div>
+					) : (
+						''
+					)}
 					{/* Project Type Badge - Always Visible */}
 					<div className={'project-type-badge'}>
 						<span>{project.projectType || 'Type'}</span>

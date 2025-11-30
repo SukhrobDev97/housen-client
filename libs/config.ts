@@ -4,10 +4,10 @@ export const availableOptions = ['projectCollaboration', 'projectPublic'];
 
 const thisYear = new Date().getFullYear();
 
-export const propertyYears: any = [];
+export const projectYears: any = [];
 
 for (let i = 1970; i <= thisYear; i++) {
-	propertyYears.push(String(i));
+	projectYears.push(String(i));
 }
 
 
@@ -19,4 +19,4 @@ export const Messages = {
 	error5: 'Only images with jpeg, jpg, png format allowed!',
 };
 
-const topPropertyRank = 50;
+export const topProjectRank = 2;
