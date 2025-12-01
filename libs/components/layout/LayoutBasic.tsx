@@ -117,7 +117,7 @@ const withLayoutBasic = (Component: any) => {
 							<Top />
 						</Stack>
 
-						{router.pathname !== '/about' && router.pathname !== '/property' && router.pathname !== '/products' && router.pathname !== '/agent' && (
+						{router.pathname !== '/about' && router.pathname !== '/property' && router.pathname !== '/products' && router.pathname !== '/agent' && router.pathname !== '/agent/detail' && (
 							<Box component={'div'} className={'header-basic'} style={{ backgroundImage: `url(${memoizedValues.bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
 							<Stack className={'container'}>
 									<strong>{memoizedValues.title}</strong>

@@ -2,161 +2,236 @@
 	position: relative;
 	margin-right: 8px;
 	margin-left: 8px;
-	margin-bottom: 35px;
-	width: 410px;
-	height: 455px;
+	margin-bottom: 24px;
+	width: 100%;
+	max-width: 380px;
+	height: auto;
 	display: flex;
 	flex-direction: column;
+	cursor: pointer;
+	border-radius: 16px;
+	overflow: hidden;
+	background: transparent;
+	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+	&:hover {
+		transform: translateY(-8px);
+		box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+
+		.card-img {
+			&::after {
+				opacity: 0.3;
+			}
+
+			.project-type-badge {
+				opacity: 1;
+				visibility: visible;
+				transform: translateY(0);
+			}
+		}
+
+		.info {
+			box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+		}
+	}
+
 	.card-img {
 		position: relative;
 		width: 100%;
-		height: 264px;
+		height: 240px;
 		background-size: cover;
-		border-radius: 12px 12px 0px 0px;
+		background-position: center;
 		cursor: pointer;
-		div.status {
+		transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+		overflow: hidden;
+
+		&::after {
+			content: '';
 			position: absolute;
-			padding: 6px 34px;
-			left: 20px;
-			top: 20px;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%);
+			opacity: 0;
+			transition: opacity 0.4s ease;
+			pointer-events: none;
+		}
+
+		.top-badge {
+			position: absolute;
+			padding: 8px 16px;
+			left: 16px;
+			top: 16px;
 			display: flex;
 			align-items: center;
-			border-radius: 6px;
-			background: #eb6753;
+			gap: 6px;
+			border-radius: 100px;
+			background: linear-gradient(135deg, #eb6753, #ff8a7a);
+			box-shadow: 0 4px 12px rgba(235, 103, 83, 0.3);
+
 			img {
 				width: 14px;
 				height: 14px;
 			}
-			span {
-				margin-left: 5px;
+
+			.MuiTypography-root {
 				color: #fff;
 				font-family: $font;
-				font-size: 12px;
-				font-style: normal;
-				font-weight: 600;
-				line-height: normal;
-				text-transform: uppercase;
+				font-size: 11px;
+				font-weight: 700;
+				letter-spacing: 0.5px;
 			}
 		}
-		div.price {
+
+		.project-type-badge {
 			position: absolute;
-			padding: 8px 12px;
-			left: 20px;
 			bottom: 20px;
-			border-radius: 6px;
-			background: #fff;
-			color: #181a20;
-			font-family: $font;
-			font-size: 15px;
-			font-style: normal;
-			font-weight: 600;
-			line-height: normal;
+			left: 20px;
+			padding: 0;
+			background: transparent;
+			z-index: 10;
+			transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+			span {
+				color: #ffffff;
+				font-family: $font;
+				font-size: 18px;
+				font-weight: 600;
+				text-transform: capitalize;
+				letter-spacing: 1px;
+				text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+			}
 		}
 	}
+
 	.info {
-		padding: 20px 22px 17px;
+		padding: 20px;
 		display: flex;
 		flex-direction: column;
+		gap: 0;
 		box-sizing: border-box;
-		border-radius: 0px 0px 12px 12px;
-		border: 1px solid #ddd;
-		border-top: none;
-		background: #fff;
-		.title {
-			overflow: hidden;
-			color: #181a20;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			font-family: $font;
-			font-size: 15px;
-			font-style: normal;
-			font-weight: 600;
-			line-height: normal;
-			text-transform: capitalize;
-			cursor: pointer;
-		}
-		.desc {
-			margin-top: 5px;
-			overflow: hidden;
-			color: #717171;
-			font-family: $font;
-			font-size: 13px;
-			font-style: normal;
-			font-weight: 400;
-			line-height: normal;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-		}
-		.options {
-			margin-top: 15px;
+		background: #ffffff;
+		border-radius: 0 0 16px 16px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+		position: relative;
+		transition: all 0.3s ease;
+		min-height: 200px;
+		flex: 1;
+		justify-content: space-between;
+
+		.property-details {
 			display: flex;
 			flex-direction: row;
-			justify-content: space-between;
-			div {
+			gap: 16px;
+			align-items: center;
+			margin-bottom: 12px;
+
+			.detail-item {
 				display: flex;
 				flex-direction: row;
-				img {
-					margin-right: 5px;
-					width: 17px;
-					height: 17px;
-				}
+				align-items: center;
+				gap: 6px;
+
 				span {
-					color: #181a20;
+					color: #666;
 					font-family: $font;
 					font-size: 13px;
-					font-style: normal;
 					font-weight: 400;
-					line-height: normal;
+
+					strong {
+						font-weight: 600;
+						color: #181a20;
+					}
+				}
+
+				svg {
+					opacity: 0.7;
 				}
 			}
 		}
-		.bott {
+
+		.property-details-divider {
+			margin: 12px 0;
+			border-color: rgba(0, 0, 0, 0.08);
+			border-width: 1px;
+		}
+
+		.title {
+			color: #181a20;
+			font-family: $font;
+			font-size: 18px;
+			font-weight: 600;
+			line-height: 24px;
+			text-transform: capitalize;
+			cursor: pointer;
+			margin: 0 0 12px 0;
+			letter-spacing: -0.3px;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			line-clamp: 2;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			max-height: 48px;
+		}
+
+		.price-location {
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
 			align-items: center;
-			div {
-				width: 65px;
+			margin-bottom: 16px;
+
+			.price {
+				color: #3B3F2B;
+				font-family: $font;
+				font-size: 20px;
+				font-weight: 700;
+			}
+
+			.view-like-box-info {
 				display: flex;
 				flex-direction: row;
 				align-items: center;
-				justify-content: space-between;
+				gap: 4px;
+
+				.view-like-icon {
+					padding: 4px;
+				}
+
+				.view-cnt-info {
+					color: #666;
+					font-family: $font;
+					font-size: 13px;
+					font-weight: 500;
+					margin-right: 8px;
+				}
 			}
-			p {
-				color: #181a20;
-				font-family: $font;
-				font-size: 13px;
-				font-style: normal;
-				font-weight: 500;
-				line-height: normal;
-				text-transform: capitalize;
-			}
-			span {
-				margin-left: 6px;
-				color: rgba(143, 143, 143, 0.54);
-				font-family: $font;
-				font-size: 15px;
-				font-style: normal;
-				font-weight: 500;
-				line-height: normal;
-				text-transform: capitalize;
-			}
-			button {
-				margin-left: 15px;
-				width: 16px;
-				height: 16px;
-				box-sizing: border-box;
-			}
-			.buttons-box {
-				width: auto;
-				height: auto;
-				display: flex;
-				flex-direction: row;
-				gap: 7px;
+		}
+
+		.details-btn {
+			width: 100%;
+			padding: 12px 20px;
+			background: transparent;
+			color: #3B3F2B;
+			font-family: $font;
+			font-size: 14px;
+			font-weight: 600;
+			border: 2px solid #3B3F2B;
+			border-radius: 10px;
+			text-transform: none;
+			transition: all 0.3s ease;
+			margin-top: auto;
+
+			&:hover {
+				background: #3B3F2B;
+				color: #ffffff;
 			}
 		}
 	}
 }
+
 .agent-general-card {
 	position: relative;
 	margin-right: 27px;

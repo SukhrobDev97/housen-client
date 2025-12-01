@@ -1,342 +1,939 @@
+// Agency Detail Page - Premium Design
+// Brand Colors
+$brand-green: #2c3e2f;
+$brand-green-light: #3B3F2B;
+$gold-accent: #d4a373;
+$white: #ffffff;
+$light-grey: #f8f9fa;
+$dark-text: #1a1a1a;
+$grey-text: #666666;
+
 #pc-wrap {
-	.agent-detail-page {
+	.agency-detail-page {
 		position: relative;
-		padding: 133px 0 75px;
 		width: 100%;
-		height: auto;
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		.container {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			.agent-info {
-				margin-left: 58px;
-				width: 100%;
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-				img {
-					margin-right: 32px;
-					width: 135px;
-					height: 135px;
-					border-radius: 50%;
-					cursor: pointer;
-					object-fit: cover;
-				}
-				.info {
-					display: flex;
-					flex-direction: column;
-					strong {
-						color: #181a20;
-						font-family: $font;
-						font-size: 24px;
-						font-style: normal;
-						font-weight: 600;
-						line-height: normal;
-						text-transform: capitalize;
-						cursor: pointer;
-					}
-					div {
-						margin-top: 13px;
-						display: flex;
-						flex-direction: row;
-						align-items: center;
-						img {
-							margin-right: 10px;
-							width: 16px;
-							height: 16px;
-						}
-						span {
-							color: #181a20;
-							font-family: $font;
-							font-size: 20px;
-							font-style: normal;
-							font-weight: 400;
-							line-height: 28px;
-						}
-					}
-				}
-			}
-			.agent-home-list {
+		background: $light-grey;
+
+		// ==========================================
+		// 1) HERO SECTION
+		// ==========================================
+		.hero-section {
+			position: relative;
+			width: 100%;
+			height: 600px;
+
+			.hero-banner {
 				position: relative;
 				width: 100%;
-				margin-top: 33px;
-				padding: 0px 0 46px;
-				display: flex;
-				flex-direction: column;
-				border-radius: 12px;
-				background: #fff;
-				box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
-				.card-wrap {
-					position: relative;
-					margin-top: 35px;
+				height: 100%;
+
+				img {
 					width: 100%;
-					height: auto;
-					display: flex;
-					flex-direction: row;
-					flex-wrap: wrap;
-					.wrap-main {
-						margin-right: 11px;
-						margin-left: 11px;
-						display: flex;
-						flex-direction: row;
-						flex-wrap: wrap;
-					}
-					.agent-card {
-						position: relative;
-						margin-right: 27px;
-						margin-bottom: 34px;
-						display: flex;
-						flex-direction: column;
-						.agent-img {
-							border-radius: 12px;
-							width: 233px;
-							height: 273px;
-							background-size: cover;
-							cursor: pointer;
-							div {
-								position: absolute;
-								padding: 12px;
-								top: 12px;
-								left: 12px;
-								border-radius: 6px;
-								background: #eb6753;
-								color: #fff;
-								font-family: $font;
-								font-size: 12px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-							}
-						}
-						.agent-info {
-							margin-top: 23px;
-							display: flex;
-							flex-direction: column;
-							strong {
-								color: #181a20;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-								cursor: pointer;
-							}
-							span {
-								color: #181a20;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: 28px;
-							}
-						}
-					}
+					height: 100%;
+					object-fit: cover;
 				}
-				.pagination {
+
+				.hero-overlay {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					background: linear-gradient(135deg, rgba($brand-green, 0.85) 0%, rgba(20, 25, 20, 0.8) 100%);
+				}
+
+				.hero-content {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
 					display: flex;
 					flex-direction: column;
 					align-items: center;
-					span {
-						margin-top: 20px;
-						color: #181a20;
+					justify-content: center;
+					z-index: 1;
+					padding: 40px;
+					padding-top: 120px;
+
+					.agency-avatar {
+						width: 140px;
+						height: 140px;
+						border-radius: 50%;
+						overflow: hidden;
+						border: 4px solid rgba($white, 0.3);
+						box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+						margin-bottom: 24px;
+
+						img {
+							width: 100%;
+							height: 100%;
+							object-fit: cover;
+						}
+					}
+
+					.agency-name {
 						font-family: $font;
-						font-size: 14px;
-						font-style: normal;
+						font-size: 48px;
+						font-weight: 700;
+						color: $white;
+						margin-bottom: 12px;
+						text-align: center;
+						letter-spacing: -1px;
+					}
+
+					.agency-subtitle {
+						font-family: $font;
+						font-size: 18px;
 						font-weight: 400;
-						line-height: 26px;
+						color: rgba($white, 0.85);
+						margin-bottom: 32px;
+						text-align: center;
+						max-width: 600px;
+					}
+
+					.contact-row {
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+						gap: 32px;
+						margin-bottom: 32px;
+
+						.contact-item {
+							display: flex;
+							align-items: center;
+							gap: 10px;
+							padding: 12px 24px;
+							background: rgba($white, 0.1);
+							backdrop-filter: blur(10px);
+							border-radius: 100px;
+							border: 1px solid rgba($white, 0.15);
+							transition: all 0.3s ease;
+
+							&:hover {
+								background: rgba($white, 0.2);
+							}
+
+							&.share {
+								cursor: pointer;
+							}
+
+							svg {
+								font-size: 20px;
+								color: $gold-accent;
+							}
+
+							span {
+								font-family: $font;
+								font-size: 14px;
+								font-weight: 500;
+								color: $white;
+							}
+						}
+					}
+
+					.social-links {
+						position: absolute;
+						right: 40px;
+						bottom: 40px;
+						display: flex;
+						gap: 12px;
+
+						a {
+							width: 44px;
+							height: 44px;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							background: rgba($white, 0.1);
+							backdrop-filter: blur(10px);
+							border-radius: 12px;
+							border: 1px solid rgba($white, 0.15);
+							transition: all 0.3s ease;
+
+							svg {
+							font-size: 20px;
+								color: $white;
+							}
+
+							&:hover {
+								background: $gold-accent;
+								border-color: $gold-accent;
+
+								svg {
+									color: $white;
+								}
+							}
+						}
 					}
 				}
 			}
-			.review-box {
-				position: relative;
-				margin-top: 75px;
-				padding: 58px 19px;
-				width: 95%;
-				height: auto;
-				border-radius: 24px;
-				background: #f6f6f6;
-				.main-intro {
-					display: flex;
-					flex-direction: column;
-					span {
-						color: #181a20;
-						font-family: $font;
-						font-size: 30px;
-						font-style: normal;
-						font-weight: 600;
-						line-height: normal;
-						letter-spacing: 0.6px;
-						text-transform: capitalize;
-					}
-					p {
-						color: #181a20;
-						font-family: $font;
-						font-size: 14px;
-						font-style: normal;
-						font-weight: 400;
-						line-height: 26px;
+		}
+
+		// ==========================================
+		// MAIN CONTENT WRAPPER
+		// ==========================================
+		.main-content {
+			max-width: 1300px;
+			margin: 0 auto;
+			padding: 80px 40px 100px;
+			display: flex;
+			flex-direction: column;
+			gap: 80px;
+		}
+
+		// ==========================================
+		// SECTION TITLE COMMON
+		// ==========================================
+		.section-title {
+			font-family: $font;
+			font-size: 32px;
+			font-weight: 600;
+			color: $dark-text;
+			margin-bottom: 32px;
+			letter-spacing: -0.5px;
+		}
+
+		// ==========================================
+		// 2) ABOUT SECTION
+		// ==========================================
+		.about-section {
+			.about-card {
+				background: $white;
+				padding: 40px;
+				border-radius: 20px;
+				box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+
+				.section-title {
+					margin-bottom: 20px;
+				}
+
+				.about-text {
+					font-family: $font;
+					font-size: 16px;
+					font-weight: 400;
+					color: $grey-text;
+					line-height: 1.8;
+				}
+			}
+		}
+
+		// ==========================================
+		// 3) STATS SECTION
+		// ==========================================
+		.stats-section {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			gap: 24px;
+
+			.stat-card {
+				background: $white;
+				padding: 32px 24px;
+				border-radius: 20px;
+				box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				text-align: center;
+				transition: all 0.35s ease;
+
+				&:hover {
+					transform: translateY(-6px);
+					box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+
+					.stat-icon {
+						background: $brand-green;
+						color: $white;
 					}
 				}
-				.review-wrap {
-					padding: 29px 25px;
-					margin-top: 57px;
+
+				.stat-icon {
+					width: 64px;
+					height: 64px;
 					display: flex;
-					flex-direction: column;
-					border-radius: 12px;
-					background: #fff;
-					box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
-					.title-box {
-						svg {
-							width: 10px;
-							height: 10px;
-						}
-						span {
-							margin-left: 8px;
-							color: #181a20;
-							font-family: $font;
-							font-size: 17px;
-							font-style: normal;
-							font-weight: 600;
-							line-height: normal;
+					align-items: center;
+					justify-content: center;
+					background: rgba($brand-green, 0.1);
+					border-radius: 16px;
+					margin-bottom: 20px;
+					font-size: 28px;
+					color: $brand-green;
+					transition: all 0.3s ease;
+				}
+
+				.stat-number {
+					font-family: $font;
+					font-size: 36px;
+					font-weight: 700;
+					color: $dark-text;
+					margin-bottom: 8px;
+				}
+
+				.stat-label {
+					font-family: $font;
+					font-size: 14px;
+					font-weight: 500;
+					color: $grey-text;
+				}
+			}
+		}
+
+		// ==========================================
+		// 4) SERVICES SECTION
+		// ==========================================
+		.services-section {
+			.services-grid {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 24px;
+
+				.service-card {
+					background: $white;
+					padding: 32px 28px;
+					border-radius: 20px;
+					box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+					min-height: 200px;
+					transition: all 0.35s ease;
+
+					&:hover {
+						transform: translateY(-6px);
+						box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+
+						.service-icon {
+							background: $brand-green;
+
+							svg {
+								color: $white;
+							}
 						}
 					}
-					.review-card {
-						margin-top: 20px;
+
+					.service-icon {
+						width: 56px;
+						height: 56px;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						background: rgba($brand-green, 0.1);
+						border-radius: 14px;
+						margin-bottom: 20px;
+						transition: all 0.3s ease;
+
+						svg {
+							font-size: 26px;
+							color: $brand-green;
+							transition: all 0.3s ease;
+						}
+					}
+
+					.service-name {
+						font-family: $font;
+						font-size: 18px;
+						font-weight: 600;
+						color: $dark-text;
+						margin-bottom: 8px;
+					}
+
+					.service-desc {
+						font-family: $font;
+						font-size: 14px;
+						font-weight: 400;
+						color: $grey-text;
+					}
+				}
+			}
+		}
+
+		// ==========================================
+		// 5) PORTFOLIO SECTION
+		// ==========================================
+		.portfolio-section {
+			.portfolio-layout {
+						display: flex;
+				gap: 32px;
+
+				.filter-sidebar {
+					width: 280px;
+					flex-shrink: 0;
+
+					.filter-card {
+						position: sticky;
+						top: 100px;
+						background: $white;
+						padding: 28px;
+						border-radius: 20px;
+						box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+
+						.filter-title {
+							font-family: $font;
+							font-size: 18px;
+							font-weight: 600;
+							color: $dark-text;
+							margin-bottom: 24px;
+							padding-bottom: 16px;
+							border-bottom: 1px solid #eee;
+						}
+
+						.filter-group {
+							margin-bottom: 24px;
+
+							.filter-label {
+								font-family: $font;
+								font-size: 14px;
+								font-weight: 600;
+								color: $dark-text;
+								margin-bottom: 12px;
+							}
+
+							.MuiSelect-select {
+								font-family: $font;
+								font-size: 14px;
+							}
+
+							.price-labels {
+								display: flex;
+								justify-content: space-between;
+								margin-top: 8px;
+
+							span {
+									font-family: $font;
+									font-size: 12px;
+									color: $grey-text;
+								}
+							}
+						}
+
+						.apply-filter-btn {
+							width: 100%;
+							padding: 14px;
+							background: $brand-green;
+							color: $white;
+								font-family: $font;
+							font-size: 14px;
+							font-weight: 600;
+							border-radius: 12px;
+							text-transform: none;
+							transition: all 0.3s ease;
+
+							&:hover {
+								background: darken($brand-green, 5%);
+								transform: translateY(-2px);
+								box-shadow: 0 6px 16px rgba($brand-green, 0.3);
+							}
+						}
+					}
+				}
+
+				.portfolio-grid {
+					flex: 1;
+
+					.no-data {
 						display: flex;
 						flex-direction: column;
-						padding-bottom: 10px;
-						border-bottom: 1px solid #c4c4c4;
-						.info {
-							display: flex;
-							flex-direction: row;
-							justify-content: space-between;
-							.left {
-								display: flex;
-								flex-direction: row;
-								img {
-									width: 55px;
-									height: 59px;
-									border-radius: 50%;
-									object-fit: cover;
-								}
-								div {
-									margin-left: 8px;
-									display: flex;
-									flex-direction: column;
-									strong {
-										color: #181a20;
-										font-family: $font;
-										font-size: 15px;
-										font-style: normal;
-										font-weight: 600;
-										line-height: normal;
-									}
-									span {
-										margin-top: 4px;
-										color: #181a20;
-										font-family: $font;
-										font-size: 13px;
-										font-style: normal;
-										font-weight: 400;
-										line-height: normal;
-									}
-								}
-							}
-							.right {
-								display: flex;
-								flex-direction: row;
-								svg {
-									color: #edf023;
-								}
+						align-items: center;
+						justify-content: center;
+						padding: 80px 20px;
+						background: $white;
+						border-radius: 20px;
+
+						img {
+							width: 64px;
+							opacity: 0.5;
+							margin-bottom: 16px;
+						}
+
+						p {
+							font-family: $font;
+							font-size: 16px;
+							color: $grey-text;
+						}
+					}
+
+					.projects-grid {
+						display: grid;
+						grid-template-columns: repeat(2, 1fr);
+						gap: 32px;
+
+						.project-wrap {
+							.property-big-card-box {
+								max-width: 100%;
+								margin: 0;
 							}
 						}
-						p {
-							margin-top: 10px;
-							color: #181a20;
+					}
+
+					.pagination-box {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+						gap: 12px;
+						margin-top: 40px;
+						padding-top: 32px;
+						border-top: 1px solid #eee;
+
+						.total-text {
+						font-family: $font;
+						font-size: 14px;
+							color: $grey-text;
+						}
+					}
+				}
+			}
+		}
+
+
+		// ==========================================
+		// 7) REVIEWS SECTION
+		// ==========================================
+		.reviews-section {
+			background: $white;
+			padding: 48px;
+				border-radius: 24px;
+			box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+
+			.section-title {
+				margin-bottom: 24px;
+			}
+
+			.reviews-wrap {
+				margin-bottom: 40px;
+
+				.reviews-header {
+					display: flex;
+					align-items: center;
+					gap: 8px;
+					margin-bottom: 24px;
+
+					svg {
+						color: $gold-accent;
+					}
+
+					span {
+						font-family: $font;
+						font-size: 16px;
+						font-weight: 600;
+						color: $dark-text;
+					}
+				}
+
+				.reviews-list {
+					display: flex;
+					flex-direction: column;
+					gap: 16px;
+
+					.review-card {
+						padding: 20px;
+						background: $light-grey;
+						border-radius: 16px;
+						border: none;
+						box-shadow: none;
+					}
+				}
+
+				.pagination-box {
+					display: flex;
+					justify-content: center;
+					margin-top: 24px;
+				}
+			}
+
+			.leave-review {
+				background: $light-grey;
+				padding: 32px;
+				border-radius: 20px;
+
+				.review-form-title {
+					font-family: $font;
+					font-size: 18px;
+					font-weight: 600;
+					color: $dark-text;
+					margin-bottom: 20px;
+				}
+
+				textarea {
+					width: 100%;
+					min-height: 120px;
+					padding: 16px;
+					border: 1px solid #e0e0e0;
+					border-radius: 12px;
+							font-family: $font;
+					font-size: 14px;
+					resize: vertical;
+					margin-bottom: 20px;
+					transition: all 0.3s ease;
+
+					&:focus {
+						outline: none;
+						border-color: $brand-green;
+						box-shadow: 0 0 0 3px rgba($brand-green, 0.1);
+					}
+
+					&::placeholder {
+						color: #999;
+					}
+				}
+
+				.submit-review-btn {
+					padding: 14px 32px;
+					background: $brand-green;
+					color: $white;
+										font-family: $font;
+					font-size: 14px;
+										font-weight: 600;
+					border-radius: 12px;
+					text-transform: none;
+					transition: all 0.3s ease;
+
+					svg {
+						margin-left: 8px;
+						font-size: 18px;
+					}
+
+					&:hover:not(:disabled) {
+						background: darken($brand-green, 5%);
+						transform: translateY(-2px);
+						box-shadow: 0 6px 16px rgba($brand-green, 0.3);
+					}
+
+					&:disabled {
+						background: #ccc;
+						cursor: not-allowed;
+					}
+				}
+			}
+		}
+
+		// ==========================================
+		// 8) CONTACT SECTION
+		// ==========================================
+		.contact-section {
+			.contact-layout {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 32px;
+
+				.contact-form-card {
+					background: $white;
+					padding: 40px;
+					border-radius: 20px;
+					box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+
+					.form-title {
+						font-family: $font;
+						font-size: 20px;
+						font-weight: 600;
+						color: $dark-text;
+						margin-bottom: 28px;
+					}
+
+					.form-group {
+						margin-bottom: 20px;
+
+						input,
+						textarea {
+							width: 100%;
+							padding: 16px;
+							border: 1px solid #e0e0e0;
+							border-radius: 12px;
 							font-family: $font;
 							font-size: 14px;
-							font-style: normal;
-							font-weight: 400;
-							line-height: 26px;
+							transition: all 0.3s ease;
+							box-sizing: border-box;
+
+							&:focus {
+								outline: none;
+								border-color: $brand-green;
+								box-shadow: 0 0 0 3px rgba($brand-green, 0.1);
+							}
+
+							&::placeholder {
+								color: #999;
+							}
+						}
+
+						textarea {
+							resize: vertical;
+							min-height: 120px;
 						}
 					}
-					.pagination-box {
-						margin-top: 15px;
+
+					.submit-contact-btn {
 						width: 100%;
-						height: auto;
-						display: flex;
-						justify-content: center;
+						padding: 16px;
+						background: $brand-green;
+						color: $white;
+						font-family: $font;
+						font-size: 15px;
+						font-weight: 600;
+						border-radius: 12px;
+						text-transform: none;
+						transition: all 0.3s ease;
+
+						svg {
+							margin-left: 8px;
+							font-size: 18px;
+						}
+
+						&:hover {
+							background: darken($brand-green, 5%);
+							transform: translateY(-2px);
+							box-shadow: 0 6px 16px rgba($brand-green, 0.3);
+						}
 					}
 				}
-				.leave-review-config {
-					margin-top: 15px;
+
+				.map-card {
+					background: $white;
+					padding: 20px;
+					border-radius: 20px;
+					box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+					min-height: 400px;
+
+					iframe {
+						border-radius: 16px;
+					}
+				}
+			}
+		}
+
+		// ==========================================
+		// 9) RELATED SECTION
+		// ==========================================
+		.related-section {
+			.section-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 32px;
+
+				.section-title {
+					margin-bottom: 0;
+				}
+
+				.view-all-btn {
+					padding: 12px 24px;
+					background: transparent;
+					color: $brand-green;
+						font-family: $font;
+						font-size: 14px;
+						font-weight: 600;
+					border: 2px solid $brand-green;
 					border-radius: 12px;
-					background: #fff;
-					box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
-					padding: 30px 38px;
-					.main-title {
-						color: #181a20;
-						font-family: $font;
-						font-size: 17px;
-						font-style: normal;
-						font-weight: 600;
-						line-height: normal;
+					text-transform: none;
+					transition: all 0.3s ease;
+
+					svg {
+						margin-left: 8px;
+						font-size: 18px;
 					}
-					.review-title {
-						margin-top: 20px;
-						color: #181a20;
-						font-family: $font;
-						font-size: 14px;
-						font-style: normal;
-						font-weight: 600;
-						line-height: normal;
+
+					&:hover {
+						background: $brand-green;
+						color: $white;
 					}
-					textarea {
-						width: 100%;
-						height: 120px;
-						margin-top: 8px;
-						padding: 20px;
-						border-radius: 8px;
-						border: 1px solid #ddd;
-						color: #717171;
-						font-family: $font;
-						font-size: 14px;
-						font-style: normal;
-						font-weight: 400;
-						line-height: 26px;
-					}
-					.submit-btn {
-						width: 100%;
-						display: flex;
-						justify-content: flex-end;
-						button:disabled {
-							background: #dfdfdf;
+				}
+			}
+
+			.related-grid {
+				display: grid;
+				grid-template-columns: repeat(4, 1fr);
+				gap: 24px;
+
+				.related-card {
+					background: $white;
+					border-radius: 20px;
+					overflow: hidden;
+					box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+					cursor: pointer;
+					transition: all 0.35s ease;
+
+					&:hover {
+						transform: translateY(-8px);
+						box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+
+						.card-image {
+							img {
+								transform: scale(1.08);
+							}
+
+							.card-overlay {
+								opacity: 0.3;
+							}
 						}
-						.submit-review {
+					}
+
+					.card-image {
+						position: relative;
+						height: 180px;
+						overflow: hidden;
+
+						img {
+							width: 100%;
+							height: 100%;
+							object-fit: cover;
+							transition: transform 0.5s ease;
+						}
+
+						.card-overlay {
+							position: absolute;
+							top: 0;
+							left: 0;
+						width: 100%;
+							height: 100%;
+							background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+							opacity: 0;
+							transition: opacity 0.3s ease;
+						}
+					}
+
+					.card-content {
+						padding: 20px;
+
+						.agency-name {
+						font-family: $font;
+							font-size: 16px;
+							font-weight: 600;
+							color: $dark-text;
+							margin-bottom: 4px;
+						}
+
+						.agency-type {
+							font-family: $font;
+							font-size: 13px;
+							color: $grey-text;
+							margin-bottom: 12px;
+						}
+
+						.card-stats {
 							display: flex;
-							width: 256px;
-							margin-top: 30px;
-							padding: 16px 30px;
-							justify-content: center;
-							align-items: center;
-							gap: 10px;
-							border-radius: 12px;
-							border: 1px solid #c4c4c4;
-							cursor: pointer;
-							.title {
-								color: #181a20;
+							gap: 16px;
+
+							span {
 								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
+								font-size: 12px;
+								font-weight: 500;
+								color: $brand-green;
 							}
 						}
 					}
 				}
+			}
+		}
+
+		// ==========================================
+		// RESPONSIVE - 13" Laptops
+		// ==========================================
+		@media screen and (max-width: 1440px) {
+			.hero-section {
+				height: 520px;
+
+				.hero-banner .hero-content {
+					.agency-name {
+						font-size: 40px;
+					}
+
+					.agency-subtitle {
+						font-size: 16px;
+					}
+				}
+			}
+
+			.main-content {
+				padding: 60px 32px 80px;
+				gap: 60px;
+			}
+
+			.section-title {
+				font-size: 28px;
+			}
+
+			.stats-section {
+				gap: 20px;
+
+				.stat-card {
+					padding: 24px 20px;
+
+					.stat-number {
+						font-size: 30px;
+					}
+				}
+			}
+
+			.services-section .services-grid {
+				gap: 20px;
+
+				.service-card {
+					padding: 24px;
+					min-height: 180px;
+				}
+			}
+
+			.portfolio-section .portfolio-layout {
+				.filter-sidebar {
+					width: 260px;
+				}
+
+				.portfolio-grid .projects-grid {
+					gap: 24px;
+				}
+			}
+
+
+			.related-section .related-grid {
+				gap: 20px;
+
+				.related-card .card-image {
+					height: 160px;
+				}
+			}
+		}
+
+		@media screen and (max-width: 1200px) {
+			.stats-section {
+				grid-template-columns: repeat(2, 1fr);
+			}
+
+			.services-section .services-grid {
+				grid-template-columns: repeat(2, 1fr);
+			}
+
+			.related-section .related-grid {
+				grid-template-columns: repeat(2, 1fr);
+			}
+
+			.portfolio-section .portfolio-layout {
+				flex-direction: column;
+
+				.filter-sidebar {
+					width: 100%;
+
+					.filter-card {
+						position: relative;
+						top: 0;
+					}
+				}
+			}
+		}
+
+		@media screen and (max-width: 768px) {
+			.stats-section {
+				grid-template-columns: 1fr;
+			}
+
+			.services-section .services-grid {
+				grid-template-columns: 1fr;
+			}
+
+			.contact-section .contact-layout {
+				grid-template-columns: 1fr;
+			}
+
+			.related-section .related-grid {
+				grid-template-columns: 1fr;
+			}
+
+			.portfolio-section .portfolio-layout .portfolio-grid .projects-grid {
+				grid-template-columns: 1fr;
 			}
 		}
 	}
