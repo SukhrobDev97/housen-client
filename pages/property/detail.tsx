@@ -82,7 +82,7 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 		error: getProjectError,
 		refetch: getProjectRefetch,
 	  } = useQuery(GET_PROJECT, {
-		fetchPolicy: 'cache-and-network',
+		fetchPolicy: 'network-only',
 		variables: { input: projectId },
 		skip: !projectId,
 		notifyOnNetworkStatusChange: true,
