@@ -9,6 +9,12 @@ import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Member } from '../../libs/types/member/member';
 import AgencyCard from '../../libs/components/common/AgentCard';
+import { useMutation, useQuery } from '@apollo/client';
+import { LIKE_TARGET_MEMBER } from '../../apollo/user/mutation';
+import { GET_AGENCIES } from '../../apollo/user/query';
+import { T } from '../../libs/types/common';
+import { Messages } from '../../libs/config';
+import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -32,6 +38,23 @@ const AgencyList: NextPage = ({ initialInput, ...props }: any) => {
 	const [searchText, setSearchText] = useState<string>('');
 
 	/** APOLLO REQUESTS **/
+
+	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
+	
+	const {
+		loading: getAgenciesLoading,
+		data: getAgenciesData,
+		error: getAgenciesError,
+		refetch: getAgenciesRefetch,
+	} = useQuery(GET_AGENCIES, {
+		fetchPolicy: 'network-only',
+		variables: { input: searchFilter },
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			setAgencies(data?.getAgents?.list);
+			setTotal(data?.getAgents?.metaCounter[0]?.total);
+		},
+	});
 	/** LIFECYCLES **/
 	useEffect(() => {
 		if (router.query.input) {
@@ -84,6 +107,26 @@ const AgencyList: NextPage = ({ initialInput, ...props }: any) => {
 		});
 		setCurrentPage(value);
 	};
+
+	const likeMemberHandler = async (user: any, id: string) => {
+		try {
+		  if (!id) return;
+		  if (!user._id) throw new Error(Messages.error2);
+	  
+		  await likeTargetMember({
+			variables: {
+			  input: id,
+			},
+		  });
+	  
+		  await getAgenciesRefetch({ input: searchFilter });
+		  await sweetTopSmallSuccessAlert('success', 800);
+		} catch (err: any) {
+		  console.log('ERROR, likeProjectHandler:', err.message);
+		  sweetMixinErrorAlert(err.message).then();
+		}
+	  };
+	  
 
 	if (device === 'mobile') {
 		return <h1>AGENCIES PAGE MOBILE</h1>;
@@ -139,7 +182,7 @@ const AgencyList: NextPage = ({ initialInput, ...props }: any) => {
 							</div>
 						) : (
 							agencies.map((agency: Member) => {
-								return <AgencyCard agency={agency} key={agency._id} />;
+								return <AgencyCard agency={agency} key={agency._id}  likeMemberHandler={likeMemberHandler} />;
 							})
 						)}
 					</Stack>

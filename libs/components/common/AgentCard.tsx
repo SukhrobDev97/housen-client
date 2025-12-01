@@ -12,10 +12,11 @@ import { userVar } from '../../../apollo/store';
 
 interface AgencyCardProps {
 	agency: any;
+	likeMemberHandler?: any;
 }
 
 const AgencyCard = (props: AgencyCardProps) => {
-	const { agency } = props;
+	const { agency, likeMemberHandler } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const imagePath: string = agency?.memberImage
