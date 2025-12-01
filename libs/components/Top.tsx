@@ -288,7 +288,7 @@ const Top = () => {
 						</Link>
 						<Link href={'/agent'} onClick={closeMobileMenu}>
 							<div className={'mobile-menu-item'}>
-								<span>{t('Agents')}</span>
+								<span>Agencies</span>
 							</div>
 						</Link>
 						<Link href={'/community?articleCategory=FREE'} onClick={closeMobileMenu}>
@@ -382,11 +382,8 @@ const Top = () => {
 								</div>
 							</Link>
 							<Link href={'/agent'}>
-								<div className={'menu-item'}>
-									<span>{t('Agents')}</span>
-									<svg className={'down-arrow'} width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-										<path d="M3 4.5L6 7.5L9 4.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-									</svg>
+								<div className={'menu-item no-arrow'}>
+									<span>Agencies</span>
 								</div>
 							</Link>
 							<Link href={'/community?articleCategory=FREE'}>
