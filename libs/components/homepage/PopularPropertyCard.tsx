@@ -27,6 +27,10 @@ const PopularProjectCard = (props: PopularProjectCardProps) => {
 	const user = useReactiveVar(userVar);
 
 	/** HANDLERS **/
+	const pushDetailHandler = async (projectId: string) => {
+		console.log('CLICKED_PROPERTY_ID:', projectId);
+		await router.push({pathname: '/property/detail', query: { id : projectId}});
+	}
 
 	if (device === 'mobile') {
 		return (
@@ -35,6 +39,7 @@ const PopularProjectCard = (props: PopularProjectCardProps) => {
 					component={'div'}
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${project?.projectImages[0]})` }}
+					onClick={() => pushDetailHandler(project._id)}
 				>
 					{project?.projectRank && project?.projectRank >= topProjectRank ? (
 						<div className={'status'}>
@@ -48,7 +53,12 @@ const PopularProjectCard = (props: PopularProjectCardProps) => {
 					<div className={'price'}>${project.projectPrice}</div>
 				</Box>
 				<Box component={'div'} className={'info'}>
-					<strong className={'title'}>{project.projectTitle}</strong>
+					<strong 
+						className={'title'} 
+						onClick={() => pushDetailHandler(project._id)}
+					>
+						{project.projectTitle}
+					</strong>
 					<p className={'desc'}>{project.projectType}</p>
 					<div className={'options'}>
 						<div>
@@ -82,8 +92,8 @@ const PopularProjectCard = (props: PopularProjectCardProps) => {
 					component={'div'}
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${project?.projectImages[0]})` }}
-					onClick={() => router.push(`/property/detail?id=${project._id}`)}
 					sx={{ cursor: 'pointer' }}
+					onClick={() => pushDetailHandler(project._id)}
 				>
 					{project && project?.projectRank >= topProjectRank ? (
 						<div className={'status'}>
@@ -111,7 +121,7 @@ const PopularProjectCard = (props: PopularProjectCardProps) => {
 						</div>
 					</div>
 					<Divider className={'property-details-divider'} />
-					<strong className={'title'}>{project.projectTitle}</strong>
+					<strong className={'title'} onClick={() => pushDetailHandler(project._id)}>{project.projectTitle}</strong>
 					<div className={'price-location'}>
 						<span className={'price'}>${project.projectPrice.toLocaleString()}</span>
 						<div className={'view-like-box-info'}>

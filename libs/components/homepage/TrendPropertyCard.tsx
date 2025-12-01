@@ -23,6 +23,12 @@ const TrendProjectCard = (props: TrendProjectCardProps) => {
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 
+	/** HANDLERS **/
+	const pushDetailHandler = async (projectId: string) => {
+		console.log('CLICKED_PROPERTY_ID:', projectId);
+		await router.push({pathname: '/property/detail', query: { id : projectId}});
+	}
+
 	if (device === 'mobile') {
 		return (
 			<Stack className="trend-card-box" key={project._id}>
@@ -30,10 +36,14 @@ const TrendProjectCard = (props: TrendProjectCardProps) => {
 					component={'div'}
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${project?.projectImages[0]})` }}
+					onClick={() => pushDetailHandler(project._id)}
 				>
 					<span className="category-badge">{project.projectType}</span>
 				</Box>
-				<Box component={'div'} className={'card-content'}>
+				<Box
+					component={'div'} className={'card-content'} 
+					onClick={() => pushDetailHandler(project._id)}
+				>
 					<Typography className={'card-title'}>{project.projectTitle}</Typography>
 					<Typography className={'card-price'}>${project.projectPrice.toLocaleString()}</Typography>
 				</Box>
