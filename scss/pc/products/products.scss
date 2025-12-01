@@ -8,95 +8,102 @@
 		min-height: 100vh;
 
 		// ==========================================
-		// HERO SECTION
+		// HERO SECTION - Same as Projects Page
 		// ==========================================
-		.hero-section {
+		.products-hero {
 			position: relative;
 			width: 100%;
-			height: 450px;
-			background: url('/img/projectsPage/products/Minimalist Scandinavian Interiors.jpeg') center/cover no-repeat;
-			display: flex;
-			align-items: center;
-			justify-content: center;
+			height: 600px;
 			overflow: hidden;
-
-			.hero-overlay {
-				position: absolute;
-				inset: 0;
-				background: linear-gradient(
-					135deg,
-					rgba(59, 63, 43, 0.85) 0%,
-					rgba(42, 47, 31, 0.75) 50%,
-					rgba(24, 26, 20, 0.9) 100%
-				);
-			}
-
-			.hero-content {
+			
+			.hero-banner {
 				position: relative;
-				z-index: 2;
-				text-align: center;
-				animation: fadeInUp 0.8s ease-out;
-
-				.hero-label {
-					display: inline-block;
-					padding: 8px 20px;
-					background: rgba(255, 255, 255, 0.15);
-					backdrop-filter: blur(10px);
-					border: 1px solid rgba(255, 255, 255, 0.2);
-					border-radius: 100px;
-					color: #fff;
-					font-family: $font;
-					font-size: 13px;
-					font-weight: 500;
-					letter-spacing: 1.5px;
-					text-transform: uppercase;
-					margin-bottom: 20px;
+				width: 100%;
+				height: 100%;
+				
+				img {
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
 				}
-
-				.hero-title {
-					color: #fff;
-					font-family: $font;
-					font-size: 56px;
-					font-weight: 700;
-					letter-spacing: -1px;
-					margin-bottom: 12px;
-					text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+				
+				.hero-overlay {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					background: rgba(59, 63, 43, 0.6);
 				}
-
-				.hero-subtitle {
-					color: rgba(255, 255, 255, 0.85);
-					font-family: $font;
-					font-size: 20px;
-					font-weight: 400;
-					letter-spacing: 3px;
-					margin-bottom: 32px;
-				}
-
-				.hero-cta {
-					padding: 14px 32px;
-					background: #fff;
-					color: #3B3F2B;
-					font-family: $font;
-					font-size: 15px;
-					font-weight: 600;
-					border-radius: 12px;
-					text-transform: none;
-					transition: all 0.3s ease;
-
-					svg {
-						margin-left: 8px;
-						font-size: 18px;
-						transition: transform 0.3s ease;
-					}
-
-					&:hover {
-						background: #3B3F2B;
-						color: #fff;
-						transform: translateY(-2px);
-						box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-
-						svg {
-							transform: translateX(4px);
+				
+				.hero-content {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					z-index: 1;
+					
+					.container {
+						max-width: 1300px;
+						width: 100%;
+						margin: 0 auto;
+						padding: 0 40px;
+						display: flex;
+						flex-direction: column;
+						align-items: center;
+						justify-content: center;
+						
+						.breadcrumb {
+							display: flex;
+							flex-direction: row;
+							align-items: center;
+							gap: 8px;
+							margin-bottom: 24px;
+							
+							span {
+								color: #ffffff;
+								font-family: $font;
+								font-size: 14px;
+								font-style: normal;
+								font-weight: 400;
+								line-height: normal;
+								
+								&.separator {
+									&::before {
+										content: '–';
+										margin-right: 8px;
+										color: #ffffff;
+									}
+								}
+							}
+							
+							a {
+								text-decoration: none;
+								span {
+									color: #ffffff;
+									transition: color 0.3s ease;
+									
+									&:hover {
+										color: rgba(255, 255, 255, 0.8);
+									}
+								}
+							}
+						}
+						
+						.page-title {
+							color: #ffffff;
+							font-family: $font;
+							font-size: 56px;
+							font-style: normal;
+							font-weight: 600;
+							line-height: normal;
+							text-transform: capitalize;
+							letter-spacing: -1px;
+							margin: 0;
 						}
 					}
 				}

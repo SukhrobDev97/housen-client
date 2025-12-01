@@ -22,6 +22,7 @@ import { userVar } from '../../apollo/store';
 import { Logout } from '@mui/icons-material';
 import { REACT_APP_API_URL } from '../config';
 import { useCart } from '../context/CartContext';
+import { sweetTopSmallSuccessAlert } from '../sweetAlert';
 
 const Top = () => {
 	const device = useDeviceDetect();
@@ -44,7 +45,7 @@ const Top = () => {
 	const notificationRef = useRef<HTMLDivElement>(null);
 	const [cartOpen, setCartOpen] = useState<boolean>(false);
 	const cartRef = useRef<HTMLDivElement>(null);
-	const { cartItems, updateQuantity, removeFromCart, getCartTotal, getCartCount } = useCart();
+	const { cartItems, updateQuantity, removeFromCart, clearCart, getCartTotal, getCartCount } = useCart();
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -610,8 +611,15 @@ const Top = () => {
 														<span>Total:</span>
 														<strong>${getCartTotal().toLocaleString()}</strong>
 													</div>
-													<button className={'checkout-btn'}>
-														Checkout
+													<button 
+														className={'checkout-btn'}
+														onClick={() => {
+															sweetTopSmallSuccessAlert('Order created!', 1500);
+															clearCart();
+															setCartOpen(false);
+														}}
+													>
+														Order
 													</button>
 												</div>
 											)}

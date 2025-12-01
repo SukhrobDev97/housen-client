@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { Box, Typography, Button, IconButton, Rating, Select, MenuItem, FormControl } from '@mui/material';
+import { Box, Stack, Typography, Button, IconButton, Rating, Select, MenuItem, FormControl } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -10,6 +10,7 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import StarIcon from '@mui/icons-material/Star';
+import Link from 'next/link';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../apollo/store';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
@@ -175,16 +176,25 @@ const ProductsPage: NextPage = () => {
 	return (
 		<div id="products-page">
 			{/* ==========================================
-			    HERO SECTION
+			    HERO SECTION - Same as Projects Page
 			========================================== */}
-			<section className="hero-section">
-				<div className="hero-overlay" />
-				<div className="hero-content">
-					<span className="hero-label">Premium Collection</span>
-					<h1 className="hero-title">Our Products</h1>
-					<p className="hero-subtitle">Quality. Design. Inspiration.</p>
-				</div>
-			</section>
+			<Stack className={'products-hero'}>
+				<Box component={'div'} className={'hero-banner'}>
+					<img src="/img/projectsPage/products/Minimalist Scandinavian Interiors.jpeg" alt="Products Banner" />
+					<Box component={'div'} className={'hero-overlay'}></Box>
+					<Stack className={'hero-content'}>
+						<Stack className={'container'}>
+							<Stack className={'breadcrumb'}>
+								<Link href={'/'}>
+									<span>Home</span>
+								</Link>
+								<span className={'separator'}>Products</span>
+							</Stack>
+							<h1 className={'page-title'}>Products</h1>
+						</Stack>
+					</Stack>
+				</Box>
+			</Stack>
 
 			{/* ==========================================
 			    FILTER BAR
