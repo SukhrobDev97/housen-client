@@ -262,72 +262,48 @@ const ProjectList: NextPage = ({ initialInput, ...props }: any) => {
 				</div>
 
 				{/* Things You May Like Section */}
-				<section className="things-you-may-like">
-					<div className="container">
-						<Box className="section-header">
-							<Box>
-								<Typography className="section-title">Things You May Like</Typography>
-								<Typography className="section-subtitle">Handpicked products for your home</Typography>
-							</Box>
-							<Link href="/products">
-								<Button className="view-all-btn">
-									View All Products
-									<ArrowForwardIcon />
-								</Button>
-							</Link>
-						</Box>
-						
-						<Box className="products-grid">
-							{recommendedProducts.map((product) => (
-								<Box key={product.id} className="product-card">
-									<Box className="product-image-container">
-										<img src={product.image} alt={product.name} className="product-image" />
-										{product.tag && (
-											<span className={`product-tag tag-${product.tag.toLowerCase()}`}>
-												{product.tag}
-											</span>
-										)}
-										<Box className="quick-actions">
-											<IconButton 
-												className="action-btn"
-												onClick={() => handleProductFavorite(product.id)}
-											>
-												{productFavorites.includes(product.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-											</IconButton>
-											<IconButton 
-												className="action-btn cart-btn"
-												onClick={() => handleAddToCart(product)}
-											>
-												<AddShoppingCartIcon />
-											</IconButton>
-										</Box>
-									</Box>
-									<Box className="product-info">
-										<span className="product-category">{product.category}</span>
-										<Typography className="product-name">{product.name}</Typography>
-										<Box className="product-rating">
-											<Rating 
-												value={product.rating} 
-												precision={0.1} 
-												size="small" 
-												readOnly 
-												icon={<StarIcon fontSize="inherit" />}
-												emptyIcon={<StarIcon fontSize="inherit" />}
-											/>
-											<span className="rating-value">{product.rating}</span>
-										</Box>
-										<Box className="product-price">
-											<span className="current-price">${product.price}</span>
-											{product.originalPrice && (
-												<span className="original-price">${product.originalPrice}</span>
-											)}
+				<Stack className="things-you-may-like">
+					<Box className="section-header">
+						<Typography className="section-title">Things You May Like</Typography>
+						<Link href="/products">
+							<Button className="view-all-btn">
+								View All
+								<ArrowForwardIcon />
+							</Button>
+						</Link>
+					</Box>
+					
+					<Box className="products-grid">
+						{recommendedProducts.map((product) => (
+							<Box 
+								key={product.id} 
+								className="product-card"
+								onClick={() => router.push('/products')}
+							>
+								<Box className="card-image">
+									<img src={product.image} alt={product.name} />
+									<Box className="card-overlay" />
+									{product.tag && (
+										<span className={`product-tag tag-${product.tag.toLowerCase()}`}>
+											{product.tag}
+										</span>
+									)}
+								</Box>
+								<Box className="card-content">
+									<Typography className="product-name">{product.name}</Typography>
+									<Typography className="product-category">{product.category}</Typography>
+									<Box className="card-stats">
+										<span>${product.price}</span>
+										<Box className="rating">
+											<StarIcon />
+											<span>{product.rating}</span>
 										</Box>
 									</Box>
 								</Box>
-							))}
-						</Box>
-					</div>
-				</section>
+							</Box>
+						))}
+					</Box>
+				</Stack>
 			</div>
 		);
 	}

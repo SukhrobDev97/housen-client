@@ -170,12 +170,12 @@ const TopProjects = (props: TopProjectsProps) => {
 								}}
 							>
 								{displayedProjects.map((project: Project) => {
-									return (
+										return (
 										<Box key={project._id} className={'top-property-slide'} sx={{ flex: '1 1 calc(25% - 18px)' }}>
-											<TopProjectCard project={project} likeProjectHandler={likeProjectHandler} />
-										</Box>
-									);
-								})}
+												<TopProjectCard project={project} likeProjectHandler={likeProjectHandler} />
+											</Box>
+										);
+									})}
 							</Stack>
 						)}
 					</Stack>

@@ -116,23 +116,23 @@ const AgencyList: NextPage = ({ initialInput, ...props }: any) => {
 
 	const likeMemberHandler = async (user: any, id: string) => {
 		try {
-			if (!id) return;
-			if (!user._id) throw new Error(Messages.error2);
+		  if (!id) return;
+		  if (!user._id) throw new Error(Messages.error2);
 	  
-			await likeTargetMember({
-				variables: {
-					input: id,
-				},
-			});
+		  await likeTargetMember({
+			variables: {
+			  input: id,
+			},
+		  });
 	  
-			await getAgenciesRefetch({ input: searchFilter });
-			await sweetTopSmallSuccessAlert('success', 800);
+		  await getAgenciesRefetch({ input: searchFilter });
+		  await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
-			console.log('ERROR, likeProjectHandler:', err.message);
-			sweetMixinErrorAlert(err.message).then();
+		  console.log('ERROR, likeProjectHandler:', err.message);
+		  sweetMixinErrorAlert(err.message).then();
 		}
-	};
-
+	  };
+	  
 	// Compare handlers - memoized to maintain state
 	const handleCompareToggle = useCallback((agency: Member) => {
 		setCompareList(prev => {
@@ -209,15 +209,15 @@ const AgencyList: NextPage = ({ initialInput, ...props }: any) => {
 						</Box>
 						<Box component={'div'} className={'sort-box'}>
 							<span>Sort by</span>
-							<Button onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />}>
-								{filterSortName}
-							</Button>
+								<Button onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />}>
+									{filterSortName}
+								</Button>
 							<Menu anchorEl={anchorEl} open={sortingOpen} onClose={sortingCloseHandler}>
 								<MenuItem onClick={sortingHandler} id={'recent'} disableRipple>Recent</MenuItem>
 								<MenuItem onClick={sortingHandler} id={'old'} disableRipple>Oldest</MenuItem>
 								<MenuItem onClick={sortingHandler} id={'likes'} disableRipple>Likes</MenuItem>
 								<MenuItem onClick={sortingHandler} id={'views'} disableRipple>Views</MenuItem>
-							</Menu>
+								</Menu>
 						</Box>
 					</Stack>
 
@@ -246,14 +246,14 @@ const AgencyList: NextPage = ({ initialInput, ...props }: any) => {
 
 					{/* Pagination */}
 					<Stack className={'pagination-section'}>
-						{agencies.length !== 0 && Math.ceil(total / searchFilter.limit) > 1 && (
-							<Pagination
-								page={currentPage}
-								count={Math.ceil(total / searchFilter.limit)}
-								onChange={paginationChangeHandler}
+							{agencies.length !== 0 && Math.ceil(total / searchFilter.limit) > 1 && (
+									<Pagination
+										page={currentPage}
+										count={Math.ceil(total / searchFilter.limit)}
+										onChange={paginationChangeHandler}
 								shape="rounded"
-							/>
-						)}
+									/>
+							)}
 						{agencies.length !== 0 && (
 							<span className="total-count">
 								Showing {agencies.length} of {total} agencies

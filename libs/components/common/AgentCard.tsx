@@ -108,8 +108,8 @@ const AgencyCard = (props: AgencyCardProps) => {
 						<Box className="stats">
 							<Box className="stat">
 								<IconButton size="small">
-									<RemoveRedEyeIcon />
-								</IconButton>
+							<RemoveRedEyeIcon />
+						</IconButton>
 								<span>{agency?.memberViews || 0}</span>
 							</Box>
 							<Box className="stat">
@@ -121,12 +121,12 @@ const AgencyCard = (props: AgencyCardProps) => {
 										likeMemberHandler && likeMemberHandler(user, agency?._id);
 									}}
 								>
-									{agency?.meLiked && agency?.meLiked[0]?.myFavorite ? (
+							{agency?.meLiked && agency?.meLiked[0]?.myFavorite ? (
 										<FavoriteIcon className="liked" />
-									) : (
-										<FavoriteBorderIcon />
-									)}
-								</IconButton>
+							) : (
+								<FavoriteBorderIcon />
+							)}
+						</IconButton>
 								<span>{agency?.memberLikes || 0}</span>
 							</Box>
 						</Box>
