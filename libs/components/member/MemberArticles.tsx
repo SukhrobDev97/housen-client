@@ -10,6 +10,8 @@ import { BoardArticlesInquiry } from '../../types/board-article/board-article.in
 import { GET_BOARD_ARTICLES } from '../../../apollo/user/query';
 import { useMutation, useQuery } from '@apollo/client';
 import { LIKE_TARGET_BOARD_ARTICLE } from '../../../apollo/user/mutation';
+import { Messages } from '../../config';
+import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 
 const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
@@ -51,8 +53,20 @@ const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
 
 	const likeArticleHandler = async (e: any, user: any, id: string) => {
 		try{
-
-		}catch(err:any){}
+			e.stopPropagation();
+			if(!id) return;
+			if(!user._id) throw new Error(Messages.error2);
+			await likeTargetBoardArticle({
+				variables: {
+					input: id,
+				},
+			});
+			await boardArticlesRefetch({ input: searchFilter });
+			await sweetTopSmallSuccessAlert("Success!", 800);
+		}catch(err:any){
+			console.log('ERROR, likeArticleHandler :', err);
+			sweetMixinErrorAlert(err.message).then();
+		}
 
 	}
 
