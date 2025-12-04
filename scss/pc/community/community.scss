@@ -178,20 +178,19 @@ $gray-text: #757575;
 				}
 
 				.write-btn {
-					padding: 12px 28px;
-					background: $brand-color;
+					padding: 12px 32px;
+					background: $brand-green;
 					color: $white;
 					font-family: $font;
 					font-size: 14px;
 					font-weight: 600;
-					border-radius: 12px;
+					border-radius: 8px;
 					text-transform: none;
 					transition: all 0.3s ease;
 
 					&:hover {
-						background: darken($brand-color, 8%);
-						transform: translateY(-2px);
-						box-shadow: 0 4px 12px rgba(232, 115, 90, 0.3);
+						background: darken($brand-green, 5%);
+						box-shadow: 0 4px 12px rgba(59, 63, 43, 0.25);
 					}
 				}
 			}
