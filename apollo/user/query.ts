@@ -190,8 +190,8 @@ export const GET_PROJECTS = gql`
 	}
 `;
 
-export const GET_AGENT_PROJECTS = gql`
-	query GetAgentProjects($input: AgentProjectsInquiry!) {
+export const GET_AGENCY_PROJECTS = gql`
+	query GetAgentProjects($input: AgencyProjectsInquiry!) {
 		getAgentProjects(input: $input) {
 			list {
 				_id

@@ -117,7 +117,7 @@ export const ProjectCard = (props: ProjectCardProps) => {
 				<Stack className="views-box">
 					<Typography className="views">{project.projectViews.toLocaleString()}</Typography>
 				</Stack>
-				{!memberPage && (
+				{!memberPage && project.projectStatus === ProjectStatus.ACTIVE &&  (
 					<Stack className="action-box">
 						<IconButton className="icon-button" onClick={() => pushEditProject(project._id)}>
 							<ModeIcon className="buttons" />

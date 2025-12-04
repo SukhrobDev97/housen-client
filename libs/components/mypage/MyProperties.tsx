@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NextPage } from 'next';
 import { Pagination, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { useReactiveVar } from '@apollo/client';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { Project } from '../../types/property/property';
 import { AgencyProjectsInquiry } from '../../types/property/property.input';
 import { T } from '../../types/common';
@@ -10,6 +10,9 @@ import { ProjectStatus } from '../../enums/property.enum';
 import { userVar } from '../../../apollo/store';
 import { useRouter } from 'next/router';
 import { ProjectCard } from './PropertyCard';
+import { UPDATE_PROJECT } from '../../../apollo/user/mutation';
+import { GET_AGENCY_PROJECTS } from '../../../apollo/user/query';
+import { sweetConfirmAlert, sweetErrorHandling } from '../../sweetAlert';
 
 const MyProjects: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
@@ -20,6 +23,22 @@ const MyProjects: NextPage = ({ initialInput, ...props }: any) => {
 	const router = useRouter();
 
 	/** APOLLO REQUESTS **/
+	const [updateProject] = useMutation(UPDATE_PROJECT)
+
+	const {
+		loading: getAgencyProjectsLoading,
+		data: getAgencyProjectsData,
+		error: getAgencyProjectsError,
+		refetch: getAgencyProjectsRefetch,
+	} = useQuery(GET_AGENCY_PROJECTS, {
+		fetchPolicy: 'network-only',
+		variables:{input: searchFilter},
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			setAgencyProjects(data?.getAgencyProjects?.list);
+			setTotal(data?.getAgencyProjects?.metaCounter[0]?.total ?? 0);
+		}
+	})
 
 	/** HANDLERS **/
 	const paginationHandler = (e: T, value: number) => {
@@ -30,9 +49,42 @@ const MyProjects: NextPage = ({ initialInput, ...props }: any) => {
 		setSearchFilter({ ...searchFilter, search: { projectStatus: value } });
 	};
 
-	const deleteProjectHandler = async (id: string) => {};
+	const deleteProjectHandler = async (id: string) => {
+		try {
+			if(await sweetConfirmAlert('Are you sure you want to delete this project?')){
+				await updateProject({
+					variables:{
+						input:{
+							_id: id,
+							projectStatus: "DELETE"
+						}
+					}
+				})
+				await getAgencyProjectsRefetch({input: searchFilter});
+			}
+		} catch (err: any) {
+			await(sweetErrorHandling(err) );	
+		}
+	};
 
-	const updateProjectHandler = async (status: string, id: string) => {};
+	const updateProjectHandler = async (status: string, id: string) => {
+		try{
+			if(await sweetConfirmAlert(`Are you sure you want to change to ${status} status?`)){
+				await updateProject({
+					variables:{
+						input:{
+							_id: id,
+							propertyStatus: status
+						}
+					}
+				})
+				await getAgencyProjectsRefetch({input: searchFilter});
+			}
+		} catch (err: any) {
+			await(sweetErrorHandling(err) );	
+		}
+	};
+
 
 	if (user?.memberType !== 'AGENCY') {
 		router.back();
@@ -70,7 +122,7 @@ const MyProjects: NextPage = ({ initialInput, ...props }: any) => {
 							<Typography className="title-text">Date Published</Typography>
 							<Typography className="title-text">Status</Typography>
 							<Typography className="title-text">View</Typography>
-							<Typography className="title-text">Action</Typography>
+							{searchFilter.search.projectStatus === 'ACTIVE' && (<Typography className="title-text">Actions</Typography>)}
 						</Stack>
 
 						{agencyProjects?.length === 0 ? (
