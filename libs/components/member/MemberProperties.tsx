@@ -7,6 +7,8 @@ import { Project } from '../../types/property/property';
 import { ProjectsInquiry } from '../../types/property/property.input';
 import { T } from '../../types/common';
 import { useRouter } from 'next/router';
+import { useQuery } from '@apollo/client';
+import { GET_PROJECTS } from '../../../apollo/user/query';
 
 const MemberProjects: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
@@ -17,9 +19,28 @@ const MemberProjects: NextPage = ({ initialInput, ...props }: any) => {
 	const [total, setTotal] = useState<number>(0);
 
 	/** APOLLO REQUESTS **/
+	const{
+		loading: getProjectsLoading,
+		data: getProjectsData,
+		error: getProjectsError,
+		refetch: getProjectsRefetch,
+	} = useQuery(GET_PROJECTS,{
+		fetchPolicy: 'network-only',
+		variables: {
+			input: searchFilter,
+		},
+		skip: !searchFilter?.search?.memberId,
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			setAgencyProjects(data?.getProjects?.list);
+			setTotal(data?.getProjects?.metaCounter[0]?.total ?? 0);
+		}
+	})
 
 	/** LIFECYCLES **/
-	useEffect(() => {}, [searchFilter]);
+	useEffect(() => {
+		getProjectsRefetch().then	();
+	}, [searchFilter]);
 
 	useEffect(() => {
 		if (memberId)
