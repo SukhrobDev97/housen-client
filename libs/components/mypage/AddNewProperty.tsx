@@ -7,9 +7,11 @@ import { REACT_APP_API_URL } from '../../config';
 import { ProjectInput } from '../../types/property/property.input';
 import axios from 'axios';
 import { getJwtToken } from '../../auth';
-import { sweetMixinErrorAlert } from '../../sweetAlert';
-import { useReactiveVar } from '@apollo/client';
+import { sweetMixinErrorAlert, sweetMixinSuccessAlert } from '../../sweetAlert';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import { CREATE_PROJECT, UPDATE_PROJECT } from '../../../apollo/user/mutation';
+import { GET_PROJECT } from '../../../apollo/user/query';
 
 const AddProject = ({ initialValues, ...props }: any) => {
 	const device = useDeviceDetect();
@@ -22,7 +24,18 @@ const AddProject = ({ initialValues, ...props }: any) => {
 	const user = useReactiveVar(userVar);
 
 	/** APOLLO REQUESTS **/
-	let getProjectData: any, getProjectLoading: any;
+	const[createProject] = useMutation(CREATE_PROJECT)
+	const [updateProject] = useMutation(UPDATE_PROJECT)
+
+	const{
+		loading: getProjectLoading,
+		data: getProjectData,
+		error: getProjectError,
+		refetch: getProjectRefetch,
+	} = useQuery(GET_PROJECT, {
+		fetchPolicy: 'network-only',
+		variables: { input: router.query.projectId },
+	})
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -109,9 +122,46 @@ const AddProject = ({ initialValues, ...props }: any) => {
 		}
 	};
 
-	const insertProjectHandler = useCallback(async () => {}, [insertProjectData]);
+	const insertProjectHandler = useCallback(async () => {
+		try {
+			const result = createProject({	
+				variables: {
+					input: insertProjectData,
+				},
+			})
+			await sweetMixinSuccessAlert('Project created successfully!');
+			await router.push(
+				{
+					pathname: '/mypage',
+					query: { category: 'myProjects' },
+				},
+			);
+		}catch (err: any) {
+			await sweetMixinErrorAlert(err).then();
+		}
+	}, [insertProjectData]);
 
-	const updateProjectHandler = useCallback(async () => {}, [insertProjectData]);
+	const updateProjectHandler = useCallback(async () => {
+		try {
+			// @ts-ignore
+			insertProjectData._id = getProjectData?.getProject?._id;
+			const result = await updateProject({	
+				variables: {
+					input: insertProjectData,
+				},
+			})
+			await sweetMixinSuccessAlert('Project updated successfully!');
+			await router.push(
+				{
+					pathname: '/mypage',
+					query: { category: 'myProjects' },
+				},
+			);
+			
+		} catch (err: any) {
+			await sweetMixinErrorAlert(err).then();
+		}
+	}, [insertProjectData]);
 
 	if (user?.memberType !== 'AGENCY') {
 		router.back();

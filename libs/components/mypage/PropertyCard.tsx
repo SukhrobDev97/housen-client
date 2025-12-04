@@ -62,7 +62,7 @@ export const ProjectCard = (props: ProjectCardProps) => {
 					<Typography className="name">{project.projectTitle}</Typography>
 					<Typography className="address">{project.projectStyle}</Typography>
 					<Typography className="price">
-						<strong>${formatterStr(project?.projectPrice)}</strong>/ mo
+						<strong>${formatterStr(project?.projectPrice)}</strong>
 					</Typography>
 				</Stack>
 				<Stack className="date-box">
