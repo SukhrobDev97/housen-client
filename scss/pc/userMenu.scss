@@ -1,0 +1,340 @@
+// UserMenu Component Styles - Airbnb Style
+// Following Housen project design system
+
+.user-menu-container {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+
+	.avatar-wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		overflow: hidden;
+		cursor: pointer;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		border: 2px solid rgba(255, 255, 255, 0.3);
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+		&:hover {
+			transform: scale(1.08);
+			border-color: rgba(255, 255, 255, 0.6);
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+		}
+
+		.user-avatar {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			border-radius: 50%;
+		}
+
+		.default-avatar {
+			width: 100%;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: linear-gradient(135deg, #364440 0%, #4a5a4a 100%);
+			border-radius: 50%;
+			color: #ffffff;
+			transition: all 0.3s ease;
+
+			&:hover {
+				background: linear-gradient(135deg, #4a5a4a 0%, #364440 100%);
+			}
+
+			svg {
+				width: 20px;
+				height: 20px;
+			}
+		}
+	}
+
+	.hamburger-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		border: none;
+		background: rgba(255, 255, 255, 0.1);
+		backdrop-filter: blur(8px);
+		border-radius: 12px;
+		cursor: pointer;
+		padding: 0;
+		color: #ffffff;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		border: 1px solid rgba(255, 255, 255, 0.15);
+
+		&:hover {
+			background: rgba(255, 255, 255, 0.2);
+			border-color: rgba(255, 255, 255, 0.3);
+			transform: scale(1.05);
+		}
+
+		&:active {
+			transform: scale(0.95);
+		}
+
+		svg {
+			width: 18px;
+			height: 18px;
+		}
+	}
+
+	.user-menu-dropdown {
+		position: absolute;
+		top: calc(100% + 12px);
+		right: 0;
+		width: 240px;
+		background: #ffffff;
+		border-radius: 12px;
+		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+		z-index: 10001;
+		overflow: hidden;
+		padding: 8px 0;
+		animation: menuSlideIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+		@keyframes menuSlideIn {
+			from {
+				opacity: 0;
+				transform: translateY(-8px) scale(0.96);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0) scale(1);
+			}
+		}
+
+		.menu-item {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			gap: 12px;
+			padding: 12px 16px;
+			cursor: pointer;
+			transition: all 0.2s ease;
+			color: #4a4a4a;
+
+			&:hover {
+				background: #f8f8f8;
+				color: #0D0D0C;
+			}
+
+			svg {
+				flex-shrink: 0;
+				color: inherit;
+				transition: color 0.2s ease;
+			}
+
+			span {
+				font-family: 'Inter', sans-serif;
+				font-size: 14px;
+				font-weight: 500;
+				color: inherit;
+				line-height: 1.4;
+			}
+
+			&.logout {
+				color: #e53935;
+
+				&:hover {
+					background: rgba(229, 57, 53, 0.08);
+					color: #c62828;
+				}
+			}
+
+			&.disabled {
+				opacity: 0.6;
+				cursor: default;
+
+				&:hover {
+					background: transparent;
+				}
+			}
+
+			.coming-soon {
+				font-size: 10px;
+				font-weight: 600;
+				color: #ffffff;
+				background: #364440;
+				padding: 2px 6px;
+				border-radius: 4px;
+				margin-left: auto;
+			}
+		}
+
+		.menu-divider {
+			height: 1px;
+			background: #f0f0f0;
+			margin: 8px 0;
+		}
+
+		.menu-item-with-submenu {
+			.menu-item {
+				justify-content: flex-start;
+
+				.current-lang {
+					font-size: 12px;
+					color: #999;
+					margin-left: auto;
+					margin-right: 4px;
+				}
+
+				.chevron {
+					flex-shrink: 0;
+					transition: transform 0.2s ease;
+
+					&.rotated {
+						transform: rotate(180deg);
+					}
+				}
+
+				&.active {
+					background: #f8f8f8;
+				}
+			}
+
+			.lang-submenu {
+				background: #fafafa;
+				border-top: 1px solid #f0f0f0;
+				padding: 4px 0;
+
+				.lang-option {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					gap: 10px;
+					padding: 10px 16px 10px 32px;
+					cursor: pointer;
+					transition: all 0.2s ease;
+					color: #4a4a4a;
+
+					&:hover {
+						background: #f0f0f0;
+						color: #0D0D0C;
+					}
+
+					&.selected {
+						color: #364440;
+						font-weight: 500;
+					}
+
+					span {
+						font-family: 'Inter', sans-serif;
+						font-size: 14px;
+						line-height: 1.4;
+
+						&:first-child {
+							font-size: 18px;
+						}
+					}
+
+					.check-icon {
+						margin-left: auto;
+						color: #364440;
+					}
+				}
+			}
+		}
+	}
+}
+
+// Dark Mode Support
+[data-theme='dark'] {
+	.user-menu-container {
+		.avatar-wrapper {
+			border-color: rgba(255, 255, 255, 0.2);
+
+			&:hover {
+				border-color: rgba(255, 255, 255, 0.4);
+			}
+
+			.default-avatar {
+				background: linear-gradient(135deg, #444 0%, #555 100%);
+
+				&:hover {
+					background: linear-gradient(135deg, #555 0%, #444 100%);
+				}
+			}
+		}
+
+		.hamburger-btn {
+			background: rgba(255, 255, 255, 0.1);
+			border-color: rgba(255, 255, 255, 0.2);
+			color: #ffffff;
+
+			&:hover {
+				background: rgba(255, 255, 255, 0.15);
+				border-color: rgba(255, 255, 255, 0.3);
+			}
+		}
+
+		.user-menu-dropdown {
+			background: #2a2a2a;
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+			.menu-item {
+				color: #b0b0b0;
+
+				&:hover {
+					background: #333;
+					color: #ffffff;
+				}
+
+				&.logout {
+					color: #ff6b6b;
+
+					&:hover {
+						background: rgba(255, 107, 107, 0.1);
+						color: #ff5252;
+					}
+				}
+			}
+
+			.menu-divider {
+				background: #3a3a3a;
+			}
+
+			.menu-item-with-submenu {
+				.menu-item {
+					.current-lang {
+						color: #888;
+					}
+
+					&.active {
+						background: #333;
+					}
+				}
+
+				.lang-submenu {
+					background: #252525;
+					border-top-color: #3a3a3a;
+
+					.lang-option {
+						color: #b0b0b0;
+
+						&:hover {
+							background: #333;
+							color: #ffffff;
+						}
+
+						&.selected {
+							color: #7a8a7a;
+						}
+
+						.check-icon {
+							color: #7a8a7a;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+

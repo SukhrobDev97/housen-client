@@ -23,6 +23,7 @@ import { Logout } from '@mui/icons-material';
 import { REACT_APP_API_URL } from '../config';
 import { useCart } from '../context/CartContext';
 import { sweetTopSmallSuccessAlert } from '../sweetAlert';
+import UserMenu from './UserMenu';
 
 const Top = () => {
 	const device = useDeviceDetect();
@@ -299,7 +300,7 @@ const Top = () => {
 						{user?._id && (
 							<Link href={'/mypage'} onClick={closeMobileMenu}>
 								<div className={'mobile-menu-item'}>
-									<span>Blog</span>
+									<span>Profile</span>
 								</div>
 							</Link>
 						)}
@@ -358,94 +359,50 @@ const Top = () => {
 							<Link href={'/'}>
 								<div className={'menu-item'}>
 									<span>{t('Home')}</span>
-									<svg className={'down-arrow'} width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-										<path d="M3 4.5L6 7.5L9 4.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-									</svg>
 								</div>
 							</Link>
 							<Link href={'/about'}>
-								<div className={'menu-item no-arrow'}>
+								<div className={'menu-item'}>
 									<span>Services</span>
 								</div>
 							</Link>
 							<Link href={'/property'}>
 								<div className={'menu-item'}>
 									<span>Projects</span>
-									<svg className={'down-arrow'} width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-										<path d="M3 4.5L6 7.5L9 4.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-									</svg>
 								</div>
 							</Link>
 							<Link href={'/products'}>
-								<div className={'menu-item no-arrow'}>
+								<div className={'menu-item'}>
 									<span>Products</span>
 								</div>
 							</Link>
 							<Link href={'/agent'}>
-								<div className={'menu-item no-arrow'}>
+								<div className={'menu-item'}>
 									<span>Agencies</span>
 								</div>
 							</Link>
 							<Link href={'/community?articleCategory=FREE'}>
 								<div className={'menu-item'}>
 									<span>Community</span>
-									<svg className={'down-arrow'} width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-										<path d="M3 4.5L6 7.5L9 4.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-									</svg>
 								</div>
 							</Link>
-							{user?._id && (
-								<Link href={'/mypage'}>
-									<div className={'menu-item'}>
-										<span>Blog</span>
-										<svg className={'down-arrow'} width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-											<path d="M3 4.5L6 7.5L9 4.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-										</svg>
-									</div>
-								</Link>
-							)}
 						</Box>
 						<Box component={'div'} className={'user-box'}>
-							{user?._id ? (
-								<>
-									<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
-										<img
-											src={
-												user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'
-											}
-											alt=""
-										/>
-									</div>
-
-									<Menu
-										id="basic-menu"
-										anchorEl={logoutAnchor}
-										open={logoutOpen}
-										onClose={() => {
-											setLogoutAnchor(null);
-										}}
-										sx={{ mt: '5px' }}
-									>
-										<MenuItem onClick={() => logOut()}>
-											<Logout fontSize="small" style={{ color: 'blue', marginRight: '10px' }} />
-											Logout
-										</MenuItem>
-									</Menu>
-								</>
-							) : (
-								<>
-									<Link href={'/account/join'}>
-										<div className={'auth-button'}>
-											<AccountCircleOutlinedIcon className={'auth-icon'} />
-											<span className={'auth-text'}>
-												{t('Login')} / {t('Register')}
-											</span>
-										</div>
-									</Link>
-								</>
-							)}
-
 							<div className={'utility-box'}>
+								{/* Theme Toggle */}
+								<button className={'theme-toggle-button'} onClick={toggleTheme} aria-label="Toggle theme">
+									{theme === 'light' ? (
+										<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+											<path d="M12 2V4M12 20V22M22 12H20M4 12H2M19.07 4.93L17.66 6.34M6.34 17.66L4.93 19.07M19.07 19.07L17.66 17.66M6.34 6.34L4.93 4.93" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+									) : (
+										<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+										</svg>
+									)}
+								</button>
+
 								{/* Notification Bell */}
 								<div className={'notification-container'} ref={notificationRef}>
 									<button className={'notification-bell-button'} onClick={toggleNotification} aria-label="Notifications">
@@ -623,47 +580,10 @@ const Top = () => {
 										</div>
 									)}
 								</div>
-
-								{/* Language Selector */}
-								<div className={'lan-box'}>
-									<Button
-										disableRipple
-										className="btn-lang"
-										onClick={langClick}
-										endIcon={<CaretDown size={12} color="#616161" weight="fill" />}
-									>
-										<Box component={'div'} className={'lang-text'}>
-											{lang === 'en' ? 'EN' : lang === 'ru' ? 'RU' : lang === 'kr' ? 'KOR' : 'EN'}
-										</Box>
-									</Button>
-
-									<StyledMenu anchorEl={anchorEl2} open={drop} onClose={langClose} sx={{ position: 'absolute' }}>
-										<MenuItem disableRipple onClick={langChoice} id="en">
-											{t('English')}
-										</MenuItem>
-										<MenuItem disableRipple onClick={langChoice} id="kr">
-											{t('Korean')}
-										</MenuItem>
-										<MenuItem disableRipple onClick={langChoice} id="ru">
-											{t('Russian')}
-										</MenuItem>
-									</StyledMenu>
-								</div>
-
-								{/* Theme Toggle */}
-								<button className={'theme-toggle-button'} onClick={toggleTheme} aria-label="Toggle theme">
-									{theme === 'light' ? (
-										<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-											<circle cx="12" cy="12" r="4" stroke="#0D0D0C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-											<path d="M12 2V4M12 20V22M22 12H20M4 12H2M19.07 4.93L17.66 6.34M6.34 17.66L4.93 19.07M19.07 19.07L17.66 17.66M6.34 6.34L4.93 4.93" stroke="#0D0D0C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-										</svg>
-									) : (
-										<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-											<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="#0D0D0C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-										</svg>
-									)}
-								</button>
 							</div>
+
+							{/* Airbnb-style User Menu */}
+							<UserMenu />
 						</Box>
 					</Stack>
 				</Stack>
