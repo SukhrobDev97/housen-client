@@ -1,81 +1,690 @@
+// ==========================================
+// 2025 JAPANDI LUXURY DESIGN TOKENS
+// ==========================================
+$warm-white: #F8F7F4;
+$soft-beige: #EDEBE8;
+$muted-stone: #D3D1CB;
+$deep-olive: #4A4F41;
+$premium-black: #151515;
+$accent-olive-light: rgba(74, 79, 65, 0.08);
+
+// Shadows
+$shadow-xs: 0 1px 2px rgba(21, 21, 21, 0.04);
+$shadow-sm: 0 2px 8px rgba(21, 21, 21, 0.05);
+$shadow-md: 0 8px 24px rgba(21, 21, 21, 0.06);
+$shadow-lg: 0 16px 48px rgba(21, 21, 21, 0.08);
+$shadow-float: 0 20px 60px rgba(21, 21, 21, 0.1);
+$shadow-inner: inset 0 2px 4px rgba(21, 21, 21, 0.03);
+
+// Transitions
+$transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
 #pc-wrap {
 	#write-article-page {
 		width: 100%;
 		height: auto;
-		.main-title-box {
-			width: auto;
-			height: auto;
+		padding: 0;
+
+		// ==========================================
+		// PREMIUM PAGE HEADER
+		// ==========================================
+		.page-header {
+			display: flex;
 			flex-direction: row;
-			justify-content: space-between;
-			.right-box {
-				width: 315px;
+			align-items: center;
+			gap: 20px;
+			margin-bottom: 28px;
+			padding: 8px 0;
+
+			.header-icon {
+				width: 56px;
+				height: 56px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background: linear-gradient(135deg, $deep-olive 0%, darken($deep-olive, 8%) 100%);
+				border-radius: 18px;
+				flex-shrink: 0;
+				box-shadow: $shadow-md;
+
+				svg {
+					font-size: 26px;
+					color: #FFFFFF;
+				}
+			}
+
+			.header-text {
+				flex: 1;
+
 				.main-title {
-					color: #181a20;
+					color: $premium-black;
 					font-family: $font;
-					font-size: 30px;
-					font-style: normal;
+					font-size: 28px;
 					font-weight: 600;
-					line-height: normal;
-					letter-spacing: 0.6px;
-					text-transform: capitalize;
+					line-height: 1.2;
+					margin-bottom: 6px;
+					letter-spacing: -0.5px;
 				}
+
 				.sub-title {
-					color: #181a20;
+					color: $muted-stone;
 					font-family: $font;
-					font-size: 14px;
-					font-style: normal;
+					font-size: 15px;
 					font-weight: 400;
-					line-height: 26px;
+					line-height: 1.5;
 				}
 			}
 		}
-		
-		.right-wrap {
-			width: 100%;
-			height: auto;
-			.cont_bd {
-				padding: 30px 0px;
-				.form_hd > div {
-					margin-bottom: 16px;
-				}
-			}
-			.flex-space {
-				.btn-next {
-					background: #87cdf9;
-					color: #000000;
-				}
-			}
-			.select {
-				width: 214px;
-				height: 40px;
-				font-size: 14px;
-			}
-			.input-tit {
-				font-size: 14px;
-				padding: 0 16px;
-				margin-top: 16px;
-				border: 1px solid #eee;
-				border-radius: 4px;
-			}
-			.btn-flex { margin-top: 40px; }
-		}
-		.css-guvl2y-MuiButtonBase-root-MuiButton-root {
-			background: #87cdf9;
-			svg {
-				fill: #000000;
+
+		// ==========================================
+		// FLOATING EDITOR WRAPPER
+		// ==========================================
+		.editor-wrapper {
+			background: linear-gradient(180deg, #FFFFFF 0%, $warm-white 100%);
+			border-radius: 28px;
+			border: 1px solid rgba($muted-stone, 0.25);
+			box-shadow: $shadow-md;
+			overflow: hidden;
+			position: relative;
+
+			// Subtle 3D depth effect
+			&::before {
+				content: '';
+				position: absolute;
+				inset: 0;
+				border-radius: 28px;
+				box-shadow: $shadow-inner;
+				pointer-events: none;
 			}
 		}
-		.toastui-editor-popup-body { padding: 20px; }
+
+		// ==========================================
+		// EDITOR CONTAINER
+		// ==========================================
+		.editor-container {
+			padding: 36px;
+
+			// Form Fields Row
+			.form-fields {
+				display: grid;
+				grid-template-columns: 220px 1fr;
+				gap: 28px;
+				margin-bottom: 32px;
+
+				.form-group {
+					display: flex;
+					flex-direction: column;
+					gap: 12px;
+
+					.field-label {
+						color: $muted-stone;
+						font-family: $font;
+						font-size: 11px;
+						font-weight: 600;
+						text-transform: uppercase;
+						letter-spacing: 1.5px;
+						padding-left: 4px;
+					}
+				}
+
+				.category-group {
+					.select-wrapper {
+						.category-select {
+							background: $warm-white;
+							border-radius: 16px;
+							transition: $transition-smooth;
+							box-shadow: $shadow-xs;
+
+							.MuiOutlinedInput-notchedOutline {
+								border-color: rgba($muted-stone, 0.3);
+								border-width: 1px;
+							}
+
+							&:hover .MuiOutlinedInput-notchedOutline {
+								border-color: rgba($muted-stone, 0.5);
+							}
+
+							&.Mui-focused .MuiOutlinedInput-notchedOutline {
+								border-color: $deep-olive;
+								border-width: 2px;
+							}
+
+							.MuiSelect-select {
+								padding: 18px 20px;
+								font-family: $font;
+								font-size: 15px;
+								color: $premium-black;
+								font-weight: 500;
+							}
+						}
+					}
+				}
+
+				.title-group {
+					.title-input {
+						.MuiOutlinedInput-root {
+							background: $warm-white;
+							border-radius: 16px;
+							transition: $transition-smooth;
+							box-shadow: $shadow-xs;
+
+							.MuiOutlinedInput-notchedOutline {
+								border-color: rgba($muted-stone, 0.3);
+								border-width: 1px;
+							}
+
+							&:hover .MuiOutlinedInput-notchedOutline {
+								border-color: rgba($muted-stone, 0.5);
+							}
+
+							&.Mui-focused .MuiOutlinedInput-notchedOutline {
+								border-color: $deep-olive;
+								border-width: 2px;
+							}
+
+							input {
+								padding: 18px 20px;
+								font-family: $font;
+								font-size: 15px;
+								color: $premium-black;
+								font-weight: 500;
+
+								&::placeholder {
+									color: $muted-stone;
+									opacity: 0.7;
+									font-weight: 400;
+								}
+							}
+						}
+					}
+				}
+			}
+
+			// Editor Section
+			.editor-section {
+				margin-bottom: 32px;
+
+				.field-label {
+					color: $muted-stone;
+					font-family: $font;
+					font-size: 11px;
+					font-weight: 600;
+					text-transform: uppercase;
+					letter-spacing: 1.5px;
+					margin-bottom: 14px;
+					padding-left: 4px;
+				}
+
+				.editor-box {
+					border: 1px solid rgba($muted-stone, 0.25);
+					border-radius: 20px;
+					overflow: hidden;
+					background: #FFFFFF;
+					transition: $transition-smooth;
+					box-shadow: $shadow-sm;
+
+					&:focus-within {
+						border-color: $deep-olive;
+						box-shadow: 0 0 0 4px $accent-olive-light;
+					}
+
+					.toastui-editor-defaultUI {
+						border: none;
+
+						.toastui-editor-toolbar {
+							background: linear-gradient(180deg, $warm-white 0%, $soft-beige 100%);
+							border-bottom: 1px solid rgba($muted-stone, 0.2);
+							padding: 14px 18px;
+
+							button {
+								padding: 8px 10px;
+								border-radius: 10px;
+								transition: $transition-fast;
+								margin: 0 2px;
+								opacity: 0.7;
+
+								&:hover {
+									background: #FFFFFF;
+									opacity: 1;
+									box-shadow: $shadow-sm;
+								}
+							}
+
+							.toastui-editor-toolbar-divider {
+								background: rgba($muted-stone, 0.3);
+								margin: 0 12px;
+							}
+						}
+
+						.toastui-editor-main .toastui-editor-ww-container {
+							background: #FFFFFF;
+
+							.toastui-editor-contents {
+								font-family: $font;
+								font-size: 16px;
+								line-height: 1.8;
+								padding: 28px;
+								color: $premium-black;
+
+								p {
+									margin-bottom: 16px;
+								}
+
+								h1, h2, h3 {
+									color: $premium-black;
+									font-weight: 600;
+									letter-spacing: -0.3px;
+								}
+							}
+						}
+
+						.toastui-editor-mode-switch {
+							background: $soft-beige;
+							border-top: 1px solid rgba($muted-stone, 0.2);
+						}
+					}
+
+					.ProseMirror {
+						min-height: 380px;
+						padding: 28px;
+						font-family: $font;
+						font-size: 16px;
+						line-height: 1.8;
+						color: $premium-black;
+
+						&:focus {
+							outline: none;
+						}
+
+						&::before {
+							color: $muted-stone !important;
+							opacity: 0.6;
+						}
+					}
+				}
+			}
+
+			// Premium Submit Button
+			.submit-section {
+				display: flex;
+				justify-content: flex-end;
+
+				.submit-btn {
+					width: 100%;
+					padding: 20px 36px;
+					background: linear-gradient(135deg, $deep-olive 0%, darken($deep-olive, 10%) 100%);
+					color: #FFFFFF;
+					font-family: $font;
+					font-size: 15px;
+					font-weight: 600;
+					border-radius: 18px;
+					text-transform: none;
+					letter-spacing: 0.3px;
+					box-shadow: 0 8px 24px rgba(74, 79, 65, 0.3);
+					transition: $transition-smooth;
+					position: relative;
+					overflow: hidden;
+
+					// Subtle gloss effect
+					&::before {
+						content: '';
+						position: absolute;
+						top: 0;
+						left: 0;
+						right: 0;
+						height: 50%;
+						background: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, transparent 100%);
+						pointer-events: none;
+					}
+
+					.MuiButton-endIcon {
+						margin-left: 12px;
+
+						svg {
+							font-size: 20px;
+						}
+					}
+
+					&:hover {
+						background: linear-gradient(135deg, darken($deep-olive, 5%) 0%, darken($deep-olive, 15%) 100%);
+						box-shadow: 0 12px 32px rgba(74, 79, 65, 0.4);
+						transform: translateY(-3px);
+					}
+
+					&:active {
+						transform: translateY(-1px);
+					}
+				}
+			}
+		}
+
+		// ==========================================
+		// PINTEREST-STYLE TIPS SECTION
+		// ==========================================
+		.tips-section {
+			background: linear-gradient(180deg, #FFFFFF 0%, $warm-white 100%);
+			border-radius: 24px;
+			padding: 28px 32px;
+			margin-top: 28px;
+			box-shadow: $shadow-sm;
+			border: 1px solid rgba($muted-stone, 0.2);
+
+			.tips-title {
+				font-family: $font;
+				font-size: 11px;
+				font-weight: 600;
+				color: $muted-stone;
+				margin-bottom: 20px;
+				text-transform: uppercase;
+				letter-spacing: 1.5px;
+				padding-left: 4px;
+			}
+
+			.tips-list {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 20px;
+
+				.tip-item {
+					display: flex;
+					flex-direction: column;
+					align-items: flex-start;
+					gap: 14px;
+					padding: 24px;
+					background: $soft-beige;
+					border-radius: 20px;
+					transition: $transition-smooth;
+					border: 1px solid rgba($muted-stone, 0.15);
+					position: relative;
+					overflow: hidden;
+
+					&::after {
+						content: '';
+						position: absolute;
+						top: 0;
+						right: 0;
+						width: 80px;
+						height: 80px;
+						background: radial-gradient(circle at top right, rgba($muted-stone, 0.1) 0%, transparent 70%);
+						pointer-events: none;
+					}
+
+					&:hover {
+						transform: translateY(-4px);
+						box-shadow: $shadow-md;
+						background: darken($soft-beige, 2%);
+					}
+
+					.tip-number {
+						font-family: $font;
+						font-size: 36px;
+						font-weight: 700;
+						color: $deep-olive;
+						opacity: 0.2;
+						line-height: 1;
+						letter-spacing: -2px;
+					}
+
+					.tip-text {
+						font-family: $font;
+						font-size: 14px;
+						font-weight: 500;
+						color: rgba($premium-black, 0.75);
+						line-height: 1.5;
+					}
+				}
+			}
+		}
+
+		// Toast UI Popup
+		.toastui-editor-popup-body {
+			padding: 20px;
+			border-radius: 16px;
+		}
+
 		.youtube-input {
-			padding: 8px 16px;
-			border: 1px solid #ddd;
+			padding: 14px 18px;
+			border: 1px solid rgba($muted-stone, 0.3);
+			border-radius: 12px;
+			font-family: $font;
 		}
+
 		.youtube-div {
-			display:flex;
+			display: flex;
 			flex-direction: column;
+			gap: 14px;
 		}
-		.toastui-editor-defaultUI button {
-			padding: 4px;
+	}
+}
+
+// ==========================================
+// RESPONSIVE - TABLET
+// ==========================================
+@media screen and (max-width: 1024px) {
+	#pc-wrap #write-article-page {
+		.page-header {
+			gap: 16px;
+
+			.header-icon {
+				width: 50px;
+				height: 50px;
+				border-radius: 16px;
+
+				svg {
+					font-size: 24px;
+				}
+			}
+
+			.header-text {
+				.main-title {
+					font-size: 24px;
+				}
+
+				.sub-title {
+					font-size: 14px;
+				}
+			}
+		}
+
+		.editor-wrapper {
+			border-radius: 24px;
+		}
+
+		.editor-container {
+			padding: 28px;
+
+			.form-fields {
+				grid-template-columns: 1fr;
+				gap: 20px;
+			}
+		}
+
+		.tips-section {
+			padding: 24px;
+			border-radius: 20px;
+
+			.tips-list {
+				grid-template-columns: 1fr;
+				gap: 14px;
+
+				.tip-item {
+					flex-direction: row;
+					align-items: center;
+					padding: 20px;
+
+					.tip-number {
+						font-size: 28px;
+						min-width: 50px;
+					}
+				}
+			}
+		}
+	}
+}
+
+// ==========================================
+// RESPONSIVE - MOBILE
+// ==========================================
+@media screen and (max-width: 768px) {
+	#pc-wrap #write-article-page {
+		.page-header {
+			gap: 14px;
+			margin-bottom: 20px;
+
+			.header-icon {
+				width: 46px;
+				height: 46px;
+				border-radius: 14px;
+
+				svg {
+					font-size: 22px;
+				}
+			}
+
+			.header-text {
+				.main-title {
+					font-size: 22px;
+				}
+
+				.sub-title {
+					font-size: 13px;
+				}
+			}
+		}
+
+		.editor-wrapper {
+			border-radius: 20px;
+		}
+
+		.editor-container {
+			padding: 24px;
+
+			.form-fields {
+				gap: 16px;
+				margin-bottom: 24px;
+
+				.form-group .field-label {
+					font-size: 10px;
+				}
+
+				.category-group .select-wrapper .category-select .MuiSelect-select,
+				.title-group .title-input .MuiOutlinedInput-root input {
+					padding: 16px 18px;
+					font-size: 14px;
+				}
+			}
+
+			.editor-section {
+				margin-bottom: 24px;
+
+				.field-label {
+					font-size: 10px;
+				}
+
+				.editor-box {
+					border-radius: 16px;
+
+					.ProseMirror {
+						min-height: 300px;
+						padding: 20px;
+						font-size: 15px;
+					}
+				}
+			}
+
+			.submit-section .submit-btn {
+				padding: 18px 28px;
+				border-radius: 16px;
+			}
+		}
+
+		.tips-section {
+			padding: 20px;
+			margin-top: 20px;
+			border-radius: 18px;
+
+			.tips-title {
+				font-size: 10px;
+				margin-bottom: 16px;
+			}
+
+			.tips-list {
+				gap: 12px;
+
+				.tip-item {
+					padding: 18px;
+					border-radius: 16px;
+
+					.tip-number {
+						font-size: 24px;
+						min-width: 40px;
+					}
+
+					.tip-text {
+						font-size: 13px;
+					}
+				}
+			}
+		}
+	}
+}
+
+// ==========================================
+// RESPONSIVE - SMALL MOBILE
+// ==========================================
+@media screen and (max-width: 480px) {
+	#pc-wrap #write-article-page {
+		.page-header {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 12px;
+
+			.header-text {
+				.main-title {
+					font-size: 20px;
+				}
+			}
+		}
+
+		.editor-wrapper {
+			border-radius: 16px;
+		}
+
+		.editor-container {
+			padding: 20px;
+
+			.form-fields {
+				.category-group .select-wrapper .category-select,
+				.title-group .title-input .MuiOutlinedInput-root {
+					border-radius: 14px;
+				}
+			}
+
+			.editor-section .editor-box {
+				border-radius: 14px;
+
+				.ProseMirror {
+					min-height: 260px;
+					padding: 16px;
+				}
+			}
+
+			.submit-section .submit-btn {
+				padding: 16px 24px;
+				border-radius: 14px;
+				font-size: 14px;
+			}
+		}
+
+		.tips-section {
+			padding: 18px;
+			border-radius: 16px;
+
+			.tips-list .tip-item {
+				padding: 16px;
+				border-radius: 14px;
+			}
 		}
 	}
 }

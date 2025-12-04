@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { Box, Button, FormControl, MenuItem, Stack, Typography, Select, TextField } from '@mui/material';
+import { Box, Button, FormControl, MenuItem, Stack, Typography, Select, TextField, InputLabel } from '@mui/material';
 import { BoardArticleCategory } from '../../enums/board-article.enum';
 import { Editor } from '@toast-ui/react-editor';
 import { getJwtToken } from '../../auth';
@@ -12,23 +12,23 @@ import { CREATE_BOARD_ARTICLE } from '../../../apollo/user/mutation';
 import { useMutation } from '@apollo/client';
 import { Message } from '../../enums/common.enum';
 import { sweetErrorHandling, sweetTopSuccessAlert } from '../../sweetAlert';
+import SendIcon from '@mui/icons-material/Send';
 
 const TuiEditor = () => {
 	const editorRef = useRef<Editor>(null),
 		token = getJwtToken(),
 		router = useRouter();
 	const [articleCategory, setArticleCategory] = useState<BoardArticleCategory>(BoardArticleCategory.FREE);
+	const [articleTitle, setArticleTitle] = useState<string>('');
 
 	/** APOLLO REQUESTS **/
-	const[createBoardArticle] = useMutation(CREATE_BOARD_ARTICLE)
-
+	const [createBoardArticle] = useMutation(CREATE_BOARD_ARTICLE);
 
 	const memoizedValues = useMemo(() => {
-		const articleTitle = '',
-			articleContent = '',
+		const articleContent = '',
 			articleImage = '';
 
-		return { articleTitle, articleContent, articleImage };
+		return { articleContent, articleImage };
 	}, []);
 
 	/** HANDLERS **/
@@ -78,119 +78,117 @@ const TuiEditor = () => {
 	};
 
 	const articleTitleHandler = (e: T) => {
-		console.log(e.target.value);
-		memoizedValues.articleTitle = e.target.value;
+		setArticleTitle(e.target.value);
 	};
 
-	const handleRegisterButton = async ()  => {
-		try{
+	const handleRegisterButton = async () => {
+		try {
 			const editor = editorRef.current;
 			const articleContent = editor?.getInstance().getHTML() as string;
 			memoizedValues.articleContent = articleContent;
 
-			if(memoizedValues.articleTitle === '' || memoizedValues.articleContent === ''){
+			if (articleTitle === '' || memoizedValues.articleContent === '') {
 				throw new Error(Message.INSERT_ALL_INPUTS);
 			}
 
 			await createBoardArticle({
 				variables: {
 					input: {
-						...memoizedValues, articleCategory
+						articleTitle,
+						articleContent: memoizedValues.articleContent,
+						articleImage: memoizedValues.articleImage,
+						articleCategory,
 					},
 				},
-			})
+			});
 
 			await sweetTopSuccessAlert('Article has been created successfully!', 700);
 
 			await router.push({
 				pathname: '/mypage',
-				query: { category: "myArticles" },
+				query: { category: 'myArticles' },
 			});
-		}catch(err: any){
+		} catch (err: any) {
 			console.log(err);
 			sweetErrorHandling(new Error(Message.INSERT_ALL_INPUTS)).then();
 		}
 	};
 
-
-
-
-	const doDisabledCheck = () => {
-		if (memoizedValues.articleContent === '' || memoizedValues.articleTitle === '') {
-			return true;
-		}
-	};
-
 	return (
-		<Stack>
-			<Stack direction="row" style={{ margin: '40px' }} justifyContent="space-evenly">
-				<Box component={'div'} className={'form_row'} style={{ width: '300px' }}>
-					<Typography style={{ color: '#7f838d', margin: '10px' }} variant="h3">
-						Category
-					</Typography>
-					<FormControl sx={{ width: '100%', background: 'white' }}>
+		<Stack className="editor-container">
+			{/* Form Fields Row */}
+			<Stack className="form-fields">
+				<Box className="form-group category-group">
+					<Typography className="field-label">Category</Typography>
+					<FormControl fullWidth className="select-wrapper">
 						<Select
 							value={articleCategory}
 							onChange={changeCategoryHandler}
 							displayEmpty
-							inputProps={{ 'aria-label': 'Without label' }}
+							className="category-select"
 						>
-							<MenuItem value={BoardArticleCategory.FREE}>
-								<span>Free</span>
-							</MenuItem>
+							<MenuItem value={BoardArticleCategory.FREE}>Free Board</MenuItem>
 							<MenuItem value={BoardArticleCategory.HUMOR}>Humor</MenuItem>
 							<MenuItem value={BoardArticleCategory.NEWS}>News</MenuItem>
 							<MenuItem value={BoardArticleCategory.RECOMMEND}>Recommendation</MenuItem>
 						</Select>
 					</FormControl>
 				</Box>
-				<Box component={'div'} style={{ width: '300px', flexDirection: 'column' }}>
-					<Typography style={{ color: '#7f838d', margin: '10px' }} variant="h3">
-						Title
-					</Typography>
+
+				<Box className="form-group title-group">
+					<Typography className="field-label">Article Title</Typography>
 					<TextField
+						value={articleTitle}
 						onChange={articleTitleHandler}
-						id="filled-basic"
-						label="Type Title"
-						style={{ width: '300px', background: 'white' }}
+						placeholder="Enter your article title..."
+						fullWidth
+						className="title-input"
+						variant="outlined"
 					/>
 				</Box>
 			</Stack>
 
-			<Editor
-				initialValue={'Type here'}
-				placeholder={'Type here'}
-				previewStyle={'vertical'}
-				height={'640px'}
-				// @ts-ignore
-				initialEditType={'WYSIWYG'}
-				toolbarItems={[
-					['heading', 'bold', 'italic', 'strike'],
-					['image', 'table', 'link'],
-					['ul', 'ol', 'task'],
-				]}
-				ref={editorRef}
-				hooks={{
-					addImageBlobHook: async (image: any, callback: any) => {
-						console.log('image: ', image);
-						const uploadedImageURL = await uploadImage(image);
-						callback(uploadedImageURL);
-						return false;
-					},
-				}}
-				events={{
-					load: function (param: any) {},
-				}}
-			/>
+			{/* Editor Section */}
+			<Stack className="editor-section">
+				<Typography className="field-label">Content</Typography>
+				<Box className="editor-box">
+					<Editor
+						initialValue={''}
+						placeholder={''}
+						previewStyle={'vertical'}
+						height={'500px'}
+						// @ts-ignore
+						initialEditType={'WYSIWYG'}
+						toolbarItems={[
+							['heading', 'bold', 'italic', 'strike'],
+							['image', 'table', 'link'],
+							['ul', 'ol', 'task'],
+						]}
+						ref={editorRef}
+						hooks={{
+							addImageBlobHook: async (image: any, callback: any) => {
+								console.log('image: ', image);
+								const uploadedImageURL = await uploadImage(image);
+								callback(uploadedImageURL);
+								return false;
+							},
+						}}
+						events={{
+							load: function (param: any) {},
+						}}
+					/>
+				</Box>
+			</Stack>
 
-			<Stack direction="row" justifyContent="center">
+			{/* Submit Button */}
+			<Stack className="submit-section">
 				<Button
 					variant="contained"
-					color="primary"
-					style={{ margin: '30px', width: '250px', height: '45px' }}
+					className="submit-btn"
 					onClick={handleRegisterButton}
+					endIcon={<SendIcon />}
 				>
-					Register
+					Publish Article
 				</Button>
 			</Stack>
 		</Stack>

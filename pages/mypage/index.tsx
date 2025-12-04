@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
-import { Stack } from '@mui/material';
+import { Stack, Box, Typography } from '@mui/material';
+import Link from 'next/link';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import MyFavorites from '../../libs/components/mypage/MyFavorites';
@@ -109,6 +110,23 @@ const MyPage: NextPage = () => {
 	} else {
 		return (
 			<div id="my-page" style={{ position: 'relative' }}>
+				{/* Hero Section - Same as Community Page */}
+				<Stack className="mypage-hero">
+					<Box component="div" className="hero-banner">
+						<img src="/img/banner/community.jpeg" alt="My Page Banner" />
+						<Box component="div" className="hero-overlay" />
+						<Box component="div" className="hero-content">
+							<Stack className="container">
+								<Stack className="breadcrumb">
+									<Link href="/"><span>Home</span></Link>
+									<span className="separator">My Page</span>
+								</Stack>
+								<Typography className="page-title">My Page</Typography>
+							</Stack>
+						</Box>
+					</Box>
+				</Stack>
+
 				<div className="container">
 					<Stack className={'my-page'}>
 						<Stack className={'back-frame'}>
