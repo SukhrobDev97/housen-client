@@ -5,6 +5,11 @@ import { Pagination, Stack, Typography } from '@mui/material';
 import ProjectCard from '../property/PropertyCard';
 import { Project } from '../../types/property/property';
 import { T } from '../../types/common';
+import { GET_FAVORITES } from '../../../apollo/user/query';
+import { useMutation, useQuery } from '@apollo/client';
+import { LIKE_TARGET_PROJECT } from '../../../apollo/user/mutation';
+import { Messages } from '../../config';
+import { sweetMixinErrorAlert } from '../../sweetAlert';
 
 const MyFavorites: NextPage = () => {
 	const device = useDeviceDetect();
@@ -13,11 +18,46 @@ const MyFavorites: NextPage = () => {
 	const [searchFavorites, setSearchFavorites] = useState<T>({ page: 1, limit: 6 });
 
 	/** APOLLO REQUESTS **/
+	const [likeTargetProject] = useMutation(LIKE_TARGET_PROJECT);
+
+	const{
+		loading: getFavoritesLoading,
+		data: getFavoritesData,
+		error: getFavoritesError,
+		refetch: getFavoritesRefetch,
+	} = useQuery(GET_FAVORITES, {
+		fetchPolicy: 'network-only',
+		variables: {
+			input: searchFavorites,
+		},
+		notifyOnNetworkStatusChange: true,	
+		onCompleted: (data: T) => {
+			setMyFavorites(data.getFavorites?.list);
+			setTotal(data.getFavorites?.metaCounter[0]?.total || 0);
+		},
+	 }
+	 );
 
 	/** HANDLERS **/
 	const paginationHandler = (e: T, value: number) => {
 		setSearchFavorites({ ...searchFavorites, page: value });
 	};
+
+	const likeProjectHandler = async (user: any, id: string) => {
+		try{
+			if(!id) return;
+			if(!user._id)  throw new Error(Messages.error2);
+			await likeTargetProject({
+				variables: {
+					input: id	
+				},
+			});
+			await getFavoritesRefetch({input: searchFavorites});
+		}catch(err:any){
+			console.log('ERROR, likeTargetProjectHandler: ', err.message);
+			sweetMixinErrorAlert(err.message).then();
+		}
+	}
 
 	if (device === 'mobile') {
 		return <div>HOUSEN MY FAVORITES MOBILE</div>;
@@ -33,7 +73,7 @@ const MyFavorites: NextPage = () => {
 				<Stack className="favorites-list-box">
 					{myFavorites?.length ? (
 						myFavorites?.map((project: Project) => {
-							return <ProjectCard project={project} myFavorites={true} />;
+							return <ProjectCard project={project} likeProjectHandler={likeProjectHandler} myFavorites={true} />;
 						})
 					) : (
 						<div className={'no-data'}>
