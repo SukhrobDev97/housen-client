@@ -67,10 +67,10 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	const [updateComment] = useMutation(UPDATE_COMMENT);
 
 	const {
-		loading: boardArticleLoading,
-		data: boardArticleData,
-		error: boardArticleError,
-		refetch: boardArticleRefetch,
+		loading: getBoardArticleLoading,
+		data: getBoardArticleData,
+		error: getBoardArticleError,
+		refetch: getBoardArticleRefetch,
 	} = useQuery(GET_BOARD_ARTICLE, {
 		fetchPolicy: 'network-only',
 		variables: {
@@ -135,7 +135,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 					input: id,
 				},
 			});
-			await boardArticleRefetch({ input: articleId });
+			await getBoardArticleRefetch({ input: articleId });
 			await sweetTopSmallSuccessAlert('Success!', 800);
 		} catch (err: any) {
 			console.log('ERROR, likeArticleHandler:', err.message);
@@ -160,7 +160,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 				},
 			});
 			await getCommentsRefetch({ input: searchFilter });
-			await boardArticleRefetch({ input: articleId });
+			await getBoardArticleRefetch({ input: articleId });
 			setComment('');
 			await sweetMixinSuccessAlert('Successfully commented!');
 		} catch (error: any) {
@@ -330,9 +330,10 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 										<Stack className="info">
 											<Stack className="icon-info">
 												{boardArticle?.meLiked && boardArticle?.meLiked[0] ?.myFavorite?( 
-													<ThumbUpAltIcon onClick={() => likeArticleHandler(user, boardArticle?.memberData?._id)} />) 
-													:( 
-													<ThumbUpOffAltIcon onClick={() => likeArticleHandler(user, boardArticle?.memberData?._id)} />)}
+													<ThumbUpAltIcon onClick={() => likeArticleHandler(user, boardArticle?.memberData?._id)} />
+												):( 
+													<ThumbUpOffAltIcon onClick={() => likeArticleHandler(user, boardArticle?.memberData?._id)} />
+												)}
 
 												<Typography className="text">{boardArticle?.articleLikes}</Typography>
 											</Stack>
@@ -343,13 +344,9 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 											</Stack>
 											<Stack className="divider"></Stack>
 											<Stack className="icon-info">
-												{boardArticle?.articleComments && boardArticle?.articleComments > 0 ? (
-													<ChatIcon />
-												) : (
-													<ChatBubbleOutlineRoundedIcon />
-												)}
+												{total > 0 ?  <ChatIcon /> : <ChatBubbleOutlineRoundedIcon />}
 
-												<Typography className="text">{boardArticle?.articleComments}</Typography>
+												<Typography className="text">{total}</Typography>
 											</Stack>
 										</Stack>
 									</Stack>
@@ -359,7 +356,11 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 									<Stack className="like-and-dislike">
 										<Stack className="top">
 											<Button>
-												{boardArticle?.meLiked ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
+												{boardArticle?.meLiked && boardArticle?.meLiked[0]?.myFavorite ? (
+													<ThumbUpAltIcon onClick={() => likeArticleHandler(user, boardArticle?._id)} />
+												) : (
+													<ThumbUpOffAltIcon onClick={() => likeArticleHandler(user, boardArticle?._id)} />
+												)}
 												<Typography className="text">{boardArticle?.articleLikes}</Typography>
 											</Button>
 										</Stack>
