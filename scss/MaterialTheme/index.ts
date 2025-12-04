@@ -29,6 +29,7 @@ export const light = {
 		MuiTypography: {
 			styleOverrides: {
 				root: {
+					fontFamily: "'Poppins', sans-serif",
 					letterSpacing: '0',
 				},
 			},
@@ -95,9 +96,17 @@ export const light = {
 		MuiCssBaseline: {
 			styleOverrides: {
 				html: { height: '100%' },
-				body: { background: '#fff', height: '100%', minHeight: '100%' },
+				body: { 
+					fontFamily: "'Poppins', sans-serif",
+					background: '#fff', 
+					height: '100%', 
+					minHeight: '100%' 
+				},
 				p: {
 					margin: '0',
+				},
+				'*': {
+					fontFamily: "'Poppins', sans-serif",
 				},
 			},
 		},
@@ -111,6 +120,7 @@ export const light = {
 		MuiButton: {
 			styleOverrides: {
 				root: {
+					fontFamily: "'Poppins', sans-serif",
 					color: '#212121',
 					minWidth: 'auto',
 					lineHeight: '1.2',
@@ -175,7 +185,10 @@ export const light = {
 		MuiInputBase: {
 			styleOverrides: {
 				root: {
-					input: {},
+					fontFamily: "'Poppins', sans-serif",
+					input: {
+						fontFamily: "'Poppins', sans-serif",
+					},
 				},
 			},
 		},

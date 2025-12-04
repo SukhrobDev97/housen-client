@@ -8,12 +8,12 @@
 		min-height: 100vh;
 
 		// ==========================================
-		// HERO SECTION - Same as Projects Page
+		// HERO SECTION - Same as Community Page
 		// ==========================================
 		.products-hero {
 			position: relative;
 			width: 100%;
-			height: 600px;
+			height: 500px;
 			overflow: hidden;
 			
 			.hero-banner {
@@ -97,12 +97,12 @@
 						.page-title {
 							color: #ffffff;
 							font-family: $font;
-							font-size: 56px;
+							font-size: 64px;
 							font-style: normal;
-							font-weight: 600;
-							line-height: normal;
-							text-transform: capitalize;
-							letter-spacing: -1px;
+							font-weight: 400;
+							line-height: 1.2;
+							text-align: center;
+							letter-spacing: 0.02em;
 							margin: 0;
 						}
 					}

@@ -36,9 +36,18 @@
 @import '/scss/pc/member/memberProperties.scss';
 
 body {
+	font-family: $font;
 	-ms-overflow-style: none; /* for Internet Explorer, Edge */
 	scrollbar-width: none; /* for Firefox */
 	overflow-y: scroll;
+}
+
+#pc-wrap {
+	font-family: $font;
+	
+	* {
+		font-family: inherit;
+	}
 }
 
 body::-webkit-scrollbar {
