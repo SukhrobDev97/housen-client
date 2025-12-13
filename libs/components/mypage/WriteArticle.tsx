@@ -29,7 +29,7 @@ const WriteArticle: NextPage = () => {
 
 				{/* Editor Container */}
 				<Stack className="editor-wrapper">
-					<TuiEditor />
+				<TuiEditor />
 				</Stack>
 
 				{/* Tips Section */}

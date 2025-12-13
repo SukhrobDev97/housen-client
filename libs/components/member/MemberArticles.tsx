@@ -88,7 +88,14 @@ const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
 						</div>
 					)}
 					{memberBoArticles?.map((boardArticle: BoardArticle) => {
-						return <CommunityCard boardArticle={boardArticle} key={boardArticle?._id} size={'small'} />;
+						return (
+							<CommunityCard 
+								boardArticle={boardArticle} 
+								key={boardArticle?._id} 
+								size={'small'} 
+								likeArticleHandler={likeArticleHandler}
+							/>
+						);
 					})}
 				</Stack>
 				{memberBoArticles?.length !== 0 && (

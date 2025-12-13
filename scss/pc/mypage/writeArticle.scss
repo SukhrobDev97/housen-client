@@ -98,7 +98,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 				pointer-events: none;
 			}
 		}
-
+		
 		// ==========================================
 		// EDITOR CONTAINER
 		// ==========================================
@@ -268,8 +268,8 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 								color: $premium-black;
 
 								p {
-									margin-bottom: 16px;
-								}
+					margin-bottom: 16px;
+				}
 
 								h1, h2, h3 {
 									color: $premium-black;
@@ -336,7 +336,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 						height: 50%;
 						background: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, transparent 100%);
 						pointer-events: none;
-					}
+				}
 
 					.MuiButton-endIcon {
 						margin-left: 12px;
@@ -414,7 +414,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 						transform: translateY(-4px);
 						box-shadow: $shadow-md;
 						background: darken($soft-beige, 2%);
-					}
+			}
 
 					.tip-number {
 						font-family: $font;
@@ -428,12 +428,12 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
 					.tip-text {
 						font-family: $font;
-						font-size: 14px;
+				font-size: 14px;
 						font-weight: 500;
 						color: rgba($premium-black, 0.75);
 						line-height: 1.5;
-					}
-				}
+			}
+		}
 			}
 		}
 

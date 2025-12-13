@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useCallback } from 'react';
 import { Stack, Box, Typography, Button } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -23,12 +23,52 @@ const TopProjectCard = (props: TopProjectCardProps) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
+	
+	// Refs for parallax effect
+	const cardRef = useRef<HTMLDivElement>(null);
+	const imageRef = useRef<HTMLImageElement>(null);
+	const rafRef = useRef<number | null>(null);
 
 	/** HANDLERS **/
 	const pushDetailHandler = async (projectId: string) => {
 		console.log('CLICKED_PROPERTY_ID:', projectId);
 		await router.push({pathname: '/property/detail', query: { id : projectId}});
 	}
+
+	// Parallax mouse move handler
+	const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+		if (!cardRef.current || !imageRef.current) return;
+		
+		// Cancel any pending animation frame
+		if (rafRef.current) {
+			cancelAnimationFrame(rafRef.current);
+		}
+		
+		rafRef.current = requestAnimationFrame(() => {
+			if (!cardRef.current || !imageRef.current) return;
+			
+			const rect = cardRef.current.getBoundingClientRect();
+			const centerX = rect.left + rect.width / 2;
+			const centerY = rect.top + rect.height / 2;
+			
+			// Calculate offset from center (inverted for opposite direction movement)
+			const x = (centerX - e.clientX) / 25;
+			const y = (centerY - e.clientY) / 25;
+			
+			imageRef.current.style.transform = `scale(1.04) translate(${x}px, ${y}px)`;
+		});
+	}, []);
+
+	// Reset parallax on mouse leave
+	const handleMouseLeave = useCallback(() => {
+		if (rafRef.current) {
+			cancelAnimationFrame(rafRef.current);
+		}
+		
+		if (imageRef.current) {
+			imageRef.current.style.transform = 'scale(1) translate(0, 0)';
+		}
+	}, []);
 
 	if (device === 'mobile') {
 		return (
@@ -39,6 +79,8 @@ const TopProjectCard = (props: TopProjectCardProps) => {
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${project?.projectImages[0]})` }}
 					onClick={() => pushDetailHandler(project._id)}
 				>
+					{/* Top Rated Badge */}
+					<div className={'top-rated-badge'}>Top Rated</div>
 					<span className="category-badge">{project.projectType}</span>
 				</Box>
 				<Box 
@@ -54,17 +96,26 @@ const TopProjectCard = (props: TopProjectCardProps) => {
 		return (
 			<Stack 
 				className="top-card-box"
+				ref={cardRef}
 				onClick={() => router.push(`/property/detail?id=${project._id}`)}
+				onMouseMove={handleMouseMove}
+				onMouseLeave={handleMouseLeave}
 			>
 				{/* Image Layer */}
 				<Box className="card-img">
+					{/* Top Rated Badge */}
+					<div className={'top-rated-badge'}>Top Rated</div>
+					
 					<img 
+						ref={imageRef}
 						src={`${REACT_APP_API_URL}/${project?.projectImages[0]}`} 
 						alt={project.projectTitle}
 						className="card-image"
 						onClick={() => pushDetailHandler(project._id)}
 					/>
 					<Box className="image-gradient" />
+					{/* Hover Gradient Overlay */}
+					<Box className="hover-gradient-overlay" />
 				</Box>
 				
 				{/* Glass Overlay Info Section */}

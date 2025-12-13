@@ -3,17 +3,24 @@
     position: relative;
     padding: 90px 0px;
     width: 100%;
+    min-height: calc(100vh - 180px);
     height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
    .container {
+     display: flex;
      align-items: center;
+     justify-content: center;
      .main {
        width: 1200px;
        height: 900px;
        display: flex;
        flex-direction: row;
-       border-radius: 12px 0px 0px 12px;
+       border-radius: 12px;
+       overflow: hidden;
        background: #FFF;
-       box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
+       box-shadow: 0px 8px 32px 0px rgba(24, 26, 32, 0.12);
        .left {
          width: 50%;
          height: 100%;
@@ -185,8 +192,10 @@
        .right {
          width: 50%;
          height: 100%;
-         background-image: url("/img/banner/joinBg.svg");
+        background-image: url("/img/banner/header3.jpg");
          background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
        }
      }
    }

@@ -4,8 +4,7 @@ import Head from 'next/head';
 import Top from '../Top';
 import Footer from '../Footer';
 import { Stack } from '@mui/material';
-import HeroSection from '../homepage/HeroSection';
-import HeaderFilter from '../homepage/HeaderFilter';
+import Hero from '../homepage/Hero';
 import { userVar } from '../../../apollo/store';
 import { useReactiveVar } from '@apollo/client';
 import { getJwtToken, updateUserInfo } from '../../auth';
@@ -39,6 +38,10 @@ const withLayoutMain = (Component: any) => {
 							<Top />
 						</Stack>
 
+						<Stack className={'header-main'}>
+							<Hero />
+						</Stack>
+
 						<Stack id={'main'}>
 							<Component {...props} />
 						</Stack>
@@ -62,7 +65,7 @@ const withLayoutMain = (Component: any) => {
 						</Stack>
 
 					<Stack className={'header-main'}>
-						<HeroSection />
+						<Hero />
 					</Stack>
 
 						<Stack id={'main'}>

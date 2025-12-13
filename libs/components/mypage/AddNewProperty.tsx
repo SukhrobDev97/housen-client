@@ -59,50 +59,90 @@ const AddProject = ({ initialValues, ...props }: any) => {
 			const formData = new FormData();
 			const selectedFiles = inputRef.current.files;
 
-			if (selectedFiles.length == 0) return false;
-			if (selectedFiles.length > 5) throw new Error('Cannot upload more than 5 images!');
-
-			formData.append(
-				'operations',
-				JSON.stringify({
-					query: `mutation ImagesUploader($files: [Upload!]!, $target: String!) { 
-						imagesUploader(files: $files, target: $target)
-				  }`,
-					variables: {
-						files: [null, null, null, null, null],
-						target: 'property',
-					},
-				}),
-			);
-			formData.append(
-				'map',
-				JSON.stringify({
-					'0': ['variables.files.0'],
-					'1': ['variables.files.1'],
-					'2': ['variables.files.2'],
-					'3': ['variables.files.3'],
-					'4': ['variables.files.4'],
-				}),
-			);
-			for (const key in selectedFiles) {
-				if (/^\d+$/.test(key)) formData.append(`${key}`, selectedFiles[key]);
+			// Validate files
+			if (!selectedFiles || selectedFiles.length === 0) {
+				await sweetMixinErrorAlert('Please select at least one image!');
+				return false;
+			}
+			if (selectedFiles.length > 5) {
+				throw new Error('Cannot upload more than 5 images!');
 			}
 
-			const response = await axios.post(`${process.env.REACT_APP_API_GRAPHQL_URL}`, formData, {
+			// Validate token
+			if (!token) {
+				throw new Error('You must be logged in to upload images!');
+			}
+
+			// Validate API URL
+			const apiUrl = process.env.REACT_APP_API_GRAPHQL_URL;
+			if (!apiUrl) {
+				throw new Error('API URL is not configured!');
+			}
+
+		// Convert FileList to Array for reliable iteration
+		const filesArr = Array.from(selectedFiles);
+		const fileCount = filesArr.length;
+		
+		console.log('+Uploading images...', fileCount, 'files');
+		filesArr.forEach((file, i) => console.log(`  File ${i}: ${file.name}, ${file.size} bytes`));
+
+		// Build dynamic file variables based on actual number of files
+		const filesArray = new Array(fileCount).fill(null);
+		
+		// Build dynamic map object
+		const mapObject: { [key: string]: string[] } = {};
+		for (let i = 0; i < fileCount; i++) {
+			mapObject[String(i)] = [`variables.files.${i}`];
+		}
+
+		formData.append(
+			'operations',
+			JSON.stringify({
+				query: `mutation ImagesUploader($files: [Upload!]!, $target: String!) { 
+					imagesUploader(files: $files, target: $target)
+			  }`,
+				variables: {
+					files: filesArray,
+					target: 'property',
+				},
+			}),
+		);
+		formData.append('map', JSON.stringify(mapObject));
+		
+		// Append actual files from the array
+		filesArr.forEach((file, i) => {
+			formData.append(String(i), file);
+		});
+
+			const response = await axios.post(apiUrl, formData, {
 				headers: {
-					'Content-Type': 'multipart/form-data',
-					'apollo-require-preflight': true,
+					'apollo-require-preflight': 'true',
 					Authorization: `Bearer ${token}`,
 				},
 			});
 
-			const responseImages = response.data.data.imagesUploader;
+			console.log('+Full response:', response.data);
+
+			// Check for GraphQL errors
+			if (response.data.errors) {
+				console.log('+GraphQL errors:', response.data.errors);
+				throw new Error(response.data.errors[0]?.message || 'Upload failed');
+			}
+
+			const responseImages = response.data.data?.imagesUploader;
+			console.log('+responseImages:', responseImages);
+
+			if (!responseImages || (Array.isArray(responseImages) && responseImages.length === 0)) {
+				throw new Error('No images were uploaded. Please try again.');
+			}
 
 			console.log('+responseImages: ', responseImages);
 			setInsertProjectData({ ...insertProjectData, projectImages: responseImages });
+			await sweetMixinSuccessAlert('Images uploaded successfully!');
 		} catch (err: any) {
-			console.log('err: ', err.message);
-			await sweetMixinErrorAlert(err.message);
+			console.log('Upload error: ', err);
+			const errorMessage = err.response?.data?.errors?.[0]?.message || err.message || 'Failed to upload images';
+			await sweetMixinErrorAlert(errorMessage);
 		}
 	}
 
@@ -204,7 +244,7 @@ const AddProject = ({ initialValues, ...props }: any) => {
 										placeholder={'Price'}
 										value={insertProjectData.projectPrice}
 										onChange={({ target: { value } }) =>
-											setInsertProjectData({ ...insertProjectData, projectPrice: parseInt(value) })
+											setInsertProjectData({ ...insertProjectData, projectPrice: parseInt(value) || 0 })
 										}
 									/>
 								</Stack>
@@ -395,7 +435,7 @@ const AddProject = ({ initialValues, ...props }: any) => {
 										hidden={true}
 										onChange={uploadImages}
 										multiple={true}
-										accept="image/jpg, image/jpeg, image/png"
+										accept="image/jpeg, image/png"
 									/>
 									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
 										<g clipPath="url(#clip0_7309_3249)">

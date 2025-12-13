@@ -135,7 +135,7 @@ const MyMenu = () => {
 						<Typography className="group-title">Community</Typography>
 						<List className="menu-list">
 							{communityMenuItems.map(renderMenuItem)}
-						</List>
+							</List>
 					</Box>
 
 					{/* Account Menu */}

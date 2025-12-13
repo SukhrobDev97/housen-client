@@ -3,6 +3,7 @@ import { Stack, Box, Divider, Typography, Button } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Project } from '../../types/property/property';
 import { REACT_APP_API_URL, topProjectRank } from '../../config';
 import { useReactiveVar } from '@apollo/client';
@@ -102,7 +103,7 @@ const ProjectBigCard = (props: ProjectBigCardProps) => {
 										{project?.meLiked && project?.meLiked[0]?.myFavorite ? (
 											<FavoriteIcon style={{ color: '#ff6b6b', fontSize: 18 }} />
 										) : (
-											<FavoriteIcon sx={{ fontSize: 18, color: '#666' }} />
+											<FavoriteBorderIcon sx={{ fontSize: 18, color: '#666' }} />
 										)}
 									</IconButton>
 									<Typography className="view-cnt-info">{project?.projectLikes || 0}</Typography>

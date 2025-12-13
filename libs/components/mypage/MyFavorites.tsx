@@ -73,7 +73,7 @@ const MyFavorites: NextPage = () => {
 				<Stack className="favorites-list-box">
 					{myFavorites?.length ? (
 						myFavorites?.map((project: Project) => {
-							return <ProjectCard project={project} likeProjectHandler={likeProjectHandler} myFavorites={true} />;
+							return <ProjectCard key={project._id} project={project} likeProjectHandler={likeProjectHandler} myFavorites={true} />;
 						})
 					) : (
 						<div className={'no-data'}>

@@ -152,31 +152,31 @@ const TuiEditor = () => {
 			<Stack className="editor-section">
 				<Typography className="field-label">Content</Typography>
 				<Box className="editor-box">
-					<Editor
+			<Editor
 						initialValue={''}
 						placeholder={''}
-						previewStyle={'vertical'}
+				previewStyle={'vertical'}
 						height={'500px'}
-						// @ts-ignore
-						initialEditType={'WYSIWYG'}
-						toolbarItems={[
-							['heading', 'bold', 'italic', 'strike'],
-							['image', 'table', 'link'],
-							['ul', 'ol', 'task'],
-						]}
-						ref={editorRef}
-						hooks={{
-							addImageBlobHook: async (image: any, callback: any) => {
-								console.log('image: ', image);
-								const uploadedImageURL = await uploadImage(image);
-								callback(uploadedImageURL);
-								return false;
-							},
-						}}
-						events={{
-							load: function (param: any) {},
-						}}
-					/>
+				// @ts-ignore
+				initialEditType={'WYSIWYG'}
+				toolbarItems={[
+					['heading', 'bold', 'italic', 'strike'],
+					['image', 'table', 'link'],
+					['ul', 'ol', 'task'],
+				]}
+				ref={editorRef}
+				hooks={{
+					addImageBlobHook: async (image: any, callback: any) => {
+						console.log('image: ', image);
+						const uploadedImageURL = await uploadImage(image);
+						callback(uploadedImageURL);
+						return false;
+					},
+				}}
+				events={{
+					load: function (param: any) {},
+				}}
+			/>
 				</Box>
 			</Stack>
 

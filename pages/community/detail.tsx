@@ -321,14 +321,14 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 							<Stack className="header-content">
 								<Typography className="header-title">{articleCategory} BOARD</Typography>
 								<Typography className="header-subtitle">Share your thoughts with the community</Typography>
-							</Stack>
-							<Button
+								</Stack>
+								<Button
 								className="write-btn"
 								onClick={() => router.push({ pathname: '/mypage', query: { category: 'writeArticle' } })}
-							>
-								Write
-							</Button>
-						</Stack>
+								>
+									Write
+								</Button>
+							</Stack>
 
 						{/* Article Content */}
 						<Stack className="article-section">

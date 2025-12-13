@@ -41,6 +41,9 @@ const PopularProjectCard = (props: PopularProjectCardProps) => {
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${project?.projectImages[0]})` }}
 					onClick={() => pushDetailHandler(project._id)}
 				>
+					{/* Hot Badge */}
+					<div className={'hot-badge'}>Hot</div>
+					
 					{project?.projectRank && project?.projectRank >= topProjectRank ? (
 						<div className={'status'}>
 							<img src="/img/icons/electricity.svg" alt="" />
@@ -95,6 +98,9 @@ const PopularProjectCard = (props: PopularProjectCardProps) => {
 					sx={{ cursor: 'pointer' }}
 					onClick={() => pushDetailHandler(project._id)}
 				>
+					{/* Hot Badge */}
+					<div className={'hot-badge'}>Hot</div>
+					
 					{project && project?.projectRank >= topProjectRank ? (
 						<div className={'status'}>
 							<img src="/img/icons/electricity.svg" alt="" />

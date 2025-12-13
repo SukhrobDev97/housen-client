@@ -191,8 +191,8 @@ export const GET_PROJECTS = gql`
 `;
 
 export const GET_AGENCY_PROJECTS = gql`
-	query GetAgentProjects($input: AgencyProjectsInquiry!) {
-		getAgentProjects(input: $input) {
+	query GetAgencyProjects($input: AgencyProjectsInquiry!) {
+		getAgencyProjects(input: $input) {
 			list {
 				_id
 				projectType
@@ -228,6 +228,10 @@ export const GET_FAVORITES = gql`
 				projectTitle
 				projectPrice
 				projectDuration
+				projectViews
+				projectLikes
+				projectComments
+				projectRank
 				projectImages
 				projectDesc
 				projectCollaboration
@@ -236,6 +240,11 @@ export const GET_FAVORITES = gql`
 				deletedAt
 				createdAt
 				updatedAt
+				meLiked {
+					memberId
+					likeRefId
+					myFavorite
+				}
 				memberData {
 					_id
 					memberType

@@ -116,11 +116,13 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 										{follower?.meLiked && follower?.meLiked[0]?.myFavorite ? (
 											<FavoriteIcon 
 											   color="primary" 
-											   onclick={() => likeMemberHandler(follower?.followingData?._id, getMemberFollowingsRefetch, followInquiry)}
+												onClick={() => likeMemberHandler(follower?.followingData?._id, getMemberFollowingsRefetch, followInquiry)}
+												sx={{ cursor: 'pointer' }}
 											/>
 										) : (
 											<FavoriteBorderIcon
-												onclick={() => likeMemberHandler(follower?.followingData?._id, getMemberFollowingsRefetch, followInquiry)}
+												onClick={() => likeMemberHandler(follower?.followingData?._id, getMemberFollowingsRefetch, followInquiry)}
+												sx={{ cursor: 'pointer' }}
 											/>
 										)}
 										<span>({follower?.followingData?.memberLikes})</span>

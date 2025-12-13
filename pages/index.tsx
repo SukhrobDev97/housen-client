@@ -7,8 +7,8 @@ import BeforeAfterTestimonials from '../libs/components/homepage/BeforeAfterTest
 import TopAgents from '../libs/components/homepage/TopAgents';
 import TrendProperties from '../libs/components/homepage/TrendProperties';
 import TopProperties from '../libs/components/homepage/TopProperties';
+import GetMatchedSection from '../libs/components/homepage/GetMatchedSection';
 import { Stack } from '@mui/material';
-import BookConsultation from '../libs/components/homepage/BookConsultation';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -24,7 +24,7 @@ const Home: NextPage = () => {
 		return (
 			<Stack className={'home-page'}>
 				<TrendProperties />
-				<BookConsultation />
+				<GetMatchedSection />
 				<PopularProperties />
 				<BeforeAfterTestimonials />
 				<TopProperties />
@@ -35,7 +35,7 @@ const Home: NextPage = () => {
 		return (
 			<Stack className={'home-page'}>
 				<TrendProperties />
-				<BookConsultation />
+				<GetMatchedSection />
 				<PopularProperties />
 				<BeforeAfterTestimonials />
 				<TopProperties />
