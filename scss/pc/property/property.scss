@@ -104,24 +104,109 @@
 		}
 
 		.container {
-			.right {
+			.sort-bar {
 				position: absolute;
 				right: 0;
 				top: 3%;
 				display: flex;
 				flex-direction: row;
 				align-items: center;
+				gap: 12px;
 				z-index: 2;
-				button {
-					margin-left: 10px;
-					color: #181a20;
+				padding-bottom: 20px;
+				margin-bottom: 32px;
+				
+				.sort-label {
+					color: #666;
 					font-family: $font;
 					font-size: 14px;
-					font-style: normal;
-					font-weight: bold;
-					line-height: 26px;
-					&:hover {
-						background: none;
+					font-weight: 500;
+				}
+				
+				.sort-options {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					gap: 8px;
+					
+					.sort-pill {
+						padding: 10px 20px;
+						border-radius: 999px;
+						background: transparent;
+						border: none;
+						color: #666;
+						font-family: $font;
+						font-size: 13px;
+						font-weight: 600;
+						cursor: pointer;
+						transition: all 0.25s ease;
+						white-space: nowrap;
+						position: relative;
+						
+						&::after {
+							content: '';
+							position: absolute;
+							bottom: 8px;
+							left: 50%;
+							transform: translateX(-50%);
+							width: 0;
+							height: 2px;
+							background: #333;
+							transition: width 0.25s ease;
+						}
+						
+						&:hover {
+							color: #333;
+							
+							&::after {
+								width: calc(100% - 40px);
+							}
+						}
+						
+						&.active {
+							background: #364440;
+							color: #ffffff;
+							box-shadow: 0 2px 8px rgba(54, 68, 64, 0.2);
+							
+							&::after {
+								width: 0;
+							}
+						}
+					}
+				}
+				
+				@media screen and (max-width: 1024px) {
+					right: 20px;
+					top: 4%;
+					
+					.sort-options {
+						gap: 6px;
+						
+						.sort-pill {
+							padding: 8px 16px;
+							font-size: 12px;
+						}
+					}
+				}
+				
+				@media screen and (max-width: 768px) {
+					position: relative;
+					right: auto;
+					top: auto;
+					justify-content: flex-end;
+					margin-bottom: 20px;
+					
+					.sort-label {
+						font-size: 13px;
+					}
+					
+					.sort-options {
+						flex-wrap: wrap;
+						
+						.sort-pill {
+							padding: 8px 14px;
+							font-size: 11px;
+						}
 					}
 				}
 			}
@@ -791,6 +876,11 @@
 										gap: 4px;
 										.view-like-icon {
 											padding: 4px;
+											background-color: transparent !important;
+											
+											&:hover {
+												background-color: transparent !important;
+											}
 										}
 										.view-cnt-info {
 											color: #666;
@@ -807,7 +897,7 @@
 									padding: 8px 20px;
 									border-radius: 10px;
 									background: transparent;
-									border: 2px solid #3B3F2B;
+									border: 1px solid #d0d0d0;
 									color: #3B3F2B;
 									font-family: $font;
 											font-size: 13px;

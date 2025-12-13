@@ -3,6 +3,7 @@ import { Stack, Box, Divider, Typography, Button } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Project } from '../../types/property/property';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import StyleIcon from '@mui/icons-material/Palette';
@@ -74,8 +75,8 @@ const ProjectCard = (props: ProjectCardType) => {
 								size="small"
 								className={'view-like-icon'}
 								sx={{ 
-									backgroundColor: 'transparent',
-									'&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.05)' }
+									backgroundColor: 'transparent !important',
+									'&:hover': { backgroundColor: 'transparent !important' }
 								}}
 							>
 								<RemoveRedEyeIcon sx={{ fontSize: 18, color: '#666' }} />
@@ -88,15 +89,15 @@ const ProjectCard = (props: ProjectCardType) => {
 										size="small"
 										className={'view-like-icon'}
 										sx={{ 
-											backgroundColor: 'transparent',
-											'&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.05)' }
+											backgroundColor: 'transparent !important',
+											'&:hover': { backgroundColor: 'transparent !important' }
 										}}
 										onClick={() => likeProjectHandler(user, project._id)}
 									>
 										{myFavorites || (project?.meLiked && project?.meLiked[0]?.myFavorite) ? (
-											<FavoriteIcon style={{ color: '#ff6b6b', fontSize: 18 }} />
+											<FavoriteIcon sx={{ fontSize: 18, color: '#ff4444' }} />
 										) : (
-											<FavoriteIcon sx={{ fontSize: 18, color: '#666' }} />
+											<FavoriteBorderIcon sx={{ fontSize: 18, color: '#666' }} />
 										)}
 									</IconButton>
 									<Typography className="view-cnt-info">{project?.projectLikes || 0}</Typography>

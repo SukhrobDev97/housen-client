@@ -1,0 +1,155 @@
+.lightboxOverlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.9);
+	z-index: 10000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+.closeBtn {
+	position: absolute;
+	top: 24px;
+	right: 24px;
+	z-index: 10001;
+	width: 48px;
+	height: 48px;
+	background: rgba(255, 255, 255, 0.1) !important;
+	backdrop-filter: blur(10px);
+	color: #ffffff !important;
+	transition: all 0.3s ease;
+
+	&:hover {
+		background: rgba(255, 255, 255, 0.2) !important;
+		transform: scale(1.05);
+	}
+
+	svg {
+		font-size: 24px;
+	}
+}
+
+.navBtn {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 10001;
+	width: 56px;
+	height: 56px;
+	background: rgba(255, 255, 255, 0.1) !important;
+	backdrop-filter: blur(10px);
+	color: #ffffff !important;
+	transition: all 0.3s ease;
+
+	&:hover {
+		background: rgba(255, 255, 255, 0.2) !important;
+		transform: translateY(-50%) scale(1.05);
+	}
+
+	svg {
+		font-size: 24px;
+	}
+
+	&.prevBtn {
+		left: 24px;
+	}
+
+	&.nextBtn {
+		right: 24px;
+	}
+}
+
+.imageContainer {
+	max-width: 90vw;
+	max-height: 85vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.lightboxImage {
+	max-width: 90vw;
+	max-height: 85vh;
+	width: auto;
+	height: auto;
+	object-fit: contain;
+	border-radius: 4px;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.imageCounter {
+	position: absolute;
+	bottom: 32px;
+	left: 50%;
+	transform: translateX(-50%);
+	background: rgba(255, 255, 255, 0.1);
+	backdrop-filter: blur(10px);
+	color: #ffffff;
+	padding: 8px 20px;
+	border-radius: 20px;
+	font-family: 'Inter', sans-serif;
+	font-size: 14px;
+	font-weight: 500;
+	z-index: 10001;
+}
+
+// Responsive
+@media screen and (max-width: 768px) {
+	.closeBtn {
+		top: 16px;
+		right: 16px;
+		width: 40px;
+		height: 40px;
+
+		svg {
+			font-size: 20px;
+		}
+	}
+
+	.navBtn {
+		width: 44px;
+		height: 44px;
+
+		svg {
+			font-size: 20px;
+		}
+
+		&.prevBtn {
+			left: 12px;
+		}
+
+		&.nextBtn {
+			right: 12px;
+		}
+	}
+
+	.imageContainer {
+		max-width: 95vw;
+		max-height: 80vh;
+	}
+
+	.lightboxImage {
+		max-width: 95vw;
+		max-height: 80vh;
+	}
+
+	.imageCounter {
+		bottom: 20px;
+		font-size: 12px;
+		padding: 6px 16px;
+	}
+}

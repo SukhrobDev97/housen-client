@@ -40,6 +40,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Project } from '../../libs/types/property/property';
 import ProjectBigCard from '../../libs/components/common/PropertyBigCard';
+import ImageLightbox from '../../libs/components/common/ImageLightbox';
 import { GET_COMMENTS, GET_PROJECT, GET_PROJECTS } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 import { Direction, Message } from '../../libs/enums/common.enum';
@@ -71,6 +72,8 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 		commentContent: '',
 		commentRefId: '',
 	});
+	const [lightboxOpen, setLightboxOpen] = useState<boolean>(false);
+	const [lightboxInitialIndex, setLightboxInitialIndex] = useState<number>(0);
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetProject] = useMutation(LIKE_TARGET_PROJECT);
@@ -212,6 +215,15 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 		setCommentInquiry({ ...commentInquiry });
 	};
 
+	const openLightbox = (index: number) => {
+		setLightboxInitialIndex(index);
+		setLightboxOpen(true);
+	};
+
+	const closeLightbox = () => {
+		setLightboxOpen(false);
+	};
+
 	const handleSaveProject = () => {
 		setIsSaved(!isSaved);
 		sweetTopSmallSuccessAlert(isSaved ? 'Removed from saved' : 'Saved!', 800);
@@ -241,6 +253,11 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 						className={'hero-image'}
 						style={{
 							backgroundImage: `url(${slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.png'})`,
+							cursor: 'pointer',
+						}}
+						onClick={() => {
+							const imageIndex = project?.projectImages?.indexOf(slideImage) ?? 0;
+							openLightbox(imageIndex);
 						}}
 					>
 						<div className={'hero-overlay'} />
@@ -291,7 +308,10 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 								<div
 									key={index}
 									className={`gallery-thumb ${slideImage === img ? 'active' : ''}`}
-									onClick={() => changeImageHandler(img)}
+									onClick={() => {
+										changeImageHandler(img);
+										openLightbox(index);
+									}}
 								>
 									<img src={`${REACT_APP_API_URL}/${img}`} alt={`Project image ${index + 1}`} />
 								</div>
@@ -560,6 +580,16 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 						</div>
 					</section>
 						)}
+
+				{/* IMAGE LIGHTBOX */}
+				{project?.projectImages && (
+					<ImageLightbox
+						images={project.projectImages.map((img: string) => `${REACT_APP_API_URL}/${img}`)}
+						initialIndex={lightboxInitialIndex}
+						isOpen={lightboxOpen}
+						onClose={closeLightbox}
+					/>
+				)}
 			</div>
 		);
 	}

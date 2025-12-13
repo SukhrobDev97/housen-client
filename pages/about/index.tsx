@@ -27,7 +27,7 @@ const About: NextPage = () => {
 			id: 2,
 			image: '/img/service/service2.jpeg',
 			title: ' Interior Solutions',
-			description: 'Expert interior solutions combining style, function, and innovation to create elegant spaces.',
+			description: 'Expert interior solutions combining style, function, and innovation to create elegant spaces.featuring elegant organic shapes',
 			features: [
 				'Floor Layout Plan',
 				'Color & Wallpaper Selection',
@@ -198,8 +198,8 @@ const About: NextPage = () => {
 											className={'download-btn app-store'}
 										>
 											<Box component={'div'} className={'app-icon-wrapper'}>
-												<svg className={'app-icon'} width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M17.05 20.28C16.07 21.05 15 20.78 14.12 20.18C13.23 19.57 12.53 19.47 11.41 20.09C10.29 20.7 9.62 20.51 8.83 19.87C7.92 19.13 6.71 18.93 5.66 19.73C4.35 20.72 3.79 20.36 2.93 19.25C1.92 17.93 1.07 15.11 2.83 13.08C3.81 11.98 5.08 11.38 6.25 11.44C7.15 11.49 7.8 11.9 8.5 11.93C9.18 11.97 9.73 11.6 10.73 11.6C11.7 11.6 12.18 11.93 12.93 11.97C13.66 12.01 14.22 11.49 14.99 11.45C15.82 11.41 16.44 11.84 16.9 12.29C15.29 13.31 14.66 15.17 15.36 16.75C16.04 18.28 17.29 19.14 18.64 19.13C18.49 19.79 18.19 20.41 17.76 20.93C17.5 21.22 17.28 21.47 17.05 20.28ZM13.33 7.37C13.62 6.63 13.78 5.72 13.65 4.84C14.89 4.97 15.92 5.57 16.5 6.27C16.2 7.05 15.65 7.79 14.95 8.17C14.25 8.55 13.47 8.61 13.33 7.37Z" fill="#ffffff"/>
+												<svg className={'app-icon'} width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" shapeRendering="geometricPrecision">
+													<path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13.82 6.5C14.32 5.5 15.03 4.16 15.97 3.5C16.13 4.76 15.66 6.03 15.09 6.91C14.5 7.86 13.66 9.15 12.45 9.84C12.32 8.79 12.78 7.76 13.82 6.5Z" fill="#ffffff" fillRule="evenodd" clipRule="evenodd"/>
 												</svg>
 											</Box>
 											<Box component={'div'} className={'btn-content'}>

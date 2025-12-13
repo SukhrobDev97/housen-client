@@ -1,6 +1,6 @@
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
-import { Box, Button, Menu, MenuItem, Pagination, Stack, Typography, IconButton, Rating } from '@mui/material';
+import { Box, Button, Pagination, Stack, Typography, IconButton, Rating } from '@mui/material';
 import PropertyCard from '../../libs/components/property/PropertyCard';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
@@ -9,7 +9,6 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { Project } from '../../libs/types/property/property';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
@@ -44,9 +43,7 @@ const ProjectList: NextPage = ({ initialInput, ...props }: any) => {
 	const [projects, setProjects] = useState<Project[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const [currentPage, setCurrentPage] = useState<number>(1);
-	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-	const [sortingOpen, setSortingOpen] = useState(false);
-	const [filterSortName, setFilterSortName] = useState('New');
+	const [activeSortOption, setActiveSortOption] = useState<string>('new');
 	const [productFavorites, setProductFavorites] = useState<number[]>([]);
 
 	// Recommended products (4 items)
@@ -116,32 +113,20 @@ const ProjectList: NextPage = ({ initialInput, ...props }: any) => {
 		}
 	};
 
-	const sortingClickHandler = (e: MouseEvent<HTMLElement>) => {
-		setAnchorEl(e.currentTarget);
-		setSortingOpen(true);
-	};
-
-	const sortingCloseHandler = () => {
-		setSortingOpen(false);
-		setAnchorEl(null);
-	};
-
-	const sortingHandler = (e: React.MouseEvent<HTMLLIElement>) => {
-		switch (e.currentTarget.id) {
+	const sortingHandler = (sortOption: string) => {
+		setActiveSortOption(sortOption);
+		
+		switch (sortOption) {
 			case 'new':
 				setSearchFilter({ ...searchFilter, sort: 'createdAt', direction: Direction.ASC });
-				setFilterSortName('New');
 				break;
 			case 'lowest':
 				setSearchFilter({ ...searchFilter, sort: 'projectPrice', direction: Direction.ASC });
-				setFilterSortName('Lowest Price');
 				break;
 			case 'highest':
 				setSearchFilter({ ...searchFilter, sort: 'projectPrice', direction: Direction.DESC });
-				setFilterSortName('Highest Price');
+				break;
 		}
-		setSortingOpen(false);
-		setAnchorEl(null);
 	};
 
 	// Product handlers
@@ -186,39 +171,28 @@ const ProjectList: NextPage = ({ initialInput, ...props }: any) => {
 				</Stack>
 
 				<div className="container">
-					<Box component={'div'} className={'right'}>
-						<span>Sort by</span>
-						<div>
-							<Button onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />}>
-								{filterSortName}
-							</Button>
-							<Menu anchorEl={anchorEl} open={sortingOpen} onClose={sortingCloseHandler} sx={{ paddingTop: '5px' }}>
-								<MenuItem
-									onClick={sortingHandler}
-									id={'new'}
-									disableRipple
-									sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
-								>
-									New
-								</MenuItem>
-								<MenuItem
-									onClick={sortingHandler}
-									id={'lowest'}
-									disableRipple
-									sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
-								>
-									Lowest Price
-								</MenuItem>
-								<MenuItem
-									onClick={sortingHandler}
-									id={'highest'}
-									disableRipple
-									sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
-								>
-									Highest Price
-								</MenuItem>
-							</Menu>
-						</div>
+					<Box component={'div'} className={'sort-bar'}>
+						<span className={'sort-label'}>Sort by:</span>
+						<Box component={'div'} className={'sort-options'}>
+							<button 
+								className={`sort-pill ${activeSortOption === 'new' ? 'active' : ''}`}
+								onClick={() => sortingHandler('new')}
+							>
+								New
+							</button>
+							<button 
+								className={`sort-pill ${activeSortOption === 'lowest' ? 'active' : ''}`}
+								onClick={() => sortingHandler('lowest')}
+							>
+								Lowest Price
+							</button>
+							<button 
+								className={`sort-pill ${activeSortOption === 'highest' ? 'active' : ''}`}
+								onClick={() => sortingHandler('highest')}
+							>
+								Highest Price
+							</button>
+						</Box>
 					</Box>
 					<Stack className={'property-page'}>
 						<Stack className={'filter-config'}>
