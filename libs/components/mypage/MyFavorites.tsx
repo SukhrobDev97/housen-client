@@ -10,6 +10,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { LIKE_TARGET_PROJECT } from '../../../apollo/user/mutation';
 import { Messages } from '../../config';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
+import RecommendedSection from './RecommendedSection';
 
 const MyFavorites: NextPage = () => {
 	const device = useDeviceDetect();
@@ -100,6 +101,9 @@ const MyFavorites: NextPage = () => {
 						</Stack>
 					</Stack>
 				) : null}
+
+				{/* Recommended Section */}
+				<RecommendedSection />
 			</div>
 		);
 	}

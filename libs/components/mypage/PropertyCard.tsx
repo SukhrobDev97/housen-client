@@ -6,6 +6,7 @@ import ModeIcon from '@mui/icons-material/Mode';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Project } from '../../types/property/property';
 import { formatterStr } from '../../utils';
+import { REACT_APP_API_URL } from '../../config';
 import Moment from 'react-moment';
 import { useRouter } from 'next/router';
 import { ProjectStatus } from '../../enums/property.enum';
@@ -56,7 +57,7 @@ export const ProjectCard = (props: ProjectCardProps) => {
 		return (
 			<Stack className="property-card-box">
 				<Stack className="image-box" onClick={() => pushProjectDetail(project?._id)}>
-					<img src={`${process.env.REACT_APP_API_URL}/${project.projectImages[0]}`} alt="" />
+					<img src={`${REACT_APP_API_URL}/${project?.projectImages?.[0]}`} alt="" />
 				</Stack>
 				<Stack className="information-box" onClick={() => pushProjectDetail(project?._id)}>
 					<Typography className="name">{project.projectTitle}</Typography>
@@ -115,9 +116,9 @@ export const ProjectCard = (props: ProjectCardProps) => {
 				)}
 
 				<Stack className="views-box">
-					<Typography className="views">{project.projectViews.toLocaleString()}</Typography>
+					<Typography className="views">{(project?.projectViews || 0).toLocaleString()}</Typography>
 				</Stack>
-				{!memberPage && project.projectStatus === ProjectStatus.ACTIVE &&  (
+				{!memberPage && (
 					<Stack className="action-box">
 						<IconButton className="icon-button" onClick={() => pushEditProject(project._id)}>
 							<ModeIcon className="buttons" />

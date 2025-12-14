@@ -8,6 +8,7 @@ import { T } from '../../types/common';
 import ProjectCard from '../property/PropertyCard';
 import { GET_VISITED } from '../../../apollo/user/query';
 import { useQuery } from '@apollo/client';
+import RecommendedSection from './RecommendedSection';
 
 const RecentlyVisited: NextPage = () => {
 	const device = useDeviceDetect();
@@ -79,6 +80,9 @@ const RecentlyVisited: NextPage = () => {
 						</Stack>
 					</Stack>
 				) : null}
+
+				{/* Recommended Section */}
+				<RecommendedSection />
 			</div>
 		);
 	}

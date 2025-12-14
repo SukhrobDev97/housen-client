@@ -87,8 +87,13 @@ const TuiEditor = () => {
 			const articleContent = editor?.getInstance().getHTML() as string;
 			memoizedValues.articleContent = articleContent;
 
-			if (articleTitle === '' || memoizedValues.articleContent === '') {
-				throw new Error(Message.INSERT_ALL_INPUTS);
+			// Validate inputs
+			if (articleTitle === '' || articleTitle.trim() === '') {
+				throw new Error('Please enter an article title');
+			}
+			
+			if (!memoizedValues.articleContent || memoizedValues.articleContent === '' || memoizedValues.articleContent === '<p><br></p>') {
+				throw new Error('Please write some content for your article');
 			}
 
 			await createBoardArticle({
@@ -109,8 +114,9 @@ const TuiEditor = () => {
 				query: { category: 'myArticles' },
 			});
 		} catch (err: any) {
-			console.log(err);
-			sweetErrorHandling(new Error(Message.INSERT_ALL_INPUTS)).then();
+			console.log('Article creation error:', err);
+			const errorMessage = err?.graphQLErrors?.[0]?.message || err?.message || Message.INSERT_ALL_INPUTS;
+			sweetErrorHandling(new Error(errorMessage)).then();
 		}
 	};
 

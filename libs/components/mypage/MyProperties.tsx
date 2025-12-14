@@ -13,6 +13,7 @@ import { ProjectCard } from './PropertyCard';
 import { UPDATE_PROJECT } from '../../../apollo/user/mutation';
 import { GET_AGENCY_PROJECTS } from '../../../apollo/user/query';
 import { sweetConfirmAlert, sweetErrorHandling } from '../../sweetAlert';
+import RecommendedSection from './RecommendedSection';
 
 const MyProjects: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
@@ -104,16 +105,16 @@ const MyProjects: NextPage = ({ initialInput, ...props }: any) => {
 				<Stack className="property-list-box">
 					<Stack className="tab-name-box">
 						<Typography
-							onClick={() => changeStatusHandler(ProjectStatus.ACTIVE)}
-							className={searchFilter.search.projectStatus === 'ACTIVE' ? 'active-tab-name' : 'tab-name'}
-						>
-							Processing
-						</Typography>
-						<Typography
 							onClick={() => changeStatusHandler(ProjectStatus.COMPLETED)}
 							className={searchFilter.search.projectStatus === 'COMPLETED' ? 'active-tab-name' : 'tab-name'}
 						>
 							Completed
+						</Typography>
+						<Typography
+							onClick={() => changeStatusHandler(ProjectStatus.ACTIVE)}
+							className={searchFilter.search.projectStatus === 'ACTIVE' ? 'active-tab-name' : 'tab-name'}
+						>
+							Processing
 						</Typography>
 					</Stack>
 					<Stack className="list-box">
@@ -122,7 +123,7 @@ const MyProjects: NextPage = ({ initialInput, ...props }: any) => {
 							<Typography className="title-text">Date Published</Typography>
 							<Typography className="title-text">Status</Typography>
 							<Typography className="title-text">View</Typography>
-							{searchFilter.search.projectStatus === 'ACTIVE' && (<Typography className="title-text">Actions</Typography>)}
+							<Typography className="title-text">Actions</Typography>
 						</Stack>
 
 						{agencyProjects?.length === 0 ? (
@@ -160,6 +161,9 @@ const MyProjects: NextPage = ({ initialInput, ...props }: any) => {
 						)}
 					</Stack>
 				</Stack>
+
+				{/* Recommended Section */}
+				<RecommendedSection />
 			</div>
 		);
 	}
@@ -170,8 +174,9 @@ MyProjects.defaultProps = {
 		page: 1,
 		limit: 5,
 		sort: 'createdAt',
+		direction: 'DESC',
 		search: {
-			projectStatus: 'ACTIVE',
+			projectStatus: 'COMPLETED',
 		},
 	},
 };

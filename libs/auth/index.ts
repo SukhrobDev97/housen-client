@@ -72,10 +72,10 @@ export const signUp = async (nick: string, password: string, phone: string, type
 			updateStorage({ jwtToken });
 			updateUserInfo(jwtToken);
 		}
-	} catch (err) {
-		console.warn('login err', err);
+	} catch (err: any) {
+		console.warn('signup err', err);
 		logOut();
-		// throw new Error('Login Err');
+		throw err;
 	}
 };
 
@@ -101,21 +101,28 @@ const requestSignUpJwtToken = async ({
 			fetchPolicy: 'network-only',
 		});
 
-		console.log('---------- login ----------');
+		console.log('---------- signup success ----------');
 		const { accessToken } = result?.data?.signup;
 
 		return { jwtToken: accessToken };
 	} catch (err: any) {
-		console.log('request token err', err.graphQLErrors);
-		switch (err.graphQLErrors[0].message) {
-			case 'Definer: login and password do not match':
-				await sweetMixinErrorAlert('Please check your password again');
-				break;
-			case 'Definer: user has been blocked!':
-				await sweetMixinErrorAlert('User has been blocked!');
-				break;
+		console.log('signup error:', err.graphQLErrors);
+		const errorMessage = err.graphQLErrors?.[0]?.message || 'Signup failed';
+		
+		// Handle common signup errors
+		if (errorMessage.includes('nick') || errorMessage.includes('Nickname')) {
+			await sweetMixinErrorAlert('This nickname is already taken. Please choose another.');
+		} else if (errorMessage.includes('phone') || errorMessage.includes('Phone')) {
+			await sweetMixinErrorAlert('Invalid phone number or phone already registered.');
+		} else if (errorMessage.includes('password') || errorMessage.includes('Password')) {
+			await sweetMixinErrorAlert('Password does not meet requirements.');
+		} else if (errorMessage.includes('blocked')) {
+			await sweetMixinErrorAlert('Account has been blocked.');
+		} else {
+			await sweetMixinErrorAlert(errorMessage);
 		}
-		throw new Error('token error');
+		
+		throw new Error(errorMessage);
 	}
 };
 

@@ -1,0 +1,332 @@
+// Design tokens
+$warm-white: #F8F7F4;
+$soft-beige: #EDEBE8;
+$deep-olive: #4A4F41;
+$premium-black: #151515;
+$primary-color: #364440;
+$shadow-sm: 0 2px 8px rgba(21, 21, 21, 0.06);
+$shadow-hover: 0 8px 24px rgba(21, 21, 21, 0.1);
+$font: 'Inter', sans-serif;
+
+.recommendedSection {
+	width: 100%;
+	margin-top: 48px;
+	padding: 40px 0;
+	background: $soft-beige;
+	border-radius: 20px;
+}
+
+.sectionHeader {
+	text-align: center;
+	margin-bottom: 32px;
+	padding: 0 24px;
+}
+
+.sectionTitle {
+	font-family: $font !important;
+	font-size: 24px !important;
+	font-weight: 600 !important;
+	color: $premium-black !important;
+	margin-bottom: 6px !important;
+	letter-spacing: -0.02em !important;
+}
+
+.sectionSubtitle {
+	font-family: $font !important;
+	font-size: 14px !important;
+	font-weight: 400 !important;
+	color: #666 !important;
+}
+
+// Desktop Grid - 4 cards in a row
+.cardsGrid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 20px;
+	padding: 0 32px;
+}
+
+// Mobile Container
+.cardsContainerMobile {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding: 0 16px;
+}
+
+// Compact Recommend Card
+.recommendCard {
+	background: #ffffff;
+	border-radius: 14px;
+	overflow: hidden;
+	border: 1px solid rgba(0, 0, 0, 0.06);
+	box-shadow: $shadow-sm;
+	cursor: pointer;
+	transition: all 0.25s ease;
+
+	&:hover {
+		transform: translateY(-3px);
+		box-shadow: $shadow-hover;
+		border-color: rgba(0, 0, 0, 0.08);
+
+		.cardImage {
+			transform: scale(1.03);
+		}
+
+		.viewBtn {
+			color: $primary-color;
+			gap: 6px;
+		}
+	}
+}
+
+.cardImage {
+	width: 100%;
+	aspect-ratio: 16 / 10;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	transition: transform 0.4s ease;
+}
+
+.cardContent {
+	padding: 16px;
+}
+
+.cardTitle {
+	font-family: $font !important;
+	font-size: 14px !important;
+	font-weight: 600 !important;
+	color: $premium-black !important;
+	line-height: 1.4 !important;
+	margin-bottom: 8px !important;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.cardMeta {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin-bottom: 12px;
+}
+
+.metaItem {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-family: $font;
+	font-size: 11px;
+	font-weight: 500;
+	color: #888;
+	text-transform: capitalize;
+
+	svg {
+		font-size: 13px;
+		color: #aaa;
+	}
+}
+
+.metaDivider {
+	color: #ccc;
+	font-size: 10px;
+}
+
+.cardFooter {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-top: 12px;
+	border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.cardPrice {
+	font-family: $font !important;
+	font-size: 15px !important;
+	font-weight: 700 !important;
+	color: $premium-black !important;
+}
+
+.viewBtn {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 0;
+	background: none;
+	border: none;
+	font-family: $font;
+	font-size: 12px;
+	font-weight: 600;
+	color: #888;
+	cursor: pointer;
+	transition: all 0.2s ease;
+
+	svg {
+		font-size: 14px;
+		transition: transform 0.2s ease;
+	}
+
+	&:hover {
+		color: $primary-color;
+
+		svg {
+			transform: translateX(2px);
+		}
+	}
+}
+
+// Responsive - Tablet
+@media screen and (max-width: 1200px) {
+	.cardsGrid {
+		grid-template-columns: repeat(3, 1fr);
+		gap: 16px;
+		padding: 0 24px;
+	}
+}
+
+// Responsive - Small Tablet
+@media screen and (max-width: 992px) {
+	.cardsGrid {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 16px;
+	}
+
+	.recommendedSection {
+		margin-top: 40px;
+		padding: 32px 0;
+	}
+
+	.sectionTitle {
+		font-size: 22px !important;
+	}
+}
+
+// Responsive - Mobile
+@media screen and (max-width: 768px) {
+	.recommendedSection {
+		margin-top: 32px;
+		padding: 28px 0;
+		border-radius: 16px;
+	}
+
+	.sectionHeader {
+		margin-bottom: 24px;
+	}
+
+	.sectionTitle {
+		font-size: 20px !important;
+	}
+
+	.sectionSubtitle {
+		font-size: 13px !important;
+	}
+
+	.cardsContainerMobile {
+		.recommendCard {
+			display: flex;
+			flex-direction: row;
+			align-items: stretch;
+
+			.cardImage {
+				width: 120px;
+				min-width: 120px;
+				aspect-ratio: unset;
+				height: 100%;
+			}
+
+			.cardContent {
+				flex: 1;
+				padding: 14px;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+			}
+
+			.cardTitle {
+				font-size: 13px !important;
+				margin-bottom: 6px !important;
+			}
+
+			.cardMeta {
+				margin-bottom: 8px;
+			}
+
+			.metaItem {
+				font-size: 10px;
+
+				svg {
+					font-size: 12px;
+				}
+			}
+
+			.cardFooter {
+				padding-top: 8px;
+			}
+
+			.cardPrice {
+				font-size: 14px !important;
+			}
+
+			.viewBtn {
+				font-size: 11px;
+
+				svg {
+					font-size: 12px;
+				}
+			}
+		}
+	}
+}
+
+// Dark mode support
+[data-theme='dark'] {
+	.recommendedSection {
+		background: #1a1a1a;
+	}
+
+	.sectionTitle {
+		color: #ffffff !important;
+	}
+
+	.sectionSubtitle {
+		color: #999 !important;
+	}
+
+	.recommendCard {
+		background: #242424;
+		border-color: rgba(255, 255, 255, 0.08);
+
+		&:hover {
+			border-color: rgba(255, 255, 255, 0.12);
+		}
+	}
+
+	.cardTitle {
+		color: #ffffff !important;
+	}
+
+	.metaItem {
+		color: #888;
+
+		svg {
+			color: #666;
+		}
+	}
+
+	.cardFooter {
+		border-top-color: rgba(255, 255, 255, 0.08);
+	}
+
+	.cardPrice {
+		color: #ffffff !important;
+	}
+
+	.viewBtn {
+		color: #888;
+
+		&:hover {
+			color: #8ba39e;
+		}
+	}
+}
