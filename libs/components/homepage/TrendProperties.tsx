@@ -97,7 +97,7 @@ const TrendProjects = (props: TrendProjectsProps) => {
 		if (currentPage < totalPages && !isTransitioning) {
 			setIsTransitioning(true);
 			setTimeout(() => {
-				setCurrentPage(currentPage + 1);
+			setCurrentPage(currentPage + 1);
 				setTimeout(() => setIsTransitioning(false), 50);
 			}, 300);
 		}
@@ -107,7 +107,7 @@ const TrendProjects = (props: TrendProjectsProps) => {
 		if (currentPage > 1 && !isTransitioning) {
 			setIsTransitioning(true);
 			setTimeout(() => {
-				setCurrentPage(currentPage - 1);
+			setCurrentPage(currentPage - 1);
 				setTimeout(() => setIsTransitioning(false), 50);
 			}, 300);
 		}
@@ -258,41 +258,41 @@ const TrendProjects = (props: TrendProjectsProps) => {
 	if (device === 'mobile') {
 		return (
 			<>
-				<Stack className={'trend-properties'}>
-					<Stack className={'container'}>
-						<Stack className={'info-box'}>
-							<span>Trending Designs</span>
-						</Stack>
-						<Stack className={'card-box'}>
-							{trendProjects.length === 0 ? (
-								<Box component={'div'} className={'empty-list'}>
-									Trending Projects Empty
-								</Box>
-							) : (
-								<Swiper
-									className={'trend-property-swiper'}
-									slidesPerView={'auto'}
-									centeredSlides={true}
-									spaceBetween={15}
-									modules={[Autoplay]}
-								>
-									{trendProjects.map((project: Project) => {
-										return (
-											<SwiperSlide key={project._id} className={'trend-property-slide'}>
+			<Stack className={'trend-properties'}>
+				<Stack className={'container'}>
+					<Stack className={'info-box'}>
+						<span>Trending Designs</span>
+					</Stack>
+					<Stack className={'card-box'}>
+						{trendProjects.length === 0 ? (
+							<Box component={'div'} className={'empty-list'}>
+								Trending Projects Empty
+							</Box>
+						) : (
+							<Swiper
+								className={'trend-property-swiper'}
+								slidesPerView={'auto'}
+								centeredSlides={true}
+								spaceBetween={15}
+								modules={[Autoplay]}
+							>
+								{trendProjects.map((project: Project) => {
+									return (
+										<SwiperSlide key={project._id} className={'trend-property-slide'}>
 												<TrendProjectCard 
 													project={project} 
 													likeProjectHandler={likeProjectHandler}
 													isCompareSelected={isProjectSelected(project._id)}
 													onCompareToggle={handleCompareToggle}
 												/>
-											</SwiperSlide>
-										);
-									})}
-								</Swiper>
-							)}
-						</Stack>
+										</SwiperSlide>
+									);
+								})}
+							</Swiper>
+						)}
 					</Stack>
 				</Stack>
+			</Stack>
 				<CompareBar />
 				<CompareModal />
 			</>
@@ -300,50 +300,50 @@ const TrendProjects = (props: TrendProjectsProps) => {
 	} else {
 		return (
 			<>
-				<Stack className={'trend-properties'}>
-					<Stack className={'container'}>
-						<Stack className={'info-box'}>
-							<Box component={'div'} className={'left'}>
-								<span>Trending Designs</span>
-								<p>Most viewed projects</p>
-							</Box>
-							<Box component={'div'} className={'right'}>
+			<Stack className={'trend-properties'}>
+				<Stack className={'container'}>
+					<Stack className={'info-box'}>
+						<Box component={'div'} className={'left'}>
+							<span>Trending Designs</span>
+							<p>Most viewed projects</p>
+						</Box>
+						<Box component={'div'} className={'right'}>
 								{totalPages > 1 && (
-									<div className={'pagination-box'}>
-										<WestIcon 
-											className={'swiper-trend-prev'} 
-											onClick={handlePrevPage}
-											sx={{ 
+							<div className={'pagination-box'}>
+								<WestIcon 
+									className={'swiper-trend-prev'} 
+									onClick={handlePrevPage}
+									sx={{ 
 												cursor: currentPage > 1 && !isTransitioning ? 'pointer' : 'not-allowed',
-												opacity: currentPage > 1 ? 1 : 0.5,
-											}}
-										/>
-										<div className={'swiper-trend-pagination'}>
-											<span>{currentPage} / {totalPages}</span>
-										</div>
-										<EastIcon 
-											className={'swiper-trend-next'} 
-											onClick={handleNextPage}
-											sx={{ 
+										opacity: currentPage > 1 ? 1 : 0.5,
+									}}
+								/>
+								<div className={'swiper-trend-pagination'}>
+									<span>{currentPage} / {totalPages}</span>
+								</div>
+								<EastIcon 
+									className={'swiper-trend-next'} 
+									onClick={handleNextPage}
+									sx={{ 
 												cursor: currentPage < totalPages && !isTransitioning ? 'pointer' : 'not-allowed',
-												opacity: currentPage < totalPages ? 1 : 0.5,
-											}}
-										/>
-									</div>
+										opacity: currentPage < totalPages ? 1 : 0.5,
+									}}
+								/>
+							</div>
 								)}
+						</Box>
+					</Stack>
+					<Stack className={'card-box'}>
+						{trendProjects.length === 0 ? (
+							<Box component={'div'} className={'empty-list'}>
+								Trending Projects Empty
 							</Box>
-						</Stack>
-						<Stack className={'card-box'}>
-							{trendProjects.length === 0 ? (
-								<Box component={'div'} className={'empty-list'}>
-									Trending Projects Empty
-								</Box>
-							) : (
+						) : (
 								<Box 
 									className={`trend-property-grid ${isTransitioning ? 'fade-out' : 'fade-in'}`}
-								>
-									{displayedProjects.map((project: Project) => {
-										return (
+							>
+								{displayedProjects.map((project: Project) => {
+									return (
 											<Box key={project._id} className={'trend-property-slide'}>
 												<TrendProjectCard 
 													project={project} 
@@ -351,14 +351,14 @@ const TrendProjects = (props: TrendProjectsProps) => {
 													isCompareSelected={isProjectSelected(project._id)}
 													onCompareToggle={handleCompareToggle}
 												/>
-											</Box>
-										);
-									})}
+										</Box>
+									);
+								})}
 								</Box>
-							)}
-						</Stack>
+						)}
 					</Stack>
 				</Stack>
+			</Stack>
 				<CompareBar />
 				<CompareModal />
 			</>

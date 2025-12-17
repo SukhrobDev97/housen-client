@@ -95,18 +95,18 @@ const AddProject = ({ initialValues, ...props }: any) => {
 			mapObject[String(i)] = [`variables.files.${i}`];
 		}
 
-		formData.append(
-			'operations',
-			JSON.stringify({
-				query: `mutation ImagesUploader($files: [Upload!]!, $target: String!) { 
-					imagesUploader(files: $files, target: $target)
-			  }`,
-				variables: {
+			formData.append(
+				'operations',
+				JSON.stringify({
+					query: `mutation ImagesUploader($files: [Upload!]!, $target: String!) { 
+						imagesUploader(files: $files, target: $target)
+				  }`,
+					variables: {
 					files: filesArray,
-					target: 'property',
-				},
-			}),
-		);
+						target: 'property',
+					},
+				}),
+			);
 		formData.append('map', JSON.stringify(mapObject));
 		
 		// Append actual files from the array

@@ -122,7 +122,7 @@ const PopularProjects = (props: PopularProjectsProps) => {
 
 	if (device === 'mobile') {
 		return (
-			<Stack className={'popular-properties'}>
+			<Stack id="popular-properties" className={'popular-properties'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<span>Featured projects</span>

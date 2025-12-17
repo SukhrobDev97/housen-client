@@ -17,7 +17,7 @@ $white: #FFFFFF;
 #pc-wrap {
 	#community-detail-page {
 		position: relative;
-		background: $bg-light;
+		background: var(--bg-page);
 
 		// ==========================================
 		// HERO SECTION
@@ -148,9 +148,9 @@ $white: #FFFFFF;
 						justify-content: space-between;
 						align-items: center;
 						padding: 28px 32px;
-						background: linear-gradient(135deg, rgba(59, 63, 43, 0.03) 0%, rgba(229, 126, 98, 0.03) 100%);
+						background: var(--bg-card);
 						border-radius: 16px;
-						border: 1px solid rgba(59, 63, 43, 0.08);
+						border: 1px solid var(--border-soft);
 
 						.header-content {
 							display: flex;
@@ -158,7 +158,7 @@ $white: #FFFFFF;
 							gap: 4px;
 
 							.header-title {
-								color: $dark-text;
+								color: var(--text-primary);
 								font-family: $font;
 								font-size: 28px;
 								font-weight: 700;
@@ -166,7 +166,7 @@ $white: #FFFFFF;
 							}
 
 							.header-subtitle {
-								color: $secondary-text;
+								color: var(--text-secondary);
 								font-family: $font;
 								font-size: 14px;
 								font-weight: 400;
@@ -193,7 +193,8 @@ $white: #FFFFFF;
 
 					// Article Section
 					.article-section {
-						background: $white;
+						background: var(--bg-card);
+						border: 1px solid var(--border-soft);
 					border-radius: 12px;
 						overflow: hidden;
 						box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
@@ -218,7 +219,7 @@ $white: #FFFFFF;
 						align-items: center;
 						gap: 12px;
 						padding: 24px 32px;
-						border-bottom: 1px solid $border-color;
+						border-bottom: 1px solid var(--border-soft);
 
 						.author-avatar {
 							width: 48px;
@@ -234,7 +235,7 @@ $white: #FFFFFF;
 						}
 
 						.author-name {
-							color: $dark-text;
+							color: var(--text-primary);
 								font-family: $font;
 								font-size: 15px;
 								font-weight: 600;
@@ -247,12 +248,12 @@ $white: #FFFFFF;
 						}
 
 						.meta-dot {
-							color: $light-text;
+							color: var(--text-secondary);
 							font-size: 14px;
 						}
 
 						.meta-date {
-							color: $secondary-text;
+							color: var(--text-secondary);
 						font-family: $font;
 						font-size: 14px;
 						}
@@ -272,7 +273,7 @@ $white: #FFFFFF;
 					// Article Title
 					.article-title {
 						padding: 32px 32px 24px;
-						color: $dark-text;
+						color: var(--text-primary);
 						font-family: $font;
 						font-size: 32px;
 						font-weight: 600;
@@ -286,7 +287,7 @@ $white: #FFFFFF;
 
 						.toastui-editor-contents,
 						.ytb_play {
-							color: $dark-text;
+							color: var(--text-primary);
 							font-family: $font;
 							font-size: 16px;
 							line-height: 1.75;
@@ -299,7 +300,7 @@ $white: #FFFFFF;
 								margin-top: 32px;
 								margin-bottom: 16px;
 								font-weight: 600;
-								color: $dark-text;
+								color: var(--text-primary);
 							}
 
 							img {
@@ -349,9 +350,9 @@ $white: #FFFFFF;
 						align-items: center;
 						gap: 16px;
 						padding: 20px 32px;
-						border-top: 1px solid $border-color;
-						border-bottom: 1px solid $border-color;
-						background: $bg-light;
+						border-top: 1px solid var(--border-soft);
+						border-bottom: 1px solid var(--border-soft);
+						background: var(--bg-section);
 
 						.action-btn {
 							display: flex;
@@ -359,10 +360,10 @@ $white: #FFFFFF;
 							align-items: center;
 							gap: 8px;
 							padding: 10px 20px;
-							background: $white;
-							border: 1px solid $border-color;
+							background: var(--bg-card);
+							border: 1px solid var(--border-soft);
 							border-radius: 8px;
-							color: $secondary-text;
+							color: var(--text-secondary);
 							font-family: $font;
 							font-size: 14px;
 							font-weight: 500;
@@ -393,7 +394,7 @@ $white: #FFFFFF;
 						padding: 32px;
 
 						.section-title {
-							color: $dark-text;
+							color: var(--text-primary);
 							font-family: $font;
 							font-size: 22px;
 							font-weight: 600;
@@ -403,9 +404,10 @@ $white: #FFFFFF;
 						// Comment Input
 						.comment-input-box {
 							margin-bottom: 32px;
-							border: 1px solid $border-color;
+							border: 1px solid var(--border-soft);
 							border-radius: 8px;
 							overflow: hidden;
+							background: var(--bg-card);
 
 							input {
 								width: 100%;
@@ -414,10 +416,11 @@ $white: #FFFFFF;
 								outline: none;
 								font-family: $font;
 								font-size: 15px;
-								color: $dark-text;
+								color: var(--text-primary);
+								background: var(--bg-card);
 
 								&::placeholder {
-									color: $light-text;
+									color: var(--text-secondary);
 								}
 							}
 
@@ -427,11 +430,11 @@ $white: #FFFFFF;
 								justify-content: space-between;
 								align-items: center;
 								padding: 12px 20px;
-								background: $bg-light;
-								border-top: 1px solid $border-color;
+								background: var(--bg-section);
+								border-top: 1px solid var(--border-soft);
 
 								.char-count {
-									color: $secondary-text;
+									color: var(--text-secondary);
 									font-family: $font;
 									font-size: 13px;
 								}
@@ -462,7 +465,7 @@ $white: #FFFFFF;
 
 							.comment-item {
 								padding: 20px;
-								background: $bg-light;
+								background: var(--bg-section);
 								border-radius: 8px;
 								transition: box-shadow 0.3s ease;
 
@@ -489,7 +492,7 @@ $white: #FFFFFF;
 										flex: 1;
 
 										.name {
-											color: $dark-text;
+											color: var(--text-primary);
 											font-family: $font;
 											font-size: 15px;
 											font-weight: 600;
@@ -502,7 +505,7 @@ $white: #FFFFFF;
 										}
 
 										.date {
-											color: $secondary-text;
+											color: var(--text-secondary);
 											font-family: $font;
 											font-size: 12px;
 										}
@@ -520,7 +523,7 @@ $white: #FFFFFF;
 
 											svg {
 												font-size: 18px;
-												color: $secondary-text;
+												color: var(--text-secondary);
 											}
 
 											&:hover svg {
@@ -531,7 +534,7 @@ $white: #FFFFFF;
 								}
 
 								.comment-text {
-									color: $dark-text;
+									color: var(--text-primary);
 									font-family: $font;
 									font-size: 15px;
 									line-height: 1.6;
@@ -547,7 +550,7 @@ $white: #FFFFFF;
 
 							.MuiPaginationItem-root {
 								font-family: $font;
-								color: $secondary-text;
+								color: var(--text-secondary);
 
 								&.Mui-selected {
 									background: $accent-color;
@@ -556,6 +559,10 @@ $white: #FFFFFF;
 									&:hover {
 										background: $accent-hover;
 									}
+								}
+								
+								&:hover {
+									background: var(--bg-section);
 								}
 							}
 						}
@@ -572,7 +579,8 @@ $white: #FFFFFF;
 					display: flex;
 					flex-direction: column;
 					gap: 0;
-					background: $white;
+					background: var(--bg-card);
+					border: 1px solid var(--border-soft);
 					border-radius: 12px;
 					box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 					overflow: hidden;
@@ -581,14 +589,14 @@ $white: #FFFFFF;
 
 					.sidebar-section {
 						padding: 28px;
-						border-bottom: 1px solid $border-color;
+						border-bottom: 1px solid var(--border-soft);
 
 						&:last-child {
 							border-bottom: none;
 						}
 
 						.sidebar-title {
-							color: $dark-text;
+							color: var(--text-primary);
 							font-family: $font;
 							font-size: 18px;
 							font-weight: 600;
@@ -600,9 +608,10 @@ $white: #FFFFFF;
 							display: flex;
 									flex-direction: row;
 									align-items: center;
-							border: 1px solid $border-color;
+							border: 1px solid var(--border-soft);
 							border-radius: 8px;
 							overflow: hidden;
+							background: var(--bg-card);
 
 							input {
 								flex: 1;
@@ -611,20 +620,22 @@ $white: #FFFFFF;
 								outline: none;
 								font-family: $font;
 								font-size: 14px;
+								background: var(--bg-card);
+								color: var(--text-primary);
 
 								&::placeholder {
-									color: $light-text;
+									color: var(--text-secondary);
 								}
 							}
 
 									button {
 								padding: 12px;
-								background: $bg-light;
-								border-left: 1px solid $border-color;
+								background: var(--bg-section);
+								border-left: 1px solid var(--border-soft);
 
 								svg {
 									font-size: 20px;
-									color: $secondary-text;
+									color: var(--text-secondary);
 								}
 
 								&:hover {
@@ -646,10 +657,10 @@ $white: #FFFFFF;
 							.category-btn {
 								width: 100%;
 								padding: 12px 16px;
-								background: $bg-light;
+								background: var(--bg-section);
 								border: 1px solid transparent;
 								border-radius: 8px;
-								color: $secondary-text;
+								color: var(--text-secondary);
 								font-family: $font;
 								font-size: 14px;
 								font-weight: 500;
@@ -679,7 +690,7 @@ $white: #FFFFFF;
 
 							.loading-text,
 							.no-data-text {
-								color: $secondary-text;
+								color: var(--text-secondary);
 										font-family: $font;
 										font-size: 14px;
 								text-align: center;
@@ -713,7 +724,7 @@ $white: #FFFFFF;
 									flex: 1;
 
 									.post-title {
-										color: $dark-text;
+										color: var(--text-primary);
 										font-family: $font;
 										font-size: 14px;
 										font-weight: 600;
@@ -731,7 +742,7 @@ $white: #FFFFFF;
 										flex-direction: row;
 										align-items: center;
 										gap: 6px;
-										color: $secondary-text;
+										color: var(--text-secondary);
 										font-family: $font;
 										font-size: 12px;
 									}
@@ -749,15 +760,17 @@ $white: #FFFFFF;
 								input, textarea {
 									width: 100%;
 									padding: 12px 16px;
-									border: 1px solid $border-color;
+									border: 1px solid var(--border-soft);
 									border-radius: 8px;
 												font-family: $font;
 									font-size: 14px;
 									outline: none;
 									transition: border-color 0.3s ease;
+									background: var(--bg-card);
+									color: var(--text-primary);
 
 									&::placeholder {
-										color: $light-text;
+										color: var(--text-secondary);
 									}
 
 									&:focus {
@@ -802,7 +815,7 @@ $white: #FFFFFF;
 									}
 
 							.promo-title {
-								color: $dark-text;
+								color: var(--text-primary);
 								font-family: $font;
 								font-size: 18px;
 								font-weight: 600;
@@ -810,7 +823,7 @@ $white: #FFFFFF;
 							}
 
 							.promo-text {
-								color: $secondary-text;
+								color: var(--text-secondary);
 								font-family: $font;
 								font-size: 14px;
 								line-height: 1.5;
@@ -845,16 +858,17 @@ $white: #FFFFFF;
 		.edit-backdrop {
 			z-index: 9999;
 
-			.edit-modal {
+				.edit-modal {
 				width: 500px;
 				max-width: 90%;
-				background: $white;
+				background: var(--bg-card);
+				border: 1px solid var(--border-soft);
 				border-radius: 12px;
 				padding: 32px;
 				box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 
 				.modal-title {
-					color: $dark-text;
+					color: var(--text-primary);
 					font-family: $font;
 					font-size: 20px;
 					font-weight: 600;
@@ -864,15 +878,21 @@ $white: #FFFFFF;
 				input {
 					width: 100%;
 					padding: 14px 16px;
-					border: 1px solid $border-color;
+					border: 1px solid var(--border-soft);
 					border-radius: 8px;
 					font-family: $font;
 					font-size: 15px;
 					outline: none;
 					margin-bottom: 16px;
+					background: var(--bg-card);
+					color: var(--text-primary);
 
 					&:focus {
 						border-color: $accent-color;
+					}
+					
+					&::placeholder {
+						color: var(--text-secondary);
 					}
 				}
 
@@ -883,7 +903,7 @@ $white: #FFFFFF;
 					align-items: center;
 
 					.char-count {
-						color: $secondary-text;
+						color: var(--text-secondary);
 						font-family: $font;
 						font-size: 13px;
 					}
@@ -895,8 +915,8 @@ $white: #FFFFFF;
 
 						.cancel-btn {
 							padding: 10px 24px;
-							background: $bg-light;
-							color: $secondary-text;
+							background: var(--bg-section);
+							color: var(--text-secondary);
 							font-family: $font;
 							font-size: 14px;
 							font-weight: 500;
@@ -904,7 +924,7 @@ $white: #FFFFFF;
 							text-transform: none;
 
 							&:hover {
-								background: darken($bg-light, 5%);
+								background: var(--border-soft);
 							}
 						}
 

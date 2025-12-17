@@ -93,7 +93,7 @@ const TopProjects = (props: TopProjectsProps) => {
 
 	if (device === 'mobile') {
 		return (
-			<Stack className={'top-properties'}>
+			<Stack id="top-properties" className={'top-properties'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<span>Top Projects</span>
@@ -122,7 +122,7 @@ const TopProjects = (props: TopProjectsProps) => {
 		if (!topProjects || topProjects.length === 0) return null;
 
 		return (
-			<Stack className={'top-properties'}>
+			<Stack id="top-properties" className={'top-properties'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>

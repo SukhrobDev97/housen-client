@@ -4,7 +4,7 @@
 		padding: 0;
 		width: 100%;
 		height: auto;
-		background: #fafafa;
+		background: var(--bg-page);
 
 		// ============================
 		// HERO SECTION
@@ -137,9 +137,10 @@
 			justify-content: space-between;
 			align-items: center;
 			padding: 20px 28px;
-			background: #ffffff;
+			background: var(--bg-card);
 			border-radius: 16px;
 			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+			border: 1px solid var(--border-soft);
 			margin-bottom: 40px;
 
 			.search-box {
@@ -150,8 +151,12 @@
 				max-width: 400px;
 
 				svg {
-					color: #999;
+					color: var(--text-secondary);
 					flex-shrink: 0;
+					
+					path {
+						fill: var(--text-secondary);
+					}
 				}
 
 				input {
@@ -159,14 +164,14 @@
 					padding: 12px 0;
 					border: none;
 					background: transparent;
-					color: #1a1a1a;
+					color: var(--text-primary);
 					font-family: $font;
 					font-size: 15px;
 					font-weight: 400;
 					outline: none;
 
 					&::placeholder {
-						color: #999;
+						color: var(--text-secondary);
 					}
 				}
 			}
@@ -177,7 +182,7 @@
 				gap: 8px;
 
 				span {
-					color: #666;
+					color: var(--text-secondary);
 					font-family: $font;
 					font-size: 14px;
 					font-weight: 500;
@@ -186,8 +191,8 @@
 				button {
 					padding: 10px 16px;
 					border-radius: 10px;
-					background: #f5f5f5;
-					color: #1a1a1a;
+					background: var(--bg-section);
+					color: var(--text-primary);
 					font-family: $font;
 					font-size: 14px;
 					font-weight: 600;
@@ -195,7 +200,7 @@
 					transition: all 0.2s ease;
 
 					&:hover {
-						background: #ebebeb;
+						background: var(--border-soft);
 					}
 				}
 			}
@@ -217,7 +222,7 @@
 				align-items: center;
 				justify-content: center;
 				padding: 80px 20px;
-				background: #ffffff;
+				background: var(--bg-card);
 				border-radius: 16px;
 
 				img {
@@ -227,7 +232,7 @@
 				}
 
 				p {
-					color: #999;
+					color: var(--text-secondary);
 					font-family: $font;
 					font-size: 16px;
 					margin: 0;
@@ -240,10 +245,11 @@
 		// ============================
 		.agency-card {
 			position: relative;
-			background: #ffffff;
+			background: var(--bg-card);
 			border-radius: 20px;
 			overflow: hidden;
 			box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+			border: 1px solid var(--border-soft);
 			transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 			animation: fadeInUp 0.6s ease forwards;
 			opacity: 0;
@@ -295,7 +301,7 @@
 				top: 12px;
 				left: 12px;
 				z-index: 10;
-				background: rgba(255, 255, 255, 0.95);
+				background: var(--bg-card);
 				border-radius: 8px;
 				padding: 4px 10px 4px 4px;
 				display: flex;
@@ -309,7 +315,7 @@
 					font-family: $font;
 					font-size: 12px;
 					font-weight: 600;
-					color: #1a1a1a;
+					color: var(--text-primary);
 				}
 
 				.MuiCheckbox-root {
@@ -423,7 +429,7 @@
 					display: flex;
 					align-items: center;
 					gap: 8px;
-					color: #1a1a1a;
+					color: var(--text-primary);
 					font-family: $font;
 					font-size: 18px;
 					font-weight: 600;
@@ -442,7 +448,7 @@
 				}
 
 				.agency-type {
-					color: #888;
+					color: var(--text-secondary);
 					font-family: $font;
 					font-size: 13px;
 					font-weight: 500;
@@ -452,8 +458,8 @@
 			// Stats Bar
 			.stats-bar {
 				padding: 12px 0;
-				border-top: 1px solid #f0f0f0;
-				border-bottom: 1px solid #f0f0f0;
+				border-top: 1px solid var(--border-soft);
+				border-bottom: 1px solid var(--border-soft);
 				margin-bottom: 14px;
 
 				.stat-item {
@@ -463,11 +469,11 @@
 
 					svg {
 						font-size: 16px;
-						color: #999;
+						color: var(--text-secondary);
 					}
 
 					span {
-						color: #666;
+						color: var(--text-secondary);
 						font-family: $font;
 						font-size: 13px;
 						font-weight: 500;
@@ -493,7 +499,7 @@
 
 						.MuiIconButton-root {
 							padding: 6px;
-							color: #999;
+							color: var(--text-secondary);
 							transition: all 0.2s ease;
 
 							&:hover {
@@ -511,7 +517,7 @@
 						}
 
 						span {
-							color: #666;
+							color: var(--text-secondary);
 							font-family: $font;
 							font-size: 13px;
 							font-weight: 500;
@@ -557,13 +563,13 @@
 					font-family: $font;
 					font-size: 14px;
 					font-weight: 500;
-					color: #666;
+					color: var(--text-primary);
 					border-radius: 10px;
 					margin: 0 4px;
 					transition: all 0.2s ease;
 
 					&:hover {
-						background: #f0f0f0;
+						background: var(--bg-section);
 					}
 
 					&.Mui-selected {
@@ -578,7 +584,7 @@
 			}
 
 			.total-count {
-				color: #888;
+				color: var(--text-secondary);
 				font-family: $font;
 				font-size: 14px;
 				font-weight: 400;
@@ -593,7 +599,8 @@
 			bottom: 80px; // Space for chat widget
 			left: 0;
 			right: 0;
-			background: #ffffff;
+			background: var(--bg-card);
+			border-top: 1px solid var(--border-soft);
 			padding: 16px 40px;
 			box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.1);
 			z-index: 999;
@@ -632,7 +639,7 @@
 					font-family: $font;
 					font-size: 14px;
 					font-weight: 600;
-					color: #1a1a1a;
+					color: var(--text-primary);
 				}
 
 				.remove-btn {
@@ -649,7 +656,7 @@
 
 					svg {
 						font-size: 14px;
-						color: #666;
+						color: var(--text-secondary);
 					}
 
 					&:hover {
@@ -663,15 +670,15 @@
 				align-items: center;
 				justify-content: center;
 				padding: 8px 20px;
-				background: #f0f0f0;
-				border: 2px dashed #ccc;
+				background: var(--bg-section);
+				border: 2px dashed var(--border-soft);
 				border-radius: 100px;
 
 				span {
 					font-family: $font;
 					font-size: 13px;
 					font-weight: 500;
-					color: #999;
+					color: var(--text-secondary);
 				}
 			}
 
@@ -738,10 +745,11 @@
 			width: 100%;
 			max-width: 1100px;
 			max-height: 90vh;
-			background: #ffffff;
+			background: var(--bg-card);
 			border-radius: 24px;
 			overflow: hidden;
 			box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25);
+			border: 1px solid var(--border-soft);
 			transform: scale(0.9);
 			opacity: 0;
 			transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
@@ -751,15 +759,15 @@
 				align-items: center;
 				justify-content: space-between;
 				padding: 28px 32px;
-				border-bottom: 1px solid #f0f0f0;
-				background: #fafafa;
+				border-bottom: 1px solid var(--border-soft);
+				background: var(--bg-section);
 
 				.header-content {
 					.modal-title {
 						font-family: $font;
 						font-size: 24px;
 						font-weight: 700;
-						color: #1a1a1a;
+						color: var(--text-primary);
 						margin-bottom: 4px;
 					}
 
@@ -767,25 +775,25 @@
 						font-family: $font;
 						font-size: 14px;
 						font-weight: 400;
-						color: #888;
+						color: var(--text-secondary);
 					}
 				}
 
 				.close-btn {
 					width: 44px;
 					height: 44px;
-					background: #ffffff;
+					background: var(--bg-card);
 					border-radius: 12px;
 					box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 					transition: all 0.2s ease;
 
 					svg {
 						font-size: 22px;
-						color: #666;
+						color: var(--text-secondary);
 					}
 
 					&:hover {
-						background: #f5f5f5;
+						background: var(--bg-section);
 						transform: scale(1.05);
 					}
 				}
@@ -795,6 +803,25 @@
 				padding: 32px;
 				overflow-y: auto;
 				max-height: calc(90vh - 100px);
+				background: var(--bg-card);
+				
+				&::-webkit-scrollbar {
+					width: 8px;
+				}
+				
+				&::-webkit-scrollbar-track {
+					background: var(--bg-section);
+					border-radius: 10px;
+				}
+				
+				&::-webkit-scrollbar-thumb {
+					background: var(--border-soft);
+					border-radius: 10px;
+					
+					&:hover {
+						background: var(--text-secondary);
+					}
+				}
 			}
 
 			.compare-grid {
@@ -804,10 +831,10 @@
 			}
 
 			.compare-card {
-				background: #fafafa;
+				background: var(--bg-section);
 				border-radius: 20px;
 				overflow: hidden;
-				border: 1px solid #f0f0f0;
+				border: 1px solid var(--border-soft);
 
 				.card-header {
 					position: relative;
@@ -868,7 +895,7 @@
 				.info-section {
 					margin-bottom: 20px;
 					padding-bottom: 20px;
-					border-bottom: 1px solid #e8e8e8;
+					border-bottom: 1px solid var(--border-soft);
 
 					&:last-child {
 						margin-bottom: 0;
@@ -880,7 +907,7 @@
 						font-family: $font;
 						font-size: 12px;
 						font-weight: 600;
-						color: #999;
+						color: var(--text-secondary);
 						text-transform: uppercase;
 						letter-spacing: 0.5px;
 						margin-bottom: 12px;
@@ -895,7 +922,7 @@
 						font-family: $font;
 						font-size: 22px;
 						font-weight: 700;
-						color: #1a1a1a;
+						color: var(--text-primary);
 						margin-bottom: 8px;
 
 						.verified-icon {
@@ -911,11 +938,11 @@
 						font-family: $font;
 						font-size: 14px;
 						font-weight: 500;
-						color: #666;
+						color: var(--text-secondary);
 
 						svg {
 							font-size: 16px;
-							color: #999;
+							color: var(--text-secondary);
 						}
 					}
 				}
@@ -932,7 +959,7 @@
 						align-items: center;
 						gap: 12px;
 						padding: 12px;
-						background: #ffffff;
+						background: var(--bg-card);
 						border-radius: 12px;
 
 						.stat-icon {
@@ -969,14 +996,14 @@
 								font-family: $font;
 								font-size: 18px;
 								font-weight: 700;
-								color: #1a1a1a;
+								color: var(--text-primary);
 							}
 
 							.stat-label {
 								font-family: $font;
 								font-size: 12px;
 								font-weight: 500;
-								color: #888;
+								color: var(--text-secondary);
 							}
 						}
 					}
@@ -997,7 +1024,7 @@
 							font-family: $font;
 							font-size: 15px;
 							font-weight: 500;
-							color: #1a1a1a;
+							color: var(--text-primary);
 						}
 					}
 				}
@@ -1007,7 +1034,7 @@
 						font-family: $font;
 						font-size: 14px;
 						font-weight: 400;
-						color: #555;
+						color: var(--text-secondary);
 						line-height: 1.6;
 					}
 				}
@@ -1024,7 +1051,7 @@
 						align-items: center;
 						gap: 10px;
 						padding: 10px 14px;
-						background: #ffffff;
+						background: var(--bg-card);
 						border-radius: 10px;
 
 						svg {
@@ -1036,7 +1063,7 @@
 							font-family: $font;
 							font-size: 14px;
 							font-weight: 500;
-							color: #1a1a1a;
+							color: var(--text-primary);
 						}
 					}
 				}

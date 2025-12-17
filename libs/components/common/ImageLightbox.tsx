@@ -28,7 +28,7 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({ images, initialIndex, isO
 		};
 
 		if (isOpen) {
-			document.addEventListener('keydown', handleEscape);
+		document.addEventListener('keydown', handleEscape);
 			document.body.style.overflow = 'hidden';
 		}
 
@@ -76,8 +76,8 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({ images, initialIndex, isO
 	return (
 		<Box className={styles.lightboxOverlay} onClick={handleBackdropClick}>
 			<IconButton className={styles.closeBtn} onClick={onClose}>
-				<CloseIcon />
-			</IconButton>
+					<CloseIcon />
+				</IconButton>
 
 			{images.length > 1 && (
 				<>

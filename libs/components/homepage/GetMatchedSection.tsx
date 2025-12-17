@@ -247,18 +247,18 @@ const GetMatchedSection = () => {
 				)}
 			</Box>
 
-			{matchingLoading ? (
-				<Box className="projects-grid">
+				{matchingLoading ? (
+					<Box className="projects-grid">
 					{[1, 2, 3].map((i) => (
 						<Box key={i} className="project-card skeleton">
-							<Skeleton variant="rectangular" className="skeleton-image" />
-							<Box className="skeleton-content">
-								<Skeleton variant="text" width="80%" height={24} />
+								<Skeleton variant="rectangular" className="skeleton-image" />
+								<Box className="skeleton-content">
+									<Skeleton variant="text" width="80%" height={24} />
 								<Skeleton variant="text" width="50%" height={18} />
+								</Box>
 							</Box>
-						</Box>
-					))}
-				</Box>
+						))}
+					</Box>
 			) : suggestedProjects.length === 0 ? (
 				<Box className="empty-state">
 					<Typography className="empty-title">No matching projects found</Typography>
@@ -269,28 +269,28 @@ const GetMatchedSection = () => {
 				</Box>
 			) : (
 				<Box className={`projects-grid projects-count-${suggestedProjects.length}`}>
-					{suggestedProjects.map((project) => (
-						<Box
-							key={project._id}
-							className={`project-card ${selectedProject?._id === project._id ? 'selected' : ''}`}
-							onClick={() => handleProjectSelect(project)}
-						>
-							<Box className="project-image">
-								<img
-									src={`${REACT_APP_API_URL}/${project.projectImages[0]}`}
-									alt={project.projectTitle}
-								/>
+						{suggestedProjects.map((project) => (
+							<Box
+								key={project._id}
+								className={`project-card ${selectedProject?._id === project._id ? 'selected' : ''}`}
+								onClick={() => handleProjectSelect(project)}
+							>
+								<Box className="project-image">
+									<img
+										src={`${REACT_APP_API_URL}/${project.projectImages[0]}`}
+										alt={project.projectTitle}
+									/>
 								<Box className="project-overlay">
 									<span className="project-style">{project.projectStyle}</span>
 								</Box>
-								{selectedProject?._id === project._id && (
+									{selectedProject?._id === project._id && (
 									<Box className="selected-badge">
-										<CheckCircleIcon />
-									</Box>
-								)}
-							</Box>
-							<Box className="project-info">
-								<Typography className="project-title">{project.projectTitle}</Typography>
+											<CheckCircleIcon />
+										</Box>
+									)}
+								</Box>
+								<Box className="project-info">
+									<Typography className="project-title">{project.projectTitle}</Typography>
 								<Box className="project-stats">
 									<span>
 										<VisibilityOutlinedIcon /> {project.projectViews || 0}
@@ -299,10 +299,10 @@ const GetMatchedSection = () => {
 										<FavoriteBorderIcon /> {project.projectLikes || 0}
 									</span>
 								</Box>
+								</Box>
 							</Box>
-						</Box>
-					))}
-				</Box>
+						))}
+					</Box>
 			)}
 		</Box>
 	);
@@ -376,12 +376,12 @@ const GetMatchedSection = () => {
 
 						<Box className="agency-actions">
 							<Button className="view-profile-btn" onClick={handleViewAgency}>
-								View Agency Profile
+							View Agency Profile
 								<ArrowForwardIcon />
 							</Button>
 							<Button className="reset-btn" onClick={handleReset}>
 								Find Another
-							</Button>
+						</Button>
 						</Box>
 					</Box>
 				</Box>
@@ -436,15 +436,15 @@ const GetMatchedSection = () => {
 	return (
 		<Stack className="get-matched-section">
 			<Stack className="container">
-				<Box className="section-header">
+						<Box className="section-header">
 					<Box className="header-content">
 						<Typography className="section-label">Personalized Matching</Typography>
 						<Typography className="section-title">Get Matched with Your Ideal Agency</Typography>
 						<Typography className="section-subtitle">
 							Tell us about your project preferences, and we'll connect you with the perfect design agency
-						</Typography>
-					</Box>
-				</Box>
+							</Typography>
+						</Box>
+							</Box>
 
 				{renderProgress()}
 
@@ -454,7 +454,7 @@ const GetMatchedSection = () => {
 						{currentStep === 2 && renderStyleSelection()}
 						{currentStep === 3 && renderProjectSelection()}
 						{currentStep === 4 && renderMatchedAgency()}
-					</Box>
+							</Box>
 
 					{/* Sidebar with selections summary */}
 					{currentStep > 1 && currentStep < 4 && (
@@ -466,7 +466,7 @@ const GetMatchedSection = () => {
 									<span className="value">
 										{typeIcons[selectedType]} {selectedType}
 									</span>
-								</Box>
+							</Box>
 							)}
 							{selectedStyle && (
 								<Box className="summary-item">
@@ -474,7 +474,7 @@ const GetMatchedSection = () => {
 									<span className="value">
 										{styleIcons[selectedStyle]} {selectedStyle}
 									</span>
-								</Box>
+							</Box>
 							)}
 							<Button className="change-btn" onClick={handleReset}>
 								Start Over

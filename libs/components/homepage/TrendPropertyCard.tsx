@@ -4,9 +4,8 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CheckIcon from '@mui/icons-material/Check';
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import { Project } from '../../types/property/property';
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { REACT_APP_API_URL } from '../../config';
 import { useRouter } from 'next/router';
@@ -86,44 +85,33 @@ const TrendProjectCard = (props: TrendProjectCardProps) => {
 						{/* Soft gradient overlay */}
 						<Box className="image-overlay" />
 						
-					{/* Compare Checkbox */}
-					{onCompareToggle && (
-						<Box 
-							className={`compare-checkbox ${isCompareSelected ? 'active' : ''}`}
-							onClick={handleCompareClick}
-						>
-							{isCompareSelected && <CheckIcon />}
-						</Box>
-					)}
-						
-						{/* Category Badge - Bottom Left */}
-						<span className="category-badge">{project.projectType}</span>
-						
-						{/* Stats - Bottom Right on Image */}
-						<Box className="image-stats">
-							<Box className="stat-chip">
-								<VisibilityOutlinedIcon />
-								<span>{project?.projectViews || 0}</span>
-							</Box>
+						{/* Hover Icons - Top Right */}
+						<Box className="hover-icons">
 							<Box 
-								className="stat-chip"
+								className={`icon-btn like-btn ${project?.meLiked && project?.meLiked[0]?.myFavorite ? 'active' : ''}`}
 								onClick={(e: React.MouseEvent) => {
 									e.stopPropagation();
 									likeProjectHandler(user, project._id);
 								}}
 							>
 								{project?.meLiked && project?.meLiked[0]?.myFavorite ? (
-									<FavoriteIcon className="liked" />
+									<FavoriteIcon />
 								) : (
 									<FavoriteBorderIcon />
 								)}
-								<span>{project?.projectLikes || 0}</span>
 							</Box>
-							<Box className="stat-chip">
-								<AccessTimeIcon />
-								<span>{project.projectDuration}mo</span>
-							</Box>
+							{onCompareToggle && (
+								<Box 
+									className={`icon-btn compare-btn ${isCompareSelected ? 'active' : ''}`}
+									onClick={handleCompareClick}
+								>
+									{isCompareSelected ? <CheckIcon /> : <CompareArrowsIcon />}
+								</Box>
+							)}
 						</Box>
+						
+						{/* Category Badge - Bottom Left */}
+						<span className="category-badge">{project.projectType}</span>
 					</Box>
 					
 					{/* Content Section */}
@@ -131,6 +119,9 @@ const TrendProjectCard = (props: TrendProjectCardProps) => {
 						<Box className="content-top">
 							<Typography className={'card-title'}>{project.projectTitle}</Typography>
 							<Typography className={'card-style'}>{project.projectStyle}</Typography>
+							<Typography className={'card-duration'}>
+								duration: {project.projectDuration} {project.projectDuration === 1 ? 'month' : 'months'}
+							</Typography>
 						</Box>
 						
 						<Box className="content-bottom">

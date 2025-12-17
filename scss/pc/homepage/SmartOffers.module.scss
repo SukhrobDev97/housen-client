@@ -1,0 +1,257 @@
+// Smart Offers Section
+$color-primary: #364440;
+$color-primary-hover: #2a3532;
+$color-text-dark: #0D0D0C;
+$color-text-muted: #6E7070;
+$color-bg-light: #FAFAFA;
+$color-white: #ffffff;
+$color-border: rgba(0, 0, 0, 0.08);
+
+.smartOffers {
+	width: 100%;
+	padding: 80px 0;
+	background-color: #ffffff;
+}
+
+.container {
+	max-width: 1300px;
+	margin: 0 auto;
+	padding: 0 40px;
+}
+
+.header {
+	text-align: left;
+	margin-bottom: 48px;
+}
+
+.title {
+	font-family: 'Inter', sans-serif;
+	font-size: 36px;
+	font-weight: 600;
+	line-height: 1.2;
+	color: $color-text-dark;
+	margin-bottom: 12px;
+	letter-spacing: -0.02em;
+}
+
+.subtitle {
+	font-family: 'Inter', sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.6;
+	color: $color-text-muted;
+	margin: 0;
+}
+
+.cardsGrid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 24px;
+}
+
+.offerCard {
+	display: flex;
+	flex-direction: column;
+	padding: 32px;
+	background-color: $color-white;
+	border-radius: 16px;
+	border: 1px solid $color-border;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+	&:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+		border-color: rgba(54, 68, 64, 0.15);
+	}
+}
+
+.cardIcon {
+	width: 48px;
+	height: 48px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 20px;
+	color: $color-primary;
+	background-color: rgba(54, 68, 64, 0.05);
+	border-radius: 12px;
+	transition: all 0.3s ease;
+
+	svg {
+		width: 24px;
+		height: 24px;
+	}
+}
+
+.offerCard:hover .cardIcon {
+	background-color: rgba(54, 68, 64, 0.1);
+	transform: scale(1.05);
+}
+
+.cardTitle {
+	font-family: 'Inter', sans-serif;
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 1.4;
+	color: $color-text-dark;
+	margin-bottom: 12px;
+}
+
+.cardDescription {
+	font-family: 'Inter', sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.6;
+	color: $color-text-muted;
+	margin-bottom: 24px;
+	flex-grow: 1;
+}
+
+.cardCta {
+	display: inline-flex;
+	align-items: center;
+	font-family: 'Inter', sans-serif;
+	font-size: 14px;
+	font-weight: 600;
+	color: $color-primary;
+	transition: all 0.3s ease;
+	margin-top: auto;
+
+	span {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+	}
+}
+
+.offerCard:hover .cardCta {
+	color: $color-primary-hover;
+	gap: 8px;
+}
+
+// Responsive Styles
+@media (max-width: 1200px) {
+	.container {
+		padding: 0 32px;
+	}
+
+	.cardsGrid {
+		gap: 20px;
+	}
+
+	.offerCard {
+		padding: 28px;
+	}
+}
+
+@media (max-width: 992px) {
+	.smartOffers {
+		padding: 60px 0;
+	}
+
+	.title {
+		font-size: 32px;
+	}
+
+	.cardsGrid {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 20px;
+	}
+}
+
+@media (max-width: 768px) {
+	.smartOffers {
+		padding: 48px 0;
+	}
+
+	.container {
+		padding: 0 20px;
+	}
+
+	.header {
+		margin-bottom: 32px;
+	}
+
+	.title {
+		font-size: 28px;
+		margin-bottom: 8px;
+	}
+
+	.subtitle {
+		font-size: 14px;
+	}
+
+	.cardsGrid {
+		grid-template-columns: 1fr;
+		gap: 16px;
+	}
+
+	.offerCard {
+		padding: 24px;
+	}
+
+	.cardIcon {
+		width: 40px;
+		height: 40px;
+		margin-bottom: 16px;
+
+		svg {
+			width: 20px;
+			height: 20px;
+		}
+	}
+
+	.cardTitle {
+		font-size: 16px;
+		margin-bottom: 8px;
+	}
+
+	.cardDescription {
+		font-size: 13px;
+		margin-bottom: 20px;
+	}
+
+	.cardCta {
+		font-size: 13px;
+	}
+}
+
+// Dark Mode Support
+[data-theme='dark'] {
+	.smartOffers {
+		background-color: #1a1a1a;
+	}
+
+	.title {
+		color: #ffffff;
+	}
+
+	.subtitle {
+		color: #b0b0b0;
+	}
+
+	.offerCard {
+		background-color: #2a2a2a;
+		border-color: rgba(255, 255, 255, 0.1);
+	}
+
+	.cardTitle {
+		color: #ffffff;
+	}
+
+	.cardDescription {
+		color: #b0b0b0;
+	}
+
+	.cardIcon {
+		background-color: rgba(255, 255, 255, 0.05);
+		color: #8ba39e;
+	}
+
+	.cardCta {
+		color: #8ba39e;
+	}
+}
+

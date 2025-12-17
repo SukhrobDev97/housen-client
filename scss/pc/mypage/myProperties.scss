@@ -13,24 +13,24 @@
 				justify-content: space-between;
 				.right-box {
 					width: 315px;
-					.main-title {
-						color: #181a20;
-						font-family: $font;
-						font-size: 30px;
-						font-style: normal;
-						font-weight: 600;
-						line-height: normal;
-						letter-spacing: 0.6px;
-						text-transform: capitalize;
-					}
-					.sub-title {
-						color: #181a20;
-						font-family: $font;
-						font-size: 14px;
-						font-style: normal;
-						font-weight: 400;
-						line-height: 26px;
-					}
+				.main-title {
+					color: var(--text-primary);
+					font-family: $font;
+					font-size: 30px;
+					font-style: normal;
+					font-weight: 600;
+					line-height: normal;
+					letter-spacing: 0.6px;
+					text-transform: capitalize;
+				}
+				.sub-title {
+					color: var(--text-secondary);
+					font-family: $font;
+					font-size: 14px;
+					font-style: normal;
+					font-weight: 400;
+					line-height: 26px;
+				}
 				}
 			}
 			.property-list-box {
@@ -44,9 +44,9 @@
 					align-items: flex-end;
 					gap: 10px;
 					border-radius: 12px 12px 0px 0px;
-					background: rgba(143, 143, 143, 0.08);
+					background: var(--bg-section);
 					border-radius: 12px 12px 0px 0px;
-					border: 1px solid rgba(196, 196, 196, 0.79);
+					border: 1px solid var(--border-soft);
 					.tab-name {
 						width: 110px;
 						height: 32px;
@@ -54,7 +54,7 @@
 						justify-content: center;
 						align-items: center;
 						cursor: pointer;
-						color: #000;
+						color: var(--text-secondary);
 						font-family: $font;
 						font-size: 16px;
 						font-style: normal;
@@ -84,26 +84,26 @@
 				min-height: 700px;
 				padding: 30px 28px;
 				border-radius: 0px 0px 12px 12px;
-				border: 1px solid rgba(196, 196, 196, 0.79);
+				border: 1px solid var(--border-soft);
 				border-top: none;
-				background: #fff;
+				background: var(--bg-card);
 				box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
-				.listing-title-box {
-					width: 100%;
-					height: auto;
-					flex-direction: row;
-					gap: 90px;
-					padding: 18px 15px 18px 33px;
-					border-radius: 12px;
-					background: #f6f6f6;
-					.title-text {
-						color: #181a20;
-						font-family: $font;
-						font-size: 15px;
-						font-style: normal;
-						font-weight: 600;
-						line-height: normal;
-					}
+					.listing-title-box {
+						width: 100%;
+						height: auto;
+						flex-direction: row;
+						gap: 90px;
+						padding: 18px 15px 18px 33px;
+						border-radius: 12px;
+						background: var(--bg-section);
+						.title-text {
+							color: var(--text-primary);
+							font-family: $font;
+							font-size: 15px;
+							font-style: normal;
+							font-weight: 600;
+							line-height: normal;
+						}
 					:first-child {
 						margin-right: 138px;
 					}
@@ -121,22 +121,22 @@
 						opacity: 0.5;
 					}
 					p {
-						color: #717171;
+						color: var(--text-secondary);
 						font-family: $font;
 						font-size: 16px;
 						font-weight: 500;
 					}
 				}
 
-				.property-card-box {
-					width: 100%;
-					height: auto;
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					margin-top: 30px;
-					padding-bottom: 30px;
-					border-bottom: 1px solid #ddd;
+					.property-card-box {
+						width: 100%;
+						height: auto;
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+						margin-top: 30px;
+						padding-bottom: 30px;
+						border-bottom: 1px solid var(--border-soft);
 					.image-box {
 						width: 110px;
 						height: 90px;
@@ -162,7 +162,7 @@
 						padding: 5px 0px;
 						.name {
 							margin-bottom: 8px;
-							color: #181a20;
+							color: var(--text-primary);
 							font-family: $font;
 							font-size: 13px;
 							font-style: normal;
@@ -171,7 +171,7 @@
 						}
 						.address {
 							margin-bottom: 13px;
-							color: #717171;
+							color: var(--text-secondary);
 							font-family: $font;
 							font-size: 11px;
 							font-style: normal;
@@ -179,7 +179,7 @@
 							line-height: normal;
 						}
 						.price {
-							color: #181a20;
+							color: var(--text-primary);
 							font-family: $font;
 							font-size: 15px;
 							font-style: normal;
@@ -194,7 +194,7 @@
 						justify-content: center;
 						margin-right: 55px;
 						.date {
-							color: #181a20;
+							color: var(--text-primary);
 							font-family: $font;
 							font-size: 12px;
 							font-style: normal;
@@ -231,7 +231,7 @@
 						justify-content: center;
 						margin-right: 75px;
 						.views {
-							color: #181a20;
+							color: var(--text-primary);
 							font-family: $font;
 							font-size: 12px;
 							font-style: normal;
@@ -250,10 +250,10 @@
 							height: 40px;
 							border-radius: 4px;
 							:hover {
-								background: #f6f6f6;
+								background: var(--bg-section);
 							}
 							.buttons {
-								color: #181a20;
+								color: var(--text-primary);
 							}
 						}
 					}
@@ -266,7 +266,7 @@
 					margin-top: 30px;
 					.total-result {
 						p {
-							color: #181a20;
+							color: var(--text-secondary);
 							text-align: center;
 							font-family: $font;
 							font-size: 14px;

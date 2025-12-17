@@ -8,6 +8,7 @@ import TopAgents from '../libs/components/homepage/TopAgents';
 import TrendProperties from '../libs/components/homepage/TrendProperties';
 import TopProperties from '../libs/components/homepage/TopProperties';
 import GetMatchedSection from '../libs/components/homepage/GetMatchedSection';
+import SmartOffers from '../libs/components/homepage/SmartOffers';
 import { Stack } from '@mui/material';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
@@ -23,6 +24,7 @@ const Home: NextPage = () => {
 	if (device === 'mobile') {
 		return (
 			<Stack className={'home-page'}>
+				<SmartOffers />
 				<TrendProperties />
 				<GetMatchedSection />
 				<PopularProperties />
@@ -34,6 +36,7 @@ const Home: NextPage = () => {
 	} else {
 		return (
 			<Stack className={'home-page'}>
+				<SmartOffers />
 				<TrendProperties />
 				<GetMatchedSection />
 				<PopularProperties />

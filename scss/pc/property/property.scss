@@ -1,7 +1,7 @@
 #pc-wrap {
 	#property-list-page {
 		padding-bottom: 40px;
-		background: #f6f6f6;
+		background: var(--bg-section);
 
 		.property-hero {
 			position: relative;
@@ -117,7 +117,7 @@
 				margin-bottom: 32px;
 				
 				.sort-label {
-					color: #666;
+					color: var(--text-secondary);
 					font-family: $font;
 					font-size: 14px;
 					font-weight: 500;
@@ -134,7 +134,7 @@
 						border-radius: 999px;
 						background: transparent;
 						border: none;
-						color: #666;
+						color: var(--text-secondary);
 						font-family: $font;
 						font-size: 13px;
 						font-weight: 600;
@@ -151,12 +151,12 @@
 							transform: translateX(-50%);
 							width: 0;
 							height: 2px;
-							background: #333;
+							background: var(--text-primary);
 							transition: width 0.25s ease;
 						}
 						
-						&:hover {
-							color: #333;
+					&:hover {
+							color: var(--text-primary);
 							
 							&::after {
 								width: calc(100% - 40px);
@@ -223,15 +223,15 @@
 						width: 100%;
 							padding: 32px 28px;
 							border-radius: 16px;
-						background: #fff;
+						background: var(--bg-card);
 							box-shadow: 0 2px 12px 0 rgba(24, 26, 32, 0.08);
-							border: 1px solid #f0f0f0;
+							border: 1px solid var(--border-soft);
 						.find-your-home {
 							position: relative;
 							width: 100%;
 							gap: 10px;
 							padding-bottom: 24px;
-							border-bottom: 1px solid #e8e8e8;
+							border-bottom: 1px solid var(--border-soft);
 							&:last-of-type {
 								border-bottom: none;
 							}
@@ -266,7 +266,7 @@
 							.title-main {
 								width: 100%;
 								height: auto;
-								color: #181a20;
+								color: var(--text-primary);
 								font-family: $font;
 								font-size: 18px;
 								font-style: normal;
@@ -297,7 +297,7 @@
 								
 								.toggle-icon {
 									font-size: 20px;
-									color: #999;
+									color: var(--text-secondary);
 									transition: all 0.3s ease;
 									margin-left: 8px;
 							}
@@ -306,7 +306,7 @@
 							.title {
 								width: auto;
 								height: auto;
-								color: #181a20;
+								color: var(--text-primary);
 								font-family: $font;
 								font-size: 15px;
 								font-style: normal;
@@ -370,6 +370,17 @@
 											height: 20px;
 											opacity: 0.6;
 											transition: opacity 0.2s ease;
+											color: var(--text-secondary);
+											fill: var(--text-secondary);
+											
+											svg {
+												color: var(--text-secondary);
+												fill: var(--text-secondary);
+											}
+											
+											path {
+												fill: var(--text-secondary);
+											}
 										}
 									}
 									
@@ -378,12 +389,12 @@
 										width: 100%;
 										height: 52px;
 										border-radius: 12px;
-										border: 2px solid #e8e8e8;
-										background: #fff;
+										border: 2px solid var(--border-soft);
+										background: var(--bg-card);
 										outline: none;
 										padding-left: 48px !important;
 										padding-right: 16px !important;
-										color: #181a20;
+										color: var(--text-primary);
 										font-family: $font;
 										font-size: 15px;
 										font-style: normal;
@@ -393,7 +404,7 @@
 										box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 										
 										&::placeholder {
-											color: #666;
+											color: var(--text-secondary);
 											font-family: $font;
 											font-size: 15px;
 											font-style: normal;
@@ -403,7 +414,7 @@
 										}
 										
 										&::-webkit-input-placeholder {
-											color: #666;
+											color: var(--text-secondary);
 											font-family: $font;
 											font-size: 15px;
 											font-style: normal;
@@ -412,7 +423,7 @@
 										}
 										
 										&::-moz-placeholder {
-											color: #666;
+											color: var(--text-secondary);
 											font-family: $font;
 											font-size: 15px;
 											font-style: normal;
@@ -421,7 +432,7 @@
 										}
 										
 										&:-ms-input-placeholder {
-											color: #666;
+											color: var(--text-secondary);
 											font-family: $font;
 											font-size: 15px;
 											font-style: normal;
@@ -455,7 +466,7 @@
 									font-family: $font;
 									font-size: 13px;
 									font-weight: 500;
-									color: #666;
+									color: var(--text-secondary);
 									text-transform: none;
 									border-radius: 8px;
 									transition: all 0.2s ease;
@@ -511,14 +522,14 @@
 								width: 100%;
 								height: 49px;
 								border-radius: 8px;
-								border: 1px solid #ddd;
-								background: #fff;
+								border: 1px solid var(--border-soft);
+								background: var(--bg-card);
 								outline: none;
 								padding-left: 15px;
 								appearance: none;
 								cursor: pointer;
 								box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-								color: #717171;
+								color: var(--text-secondary);
 								font-family: $font;
 								font-size: 14px;
 								font-style: normal;
@@ -528,7 +539,7 @@
 							.divider {
 								position: absolute;
 								height: 48px;
-								border-left: 1px solid #ddd;
+								border-left: 1px solid var(--border-soft);
 								right: 39px;
 								top: 31px;
 							}
@@ -536,12 +547,12 @@
 								position: absolute;
 								width: 15px;
 								height: 8px;
-								color: #ddd;
+								color: var(--border-soft);
 								right: 13px;
 								top: 52px;
 							}
 							.property-type, .property_type, .propert-type {
-								color: #181a20;
+								color: var(--text-primary);
 								font-family: $font;
 								font-size: 14px;
 								font-style: normal;
@@ -559,7 +570,7 @@
 								flex-direction: row;
 								button {
 									width: 100%;
-									color: #181a20;
+									color: var(--text-primary);
 									text-align: center;
 									font-family: $font;
 									font-size: 13px;
@@ -576,19 +587,19 @@
 								
 								.central-divider {
 									width: 22px;
-									border: 1px solid black;
+									border: 1px solid var(--border-soft);
 								}
 								input {
 									width: 100%;
 									height: 49px;
 									border-radius: 8px;
-									border: 1px solid #ddd;
-									background: #fff;
+									border: 1px solid var(--border-soft);
+									background: var(--bg-card);
 									outline: none;
 									padding-left: 15px;
 								}
 								input::placeholder {
-									color: #717171;
+									color: var(--text-secondary);
 									font-family: $font;
 									font-size: 14px;
 									font-style: normal;
@@ -616,11 +627,11 @@
 									align-items: center;
 									padding: 12px;
 									border-radius: 8px;
-									background: #f8f8f8;
+									background: var(--bg-card);
 									transition: all 0.3s ease;
 
 									&:hover {
-										background: #f0f0f0;
+										background: var(--bg-section);
 										transform: translateY(-2px);
 										box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 									}
@@ -643,7 +654,7 @@
 										overflow: hidden;
 
 										.project-title {
-											color: #181a20;
+											color: var(--text-primary);
 											font-family: $font;
 											font-size: 14px;
 											font-style: normal;
@@ -656,7 +667,7 @@
 										}
 
 										.project-type {
-											color: #717171;
+											color: var(--text-secondary);
 											font-family: $font;
 											font-size: 12px;
 											font-style: normal;
@@ -667,7 +678,7 @@
 										}
 
 										.project-price {
-											color: #3B3F2B;
+											color: var(--text-primary);
 											font-family: $font;
 											font-size: 14px;
 											font-style: normal;
@@ -683,8 +694,24 @@
 									display: flex;
 									justify-content: center;
 									padding-top: 12px;
-									border-top: 1px solid #e0e0e0;
+									border-top: 1px solid var(--border-soft);
 									margin-top: 8px;
+
+									.MuiPaginationItem-root {
+										color: var(--text-primary);
+										font-family: $font;
+										font-size: 12px;
+										font-weight: 500;
+
+										&.Mui-selected {
+											background: #364440;
+											color: #fff;
+										}
+
+										&:hover {
+											background: var(--bg-section);
+										}
+									}
 								}
 							}
 						}
@@ -785,7 +812,7 @@
 								flex-direction: column;
 								gap: 0;
 								box-sizing: border-box;
-								background: #ffffff;
+								background: var(--bg-card);
 								border-radius: 0;
 								box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 								position: relative;
@@ -807,7 +834,7 @@
 										align-items: center;
 										gap: 6px;
 										span {
-											color: #666;
+											color: var(--text-secondary);
 											font-family: $font;
 											font-size: 13px;
 											font-style: normal;
@@ -815,23 +842,27 @@
 											line-height: normal;
 											strong {
 												font-weight: 600;
-												color: #181a20;
+												color: var(--text-primary);
 											}
 										}
 										svg {
 											opacity: 0.7;
+											color: var(--text-secondary) !important;
+											path {
+												fill: var(--text-secondary) !important;
+											}
 										}
 									}
 								}
 								.property-details-divider {
 									margin: 12px 0;
-									border-color: rgba(0, 0, 0, 0.08);
+									border-color: var(--border-soft);
 									border-width: 1px;
 									opacity: 1;
 									visibility: visible;
 								}
 								.title {
-									color: #181a20;
+									color: var(--text-primary);
 									font-family: $font;
 									font-size: 20px;
 									font-style: normal;
@@ -861,7 +892,7 @@
 									opacity: 1;
 									visibility: visible;
 									.price {
-										color: #181a20;
+										color: var(--text-primary);
 										font-family: $font;
 										font-size: 18px;
 										font-style: normal;
@@ -881,9 +912,16 @@
 											&:hover {
 												background-color: transparent !important;
 											}
+											
+											svg {
+												color: var(--text-secondary) !important;
+												path {
+													fill: var(--text-secondary) !important;
+												}
+											}
 										}
 										.view-cnt-info {
-											color: #666;
+											color: var(--text-secondary);
 											font-family: $font;
 											font-size: 12px;
 											font-style: normal;
@@ -897,8 +935,8 @@
 									padding: 8px 20px;
 									border-radius: 10px;
 									background: transparent;
-									border: 1px solid #d0d0d0;
-									color: #3B3F2B;
+									border: 1px solid var(--border-soft);
+									color: var(--text-primary);
 									font-family: $font;
 											font-size: 13px;
 									font-style: normal;
@@ -931,13 +969,13 @@
 						gap: 24px;
 						padding: 40px 0;
 						margin-top: 40px;
-						border-top: 1px solid #e8e8e8;
+						border-top: 1px solid var(--border-soft);
 
 						.pagination-info {
 							.results-text {
 								font-family: $font;
 								font-size: 14px;
-								color: #666;
+								color: var(--text-secondary);
 								text-align: center;
 
 								.highlight {
@@ -961,12 +999,12 @@
 								font-family: $font;
 									font-size: 14px;
 									font-weight: 500;
-									color: #555;
+									color: var(--text-primary);
 									border-radius: 10px;
 									min-width: 40px;
 									height: 40px;
-									border: 1px solid #e0e0e0;
-									background: #fff;
+									border: 1px solid var(--border-soft);
+									background: var(--bg-card);
 									transition: all 0.3s ease;
 
 									&:hover {
@@ -987,7 +1025,7 @@
 									}
 
 									&.MuiPaginationItem-previousNext {
-										border-color: #e0e0e0;
+										border-color: var(--border-soft);
 
 										&:hover {
 											background: rgba(59, 63, 43, 0.08);
@@ -1022,18 +1060,18 @@
 					font-family: $font;
 					font-size: 32px;
 					font-weight: 600;
-					color: #1a1a1a;
+					color: var(--text-primary);
 					letter-spacing: -0.5px;
 				}
 
 				.view-all-btn {
 					padding: 12px 24px;
 					background: transparent;
-					color: #3B3F2B;
+					color: var(--text-primary);
 					font-family: $font;
 					font-size: 14px;
 					font-weight: 600;
-					border: 2px solid #3B3F2B;
+					border: 2px solid var(--border-soft);
 					border-radius: 12px;
 					text-transform: none;
 					transition: all 0.3s ease;
@@ -1057,7 +1095,7 @@
 			}
 
 			.product-card {
-				background: #fff;
+				background: var(--bg-card);
 				border-radius: 20px;
 				overflow: hidden;
 				box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
@@ -1143,14 +1181,14 @@
 						font-family: $font;
 						font-size: 16px;
 						font-weight: 600;
-						color: #1a1a1a;
+						color: var(--text-primary);
 						margin-bottom: 4px;
 					}
 
 					.product-category {
 						font-family: $font;
 						font-size: 13px;
-						color: #888;
+						color: var(--text-secondary);
 						margin-bottom: 12px;
 					}
 
@@ -1163,7 +1201,7 @@
 							font-family: $font;
 							font-size: 16px;
 							font-weight: 700;
-							color: #3B3F2B;
+							color: var(--text-primary);
 						}
 
 						.rating {
@@ -1180,7 +1218,7 @@
 								font-family: $font;
 								font-size: 13px;
 								font-weight: 600;
-								color: #666;
+								color: var(--text-secondary);
 							}
 						}
 					}

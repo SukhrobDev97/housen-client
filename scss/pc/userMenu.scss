@@ -62,18 +62,14 @@
 		width: 40px;
 		height: 40px;
 		border: none;
-		background: rgba(0, 0, 0, 0.05);
-		backdrop-filter: blur(8px);
-		border-radius: 12px;
+		background: transparent;
 		cursor: pointer;
 		padding: 0;
 		color: #0D0D0C;
 		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-		border: 1px solid rgba(0, 0, 0, 0.1);
 
 		&:hover {
-			background: rgba(0, 0, 0, 0.08);
-			border-color: rgba(0, 0, 0, 0.15);
+			opacity: 0.7;
 			transform: scale(1.05);
 		}
 

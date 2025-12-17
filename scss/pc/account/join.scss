@@ -1,45 +1,46 @@
 #pc-wrap {
-	.join-page {
-		position: relative;
+  .join-page {
+    position: relative;
 		padding: 160px 20px 60px 20px;
-		width: 100%;
-		min-height: calc(100vh - 180px);
-		height: auto;
-		display: flex;
-		align-items: center;
-		justify-content: center;
+    width: 100%;
+    min-height: calc(100vh - 180px);
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-		.container {
-			display: flex;
-			align-items: center;
-			justify-content: center;
+   .container {
+     display: flex;
+     align-items: center;
+     justify-content: center;
 			width: 100%;
 			max-width: 1200px;
 
-			.main {
+     .main {
 				width: 100%;
 				max-width: 1200px;
 				height: 700px;
-				display: flex;
-				flex-direction: row;
-				border-radius: 20px;
-				overflow: hidden;
-				background: #fff;
+       display: flex;
+       flex-direction: row;
+       border-radius: 20px;
+       overflow: hidden;
+				background: var(--bg-card);
 				box-shadow: 0px 8px 48px rgba(24, 26, 32, 0.08);
+				border: 1px solid var(--border-soft);
 
-				.left {
-					width: 50%;
-					height: 100%;
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					justify-content: center;
+       .left {
+         width: 50%;
+         height: 100%;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: center;
 					padding: 60px 40px;
 
-					.logo {
-						display: flex;
-						flex-direction: row;
-						align-items: center;
+         .logo {
+           display: flex;
+           flex-direction: row;
+           align-items: center;
 						justify-content: center;
 						margin-bottom: 40px;
 
@@ -54,7 +55,7 @@
 								height: 56px;
 
 								path {
-									fill: #0D0D0C;
+									fill: var(--text-primary);
 								}
 							}
 
@@ -63,7 +64,7 @@
 								flex-direction: column;
 
 								.logo-text {
-									color: #0D0D0C;
+									color: var(--text-primary);
 									font-family: 'Century Gothic', sans-serif;
 									font-size: 32px;
 									font-weight: 400;
@@ -72,7 +73,7 @@
 								}
 
 								.logo-subtitle {
-									color: #666;
+									color: var(--text-secondary);
 									font-family: 'Glory', sans-serif;
 									font-size: 14px;
 									font-weight: 500;
@@ -93,7 +94,7 @@
 							font-size: 32px !important;
 							font-weight: 700 !important;
 							line-height: 1.2 !important;
-							color: #181a20 !important;
+							color: var(--text-primary) !important;
 							margin-bottom: 12px !important;
 							letter-spacing: -0.5px !important;
 						}
@@ -102,15 +103,15 @@
 							font-family: $font !important;
 							font-size: 16px !important;
 							font-weight: 400 !important;
-							color: #666 !important;
+							color: var(--text-secondary) !important;
 							line-height: 1.5 !important;
 						}
 					}
 
 					// Role Selection Cards
 					.role-cards {
-						display: flex;
-						flex-direction: column;
+           display: flex;
+           flex-direction: column;
 						gap: 20px;
 						width: 100%;
 						max-width: 420px;
@@ -118,8 +119,8 @@
 						.role-card {
 							padding: 32px 28px;
 							border-radius: 16px;
-							border: 2px solid #e5e5e5;
-							background: #fff;
+							border: 2px solid var(--border-soft);
+							background: var(--bg-section);
 							cursor: pointer;
 							transition: all 0.3s ease;
 							text-align: center;
@@ -128,20 +129,28 @@
 								border-color: #364440;
 								transform: translateY(-2px);
 								box-shadow: 0 8px 24px rgba(54, 68, 64, 0.12);
+								background: var(--bg-card);
 							}
 
 							.role-icon {
 								font-size: 48px !important;
-								color: #666;
+								color: var(--text-secondary);
 								margin-bottom: 16px;
 								transition: all 0.3s ease;
+								
+								svg {
+									color: var(--text-secondary);
+									path {
+										fill: var(--text-secondary);
+									}
+								}
 							}
 
 							.role-title {
 								font-family: $font !important;
 								font-size: 20px !important;
 								font-weight: 600 !important;
-								color: #181a20 !important;
+								color: var(--text-primary) !important;
 								margin-bottom: 8px !important;
 							}
 
@@ -149,20 +158,27 @@
 								font-family: $font !important;
 								font-size: 14px !important;
 								font-weight: 400 !important;
-								color: #888 !important;
+								color: var(--text-secondary) !important;
 								line-height: 1.5 !important;
 							}
 
 							&.role-card-agency {
 								border-color: #364440;
-								background: linear-gradient(135deg, rgba(54, 68, 64, 0.02) 0%, rgba(54, 68, 64, 0.05) 100%);
+								background: var(--bg-section);
 
 								.role-icon {
 									color: #364440;
+									
+									svg {
+										color: #364440;
+										path {
+											fill: #364440;
+										}
+									}
 								}
 
 								&:hover {
-									background: linear-gradient(135deg, rgba(54, 68, 64, 0.05) 0%, rgba(54, 68, 64, 0.08) 100%);
+									background: var(--bg-card);
 									border-color: #2a3532;
 								}
 							}
@@ -176,14 +192,14 @@
 						margin-bottom: 30px;
 
 						.tabs {
-							border-bottom: 2px solid #f0f0f0;
+							border-bottom: 2px solid var(--border-soft);
 
 							:global(.MuiTab-root) {
-								font-family: $font;
+             font-family: $font;
 								font-size: 16px;
-								font-weight: 600;
+             font-weight: 600;
 								text-transform: none;
-								color: #888;
+								color: var(--text-secondary);
 								min-width: 120px;
 								padding: 16px 24px;
 
@@ -204,14 +220,15 @@
 						width: 100%;
 						max-width: 500px;
 						padding: 40px;
-						background: #fff;
+						background: var(--bg-card);
 						border-radius: 20px;
 						box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+						border: 1px solid var(--border-soft);
 
-						.input-wrap {
+         .input-wrap {
 							width: 100%;
-							display: flex;
-							flex-direction: column;
+           display: flex;
+           flex-direction: column;
 							gap: 24px;
 
 							// 2-column grid for Agency signup on desktop
@@ -244,9 +261,9 @@
 								}
 							}
 
-							.input-box {
-								display: flex;
-								flex-direction: column;
+          .input-box {
+            display: flex;
+            flex-direction: column;
 								gap: 8px;
 
 								// Extra spacing for phone field in Client signup
@@ -255,29 +272,29 @@
 								}
 
 								label {
-									font-family: $font;
-									font-size: 14px;
-									font-weight: 600;
-									color: #181a20;
+              font-family: $font;
+              font-size: 14px;
+              font-weight: 600;
+									color: var(--text-primary);
 									line-height: 1.4;
-								}
+            }
 
-								input {
-									width: 100%;
+            input {
+              width: 100%;
 									padding: 14px 18px;
 									height: 52px;
 									border-radius: 12px;
-									border: 1.5px solid #e0e0e0;
-									background: #fff;
-									font-family: $font;
+									border: 1.5px solid var(--border-soft);
+									background: var(--bg-section);
+              font-family: $font;
 									font-size: 15px;
-									font-weight: 400;
-									color: #181a20;
+              font-weight: 400;
+									color: var(--text-primary);
 									transition: all 0.2s ease;
 									box-sizing: border-box;
 
 									&::placeholder {
-										color: #aaa;
+										color: var(--text-secondary);
 									}
 
 									&:focus {
@@ -287,7 +304,7 @@
 									}
 
 									&:hover:not(:focus) {
-										border-color: #ccc;
+										border-color: var(--border-soft);
 									}
 								}
 
@@ -303,8 +320,8 @@
 									.password-wrapper {
 										position: relative;
 										width: 100%;
-										display: flex;
-										align-items: center;
+           display: flex;
+           align-items: center;
 
 										.password-input {
 											padding-right: 50px;
@@ -313,38 +330,42 @@
 										.password-toggle {
 											position: absolute;
 											right: 14px;
-											display: flex;
-											align-items: center;
+             display: flex;
+             align-items: center;
 											justify-content: center;
 											background: none;
 											border: none;
 											cursor: pointer;
 											padding: 8px;
-											color: #888;
+											color: var(--text-secondary);
 											transition: color 0.2s ease;
 											border-radius: 4px;
 
 											&:hover {
 												color: #364440;
-												background: rgba(54, 68, 64, 0.05);
+												background: var(--bg-section);
 											}
 
 											&:focus {
 												outline: none;
-												background: rgba(54, 68, 64, 0.08);
+												background: var(--bg-section);
 											}
 
 											svg {
 												font-size: 20px;
+												color: var(--text-secondary);
+												path {
+													fill: var(--text-secondary);
+												}
 											}
 										}
 									}
 
 									.password-helper {
-										font-family: $font;
+               font-family: $font;
 										font-size: 12px;
 										font-weight: 400;
-										color: #888;
+										color: var(--text-secondary);
 										line-height: 1.4;
 										margin-top: 2px;
 									}
@@ -352,11 +373,11 @@
 							}
 						}
 
-						.remember-info {
-							display: flex;
-							flex-direction: row;
-							justify-content: space-between;
-							align-items: center;
+           .remember-info {
+             display: flex;
+             flex-direction: row;
+             justify-content: space-between;
+             align-items: center;
 							margin-top: 24px;
 							margin-bottom: 32px;
 
@@ -365,10 +386,10 @@
 								align-items: center;
 								gap: 8px;
 								cursor: pointer;
-								font-family: $font;
-								font-size: 14px;
-								font-weight: 400;
-								color: #666;
+               font-family: $font;
+               font-size: 14px;
+               font-weight: 400;
+								color: var(--text-secondary);
 
 								input[type="checkbox"] {
 									width: 18px;
@@ -387,7 +408,7 @@
 								font-size: 14px;
 								font-weight: 500;
 								color: #364440;
-								cursor: pointer;
+               cursor: pointer;
 								text-decoration: none;
 								transition: color 0.2s ease;
 
@@ -418,8 +439,8 @@
 							}
 
 							&:disabled {
-								background: #e0e0e0 !important;
-								color: #aaa !important;
+								background: var(--border-soft) !important;
+								color: var(--text-secondary) !important;
 								cursor: not-allowed;
 							}
 						}
@@ -438,14 +459,14 @@
 								.divider-line {
 									flex: 1;
 									height: 1px;
-									background: #e0e0e0;
+									background: var(--border-soft);
 								}
 
 								.divider-text {
 									font-family: $font;
 									font-size: 14px;
 									font-weight: 500;
-									color: #888;
+									color: var(--text-secondary);
 									text-transform: uppercase;
 									letter-spacing: 0.5px;
 								}
@@ -456,7 +477,7 @@
 								font-family: $font !important;
 								font-size: 14px !important;
 								font-weight: 400 !important;
-								color: #666 !important;
+								color: var(--text-secondary) !important;
 								margin-bottom: 16px !important;
 							}
 
@@ -464,7 +485,7 @@
 								display: flex;
 								flex-direction: row;
 								gap: 12px;
-								width: 100%;
+             width: 100%;
 
 								.social-btn {
 									flex: 1;
@@ -473,11 +494,11 @@
 									justify-content: center;
 									gap: 8px;
 									padding: 12px 16px;
-									border-radius: 12px;
+             border-radius: 12px;
 									border: 1.5px solid transparent;
-									font-family: $font;
+             font-family: $font;
 									font-size: 14px;
-									font-weight: 600;
+             font-weight: 600;
 									cursor: pointer;
 									transition: all 0.2s ease;
 
@@ -493,12 +514,12 @@
 
 									// Google button
 									&.social-btn-google {
-										background: #fff;
-										border-color: #e0e0e0;
-										color: #181a20;
+										background: var(--bg-section);
+										border-color: var(--border-soft);
+										color: var(--text-primary);
 
 										&:hover {
-											background: #f5f5f5;
+											background: var(--bg-card);
 											box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 										}
 									}
@@ -542,16 +563,16 @@
 							font-family: $font !important;
 							font-size: 14px !important;
 							font-weight: 400 !important;
-							color: #666 !important;
+							color: var(--text-secondary) !important;
 							margin: 0 !important;
 						}
 
 						.switch-link {
-							font-family: $font;
+             font-family: $font;
 							font-size: 14px;
-							font-weight: 600;
+               font-weight: 600;
 							color: #364440;
-							cursor: pointer;
+               cursor: pointer;
 							text-decoration: underline;
 							text-decoration-color: #364440;
 							text-underline-offset: 3px;
@@ -573,30 +594,30 @@
 							font-family: $font;
 							font-size: 14px;
 							font-weight: 500;
-							color: #666;
+							color: var(--text-secondary);
 							cursor: pointer;
 							text-decoration: none;
 							transition: color 0.2s ease;
 
 							&:hover {
 								color: #364440;
-								text-decoration: underline;
-							}
-						}
-					}
-				}
+               text-decoration: underline;
+             }
+           }
+         }
+       }
 
-				.right {
-					width: 50%;
-					height: 100%;
+       .right {
+         width: 50%;
+         height: 100%;
 					background-image: url("/img/profile/register.jpeg");
-					background-size: cover;
-					background-position: center;
-					background-repeat: no-repeat;
-				}
-			}
-		}
-	}
+         background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+       }
+     }
+   }
+  }
 
 	// Responsive
 	@media screen and (max-width: 992px) {
@@ -630,8 +651,8 @@
 						width: 100%;
 						height: 300px;
 					}
-				}
-			}
-		}
-	}
+       }
+     }
+   }
+  }
 }

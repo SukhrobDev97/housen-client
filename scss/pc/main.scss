@@ -87,15 +87,15 @@ body::-webkit-scrollbar {
 							.logo-container {
 								.logo-text-container {
 									.logo-text {
-										color: #ffffff;
+										color: var(--text-primary);
 									}
 									.logo-subtitle {
-										color: #ffffff;
+										color: var(--text-secondary);
 									}
 								}
 								.logo-icon {
 									path {
-										fill: #ffffff;
+										fill: var(--text-primary);
 									}
 								}
 							}
@@ -464,83 +464,7 @@ body::-webkit-scrollbar {
 			}
 		}
 		
-		// Footer Dark Mode
-		#footer {
-		background-color: #FAFAFA;
-		border-top: 1px solid rgba(0, 0, 0, 0.06);
-			
-			.footer-container {
-				.newsletter-section {
-					.newsletter-title {
-						color: #ffffff;
-					}
-					.newsletter-input {
-						background-color: #2a2a2a;
-						color: #ffffff;
-						border-color: rgba(255, 255, 255, 0.1);
-						&::placeholder {
-							color: #b0b0b0;
-						}
-					}
-				}
-				.main {
-					.left {
-						.footer-logo-section {
-							.logo-wrapper {
-								.logo-text-wrapper {
-									.logo-text {
-										color: #ffffff;
-									}
-									.logo-subtitle {
-										color: #b0b0b0;
-									}
-								}
-								.logo-icon {
-									path {
-										fill: #ffffff;
-									}
-								}
-							}
-							.footer-description {
-								color: #b0b0b0;
-							}
-							.social-media-box {
-								.social-icon {
-									color: #ffffff;
-								}
-							}
-						}
-					}
-					.right {
-						.footer-column {
-							.footer-title {
-								color: #ffffff;
-							}
-							.footer-link {
-								color: #b0b0b0;
-								&:hover {
-									color: #ffffff;
-								}
-							}
-						}
-						.contact-info {
-							.contact-item {
-								color: #b0b0b0;
-								.contact-label {
-									color: #ffffff;
-								}
-							}
-						}
-					}
-				}
-				.footer-bottom {
-					border-top-color: rgba(255, 255, 255, 0.1);
-					.copyright {
-						color: #b0b0b0;
-					}
-				}
-			}
-		}
+		// Footer uses CSS variables - no dark mode override needed
 		
 		// Main Content Area
 		#main {
@@ -658,7 +582,7 @@ body::-webkit-scrollbar {
 								flex-shrink: 0;
 								
 								path {
-									fill: #0D0D0C !important;
+									fill: var(--text-primary) !important;
 								}
 							}
 							.logo-text-container {
@@ -670,7 +594,7 @@ body::-webkit-scrollbar {
 									font-weight: 400;
 									line-height: 1.22607421875em;
 									text-transform: uppercase;
-								color: #0D0D0C;
+								color: var(--text-primary);
 									margin: 0;
 								}
 								.logo-subtitle {
@@ -679,7 +603,7 @@ body::-webkit-scrollbar {
 									font-weight: 500;
 									line-height: 1.12em;
 									letter-spacing: 0.07em;
-								color: #0D0D0C;
+								color: var(--text-secondary);
 									margin: 0;
 								}
 							}
@@ -3187,8 +3111,8 @@ body::-webkit-scrollbar {
 		height: auto;
 		display: flex;
 		flex-direction: row;
-		background-color: #FAFAFA;
-		border-top: 1px solid rgba(0, 0, 0, 0.06);
+		background-color: var(--bg-footer);
+		border-top: 1px solid var(--border-soft);
 		.footer-container {
 			width: 1920px;
 			max-width: 100%;
@@ -3205,7 +3129,7 @@ body::-webkit-scrollbar {
 				gap: 16px;
 				.newsletter-title {
 					width: 525px;
-					color: #444;
+					color: var(--text-primary);
 					font-family: 'Inter', sans-serif;
 					font-size: 32px;
 					font-weight: 600;
@@ -3222,10 +3146,10 @@ body::-webkit-scrollbar {
 						width: 416px;
 						height: 64px;
 						padding: 28px 19px;
-						border: 1px solid rgba(0, 0, 0, 0.15);
+						border: 1px solid var(--border-soft);
 						border-radius: 32px;
-						background: #FFFFFF;
-						color: #444;
+						background: var(--bg-card);
+						color: var(--text-primary);
 						font-family: 'Inter', sans-serif;
 						font-size: 14px;
 						font-weight: 400;
@@ -3233,7 +3157,8 @@ body::-webkit-scrollbar {
 						outline: none;
 						backdrop-filter: blur(10px);
 						&::placeholder {
-							color: rgba(68, 68, 68, 0.5);
+							color: var(--text-secondary);
+							opacity: 0.7;
 						}
 					}
 					.newsletter-button {
@@ -3269,7 +3194,7 @@ body::-webkit-scrollbar {
 			.footer-divider {
 				width: 1286px;
 				height: 0;
-				border-top: 1px solid rgba(0, 0, 0, 0.06);
+				border-top: 1px solid var(--border-soft);
 				margin: 64px auto 0;
 			}
 			.main {
@@ -3299,14 +3224,14 @@ body::-webkit-scrollbar {
 							cursor: pointer;
 							
 							path {
-									fill: #444 !important;
+								fill: var(--text-primary) !important;
 							}
 						}
 							.logo-text-wrapper {
 								display: flex;
 								flex-direction: column;
 								.logo-text {
-									color: #444;
+									color: var(--text-primary);
 									font-family: 'Century Gothic', sans-serif;
 									font-size: 32px;
 							font-weight: 400;
@@ -3314,7 +3239,7 @@ body::-webkit-scrollbar {
 									text-transform: uppercase;
 								}
 								.logo-subtitle {
-									color: #444;
+									color: var(--text-primary);
 									font-family: 'Glory', sans-serif;
 									font-size: 14px;
 									font-weight: 500;
@@ -3324,7 +3249,7 @@ body::-webkit-scrollbar {
 							}
 						}
 						.footer-description {
-							color: #444;
+							color: var(--text-secondary);
 							font-family: 'Inter', sans-serif;
 							font-size: 16px;
 							font-weight: 400;
@@ -3338,7 +3263,7 @@ body::-webkit-scrollbar {
 							.social-icon {
 								width: 32px;
 								height: 32px;
-								color: #444;
+								color: var(--text-primary);
 								cursor: pointer;
 								transition: all 0.3s ease;
 								&:hover {
@@ -3364,7 +3289,7 @@ body::-webkit-scrollbar {
 							gap: 32px;
 							flex: 1;
 							.footer-link-title {
-								color: #444;
+								color: var(--text-primary);
 								font-family: 'Inter', sans-serif;
 								font-size: 24px;
 							font-weight: 600;
@@ -3389,12 +3314,12 @@ body::-webkit-scrollbar {
 										}
 										
 										path {
-											fill: #444 !important;
-											stroke: #444 !important;
+											fill: var(--text-primary) !important;
+											stroke: var(--text-primary) !important;
 										}
 									}
 									.contact-text {
-										color: #444;
+										color: var(--text-primary);
 										font-family: 'Inter', sans-serif;
 										font-size: 16px;
 								font-weight: 400;
@@ -3426,11 +3351,11 @@ body::-webkit-scrollbar {
 										flex-shrink: 0;
 										
 										path {
-											stroke: #444 !important;
+											stroke: var(--text-primary) !important;
 										}
 							}
 							span {
-										color: #444;
+										color: var(--text-primary);
 										font-family: 'Inter', sans-serif;
 										font-size: 16px;
 								font-weight: 400;
@@ -3450,7 +3375,7 @@ body::-webkit-scrollbar {
 				justify-content: space-between;
 				align-items: center;
 				.copyright-text {
-					color: #444;
+					color: var(--text-primary);
 					font-family: 'Inter', sans-serif;
 					font-size: 14px;
 					font-weight: 400;
@@ -3461,7 +3386,7 @@ body::-webkit-scrollbar {
 					flex-direction: row;
 					gap: 24px;
 					.bottom-link {
-						color: #444;
+						color: var(--text-primary);
 						font-family: 'Inter', sans-serif;
 						font-size: 14px;
 						font-weight: 400;

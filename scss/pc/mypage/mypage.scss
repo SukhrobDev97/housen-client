@@ -23,7 +23,7 @@ $transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 
 #pc-wrap {
 	#my-page {
-		background: $warm-white;
+		background: var(--bg-page);
 		min-height: 100vh;
 
 		// ==========================================
@@ -164,7 +164,7 @@ $transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 						border-radius: 0;
 
 						.sidebar-container {
-							background: linear-gradient(180deg, #FFFFFF 0%, $warm-white 100%);
+							background: var(--bg-card);
 							border-radius: 28px;
 							box-shadow: $shadow-md;
 							padding: 32px 28px;
@@ -212,7 +212,7 @@ $transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 										height: 96px;
 										border-radius: 50%;
 										object-fit: cover;
-										border: 4px solid #FFFFFF;
+										border: 4px solid var(--bg-card);
 										box-shadow: $shadow-md;
 								}
 
@@ -223,8 +223,8 @@ $transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 										width: 18px;
 										height: 18px;
 										border-radius: 50%;
-										background: $muted-stone;
-										border: 3px solid #FFFFFF;
+										background: var(--border-soft);
+										border: 3px solid var(--bg-card);
 										z-index: 2;
 										box-shadow: $shadow-sm;
 
@@ -284,7 +284,7 @@ $transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 								margin: 0 -28px 28px;
 								border: none;
 								height: 1px;
-								background: linear-gradient(90deg, transparent, $muted-stone, transparent);
+								background: linear-gradient(90deg, transparent, var(--border-soft), transparent);
 								opacity: 0.3;
 							}
 
@@ -346,12 +346,15 @@ $transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 													display: flex;
 													align-items: center;
 													justify-content: center;
-													color: $muted-stone;
+													color: var(--text-secondary);
 													transition: $transition-fast;
 
 													svg {
 														font-size: 20px;
 														stroke-width: 1.5px;
+														path {
+															fill: var(--text-secondary);
+														}
 													}
 												}
 
@@ -359,7 +362,7 @@ $transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 									font-family: $font;
 									font-size: 14px;
 													font-weight: 500;
-													color: rgba($premium-black, 0.7);
+													color: var(--text-secondary);
 													transition: $transition-fast;
 													letter-spacing: -0.1px;
 												}
@@ -452,9 +455,9 @@ $transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 								height: auto;
 								margin-bottom: 0;
 								border-radius: 24px;
-								background: #FFFFFF;
+								background: var(--bg-card);
 								box-shadow: $shadow-sm;
-								border: 1px solid rgba($muted-stone, 0.2);
+								border: 1px solid var(--border-soft);
 								overflow: hidden;
 								transition: $transition-smooth;
 
@@ -498,11 +501,11 @@ $transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 										left: 16px;
 										padding: 10px 18px;
 										border-radius: 14px;
-										background: rgba(255, 255, 255, 0.95);
+										background: var(--bg-card);
 										backdrop-filter: blur(8px);
 
 										p {
-											color: $premium-black;
+											color: var(--text-primary);
 											font-family: $font;
 											font-size: 16px;
 											font-weight: 700;
@@ -550,7 +553,7 @@ $transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 											align-items: center;
 
 											p {
-												color: $muted-stone;
+												color: var(--text-secondary);
 												font-family: $font;
 												font-size: 13px;
 											}
@@ -560,7 +563,7 @@ $transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 									.divider {
 										width: 100%;
 										height: 1px;
-										background: $soft-beige;
+										background: var(--border-soft);
 										margin-bottom: 18px;
 									}
 
@@ -604,7 +607,7 @@ $transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 
 							.total-result {
 								p {
-									color: $muted-stone;
+									color: var(--text-secondary);
 									font-family: $font;
 									font-size: 14px;
 									font-weight: 400;

@@ -589,7 +589,7 @@ const ProjectDetail: NextPage = ({ initialComment, ...props }: any) => {
 						isOpen={lightboxOpen}
 						onClose={closeLightbox}
 					/>
-				)}
+						)}
 			</div>
 		);
 	}

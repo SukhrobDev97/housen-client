@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import { Stack } from '@mui/material';
+import { Stack, Typography, Box } from '@mui/material';
+import Link from 'next/link';
 import MemberMenu from '../../libs/components/member/MemberMenu';
 import { useRouter } from 'next/router';
 import MemberFollowers from '../../libs/components/member/MemberFollowers';
@@ -113,38 +114,39 @@ const MemberPage: NextPage = () => {
 		return <>MEMBER PAGE MOBILE</>;
 	} else {
 		return (
-			<div id="member-page" style={{ position: 'relative' }}>
-				<div className="container">
-					<Stack className={'member-page'}>
-						<Stack className={'back-frame'}>
-							<Stack className={'left-config'}>
+			<div id="member-page">
+				<Stack className="main-section">
+					<Stack className="container">
+						<Stack className="content-wrapper">
+							{/* Left Sidebar */}
+							<Stack className="left-config">
 								<MemberMenu subscribeHandler={subscribeHandler} unsubscribeHandler={unsubscribeHandler} />
 							</Stack>
-							<Stack className="main-config" mb={'76px'}>
-								<Stack className={'list-config'}>
-									{category === 'projects' && <MemberProjects />}
-									{category === 'followers' && (
-										<MemberFollowers
-											subscribeHandler={subscribeHandler}
-											unsubscribeHandler={unsubscribeHandler}
-											likeMemberHandler={likeMemberHandler}
-											redirectToMemberPageHandler={redirectToMemberPageHandler}
-										/>
-									)}
-									{category === 'followings' && (
-										<MemberFollowings
-											subscribeHandler={subscribeHandler}
-											unsubscribeHandler={unsubscribeHandler}
-											likeMemberHandler={likeMemberHandler}
-											redirectToMemberPageHandler={redirectToMemberPageHandler}
-										/>
-									)}
-									{category === 'articles' && <MemberArticles />}
-								</Stack>
+
+							{/* Main Content */}
+							<Stack className="main-config">
+								{category === 'projects' && <MemberProjects />}
+								{category === 'followers' && (
+									<MemberFollowers
+										subscribeHandler={subscribeHandler}
+										unsubscribeHandler={unsubscribeHandler}
+										likeMemberHandler={likeMemberHandler}
+										redirectToMemberPageHandler={redirectToMemberPageHandler}
+									/>
+								)}
+								{category === 'followings' && (
+									<MemberFollowings
+										subscribeHandler={subscribeHandler}
+										unsubscribeHandler={unsubscribeHandler}
+										likeMemberHandler={likeMemberHandler}
+										redirectToMemberPageHandler={redirectToMemberPageHandler}
+									/>
+								)}
+								{category === 'articles' && <MemberArticles />}
 							</Stack>
 						</Stack>
 					</Stack>
-				</div>
+				</Stack>
 			</div>
 		);
 	}

@@ -177,20 +177,20 @@ const ProjectList: NextPage = ({ initialInput, ...props }: any) => {
 							<button 
 								className={`sort-pill ${activeSortOption === 'new' ? 'active' : ''}`}
 								onClick={() => sortingHandler('new')}
-							>
-								New
+								>
+									New
 							</button>
 							<button 
 								className={`sort-pill ${activeSortOption === 'lowest' ? 'active' : ''}`}
 								onClick={() => sortingHandler('lowest')}
-							>
-								Lowest Price
+								>
+									Lowest Price
 							</button>
 							<button 
 								className={`sort-pill ${activeSortOption === 'highest' ? 'active' : ''}`}
 								onClick={() => sortingHandler('highest')}
-							>
-								Highest Price
+								>
+									Highest Price
 							</button>
 						</Box>
 					</Box>

@@ -4,86 +4,11 @@
 		.home-page {
 			background-color: #1a1a1a;
 			
-			.info-box {
-				.left {
-					span {
-						color: #ffffff;
-						&.white {
-							color: #ffffff;
-						}
-					}
-					p {
-						color: #b0b0b0;
-						&.white {
-							color: #ffffff;
-						}
-					}
-				}
-				.right {
-					.more-box {
-						span {
-							color: #ffffff;
-						}
-					}
-					.pagination-box {
-						.swiper-trend-pagination,
-						.swiper-popular-pagination,
-						.swiper-community-pagination {
-							span {
-								color: #ffffff;
-							}
-						}
-						.swiper-trend-next,
-						.swiper-trend-prev,
-						.swiper-popular-next,
-						.swiper-popular-prev,
-						.swiper-community-next,
-						.swiper-community-prev {
-							color: #ffffff;
-							&:hover {
-								color: #b0b0b0;
-							}
-						}
-					}
-				}
-			}
+			// Info-box uses CSS variables - colors handled automatically
 			
-		.trend-properties, .top-properties, .top-agents, .community-board {
-				background-color: #1a1a1a;
-			.top-agent-card {
-				background: #2a2a2a;
-				.agent-content {
-					.agent-name {
-						color: #ffffff;
-					}
-					.agent-verified {
-						.verified-text {
-							color: #4CAF50;
-						}
-					}
-					.agent-rating {
-						color: #cccccc;
-					}
-					.view-profile-btn {
-						background: #364440;
-						border-color: #364440;
-						color: #ffffff;
-						&:hover {
-							background: #2a3532;
-							border-color: #2a3532;
-							color: #ffffff;
-						}
-					}
-				}
-			}
-		}
-		
-		.popular-properties {
-			background-color: #1a1a1a;
-		}
-
+		// Dark mode - CSS variables handle backgrounds and text colors automatically
 		.before-after-testimonials {
-			background: #1a1a1a;
+			background: var(--bg-section);
 
 			.container {
 				.before-after-content-wrapper {
@@ -231,38 +156,8 @@
 			
 			.trend-card-box {
 				.info {
-					background: linear-gradient(180deg, #2a2a2a 0%, #1f1f1f 100%);
-					.title {
-						color: #ffffff;
-					}
-					.price-location {
-						.price {
-							color: #ffffff;
-						}
-						.location {
-							color: #b0b0b0;
-						}
-						.details-btn {
-							background: #364440;
-							border: 1px solid #364440;
-							color: #ffffff;
-							&:hover {
-								background: #2a3532;
-								border-color: #2a3532;
-								color: #ffffff;
-							}
-						}
-					}
-					.property-details {
-						.detail-item {
-							span {
-								color: #b0b0b0;
-							}
-						}
-					}
-					.property-details-divider {
-						border-color: rgba(255, 255, 255, 0.1);
-					}
+					// CSS variables handle background and text colors automatically
+					background: var(--bg-card);
 				}
 			}
 			
@@ -291,7 +186,7 @@
 						visibility: visible !important;
 						opacity: 1 !important;
 				span {
-					color: #181a20;
+					color: var(--text-primary);
 					font-family: $font;
 							font-size: 14px;
 					font-style: normal;
@@ -302,19 +197,19 @@
 					.swiper-popular-next {
 						margin-left: 20px;
 						cursor: pointer;
-					color: #181a20;
+					color: var(--text-primary);
 						transition: color 0.3s ease;
 						&:hover {
-							color: #666;
+							color: var(--text-secondary);
 						}
 					}
 					.swiper-popular-prev {
 						margin-right: 20px;
 						cursor: pointer;
-						color: #181a20;
+						color: var(--text-primary);
 						transition: color 0.3s ease;
 						&:hover {
-							color: #666;
+							color: var(--text-secondary);
 						}
 					}
 					.swiper-top-pagination {
@@ -330,7 +225,7 @@
 						visibility: visible !important;
 						opacity: 1 !important;
 						span {
-							color: #181a20;
+							color: var(--text-primary);
 							font-family: $font;
 							font-size: 14px;
 							font-style: normal;
@@ -341,19 +236,19 @@
 					.swiper-top-next {
 						margin-left: 20px;
 						cursor: pointer;
-						color: #181a20;
+						color: var(--text-primary);
 						transition: color 0.3s ease;
 						&:hover {
-							color: #666;
+							color: var(--text-secondary);
 						}
 					}
 					.swiper-top-prev {
 						margin-right: 20px;
 						cursor: pointer;
-						color: #181a20;
+						color: var(--text-primary);
 						transition: color 0.3s ease;
 						&:hover {
-							color: #666;
+							color: var(--text-secondary);
 						}
 					}
 				}
@@ -363,7 +258,7 @@
 					cursor: pointer;
 					align-items: center;
 					span {
-						color: #181a20;
+						color: var(--text-primary);
 						font-family: $font;
 						font-size: 15px;
 						font-style: normal;
@@ -394,9 +289,9 @@
 							margin-right: 20px;
 						}
 						&.active {
-							border: 1px solid #181a20;
-							background: #fff;
-							color: #181a20;
+							border: 1px solid var(--border-soft);
+							background: var(--bg-card);
+							color: var(--text-primary);
 							font-family: $font;
 							font-size: 14px;
 							font-style: normal;
@@ -417,7 +312,7 @@
 			flex-direction: row;
 		position: relative;
 		z-index: 1;
-	background: #FAFAFA;
+	background: var(--bg-section);
 
 		// Responsive adjustments
 		@media (max-width: 1024px) {
@@ -444,7 +339,7 @@
 				display: flex;
 				flex-direction: column;
 				span {
-				color: #181a20;
+				color: var(--text-primary);
 					font-family: $font;
 					font-size: 42px;
 					font-style: normal;
@@ -453,7 +348,7 @@
 					letter-spacing: -0.8px;
 					text-transform: capitalize;
 					&.white {
-					color: #181a20;
+					color: var(--text-primary);
 					}
 
 					@media (max-width: 768px) {
@@ -465,14 +360,14 @@
 					}
 				}
 				p {
-				color: rgba(24, 26, 32, 0.7);
+				color: var(--text-secondary);
 					font-family: $font;
 					font-size: 16px;
 					font-style: normal;
 					font-weight: 400;
 					line-height: 28px;
 					&.white {
-					color: rgba(24, 26, 32, 0.7);
+					color: var(--text-secondary);
 					}
 
 					@media (max-width: 640px) {
@@ -504,7 +399,7 @@
 						visibility: visible !important;
 						opacity: 1 !important;
 						span {
-						color: #181a20;
+						color: var(--text-primary);
 							font-family: $font;
 							font-size: 14px;
 							font-style: normal;
@@ -516,10 +411,10 @@
 					.swiper-community-next {
 						margin-left: 20px;
 						cursor: pointer;
-					color: #181a20;
+					color: var(--text-primary);
 						transition: all 0.3s ease;
 						&:hover {
-						color: rgba(24, 26, 32, 0.6);
+						color: var(--text-secondary);
 							transform: translateX(2px);
 						}
 					}
@@ -527,10 +422,10 @@
 					.swiper-community-prev {
 						margin-right: 20px;
 						cursor: pointer;
-					color: #181a20;
+					color: var(--text-primary);
 						transition: all 0.3s ease;
 						&:hover {
-						color: rgba(24, 26, 32, 0.6);
+						color: var(--text-secondary);
 							transform: translateX(-2px);
 						}
 					}
@@ -608,8 +503,8 @@
 						cursor: pointer;
 						border-radius: 16px;
 						overflow: hidden;
-						background: #ffffff;
-						border: 1px solid rgba(24, 26, 32, 0.08);
+						background: var(--bg-card);
+						border: 1px solid var(--border-soft);
 						box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 						transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -749,46 +644,65 @@
 								z-index: 2;
 							}
 
-							.image-stats {
+							// Hover Icons - Like + Compare
+							.hover-icons {
 								position: absolute;
-								bottom: 16px;
-								right: 16px;
+								top: 12px;
+								right: 12px;
 								display: flex;
+								flex-direction: row;
 								gap: 8px;
-								z-index: 2;
+								z-index: 5;
+								opacity: 0;
+								transform: translateY(-8px);
+								transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-								.stat-chip {
+								.icon-btn {
+									width: 36px;
+									height: 36px;
 									display: flex;
 									align-items: center;
-									gap: 4px;
-									padding: 5px 10px;
-									background: rgba(0, 0, 0, 0.4);
-									backdrop-filter: blur(8px);
-									border-radius: 100px;
+									justify-content: center;
+									background: rgba(0, 0, 0, 0.5);
+									backdrop-filter: blur(10px);
+									-webkit-backdrop-filter: blur(10px);
+									border-radius: 50%;
 									cursor: pointer;
 									transition: all 0.25s ease;
 
 									svg {
-										font-size: 14px;
-										color: rgba(255, 255, 255, 0.85);
-
-										&.liked {
-											color: #ff6b6b;
-										}
-									}
-
-									span {
-										font-family: $font;
-										font-size: 12px;
-										font-weight: 500;
-										color: rgba(255, 255, 255, 0.85);
+										font-size: 18px;
+										color: #ffffff;
+										transition: all 0.2s ease;
 									}
 
 									&:hover {
-										background: rgba(0, 0, 0, 0.6);
+										background: rgba(0, 0, 0, 0.7);
+										transform: scale(1.1);
+									}
+
+									&.like-btn.active {
+										background: rgba(255, 107, 107, 0.9);
+										
+										svg {
+											color: #ffffff;
+										}
+									}
+
+									&.compare-btn.active {
+										background: #3B3F2B;
+										
+										svg {
+											color: #ffffff;
+										}
 									}
 								}
 							}
+						}
+
+						&:hover .card-img .hover-icons {
+							opacity: 1;
+							transform: translateY(0);
 						}
 
 						.card-content {
@@ -806,7 +720,7 @@
 										font-family: $font;
 									font-size: 18px;
 											font-weight: 600;
-											color: #181a20;
+											color: var(--text-primary);
 									line-height: 1.3;
 									display: -webkit-box;
 									-webkit-line-clamp: 1;
@@ -820,9 +734,17 @@
 								font-family: $font;
 									font-size: 13px;
 									font-weight: 400;
-									color: rgba(24, 26, 32, 0.6);
+									color: var(--text-secondary);
 								text-transform: capitalize;
 							}
+
+								.card-duration {
+									font-family: $font;
+									font-size: 12px;
+									font-weight: 400;
+									color: var(--text-secondary);
+									margin-top: 2px;
+								}
 							}
 
 							.content-bottom {
@@ -835,7 +757,7 @@
 									font-family: $font;
 									font-size: 16px;
 									font-weight: 700;
-									color: #181a20;
+									color: var(--text-primary);
 									letter-spacing: -0.3px;
 								}
 
@@ -843,17 +765,19 @@
 									display: flex;
 									align-items: center;
 									gap: 6px;
-									padding: 8px 16px;
-									background: #364440;
-									border: 1px solid #364440;
-									border-radius: 999px;
-										font-family: $font;
-										font-size: 13px;
+									padding: 8px 20px;
+									background: transparent;
+									border: 1px solid var(--border-soft);
+									border-radius: 10px;
+									font-family: $font;
+									font-size: 13px;
 									font-weight: 600;
-									color: #ffffff;
+									color: var(--text-primary);
 									text-transform: none;
 									cursor: pointer;
-									transition: all 0.25s ease;
+									transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+									white-space: nowrap;
+									box-shadow: none;
 
 									svg {
 										font-size: 14px;
@@ -861,9 +785,11 @@
 									}
 
 									&:hover {
-										background: #2a3532;
-										border-color: #2a3532;
-										transform: translateX(2px);
+										background: #3B3F2B;
+										color: #ffffff;
+										border-color: #3B3F2B;
+										transform: translateY(-2px);
+										box-shadow: 0 4px 12px rgba(59, 63, 43, 0.3);
 
 										svg {
 											transform: translateX(3px);
@@ -885,7 +811,7 @@
 			flex-direction: row;
 			position: relative;
 			z-index: 1;
-		background: #FAFAFA;
+		background: var(--bg-section);
 			
 			.container {
 				max-width: 1300px;
@@ -908,8 +834,8 @@
 						padding: 12px 24px;
 						border-radius: 8px;
 					background: transparent;
-					border: 1px solid #181a20;
-					color: #181a20;
+					border: 1px solid var(--border-soft);
+					color: var(--text-primary);
 						font-family: $font;
 						font-size: 14px;
 						font-weight: 500;
@@ -967,7 +893,7 @@
 					margin-bottom: 48px;
 					
 					.popular-collections-text {
-					color: rgba(24, 26, 32, 0.6);
+					color: var(--text-secondary);
 						font-family: $font;
 						font-size: 14px;
 						font-style: normal;
@@ -979,7 +905,7 @@
 					}
 					
 					.hot-title {
-					color: #181a20;
+					color: var(--text-primary);
 						font-family: $font;
 						font-size: 42px;
 						font-style: normal;
@@ -1038,11 +964,11 @@
 					.swiper-popular-prev {
 						margin-right: 20px;
 						cursor: pointer;
-						color: #181a20;
+						color: var(--text-primary);
 						transition: all 0.3s ease;
 						
 						&:hover {
-							color: rgba(24, 26, 32, 0.6);
+							color: var(--text-secondary);
 							transform: translateX(-2px);
 						}
 					}
@@ -1061,7 +987,7 @@
 						opacity: 1 !important;
 						
 						span {
-							color: #181a20;
+							color: var(--text-primary);
 							font-family: $font;
 							font-size: 14px;
 							font-style: normal;
@@ -1073,11 +999,11 @@
 					.swiper-popular-next {
 						margin-left: 20px;
 						cursor: pointer;
-						color: #181a20;
+						color: var(--text-primary);
 						transition: all 0.3s ease;
 						
 						&:hover {
-							color: rgba(24, 26, 32, 0.6);
+							color: var(--text-secondary);
 							transform: translateX(2px);
 						}
 					}
@@ -1146,6 +1072,11 @@
 									transform: translateY(10px);
 								}
 
+								.hover-icons {
+									opacity: 1;
+									transform: translateY(0);
+								}
+
 								.image-hover-overlay {
 									opacity: 1;
 									visibility: visible;
@@ -1207,6 +1138,61 @@
 									text-transform: capitalize;
 									letter-spacing: 1px;
 									text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+								}
+							}
+
+							// Hover Icons - Like + Save (same position as TrendProjects)
+							.hover-icons {
+								position: absolute;
+								top: 12px;
+								right: 12px;
+								display: flex;
+								flex-direction: row;
+								gap: 8px;
+								z-index: 12;
+								opacity: 0;
+								transform: translateY(-8px);
+								transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+								.icon-btn {
+									width: 36px;
+									height: 36px;
+									display: flex;
+									align-items: center;
+									justify-content: center;
+									background: rgba(0, 0, 0, 0.5);
+									backdrop-filter: blur(10px);
+									-webkit-backdrop-filter: blur(10px);
+									border-radius: 50%;
+									cursor: pointer;
+									transition: all 0.25s ease;
+
+									svg {
+										font-size: 18px;
+										color: #ffffff;
+										transition: all 0.2s ease;
+									}
+
+									&:hover {
+										background: rgba(0, 0, 0, 0.7);
+										transform: scale(1.1);
+									}
+
+									&.like-btn.active {
+										background: rgba(255, 107, 107, 0.9);
+										
+										svg {
+											color: #ffffff;
+										}
+									}
+
+									&.save-btn.active {
+										background: #3B3F2B;
+										
+										svg {
+											color: #ffffff;
+										}
+									}
 								}
 							}
 
@@ -1286,7 +1272,7 @@
 							flex-direction: column;
 							gap: 0;
 							box-sizing: border-box;
-							background: #ffffff;
+							background: var(--bg-card);
 							border-radius: 0;
 							box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 							position: relative;
@@ -1305,15 +1291,22 @@
 									align-items: center;
 									gap: 6px;
 									span {
-										color: #666;
+										color: var(--text-secondary);
 										font-family: $font;
 										font-size: 13px;
 										font-style: normal;
 										font-weight: 400;
 										line-height: normal;
+									}
+									svg {
+										color: var(--text-secondary) !important;
+										path {
+											fill: var(--text-secondary) !important;
+										}
+									}
 										strong {
 											font-weight: 600;
-											color: #181a20;
+											color: var(--text-primary);
 										}
 									}
 									svg {
@@ -1323,13 +1316,13 @@
 							}
 							.property-details-divider {
 								margin: 12px 0;
-								border-color: rgba(0, 0, 0, 0.08);
+								border-color: var(--border-soft);
 								border-width: 1px;
 								opacity: 1;
 								visibility: visible;
 							}
 							.title {
-								color: #181a20;
+								color: var(--text-primary);
 								font-family: $font;
 								font-size: 20px;
 								font-style: normal;
@@ -1352,7 +1345,7 @@
 								opacity: 1;
 								visibility: visible;
 								.price {
-									color: #181a20;
+									color: var(--text-primary);
 									font-family: $font;
 									font-size: 18px;
 									font-style: normal;
@@ -1367,9 +1360,16 @@
 									gap: 4px;
 									.view-like-icon {
 										padding: 4px;
+										
+										svg {
+											color: var(--text-secondary) !important;
+											path {
+												fill: var(--text-secondary) !important;
+											}
+										}
 									}
 									.view-cnt-info {
-										color: #666;
+										color: var(--text-secondary);
 										font-family: $font;
 										font-size: 12px;
 										font-style: normal;
@@ -1380,26 +1380,27 @@
 								}
 								.details-btn {
 									padding: 8px 20px;
-									border-radius: 999px;
-									background: #364440;
-									border: 1px solid #364440;
-									color: #ffffff;
-										font-family: $font;
-										font-size: 13px;
-										font-style: normal;
+									border-radius: 10px;
+									background: transparent;
+									border: 1px solid var(--border-soft);
+									color: var(--text-primary);
+									font-family: $font;
+									font-size: 13px;
+									font-style: normal;
 									font-weight: 600;
-										line-height: normal;
+									line-height: normal;
 									text-transform: none;
 									cursor: pointer;
 									transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 									white-space: nowrap;
-									box-shadow: 0 2px 8px rgba(54, 68, 64, 0.15);
+									box-shadow: none;
+									
 									&:hover {
-										background: #2a3532;
+										background: #3B3F2B;
 										color: #ffffff;
-										border-color: #2a3532;
-										transform: translateY(-1px);
-										box-shadow: 0 4px 12px rgba(54, 68, 64, 0.25);
+										border-color: #3B3F2B;
+										transform: translateY(-2px);
+										box-shadow: 0 4px 12px rgba(59, 63, 43, 0.3);
 									}
 								}
 							}
@@ -1417,7 +1418,7 @@
 			flex-direction: row;
 			position: relative;
 			z-index: 1;
-			background: #ffffff;
+			background: var(--bg-section);
 			overflow: hidden;
 				
 				.container {
@@ -1873,7 +1874,7 @@
 			min-height: 800px;
 			display: flex;
 			flex-direction: row;
-			background: #FAFAFA;
+			background: var(--bg-section);
 			
 			.container {
 				flex-direction: column;
@@ -1890,7 +1891,7 @@
 						display: flex;
 						flex-direction: column;
 						span {
-							color: #181a20;
+							color: var(--text-primary);
 							font-family: $font;
 							font-size: 42px;
 							font-style: normal;
@@ -1901,7 +1902,7 @@
 							margin-bottom: 8px;
 						}
 						p {
-							color: rgba(24, 26, 32, 0.7);
+							color: var(--text-secondary);
 							font-family: $font;
 							font-size: 16px;
 							font-style: normal;
@@ -1936,7 +1937,7 @@
 								opacity: 1 !important;
 								
 								span {
-									color: #181a20;
+									color: var(--text-primary);
 									font-family: $font;
 									font-size: 14px;
 									font-style: normal;
@@ -1948,11 +1949,11 @@
 							.swiper-top-next {
 								margin-left: 20px;
 								cursor: pointer;
-								color: #181a20;
+								color: var(--text-primary);
 								transition: all 0.3s ease;
 								
 								&:hover {
-									color: rgba(24, 26, 32, 0.6);
+									color: var(--text-secondary);
 									transform: translateX(2px);
 								}
 							}
@@ -1960,11 +1961,11 @@
 							.swiper-top-prev {
 								margin-right: 20px;
 								cursor: pointer;
-								color: #181a20;
+								color: var(--text-primary);
 								transition: all 0.3s ease;
 								
 								&:hover {
-									color: rgba(24, 26, 32, 0.6);
+									color: var(--text-secondary);
 									transform: translateX(-2px);
 								}
 							}
@@ -2046,6 +2047,11 @@
 									opacity: 1;
 								}
 
+								.hover-icons {
+									opacity: 1;
+									transform: translateY(0);
+								}
+
 								.image-hover-overlay {
 									opacity: 1;
 									visibility: visible;
@@ -2094,6 +2100,61 @@
 								text-transform: uppercase;
 								letter-spacing: 0.5px;
 								box-shadow: 0 2px 8px rgba(245, 193, 108, 0.35);
+							}
+
+							// Hover Icons - Like + Save (same position as TrendProjects)
+							.hover-icons {
+								position: absolute;
+								top: 12px;
+								right: 12px;
+								display: flex;
+								flex-direction: row;
+								gap: 8px;
+								z-index: 12;
+								opacity: 0;
+								transform: translateY(-8px);
+								transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+								.icon-btn {
+									width: 36px;
+									height: 36px;
+									display: flex;
+									align-items: center;
+									justify-content: center;
+									background: rgba(0, 0, 0, 0.5);
+									backdrop-filter: blur(10px);
+									-webkit-backdrop-filter: blur(10px);
+									border-radius: 50%;
+									cursor: pointer;
+									transition: all 0.25s ease;
+
+									svg {
+										font-size: 18px;
+										color: #ffffff;
+										transition: all 0.2s ease;
+									}
+
+									&:hover {
+										background: rgba(0, 0, 0, 0.7);
+										transform: scale(1.1);
+									}
+
+									&.like-btn.active {
+										background: rgba(255, 107, 107, 0.9);
+										
+										svg {
+											color: #ffffff;
+										}
+									}
+
+									&.save-btn.active {
+										background: #3B3F2B;
+										
+										svg {
+											color: #ffffff;
+										}
+									}
+								}
 							}
 
 							.card-image {
@@ -2254,11 +2315,27 @@
 								letter-spacing: -0.3px;
 							}
 
+							.card-meta {
+								font-family: $font;
+								font-size: 13px;
+								font-weight: 400;
+								color: rgba(255, 255, 255, 0.7);
+								text-transform: capitalize;
+							}
+
 							.bottom-row {
 								display: flex;
 								justify-content: space-between;
 								align-items: center;
 								margin-top: 6px;
+
+								.card-price {
+									font-family: $font;
+									font-size: 18px;
+									font-weight: 700;
+									color: #ffffff;
+									letter-spacing: -0.3px;
+								}
 
 								.stats-row {
 									display: flex;
@@ -2343,7 +2420,7 @@
 			min-height: 600px;
 			display: flex;
 			flex-direction: row;
-			background: #ffffff;
+			background: var(--bg-section);
 			
 			.container {
 				position: relative;
@@ -2363,7 +2440,7 @@
 						flex-direction: column;
 						
 						span {
-							color: #181a20;
+							color: var(--text-primary);
 							font-family: $font;
 							font-size: 42px;
 							font-style: normal;
@@ -2375,7 +2452,7 @@
 						}
 						
 						p {
-							color: rgba(24, 26, 32, 0.7);
+							color: var(--text-secondary);
 							font-family: $font;
 							font-size: 16px;
 							font-style: normal;
@@ -2499,10 +2576,10 @@
 							flex-direction: row;
 							gap: 24px;
 							padding: 28px;
-							background: #ffffff;
+							background: var(--bg-card);
 							border-radius: 16px;
 							box-shadow: 0px 2px 12px 0px rgba(24, 26, 32, 0.08);
-							border: 1px solid rgba(24, 26, 32, 0.05);
+							border: 1px solid var(--border-soft);
 								cursor: pointer;
 							transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 							
@@ -2520,11 +2597,7 @@
 								overflow: hidden;
 								box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 								transition: all 0.3s ease;
-								
-								&:hover {
-									transform: scale(1.05);
-									box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-								}
+								position: relative;
 								
 								img {
 									width: 100%;
@@ -2532,6 +2605,75 @@
 									border-radius: 16px;
 								object-fit: cover;
 									transition: transform 0.3s ease;
+								}
+
+								// Follow Overlay - appears on hover
+								.follow-overlay {
+									position: absolute;
+									top: 0;
+									left: 0;
+									right: 0;
+									bottom: 0;
+									display: flex;
+									align-items: center;
+									justify-content: center;
+									background: rgba(0, 0, 0, 0.5);
+									backdrop-filter: blur(4px);
+									-webkit-backdrop-filter: blur(4px);
+									opacity: 0;
+									transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+									border-radius: 16px;
+									cursor: pointer;
+
+									.follow-btn-hover {
+										display: flex;
+										align-items: center;
+										gap: 6px;
+										padding: 10px 20px;
+										background: rgba(255, 255, 255, 0.95);
+										border-radius: 999px;
+										transform: translateY(8px);
+										opacity: 0;
+										transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+										svg {
+											font-size: 18px;
+											color: #3B3F2B;
+										}
+
+										span {
+											font-family: $font;
+											font-size: 14px;
+											font-weight: 600;
+											color: #3B3F2B;
+										}
+									}
+
+									&.following .follow-btn-hover {
+										background: #3B3F2B;
+
+										svg, span {
+											color: #ffffff;
+										}
+									}
+								}
+
+								&:hover {
+									transform: scale(1.02);
+									box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+
+									.follow-overlay {
+										opacity: 1;
+
+										.follow-btn-hover {
+											transform: translateY(0);
+											opacity: 1;
+										}
+									}
+
+									img {
+										transform: scale(1.05);
+									}
 								}
 							}
 							.agent-content {
@@ -2541,7 +2683,7 @@
 								justify-content: space-between;
 								gap: 10px;
 								.agent-name {
-								color: #181a20;
+								color: var(--text-primary);
 								font-family: $font;
 									font-size: 22px;
 								font-style: normal;
@@ -2573,7 +2715,7 @@
 								}
 								
 								.agent-rating {
-									color: #666;
+									color: var(--text-secondary);
 								font-family: $font;
 								font-size: 15px;
 								font-style: normal;
@@ -2583,27 +2725,29 @@
 								}
 								.view-profile-btn {
 									width: fit-content;
-									padding: 10px 24px;
-									border-radius: 999px;
-									background: #364440;
-									border: 1.5px solid #364440;
-									color: #ffffff;
-								font-family: $font;
-									font-size: 14px;
-								font-style: normal;
+									padding: 8px 20px;
+									border-radius: 10px;
+									background: transparent;
+									border: 1px solid var(--border-soft);
+									color: var(--text-primary);
+									font-family: $font;
+									font-size: 13px;
+									font-style: normal;
 									font-weight: 600;
 									line-height: normal;
 									text-transform: none;
 									margin-top: 12px;
+									cursor: pointer;
 									transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-									box-shadow: 0 2px 8px rgba(54, 68, 64, 0.15);
+									white-space: nowrap;
+									box-shadow: none;
 									
 									&:hover {
-										background: #2a3532;
-										border-color: #2a3532;
+										background: #3B3F2B;
 										color: #ffffff;
+										border-color: #3B3F2B;
 										transform: translateY(-2px);
-										box-shadow: 0 4px 12px rgba(54, 68, 64, 0.25);
+										box-shadow: 0 4px 12px rgba(59, 63, 43, 0.3);
 									}
 									
 									svg {
@@ -2627,7 +2771,7 @@
 			min-height: 600px;
 			display: flex;
 			flex-direction: row;
-			background: #ffffff;
+			background: var(--bg-section);
 			
 			.container {
 				flex-direction: column;
@@ -2645,7 +2789,7 @@
 							flex-direction: column;
 						
 						span {
-							color: #181a20;
+							color: var(--text-primary);
 								font-family: $font;
 							font-size: 42px;
 								font-style: normal;
@@ -2657,7 +2801,7 @@
 							}
 						
 						p {
-							color: rgba(24, 26, 32, 0.7);
+							color: var(--text-secondary);
 								font-family: $font;
 							font-size: 16px;
 								font-style: normal;
@@ -2678,10 +2822,10 @@
 							align-items: center;
 							gap: 16px;
 							padding: 8px 16px;
-							background: #ffffff;
+							background: var(--bg-card);
 							border-radius: 50px;
 							box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-							border: 1px solid rgba(24, 26, 32, 0.1);
+							border: 1px solid var(--border-soft);
 							
 							.swiper-community-prev,
 							.swiper-community-next {
@@ -2692,12 +2836,12 @@
 								justify-content: center;
 								border-radius: 50%;
 								background: transparent;
-								color: #181a20;
+								color: var(--text-primary);
 								cursor: pointer;
 								transition: all 0.3s ease;
 								
 								&:hover {
-									background: #f0f0f0;
+									background: var(--bg-section);
 									transform: scale(1.1);
 								}
 								
@@ -2766,7 +2910,7 @@
 								cursor: pointer;
 						border-radius: 12px;
 						overflow: hidden;
-						background: #fff;
+						background: var(--bg-card);
 						box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
 						transition: all 0.3s ease;
 						&:hover {
@@ -2811,11 +2955,11 @@
 							flex-direction: column;
 							gap: 12px;
 							box-sizing: border-box;
-							background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+							background: var(--bg-card);
 							border-radius: 0 0 12px 12px;
 							box-shadow: 0px 2px 8px 0px rgba(24, 26, 32, 0.08);
 							.title {
-								color: #181a20;
+								color: var(--text-primary);
 									font-family: $font;
 									font-size: 18px;
 								font-style: normal;
@@ -2837,7 +2981,7 @@
 								align-items: center;
 								gap: 12px;
 								.date {
-									color: #666;
+									color: var(--text-secondary);
 									font-family: $font;
 									font-size: 13px;
 									font-style: normal;
@@ -2855,14 +2999,14 @@
 							}
 							.read-more-btn {
 								width: fit-content;
-								padding: 10px 24px;
-								border-radius: 999px;
-								background: #364440;
-								border: 1.5px solid #364440;
-								color: #ffffff;
-									font-family: $font;
-								font-size: 14px;
-									font-style: normal;
+								padding: 8px 20px;
+								border-radius: 10px;
+								background: transparent;
+								border: 1px solid var(--border-soft);
+								color: var(--text-primary);
+								font-family: $font;
+								font-size: 13px;
+								font-style: normal;
 								font-weight: 600;
 								line-height: normal;
 								text-transform: none;
@@ -2870,14 +3014,14 @@
 								transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 								white-space: nowrap;
 								margin-top: 8px;
-								box-shadow: 0 2px 8px rgba(54, 68, 64, 0.15);
+								box-shadow: none;
 								
 								&:hover {
-									background: #2a3532;
-									border-color: #2a3532;
+									background: #3B3F2B;
 									color: #ffffff;
+									border-color: #3B3F2B;
 									transform: translateY(-2px);
-									box-shadow: 0 4px 12px rgba(54, 68, 64, 0.25);
+									box-shadow: 0 4px 12px rgba(59, 63, 43, 0.3);
 								}
 								
 								svg {
@@ -2893,60 +3037,103 @@
 				}
 			}
 		}
-	}
-
+	
 /* =============================================
    COMPARE PROJECTS FEATURE STYLES
    ============================================= */
 
-// Compare Checkbox on Cards
+// Compare Checkbox on Cards - Premium Glassmorphism Style
 .trend-card-box {
-		position: relative;
+	position: relative;
 	transition: all 0.3s ease;
 	
 	&.compare-selected {
-		border: 2px solid #4CAF50;
+		border: 2px solid #3B3F2B;
 		border-radius: 16px;
-		box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.15);
+		box-shadow: 0 0 0 4px rgba(59, 63, 43, 0.12);
 	}
 	
 	.compare-checkbox {
-			position: absolute;
-		top: 12px;
-		right: 12px;
-		width: 28px;
-		height: 28px;
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		width: 30px;
+		height: 30px;
 		border-radius: 50%;
-		background: rgba(255, 255, 255, 0.9);
-		border: 2px solid rgba(0, 0, 0, 0.15);
+		
+		// Glassmorphism background
+		background: rgba(255, 255, 255, 0.65);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		
+		// Subtle glass border
+		border: 1px solid rgba(255, 255, 255, 0.5);
+		box-shadow: 
+			0 4px 16px rgba(0, 0, 0, 0.12),
+			0 1px 3px rgba(0, 0, 0, 0.08),
+			inset 0 1px 1px rgba(255, 255, 255, 0.6);
+		
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		cursor: pointer;
 		z-index: 10;
-		transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+		transition: all 0.2s ease;
 		
-		&:hover {
-			transform: scale(1.1);
-			border-color: #4CAF50;
-			background: rgba(255, 255, 255, 1);
+		// Default icon placeholder (empty state)
+		&::before {
+			content: '';
+			width: 12px;
+			height: 12px;
+			border-radius: 50%;
+			border: 2px solid rgba(59, 63, 43, 0.4);
+			transition: all 0.2s ease;
 		}
 		
+		&:hover {
+			transform: scale(1.08);
+			background: rgba(255, 255, 255, 0.85);
+			box-shadow: 
+				0 6px 20px rgba(0, 0, 0, 0.15),
+				0 2px 6px rgba(0, 0, 0, 0.1),
+				inset 0 1px 1px rgba(255, 255, 255, 0.8);
+			
+			&::before {
+				border-color: #3B3F2B;
+			}
+		}
+		
+		// Selected/Active state
 		&.active {
-			background: #4CAF50;
-			border-color: #4CAF50;
-			animation: checkPop 0.3s ease;
+			background: #3B3F2B;
+			border-color: #3B3F2B;
+			box-shadow: 
+				0 4px 16px rgba(59, 63, 43, 0.35),
+				0 2px 6px rgba(59, 63, 43, 0.2);
+			
+			&::before {
+				display: none;
+			}
 			
 			svg {
 				color: #ffffff;
-				font-size: 18px;
+				font-size: 16px;
+				animation: checkPop 0.25s ease;
+			}
+			
+			&:hover {
+				background: darken(#3B3F2B, 5%);
+				transform: scale(1.08);
+				box-shadow: 
+					0 6px 24px rgba(59, 63, 43, 0.4),
+					0 3px 8px rgba(59, 63, 43, 0.25);
 			}
 		}
 		
 		svg {
 			font-size: 16px;
-			color: #666;
+			color: rgba(59, 63, 43, 0.6);
+			transition: all 0.2s ease;
 		}
 	}
 }
@@ -3112,28 +3299,28 @@
 							align-items: center;
 	justify-content: space-between;
 	padding: 20px 28px;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-	background: #fafafa;
+	border-bottom: 1px solid var(--border-soft);
+	background: var(--bg-section);
 	
 	.compare-modal-title {
 								font-family: 'Inter', sans-serif;
 		font-size: 20px;
 		font-weight: 600;
-		color: #0D0D0C;
+		color: var(--text-primary);
 	}
 	
 	.compare-modal-close {
 		width: 36px;
 		height: 36px;
 		border-radius: 50%;
-		background: #ffffff;
-		border: 1px solid rgba(0, 0, 0, 0.1);
-		color: #666;
+		background: var(--bg-card);
+		border: 1px solid var(--border-soft);
+		color: var(--text-secondary);
 		transition: all 0.2s ease;
 
 		&:hover {
-			background: #f0f0f0;
-			color: #333;
+			background: var(--bg-section);
+			color: var(--text-primary);
 			transform: scale(1.05);
 								}
 							}
@@ -3150,11 +3337,11 @@
 	gap: 20px;
 					}
 
-.compare-item {
-	background: #fafafa;
+	.compare-item {
+	background: var(--bg-card);
 	border-radius: 16px;
 	overflow: hidden;
-	border: 1px solid rgba(0, 0, 0, 0.06);
+	border: 1px solid var(--border-soft);
 	
 	.compare-item-image {
 						width: 100%;
@@ -3192,7 +3379,7 @@
 							font-family: 'Inter', sans-serif;
 			font-size: 11px;
 			font-weight: 600;
-			color: #999;
+			color: var(--text-secondary);
 			text-transform: uppercase;
 			letter-spacing: 0.5px;
 		}
@@ -3201,7 +3388,7 @@
 			font-family: 'Inter', sans-serif;
 			font-size: 14px;
 			font-weight: 500;
-			color: #333;
+			color: var(--text-primary);
 			display: flex;
 			align-items: center;
 			gap: 6px;
@@ -3229,29 +3416,50 @@
 [data-theme='dark'] {
 	.trend-card-box {
 		&.compare-selected {
-			border-color: #4CAF50;
-			box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.2);
+			border-color: #3B3F2B;
+			box-shadow: 0 0 0 4px rgba(59, 63, 43, 0.25);
 		}
 		
 		.compare-checkbox {
-			background: rgba(42, 42, 42, 0.95);
-			border-color: rgba(255, 255, 255, 0.2);
+			background: rgba(30, 30, 30, 0.75);
+			backdrop-filter: blur(12px);
+			-webkit-backdrop-filter: blur(12px);
+			border-color: rgba(255, 255, 255, 0.15);
+			box-shadow: 
+				0 4px 16px rgba(0, 0, 0, 0.3),
+				0 1px 3px rgba(0, 0, 0, 0.2),
+				inset 0 1px 1px rgba(255, 255, 255, 0.1);
 
-					&:hover {
-				background: rgba(50, 50, 50, 1);
-				border-color: #4CAF50;
-					}
+			&::before {
+				border-color: rgba(255, 255, 255, 0.4);
+			}
 
-			&.active {
-				background: #4CAF50;
-				border-color: #4CAF50;
-					}
-
-					svg {
-				color: #b0b0b0;
+			&:hover {
+				background: rgba(40, 40, 40, 0.85);
+				border-color: rgba(255, 255, 255, 0.25);
+				
+				&::before {
+					border-color: rgba(255, 255, 255, 0.6);
 				}
 			}
+
+			&.active {
+				background: #3B3F2B;
+				border-color: #3B3F2B;
+				box-shadow: 
+					0 4px 16px rgba(59, 63, 43, 0.4),
+					0 2px 6px rgba(59, 63, 43, 0.3);
+				
+				&::before {
+					display: none;
+				}
+			}
+
+			svg {
+				color: rgba(255, 255, 255, 0.7);
+			}
 		}
+	}
 
 	.compare-sticky-bar {
 		background: rgba(26, 26, 26, 0.95);

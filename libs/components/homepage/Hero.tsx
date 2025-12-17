@@ -84,6 +84,27 @@ const Hero = () => {
 									</button>
 								</div>
 							</div>
+							{/* How It Works */}
+							<div className={styles.howItWorks}>
+								<div className={styles.step}>
+									<span className={styles.stepNumber}>1</span>
+									<span className={styles.stepText}>Choose style</span>
+								</div>
+								<svg className={styles.stepArrow} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+								</svg>
+								<div className={styles.step}>
+									<span className={styles.stepNumber}>2</span>
+									<span className={styles.stepText}>Pick project</span>
+								</div>
+								<svg className={styles.stepArrow} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+								</svg>
+								<div className={styles.step}>
+									<span className={styles.stepNumber}>3</span>
+									<span className={styles.stepText}>Match with agency</span>
+								</div>
+							</div>
 						</div>
 
 						{/* Right Column - Image */}
@@ -93,6 +114,11 @@ const Hero = () => {
 									src="/img/banner/community.jpeg"
 									alt="Premium Interior Design"
 								/>
+								{/* Live Project Badge */}
+								<div className={styles.liveBadge}>
+									<span className={styles.liveDot}></span>
+									<span className={styles.liveText}>Live projects</span>
+								</div>
 								<span className={styles.watermark}>Housen Curated</span>
 							</div>
 						</div>

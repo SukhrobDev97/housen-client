@@ -171,7 +171,7 @@ const Join: NextPage = () => {
 								<Tab label="Login" value="login" />
 								<Tab label="Sign up" value="signup" />
 							</Tabs>
-						</Box>
+							</Box>
 
 						<Box className={'form-card'}>
 							<Box className={`input-wrap ${authMode === 'signup' && selectedRole === 'AGENCY' ? 'agency-form-grid' : ''}`}>
@@ -206,11 +206,11 @@ const Join: NextPage = () => {
 								<div className={'input-box password-input-box'}>
 									<label>Password</label>
 									<div className={'password-wrapper'}>
-										<input
+									<input
 											type={showPassword ? 'text' : 'password'}
-											placeholder={'Enter Password'}
+										placeholder={'Enter Password'}
 											value={input.password}
-											onChange={(e) => handleInput('password', e.target.value)}
+										onChange={(e) => handleInput('password', e.target.value)}
 											onKeyDown={handleKeyDown}
 											required
 											className={'password-input'}
@@ -257,15 +257,15 @@ const Join: NextPage = () => {
 							)}
 
 							{/* Submit Button */}
-							<Button
-								variant="contained"
+									<Button
+										variant="contained"
 								className={'submit-btn'}
 								disabled={!isFormValid()}
 								onClick={authMode === 'login' ? doLogin : doSignUp}
 								fullWidth
 							>
 								{authMode === 'login' ? 'Login' : 'Create Account'}
-							</Button>
+									</Button>
 
 							{/* Social Signup Section (Signup only) */}
 							{authMode === 'signup' && (
@@ -300,8 +300,8 @@ const Join: NextPage = () => {
 										</button>
 									</Box>
 								</Box>
-							)}
-						</Box>
+								)}
+							</Box>
 
 						{/* Switch Text */}
 						<Box className={'switch-text'}>
@@ -319,18 +319,18 @@ const Join: NextPage = () => {
 										Login
 									</a>
 								</Typography>
-							)}
-						</Box>
+								)}
+							</Box>
 
 						<Box className={'back-link'}>
 							<a onClick={() => setAuthStep('role-selection')}>← Back to role selection</a>
 						</Box>
+						</Stack>
+						<Stack className={'right'}></Stack>
 					</Stack>
-					<Stack className={'right'}></Stack>
 				</Stack>
 			</Stack>
-		</Stack>
-	);
+		);
 };
 
 export default withLayoutBasic(Join);

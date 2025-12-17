@@ -4,6 +4,7 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import IconButton from '@mui/material/IconButton';
 import ModeIcon from '@mui/icons-material/Mode';
 import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Project } from '../../types/property/property';
 import { formatterStr } from '../../utils';
 import { REACT_APP_API_URL } from '../../config';
@@ -51,6 +52,17 @@ export const ProjectCard = (props: ProjectCardProps) => {
 		setAnchorEl(null);
 	};
 
+	// Get status class for styling
+	const getStatusClass = (status: string) => {
+		switch (status) {
+			case 'ACTIVE': return 'status-active';
+			case 'DRAFT': return 'status-draft';
+			case 'COMPLETED': return 'status-completed';
+			case 'SOLD': return 'status-sold';
+			default: return '';
+		}
+	};
+
 	if (device === 'mobile') {
 		return <div>MOBILE PROJECT CARD</div>;
 	} else
@@ -63,17 +75,17 @@ export const ProjectCard = (props: ProjectCardProps) => {
 					<Typography className="name">{project.projectTitle}</Typography>
 					<Typography className="address">{project.projectStyle}</Typography>
 					<Typography className="price">
-						<strong>${formatterStr(project?.projectPrice)}</strong>
+						${formatterStr(project?.projectPrice)}
 					</Typography>
 				</Stack>
 				<Stack className="date-box">
 					<Typography className="date">
-						<Moment format="DD MMMM, YYYY">{project.createdAt}</Moment>
+						<Moment format="DD MMM, YYYY">{project.createdAt}</Moment>
 					</Typography>
 				</Stack>
 				<Stack className="status-box">
-					<Stack className="coloured-box" sx={{ background: '#E5F0FD' }} onClick={handleClick}>
-						<Typography className="status" sx={{ color: '#3554d1' }}>
+					<Stack className={`coloured-box ${getStatusClass(project.projectStatus)}`} onClick={handleClick}>
+						<Typography className="status">
 							{project.projectStatus}
 						</Typography>
 					</Stack>
@@ -116,6 +128,7 @@ export const ProjectCard = (props: ProjectCardProps) => {
 				)}
 
 				<Stack className="views-box">
+					<VisibilityIcon />
 					<Typography className="views">{(project?.projectViews || 0).toLocaleString()}</Typography>
 				</Stack>
 				{!memberPage && (

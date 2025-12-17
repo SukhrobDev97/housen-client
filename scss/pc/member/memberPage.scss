@@ -1,199 +1,334 @@
+// Design tokens
+$brand-green: #3B3F2B;
+$brand-accent: #E8735A;
+$white: #ffffff;
+$dark-text: #1a1a1a;
+$gray-text: #6b7280;
+$light-gray: #f7f7f5;
+$border-color: #e5e7eb;
+
 #pc-wrap {
 	#member-page {
-		background: #f6f6f6;
-		.container {
-			.member-page {
-				position: relative;
+		background: $white;
+		min-height: 100vh;
+
+		// ==========================================
+		// MAIN SECTION
+		// ==========================================
+		.main-section {
+			padding: 60px 0 80px;
+			margin-top: 100px;
+			width: 100%;
+			background: $white;
+
+			.container {
+				max-width: 1300px;
 				width: 100%;
-				flex-direction: row;
-				gap: 25px;
-				padding-top: 96px;
-				.back-frame {
-					width: 1260px;
-					height: auto;
-					display: flex;
-					flex-direction: row;
-					margin: 100px 0 200px 0;
-					border-radius: 12px;
-					border: 1px solid #c4c4c4;
-					background: #fff;
-					box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
+				margin: 0 auto;
+				padding: 0 40px;
+
+				.content-wrapper {
+					display: grid;
+					grid-template-columns: 280px 1fr;
+					gap: 32px;
+					align-items: flex-start;
+
+					// ==========================================
+					// LEFT SIDEBAR
+					// ==========================================
 					.left-config {
-						position: relative;
-						padding: 0 0 0 0;
-						width: 266px;
-						height: 700px;
+						position: sticky;
+						top: 100px;
+						background: $white;
 						border-radius: 12px;
-						background: #fff;
-						border: 1px solid rgba(196, 196, 196, 0.79);
-						box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
-						margin: 180px 20px 40px 20px;
+						border: 1px solid $border-color;
+						box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+						overflow: hidden;
+
 						.profile {
-							margin-top: 5px;
-							position: relative;
 							display: flex;
-							flex-direction: row;
+							flex-direction: column;
+							align-items: center;
+							padding: 24px 20px 20px;
+							border-bottom: 1px solid $border-color;
+							text-align: center;
+
 							.profile-img {
+								margin-bottom: 14px;
+
 								img {
-									width: 79px;
-									height: 79px;
+									width: 80px;
+									height: 80px;
 									border-radius: 50%;
-									right: 30px;
-									bottom: 12px;
 									object-fit: cover;
+									border: 3px solid $light-gray;
 								}
 							}
+
 							.user-info {
-								margin-left: 20px;
 								display: flex;
 								flex-direction: column;
+								align-items: center;
+								gap: 6px;
+
 								.user-name {
-									color: #181a20;
+									color: $dark-text;
 									font-family: $font;
-									font-size: 15px;
-									font-style: normal;
-									font-weight: 600;
-									line-height: normal;
+									font-size: 16px;
+									font-weight: 700;
 								}
+
+								.member-type-badge {
+									display: inline-flex;
+									align-items: center;
+									gap: 4px;
+									padding: 4px 10px;
+									background: rgba(59, 63, 43, 0.08);
+									border-radius: 12px;
+									font-family: $font;
+									font-size: 10px;
+									font-weight: 600;
+									color: $brand-green;
+									text-transform: uppercase;
+									letter-spacing: 0.3px;
+
+									svg {
+										width: 12px;
+										height: 12px;
+									}
+								}
+
 								.user-phone {
 									display: flex;
-									flex-direction: row;
-									margin-top: 5px;
+									align-items: center;
+									gap: 5px;
+									margin-top: 4px;
+
 									img {
-										margin-top: 3px;
-										margin-right: 4px;
-										width: 16px;
-										height: 16px;
+										width: 12px;
+										height: 12px;
+										opacity: 0.5;
+									}
+
+									.p-number {
+										font-family: $font;
+										font-size: 12px;
+										color: $gray-text;
 									}
 								}
+
 								.view-list {
-									margin-top: 5px;
-									font-weight: 300;
-									color: rgb(187, 187, 187);
+									display: none;
 								}
 							}
 						}
+
+						// Follow Button
 						.follow-button-box {
-							height: 35px;
-							flex-direction: row;
-							gap: 10px;
-							align-items: center;
-							margin-top: 15px;
+							padding: 14px 16px;
+							border-bottom: 1px solid $border-color;
+
 							button {
-								border: 1px solid #b9b9b9;
-								color: #181a20;
+								width: 100%;
+								padding: 10px 16px;
+								border-radius: 8px;
 								font-family: $font;
-								font-size: 14px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: normal;
+								font-size: 13px;
+								font-weight: 600;
+								text-transform: none;
+								transition: all 0.2s ease;
+
+								&.follow-btn {
+									background: $brand-green;
+									border: none;
+									color: $white;
+
+									&:hover {
+										background: darken($brand-green, 5%);
+									}
+								}
+
+								&.unfollow-btn {
+									background: $light-gray;
+									border: 1px solid $border-color;
+									color: $gray-text;
+
+									&:hover {
+										border-color: #ef4444;
+										color: #ef4444;
+										background: #fef2f2;
+									}
+								}
 							}
-							p {
-								color: #b9b9b9;
+
+							.following-text {
+								display: block;
+								margin-top: 6px;
+								text-align: center;
 								font-family: $font;
-								font-size: 14px;
-								font-style: italic;
-								font-weight: 400;
-								line-height: normal;
+								font-size: 11px;
+								color: $gray-text;
 							}
 						}
+
+						// Navigation Sections
 						.sections {
-							height: auto;
-							margin-top: 30px;
+							padding: 10px 0;
+
 							.section {
-								height: auto;
+								padding: 0 10px;
+								margin-bottom: 4px;
+
 								.title {
 									font-family: $font;
-									font-size: 15px;
-									font-style: normal;
-									font-weight: 400;
-									line-height: 28px;
+									font-size: 9px;
+									font-weight: 600;
+									color: $gray-text;
+									text-transform: uppercase;
+									letter-spacing: 0.5px;
+									padding: 8px 8px 4px;
 								}
+
 								.sub-section {
-									width: 230px;
-									height: auto;
-									display: flex;
-									flex-direction: column;
-									align-items: center;
-									cursor: pointer;
-									padding: 0 5px 0 5px;
+									padding: 0;
+									margin: 0;
+									list-style: none;
+
 									li {
-										height: 33px;
-										margin-bottom: 6px;
-										border-radius: 4px;
-									}
-									.focus {
-										height: 50px;
-										background: #000000;
-										border-radius: 10px;
-										p {
-											font-size: 14px;
-											color: #ffffff;
+										margin-bottom: 2px;
+										border-radius: 8px;
+										transition: all 0.15s ease;
+
+										&:hover:not(.focus) {
+											background: $light-gray;
+										}
+
+										// Selected state
+										&.focus {
+											background: $brand-green;
+
+											.flex-box {
+												.com-icon {
+													filter: brightness(0) invert(1);
+												}
+
+												svg {
+													fill: $white !important;
+												}
+
+												.sub-title {
+													color: $white;
+												}
+
+												.count-title {
+													background: rgba(255, 255, 255, 0.25);
+													color: $white;
+													font-weight: 700;
+													border-color: transparent;
+												}
+											}
 										}
 									}
+
 									.flex-box {
-										width: 100%;
 										display: flex;
-										flex-direction: row;
 										align-items: center;
+										padding: 10px 10px;
+										gap: 10px;
+
 										.com-icon {
-											display: flex;
-											flex-direction: row;
-											justify-content: flex-end;
-											margin-left: 11px;
+											width: 16px;
+											height: 16px;
+											opacity: 0.7;
 										}
-										p {
-											width: 40%;
-											font-size: 14px;
+
+										svg {
+											width: 16px;
+											height: 16px;
+											opacity: 0.7;
+										}
+
+										.sub-title {
+											flex: 1;
+											font-family: $font;
+											font-size: 13px;
+											font-weight: 500;
+											color: $dark-text;
+											line-height: 1;
+										}
+
+										.count-title {
+											font-family: $font;
+											font-size: 11px;
+											font-weight: 600;
+											color: $dark-text;
+											background: $light-gray;
+											border: 1px solid $border-color;
+											padding: 3px 8px;
+											border-radius: 8px;
+											line-height: 1;
+											min-width: 24px;
+											text-align: center;
 										}
 									}
-								}
-								img {
-									width: 16px;
-									height: 16px;
-								}
-								svg {
-									width: 16px;
-									height: 16px;
-								}
-								.sub-title {
-									margin-left: 12px;
-									color: #181a20;
-									font-family: $font;
-									font-size: 14px;
-									font-style: normal;
-									font-weight: 600;
-									line-height: 55px;
-								}
-								.count-title {
-									display: flex;
-									justify-content: flex-end;
-									padding-right: 10px;
-									color: #181a20;
-									font-family: $font;
-									font-size: 14px;
-									font-style: normal;
-									font-weight: 600;
-									line-height: 55px;
 								}
 							}
 						}
 					}
+
+					// ==========================================
+					// MAIN CONTENT AREA
+					// ==========================================
 					.main-config {
-						position: relative;
-						width: 936px;
-						margin-top: 52px;
-						align-items: center;
-						gap: 109px;
-						.list-config {
-							display: flex;
-							width: 100%;
-							height: auto;
-							flex-direction: row;
-							flex-wrap: wrap;
-							gap: 22px;
-						}
+						width: 100%;
+						min-height: 400px;
+						background: $white;
+						border-radius: 12px;
+						border: 1px solid $border-color;
+						padding: 24px;
 					}
+				}
+			}
+		}
+	}
+}
+
+// ==========================================
+// RESPONSIVE
+// ==========================================
+@media screen and (max-width: 1024px) {
+	#pc-wrap #member-page {
+		.main-section .container .content-wrapper {
+			grid-template-columns: 1fr;
+			gap: 24px;
+
+			.left-config {
+				position: static;
+				max-width: 360px;
+				margin: 0 auto;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 768px) {
+	#pc-wrap #member-page {
+		.member-page-header {
+			padding: 24px 0 !important;
+
+			> div {
+				padding: 0 20px !important;
+			}
+		}
+
+		.main-section {
+			padding: 24px 0 60px;
+
+			.container {
+				padding: 0 20px;
+
+				.content-wrapper .main-config {
+					padding: 16px;
 				}
 			}
 		}

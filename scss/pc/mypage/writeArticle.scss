@@ -58,7 +58,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 				flex: 1;
 
 				.main-title {
-					color: $premium-black;
+					color: var(--text-primary);
 					font-family: $font;
 					font-size: 28px;
 					font-weight: 600;
@@ -68,7 +68,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 				}
 
 				.sub-title {
-					color: $muted-stone;
+					color: var(--text-secondary);
 					font-family: $font;
 					font-size: 15px;
 					font-weight: 400;
@@ -81,9 +81,9 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 		// FLOATING EDITOR WRAPPER
 		// ==========================================
 		.editor-wrapper {
-			background: linear-gradient(180deg, #FFFFFF 0%, $warm-white 100%);
+			background: var(--bg-card);
 			border-radius: 28px;
-			border: 1px solid rgba($muted-stone, 0.25);
+			border: 1px solid var(--border-soft);
 			box-shadow: $shadow-md;
 			overflow: hidden;
 			position: relative;
@@ -118,7 +118,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 					gap: 12px;
 
 					.field-label {
-						color: $muted-stone;
+						color: var(--text-secondary);
 						font-family: $font;
 						font-size: 11px;
 						font-weight: 600;
@@ -162,42 +162,42 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 				}
 
 				.title-group {
-					.title-input {
-						.MuiOutlinedInput-root {
-							background: $warm-white;
-							border-radius: 16px;
-							transition: $transition-smooth;
-							box-shadow: $shadow-xs;
+						.title-input {
+							.MuiOutlinedInput-root {
+								background: var(--bg-card);
+								border-radius: 16px;
+								transition: $transition-smooth;
+								box-shadow: $shadow-xs;
 
-							.MuiOutlinedInput-notchedOutline {
-								border-color: rgba($muted-stone, 0.3);
-								border-width: 1px;
-							}
+								.MuiOutlinedInput-notchedOutline {
+									border-color: var(--border-soft);
+									border-width: 1px;
+								}
 
-							&:hover .MuiOutlinedInput-notchedOutline {
-								border-color: rgba($muted-stone, 0.5);
-							}
+								&:hover .MuiOutlinedInput-notchedOutline {
+									border-color: var(--border-soft);
+								}
 
-							&.Mui-focused .MuiOutlinedInput-notchedOutline {
-								border-color: $deep-olive;
-								border-width: 2px;
-							}
+								&.Mui-focused .MuiOutlinedInput-notchedOutline {
+									border-color: $deep-olive;
+									border-width: 2px;
+								}
 
-							input {
-								padding: 18px 20px;
-								font-family: $font;
-								font-size: 15px;
-								color: $premium-black;
-								font-weight: 500;
+								input {
+									padding: 18px 20px;
+									font-family: $font;
+									font-size: 15px;
+									color: var(--text-primary);
+									font-weight: 500;
 
-								&::placeholder {
-									color: $muted-stone;
-									opacity: 0.7;
-									font-weight: 400;
+									&::placeholder {
+										color: var(--text-secondary);
+										opacity: 0.7;
+										font-weight: 400;
+									}
 								}
 							}
 						}
-					}
 				}
 			}
 
@@ -220,7 +220,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 					border: 1px solid rgba($muted-stone, 0.25);
 					border-radius: 20px;
 					overflow: hidden;
-					background: #FFFFFF;
+					background: var(--bg-card);
 					transition: $transition-smooth;
 					box-shadow: $shadow-sm;
 
@@ -233,8 +233,8 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 						border: none;
 
 						.toastui-editor-toolbar {
-							background: linear-gradient(180deg, $warm-white 0%, $soft-beige 100%);
-							border-bottom: 1px solid rgba($muted-stone, 0.2);
+							background: var(--bg-section);
+							border-bottom: 1px solid var(--border-soft);
 							padding: 14px 18px;
 
 							button {
@@ -245,34 +245,34 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 								opacity: 0.7;
 
 								&:hover {
-									background: #FFFFFF;
+									background: var(--bg-card);
 									opacity: 1;
 									box-shadow: $shadow-sm;
 								}
 							}
 
 							.toastui-editor-toolbar-divider {
-								background: rgba($muted-stone, 0.3);
+								background: var(--border-soft);
 								margin: 0 12px;
 							}
 						}
 
 						.toastui-editor-main .toastui-editor-ww-container {
-							background: #FFFFFF;
+							background: var(--bg-card);
 
 							.toastui-editor-contents {
 								font-family: $font;
 								font-size: 16px;
 								line-height: 1.8;
 								padding: 28px;
-								color: $premium-black;
+								color: var(--text-primary);
 
 								p {
 					margin-bottom: 16px;
 				}
 
 								h1, h2, h3 {
-									color: $premium-black;
+									color: var(--text-primary);
 									font-weight: 600;
 									letter-spacing: -0.3px;
 								}
@@ -280,8 +280,8 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 						}
 
 						.toastui-editor-mode-switch {
-							background: $soft-beige;
-							border-top: 1px solid rgba($muted-stone, 0.2);
+							background: var(--bg-section);
+							border-top: 1px solid var(--border-soft);
 						}
 					}
 
@@ -291,14 +291,15 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 						font-family: $font;
 						font-size: 16px;
 						line-height: 1.8;
-						color: $premium-black;
+						color: var(--text-primary);
+						background: var(--bg-card);
 
 						&:focus {
 							outline: none;
 						}
 
 						&::before {
-							color: $muted-stone !important;
+							color: var(--text-secondary) !important;
 							opacity: 0.6;
 						}
 					}
@@ -363,18 +364,18 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 		// PINTEREST-STYLE TIPS SECTION
 		// ==========================================
 		.tips-section {
-			background: linear-gradient(180deg, #FFFFFF 0%, $warm-white 100%);
+			background: var(--bg-card);
 			border-radius: 24px;
 			padding: 28px 32px;
 			margin-top: 28px;
 			box-shadow: $shadow-sm;
-			border: 1px solid rgba($muted-stone, 0.2);
+			border: 1px solid var(--border-soft);
 
 			.tips-title {
 				font-family: $font;
 				font-size: 11px;
 				font-weight: 600;
-				color: $muted-stone;
+				color: var(--text-secondary);
 				margin-bottom: 20px;
 				text-transform: uppercase;
 				letter-spacing: 1.5px;
@@ -392,10 +393,10 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 					align-items: flex-start;
 					gap: 14px;
 					padding: 24px;
-					background: $soft-beige;
+					background: var(--bg-section);
 					border-radius: 20px;
 					transition: $transition-smooth;
-					border: 1px solid rgba($muted-stone, 0.15);
+					border: 1px solid var(--border-soft);
 					position: relative;
 					overflow: hidden;
 
@@ -406,14 +407,14 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 						right: 0;
 						width: 80px;
 						height: 80px;
-						background: radial-gradient(circle at top right, rgba($muted-stone, 0.1) 0%, transparent 70%);
+						background: radial-gradient(circle at top right, var(--border-soft) 0%, transparent 70%);
 						pointer-events: none;
 					}
 
 					&:hover {
 						transform: translateY(-4px);
 						box-shadow: $shadow-md;
-						background: darken($soft-beige, 2%);
+						background: var(--border-soft);
 			}
 
 					.tip-number {
@@ -430,7 +431,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 						font-family: $font;
 				font-size: 14px;
 						font-weight: 500;
-						color: rgba($premium-black, 0.75);
+						color: var(--text-secondary);
 						line-height: 1.5;
 			}
 		}
@@ -445,9 +446,15 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
 		.youtube-input {
 			padding: 14px 18px;
-			border: 1px solid rgba($muted-stone, 0.3);
+			border: 1px solid var(--border-soft);
 			border-radius: 12px;
 			font-family: $font;
+			background: var(--bg-card);
+			color: var(--text-primary);
+			
+			&::placeholder {
+				color: var(--text-secondary);
+			}
 		}
 
 		.youtube-div {

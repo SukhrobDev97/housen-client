@@ -1,9 +1,9 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState, useRef } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import ReviewCard from '../../libs/components/agent/ReviewCard';
-import { Box, Button, Pagination, Stack, Typography, Slider, MenuItem, Select, FormControl, CircularProgress } from '@mui/material';
+import { Box, Button, Pagination, Stack, Typography, Slider, CircularProgress } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -23,6 +23,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import EastIcon from '@mui/icons-material/East';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Link from 'next/link';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
@@ -81,6 +82,16 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	const [priceRange, setPriceRange] = useState<number[]>([0, 2000000]);
 	const [sortBy, setSortBy] = useState<string>('newest');
 	const [filterCategory, setFilterCategory] = useState<string>('all');
+	
+	// Dropdown states
+	const [categoryDropdownOpen, setCategoryDropdownOpen] = useState<boolean>(false);
+	const [priceDropdownOpen, setPriceDropdownOpen] = useState<boolean>(false);
+	const [sortDropdownOpen, setSortDropdownOpen] = useState<boolean>(false);
+	
+	// Refs for dropdowns
+	const categoryRef = useRef<HTMLDivElement>(null);
+	const priceRef = useRef<HTMLDivElement>(null);
+	const sortRef = useRef<HTMLDivElement>(null);
 
 	// Contact form states
 	const [contactForm, setContactForm] = useState({
@@ -190,6 +201,14 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		try {
 			if (!user._id) throw new Error(Messages.error2);
 			if (user._id === agencyId) throw new Error('Cannot write a review for yourself');
+			if (!insertCommentData.commentContent.trim()) {
+				sweetMixinErrorAlert('Please enter a review');
+				return;
+			}
+			if (!insertCommentData.commentRefId) {
+				sweetMixinErrorAlert('Agency information is missing');
+				return;
+			}
 		
 			await createComment({
 			  variables: {
@@ -201,6 +220,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 			await getCommentsRefetch({ input: commentInquiry });
 			sweetTopSmallSuccessAlert('Review submitted!', 800);
 		} catch (err: any) {
+			console.log('ERROR_createCommentHandler:', err);
 			sweetErrorHandling(err).then();
 		}
 	};
@@ -244,6 +264,72 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		sweetTopSmallSuccessAlert('Message sent successfully!', 1200);
 		setContactForm({ name: '', email: '', phone: '', message: '' });
 	};
+
+	// Dropdown handlers
+	const toggleCategoryDropdown = () => {
+		setCategoryDropdownOpen(!categoryDropdownOpen);
+		setPriceDropdownOpen(false);
+		setSortDropdownOpen(false);
+	};
+
+	const togglePriceDropdown = () => {
+		setPriceDropdownOpen(!priceDropdownOpen);
+		setCategoryDropdownOpen(false);
+		setSortDropdownOpen(false);
+	};
+
+	const toggleSortDropdown = () => {
+		setSortDropdownOpen(!sortDropdownOpen);
+		setCategoryDropdownOpen(false);
+		setPriceDropdownOpen(false);
+	};
+
+	const handleCategorySelect = (category: string) => {
+		setFilterCategory(category);
+		setCategoryDropdownOpen(false);
+	};
+
+	const handleSortSelect = (sort: string) => {
+		setSortBy(sort);
+		setSortDropdownOpen(false);
+	};
+
+	const handleApplyFilters = () => {
+		// Apply filter logic here (refetch projects with filters)
+		// For now, just close dropdowns
+		setCategoryDropdownOpen(false);
+		setPriceDropdownOpen(false);
+		setSortDropdownOpen(false);
+	};
+
+	const handleClearFilters = () => {
+		setFilterCategory('all');
+		setPriceRange([0, 2000000]);
+		setSortBy('newest');
+		setCategoryDropdownOpen(false);
+		setPriceDropdownOpen(false);
+		setSortDropdownOpen(false);
+	};
+
+	// Close dropdowns when clicking outside
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (categoryRef.current && !categoryRef.current.contains(event.target as Node)) {
+				setCategoryDropdownOpen(false);
+			}
+			if (priceRef.current && !priceRef.current.contains(event.target as Node)) {
+				setPriceDropdownOpen(false);
+			}
+			if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
+				setSortDropdownOpen(false);
+			}
+		};
+
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, []);
 
 	// Loading state
 	if (getMemberLoading || !agency) {
@@ -371,65 +457,143 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 					========================================== */}
 					<Stack className={'portfolio-section'}>
 						<Typography className={'section-title'}>Our Portfolio</Typography>
-						<Stack className={'portfolio-layout'}>
-							{/* Left - Sticky Filter */}
-							<Box className={'filter-sidebar'}>
-								<Box className={'filter-card'}>
-									<Typography className={'filter-title'}>Filter Projects</Typography>
 
+						{/* Horizontal Filter Bar */}
+						<Box className={'filter-bar'}>
 									<Box className={'filter-group'}>
-										<Typography className={'filter-label'}>Category</Typography>
-										<FormControl fullWidth size="small">
-											<Select
-												value={filterCategory}
-												onChange={(e) => setFilterCategory(e.target.value)}
+								{/* Category Dropdown */}
+								<Box className={'filter-dropdown'} ref={categoryRef}>
+									<Button className={'filter-pill'} onClick={toggleCategoryDropdown}>
+										<span>Category</span>
+										<span className={'filter-value'}>
+											{filterCategory === 'all' ? 'All Categories' : filterCategory.charAt(0).toUpperCase() + filterCategory.slice(1)}
+										</span>
+										<KeyboardArrowDownIcon sx={{ transform: categoryDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s ease' }} />
+									</Button>
+									{categoryDropdownOpen && (
+										<Box className={'dropdown-menu'}>
+											<Box 
+												className={`dropdown-option ${filterCategory === 'all' ? 'selected' : ''}`}
+												onClick={() => handleCategorySelect('all')}
 											>
-												<MenuItem value="all">All Categories</MenuItem>
-												<MenuItem value="residential">Residential</MenuItem>
-												<MenuItem value="commercial">Commercial</MenuItem>
-												<MenuItem value="entertainment">Entertainment</MenuItem>
-											</Select>
-										</FormControl>
+												All Categories
+											</Box>
+											<Box 
+												className={`dropdown-option ${filterCategory === 'residential' ? 'selected' : ''}`}
+												onClick={() => handleCategorySelect('residential')}
+											>
+												Residential
+											</Box>
+											<Box 
+												className={`dropdown-option ${filterCategory === 'commercial' ? 'selected' : ''}`}
+												onClick={() => handleCategorySelect('commercial')}
+											>
+												Commercial
+											</Box>
+											<Box 
+												className={`dropdown-option ${filterCategory === 'entertainment' ? 'selected' : ''}`}
+												onClick={() => handleCategorySelect('entertainment')}
+											>
+												Entertainment
+											</Box>
+										</Box>
+									)}
 									</Box>
 
-									<Box className={'filter-group'}>
-										<Typography className={'filter-label'}>Price Range</Typography>
+								{/* Price Range Dropdown */}
+								<Box className={'filter-dropdown'} ref={priceRef}>
+									<Button className={'filter-pill'} onClick={togglePriceDropdown}>
+										<span>Price Range</span>
+										<span className={'filter-value'}>
+											${priceRange[0].toLocaleString()} - ${priceRange[1].toLocaleString()}
+										</span>
+										<KeyboardArrowDownIcon className={priceDropdownOpen ? 'open' : ''} />
+									</Button>
+									{priceDropdownOpen && (
+										<Box className={'dropdown-menu price-menu'}>
+											<Box className={'price-slider-container'}>
 										<Slider
 											value={priceRange}
 											onChange={(_: Event, newValue: number | number[]) => setPriceRange(newValue as number[])}
 											valueLabelDisplay="auto"
 											min={0}
 											max={2000000}
-											sx={{ color: '#2c3e2f' }}
+													valueLabelFormat={(value) => `$${value.toLocaleString()}`}
+													sx={{ 
+														color: '#2c3e2f',
+														'& .MuiSlider-thumb': {
+															width: 20,
+															height: 20,
+														},
+													}}
 										/>
 										<Box className={'price-labels'}>
 											<span>${priceRange[0].toLocaleString()}</span>
 											<span>${priceRange[1].toLocaleString()}</span>
 										</Box>
+											</Box>
+										</Box>
+									)}
 									</Box>
 
-									<Box className={'filter-group'}>
-										<Typography className={'filter-label'}>Sort By</Typography>
-										<FormControl fullWidth size="small">
-											<Select
-												value={sortBy}
-												onChange={(e) => setSortBy(e.target.value)}
+								{/* Sort Dropdown */}
+								<Box className={'filter-dropdown'} ref={sortRef}>
+									<Button className={'filter-pill'} onClick={toggleSortDropdown}>
+										<span>Sort By</span>
+										<span className={'filter-value'}>
+											{sortBy === 'newest' ? 'Newest' : sortBy === 'oldest' ? 'Oldest' : sortBy === 'likes' ? 'Most Liked' : 'Most Viewed'}
+										</span>
+										<KeyboardArrowDownIcon sx={{ transform: sortDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s ease' }} />
+									</Button>
+									{sortDropdownOpen && (
+										<Box className={'dropdown-menu'}>
+											<Box 
+												className={`dropdown-option ${sortBy === 'newest' ? 'selected' : ''}`}
+												onClick={() => handleSortSelect('newest')}
 											>
-												<MenuItem value="newest">Newest First</MenuItem>
-												<MenuItem value="oldest">Oldest First</MenuItem>
-												<MenuItem value="likes">Most Liked</MenuItem>
-												<MenuItem value="views">Most Viewed</MenuItem>
-											</Select>
-										</FormControl>
+												Newest
+											</Box>
+											<Box 
+												className={`dropdown-option ${sortBy === 'lowest-price' ? 'selected' : ''}`}
+												onClick={() => handleSortSelect('lowest-price')}
+											>
+												Lowest Price
+											</Box>
+											<Box 
+												className={`dropdown-option ${sortBy === 'highest-price' ? 'selected' : ''}`}
+												onClick={() => handleSortSelect('highest-price')}
+											>
+												Highest Price
+											</Box>
+											<Box 
+												className={`dropdown-option ${sortBy === 'likes' ? 'selected' : ''}`}
+												onClick={() => handleSortSelect('likes')}
+											>
+												Most Liked
+											</Box>
+											<Box 
+												className={`dropdown-option ${sortBy === 'views' ? 'selected' : ''}`}
+												onClick={() => handleSortSelect('views')}
+											>
+												Most Viewed
+											</Box>
+										</Box>
+									)}
+								</Box>
 									</Box>
 
-									<Button className={'apply-filter-btn'}>
+							{/* Actions */}
+							<Box className={'filter-actions'}>
+								<Button className={'clear-btn'} onClick={handleClearFilters}>
+									Clear
+								</Button>
+								<Button className={'apply-btn'} onClick={handleApplyFilters}>
 										Apply Filters
 									</Button>
 								</Box>
 							</Box>
 
-							{/* Right - Portfolio Grid */}
+						{/* Portfolio Grid */}
 							<Box className={'portfolio-grid'}>
 								{agencyProjects.length === 0 ? (
 									<Box className={'no-data'}>
@@ -464,7 +628,6 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 								</>
 							)}
 							</Box>
-						</Stack>
 					</Stack>
 
 
@@ -501,14 +664,20 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 							<Typography className={'review-form-title'}>Leave A Review</Typography>
 							<textarea
 								placeholder="Write your review here..."
-								onChange={({ target: { value } }) => {
-									setInsertCommentData({ ...insertCommentData, commentContent: value });
+								onChange={(e) => {
+									setInsertCommentData({ ...insertCommentData, commentContent: e.target.value });
 								}}
-								value={insertCommentData.commentContent}
+								value={insertCommentData.commentContent || ''}
+								disabled={!user?._id}
 							/>
+							{!user?._id && (
+								<Typography sx={{ fontSize: '14px', color: '#999', marginTop: '-16px', marginBottom: '8px' }}>
+									Please log in to leave a review
+								</Typography>
+							)}
 								<Button
 								className={'submit-review-btn'}
-								disabled={insertCommentData.commentContent === '' || !user?._id}
+								disabled={!insertCommentData.commentContent?.trim() || !user?._id || !insertCommentData.commentRefId}
 									onClick={createCommentHandler}
 								>
 								Submit Review

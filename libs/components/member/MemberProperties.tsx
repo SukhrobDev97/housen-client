@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { Pagination, Stack, Typography } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { ProjectCard } from '../mypage/PropertyCard';
 import { Project } from '../../types/property/property';
 import { ProjectsInquiry } from '../../types/property/property.input';
 import { T } from '../../types/common';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
 import { GET_PROJECTS } from '../../../apollo/user/query';
+import { REACT_APP_API_URL } from '../../config';
+import { formatterStr } from '../../utils';
+import Moment from 'react-moment';
 
 const MemberProjects: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
@@ -19,12 +22,12 @@ const MemberProjects: NextPage = ({ initialInput, ...props }: any) => {
 	const [total, setTotal] = useState<number>(0);
 
 	/** APOLLO REQUESTS **/
-	const{
+	const {
 		loading: getProjectsLoading,
 		data: getProjectsData,
 		error: getProjectsError,
 		refetch: getProjectsRefetch,
-	} = useQuery(GET_PROJECTS,{
+	} = useQuery(GET_PROJECTS, {
 		fetchPolicy: 'network-only',
 		variables: {
 			input: searchFilter,
@@ -34,12 +37,12 @@ const MemberProjects: NextPage = ({ initialInput, ...props }: any) => {
 		onCompleted: (data: T) => {
 			setAgencyProjects(data?.getProjects?.list);
 			setTotal(data?.getProjects?.metaCounter[0]?.total ?? 0);
-		}
-	})
+		},
+	});
 
 	/** LIFECYCLES **/
 	useEffect(() => {
-		getProjectsRefetch().then	();
+		getProjectsRefetch().then();
 	}, [searchFilter]);
 
 	useEffect(() => {
@@ -52,53 +55,118 @@ const MemberProjects: NextPage = ({ initialInput, ...props }: any) => {
 		setSearchFilter({ ...searchFilter, page: value });
 	};
 
+	const pushProjectDetail = async (id: string) => {
+		await router.push({
+			pathname: '/property/detail',
+			query: { id: id },
+		});
+	};
+
+	// Get status class for styling
+	const getStatusClass = (status: string) => {
+		switch (status) {
+			case 'ACTIVE':
+				return 'status-active';
+			case 'COMPLETED':
+				return 'status-completed';
+			case 'SOLD':
+				return 'status-sold';
+			default:
+				return 'status-default';
+		}
+	};
+
 	if (device === 'mobile') {
 		return <div>HOUSEN PROJECTS MOBILE</div>;
 	} else {
 		return (
 			<div id="member-properties-page">
+				{/* Header */}
 				<Stack className="main-title-box">
-					<Stack className="right-box">
-						<Typography className="main-title">Projects</Typography>
-					</Stack>
+					<Typography className="main-title">Projects</Typography>
+					<Typography className="total-count">{total} project{total !== 1 ? 's' : ''}</Typography>
 				</Stack>
-				<Stack className="properties-list-box">
-					<Stack className="list-box">
-						{agencyProjects?.length > 0 && (
-							<Stack className="listing-title-box">
-								<Typography className="title-text">Listing title</Typography>
-								<Typography className="title-text">Date Published</Typography>
-								<Typography className="title-text">Status</Typography>
-								<Typography className="title-text">View</Typography>
-							</Stack>
-						)}
-						{agencyProjects?.length === 0 && (
-							<div className={'no-data'}>
-								<img src="/img/icons/icoAlert.svg" alt="" />
-								<p>No Project available!</p>
-							</div>
-						)}
-						{agencyProjects?.map((project: Project) => {
-							return <ProjectCard project={project} memberPage={true} key={project?._id} />;
-						})}
 
-						{agencyProjects.length !== 0 && (
-							<Stack className="pagination-config">
-								<Stack className="pagination-box">
-									<Pagination
-										count={Math.ceil(total / searchFilter.limit)}
-										page={searchFilter.page}
-										shape="circular"
-										color="primary"
-										onChange={paginationHandler}
+				{/* Projects List */}
+				<Stack className="projects-list">
+					{/* Table Header */}
+					{agencyProjects?.length > 0 && (
+						<Stack className="list-header">
+							<Typography className="header-text col-project">Project</Typography>
+							<Typography className="header-text col-date">Published</Typography>
+							<Typography className="header-text col-status">Status</Typography>
+							<Typography className="header-text col-views">Views</Typography>
+						</Stack>
+					)}
+
+					{/* Empty State */}
+					{agencyProjects?.length === 0 && (
+						<Stack className="empty-state">
+							<img src="/img/icons/icoAlert.svg" alt="" />
+							<Typography className="empty-title">No projects yet</Typography>
+							<Typography className="empty-text">This member hasn't published any projects yet.</Typography>
+						</Stack>
+					)}
+
+					{/* Project Rows */}
+					{agencyProjects?.map((project: Project) => (
+						<Stack
+							key={project?._id}
+							className="project-row"
+							onClick={() => pushProjectDetail(project?._id)}
+						>
+							{/* Thumbnail */}
+							<Stack className="col-project">
+								<div className="project-thumbnail">
+									<img
+										src={`${REACT_APP_API_URL}/${project?.projectImages?.[0]}`}
+										alt={project?.projectTitle}
 									/>
-								</Stack>
-								<Stack className="total-result">
-									<Typography>{total} project available</Typography>
+								</div>
+								<Stack className="project-info">
+									<Typography className="project-title">{project?.projectTitle}</Typography>
+									<Typography className="project-style">{project?.projectStyle}</Typography>
+									<Typography className="project-price">${formatterStr(project?.projectPrice)}</Typography>
 								</Stack>
 							</Stack>
-						)}
-					</Stack>
+
+							{/* Date */}
+							<Stack className="col-date">
+								<Typography className="date-text">
+									<Moment format="DD MMM, YYYY">{project?.createdAt}</Moment>
+								</Typography>
+							</Stack>
+
+							{/* Status */}
+							<Stack className="col-status">
+								<span className={`status-badge ${getStatusClass(project?.projectStatus)}`}>
+									{project?.projectStatus}
+								</span>
+							</Stack>
+
+							{/* Views */}
+							<Stack className="col-views">
+								<VisibilityIcon />
+								<Typography className="views-count">{project?.projectViews || 0}</Typography>
+							</Stack>
+						</Stack>
+					))}
+
+					{/* Pagination */}
+					{agencyProjects?.length > 0 && (
+						<Stack className="pagination-box">
+							<Pagination
+								count={Math.ceil(total / searchFilter.limit)}
+								page={searchFilter.page}
+								shape="circular"
+								color="primary"
+								onChange={paginationHandler}
+							/>
+							<Typography className="pagination-text">
+								{total} project{total !== 1 ? 's' : ''} available
+							</Typography>
+						</Stack>
+					)}
 				</Stack>
 			</div>
 		);

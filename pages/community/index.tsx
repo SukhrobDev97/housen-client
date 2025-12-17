@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { Stack, Typography, Button, Pagination, Box, IconButton, Rating } from '@mui/material';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import StarIcon from '@mui/icons-material/Star';
+import { Stack, Typography, Button, Pagination, Box, IconButton } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 import DailyInspirationBubble from '../../libs/components/common/DailyInspirationBubble';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
+import ArticleCard from '../../libs/components/community/ArticleCard';
 import { BoardArticle } from '../../libs/types/board-article/board-article';
 import { T } from '../../libs/types/common';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -18,96 +16,15 @@ import { BoardArticleCategory } from '../../libs/enums/board-article.enum';
 import { LIKE_TARGET_BOARD_ARTICLE } from '../../apollo/user/mutation';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { GET_BOARD_ARTICLES } from '../../apollo/user/query';
-import { Messages, REACT_APP_API_URL } from '../../libs/config';
+import { Messages } from '../../libs/config';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { userVar } from '../../apollo/store';
-import Moment from 'react-moment';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
 		...(await serverSideTranslations(locale, ['common'])),
 	},
 });
-
-/* ============================================
-   COMMUNITY POST CARD (Products Style)
-============================================ */
-interface PostCardProps {
-	boardArticle: BoardArticle;
-	likeArticleHandler: (e: any, user: any, id: string) => void;
-}
-
-const CommunityPostCard = ({ boardArticle, likeArticleHandler }: PostCardProps) => {
-	const router = useRouter();
-	const user = useReactiveVar(userVar);
-	const imagePath = boardArticle?.articleImage
-		? `${REACT_APP_API_URL}/${boardArticle?.articleImage}`
-		: '/img/community/communityImg.png';
-
-	const handleCardClick = () => {
-		router.push({
-			pathname: '/community/detail',
-			query: { articleCategory: boardArticle?.articleCategory, id: boardArticle?._id },
-		});
-	};
-
-	const handleAuthorClick = (e: React.MouseEvent) => {
-		e.stopPropagation();
-		if (boardArticle?.memberData?._id === user?._id) {
-			router.push('/mypage');
-		} else {
-			router.push(`/member?memberId=${boardArticle?.memberData?._id}`);
-		}
-	};
-
-	return (
-		<Box className="post-card" onClick={handleCardClick}>
-			{/* Image Container */}
-			<Box className="post-image-container">
-				<img src={imagePath} alt={boardArticle?.articleTitle} className="post-image" />
-				
-				{/* Date Badge */}
-				<Box className="date-badge">
-					<Moment className="month" format="MMM">{boardArticle?.createdAt}</Moment>
-					<span className="day"><Moment format="DD">{boardArticle?.createdAt}</Moment></span>
-				</Box>
-
-				{/* Quick Actions */}
-				<Box className="quick-actions">
-					<IconButton
-						className="action-btn"
-						onClick={(e: React.MouseEvent) => {
-							e.stopPropagation();
-							likeArticleHandler(e, user, boardArticle?._id);
-						}}
-					>
-						{boardArticle?.meLiked?.[0]?.myFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-					</IconButton>
-				</Box>
-			</Box>
-
-			{/* Post Info */}
-			<Box className="post-info">
-				<span className="post-category" onClick={handleAuthorClick}>
-					{boardArticle?.memberData?.memberNick}
-				</span>
-				<Typography className="post-title">{boardArticle?.articleTitle}</Typography>
-
-				{/* Stats Row */}
-				<Box className="post-stats">
-					<Box className="stat-item">
-						<RemoveRedEyeIcon />
-						<span>{boardArticle?.articleViews || 0}</span>
-					</Box>
-					<Box className="stat-item">
-						<FavoriteIcon />
-						<span>{boardArticle?.articleLikes || 0}</span>
-					</Box>
-				</Box>
-			</Box>
-		</Box>
-	);
-};
 
 /* ============================================
    MAIN COMMUNITY PAGE
@@ -121,6 +38,9 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 	const [searchCommunity, setSearchCommunity] = useState<BoardArticlesInquiry>(initialInput);
 	const [boardArticles, setBoardArticles] = useState<BoardArticle[]>([]);
 	const [totalCount, setTotalCount] = useState<number>(0);
+	const [latestArticles, setLatestArticles] = useState<BoardArticle[]>([]);
+	const [searchQuery, setSearchQuery] = useState<string>('');
+	const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
 	if (articleCategory) initialInput.search.articleCategory = articleCategory;
 
 	/** APOLLO REQUESTS **/
@@ -138,6 +58,25 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 		onCompleted: (data: T) => {
 			setBoardArticles(data?.getBoardArticles?.list);
 			setTotalCount(data?.getBoardArticles?.metaCounter?.[0]?.total);
+		},
+	});
+
+	// Fetch latest articles for sidebar
+	const { loading: latestLoading } = useQuery(GET_BOARD_ARTICLES, {
+		fetchPolicy: 'network-only',
+		variables: { 
+			input: { 
+				page: 1, 
+				limit: 3, 
+				sort: 'createdAt', 
+				direction: 'DESC' 
+			} 
+		},
+		onCompleted(data: T) {
+			console.log('Latest articles data:', data);
+			if (data?.getBoardArticles?.list) {
+				setLatestArticles(data.getBoardArticles.list);
+			}
 		},
 	});
 
@@ -166,7 +105,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 		setSearchCommunity({ ...searchCommunity, page: value });
 	};
 
-	const likeArticleHandler = async (e: any, user: any, id: string) => {
+	const likeArticleHandler = async (e: React.MouseEvent, id: string) => {
 		try {
 			e.stopPropagation();
 			if (!id) return;
@@ -179,6 +118,25 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 			console.log('ERROR_likeArticleHandler', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
+	};
+
+	// Sidebar handlers
+	const handleSearchSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
+		if (searchQuery.trim()) {
+			router.push({ pathname: '/community', query: { search: searchQuery } });
+		}
+	};
+
+	const handleCategoryClick = (category: string) => {
+		router.push({ pathname: '/community', query: { articleCategory: category } });
+	};
+
+	const handleContactSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
+		// Handle contact form submission
+		sweetTopSmallSuccessAlert('Message sent!', 800);
+		setContactForm({ name: '', email: '', message: '' });
 	};
 
 	// Tab items
@@ -243,6 +201,11 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 					</div>
 				</section>
 
+				{/* Main Content with Sidebar */}
+				<Stack className="content-wrapper">
+					<Stack className="main-container">
+						{/* Left Column - Articles */}
+						<Stack className="left-column">
 				{/* Posts Grid Section */}
 				<section className="posts-section">
 					<div className="posts-container">
@@ -255,11 +218,11 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 
 						<Box className="posts-grid">
 							{totalCount ? (
-								boardArticles?.map((boardArticle: BoardArticle) => (
-									<CommunityPostCard
-										key={boardArticle?._id}
-										boardArticle={boardArticle}
-										likeArticleHandler={likeArticleHandler}
+											boardArticles?.map((article: BoardArticle) => (
+												<ArticleCard
+													key={article?._id}
+													article={article}
+													onLike={likeArticleHandler}
 									/>
 								))
 							) : (
@@ -289,6 +252,104 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 						</div>
 					</section>
 				)}
+						</Stack>
+
+						{/* Right Sidebar */}
+						<Stack className="sidebar">
+							{/* Search */}
+							<Stack className="sidebar-section">
+								<Typography className="sidebar-title">Search</Typography>
+								<form onSubmit={handleSearchSubmit} className="search-form">
+									<input
+										type="text"
+										placeholder="Search articles..."
+										value={searchQuery}
+										onChange={(e) => setSearchQuery(e.target.value)}
+									/>
+									<IconButton type="submit"><SearchIcon /></IconButton>
+								</form>
+							</Stack>
+
+							{/* Categories */}
+							<Stack className="sidebar-section">
+								<Typography className="sidebar-title">Categories</Typography>
+								<Stack className="categories-list">
+									{['FREE', 'RECOMMEND', 'NEWS', 'HUMOR'].map((cat) => (
+										<Button
+											key={cat}
+											className={`category-btn ${searchCommunity.search.articleCategory === cat ? 'active' : ''}`}
+											onClick={() => handleCategoryClick(cat)}
+										>
+											{cat === 'FREE' ? 'Free Board' : cat === 'RECOMMEND' ? 'Recommendation' : cat === 'NEWS' ? 'News' : 'Humor'}
+										</Button>
+									))}
+								</Stack>
+							</Stack>
+
+							{/* Latest Posts */}
+							<Stack className="sidebar-section">
+								<Typography className="sidebar-title">Latest Posts</Typography>
+								<Stack className="latest-posts">
+									{latestLoading ? (
+										<Typography className="loading-text">Loading...</Typography>
+									) : latestArticles.length > 0 ? (
+										latestArticles.map((article) => (
+											<ArticleCard
+												key={article._id}
+												article={article}
+												compact={true}
+											/>
+										))
+									) : (
+										<Typography className="no-data-text">No articles yet</Typography>
+									)}
+								</Stack>
+							</Stack>
+
+							{/* Contact */}
+							<Stack className="sidebar-section contact-section">
+								<Typography className="sidebar-title">Message the Author</Typography>
+								<form onSubmit={handleContactSubmit} className="contact-form">
+									<input
+										type="text"
+										placeholder="Your Name"
+										value={contactForm.name}
+										onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+										required
+									/>
+									<input
+										type="email"
+										placeholder="Your Email"
+										value={contactForm.email}
+										onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+										required
+									/>
+									<textarea
+										placeholder="Your Message"
+										rows={4}
+										value={contactForm.message}
+										onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+										required
+									/>
+									<Button type="submit" className="contact-btn">Send Message</Button>
+								</form>
+							</Stack>
+
+							{/* Promo Card */}
+							<Stack className="sidebar-section promo-section">
+								<img src="/img/community/communityImg.png" alt="Community" className="promo-image" />
+								<Typography className="promo-title">Join our Interior Living Community</Typography>
+								<Typography className="promo-text">Connect with interior design enthusiasts and share your ideas</Typography>
+								<Button
+									className="promo-btn"
+									onClick={() => router.push('/community')}
+								>
+									Join Community
+								</Button>
+							</Stack>
+						</Stack>
+					</Stack>
+				</Stack>
 
 				{/* Daily Inspiration Bubble */}
 				<DailyInspirationBubble />

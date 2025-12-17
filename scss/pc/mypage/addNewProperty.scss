@@ -9,7 +9,7 @@
 			.main-title-box {
 				margin-bottom: 21px;
 				.main-title {
-					color: #181a20;
+					color: var(--text-primary);
 					font-family: $font;
 					font-size: 30px;
 					font-style: normal;
@@ -19,7 +19,7 @@
 					text-transform: capitalize;
 				}
 				.sub-title {
-					color: #181a20;
+					color: var(--text-secondary);
 					font-family: $font;
 					font-size: 14px;
 					font-style: normal;
@@ -33,15 +33,15 @@
 				flex-direction: row;
 				gap: 59px;
 				padding: 18px 0px 0px 35px;
-				border-bottom: 1px solid #ddd;
+				border-bottom: 1px solid var(--border-soft);
 				border-radius: 12px 12px 0px 0px;
-				border: 1px solid rgba(196, 196, 196, 0.79);
-				background: #fff;
+				border: 1px solid var(--border-soft);
+				background: var(--bg-card);
 				box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
 				.active {
 					height: 30px;
-					border-bottom: 2px solid #181a20;
-					color: #181a20;
+					border-bottom: 2px solid var(--text-primary);
+					color: var(--text-primary);
 					font-family: $font;
 					font-size: 14px;
 					font-style: normal;
@@ -49,7 +49,7 @@
 					line-height: normal;
 				}
 				.not-active {
-					color: #717171;
+					color: var(--text-secondary);
 					font-family: $font;
 					font-size: 14px;
 					font-style: normal;
@@ -62,8 +62,8 @@
 				height: auto;
 				padding: 38px 33px 35px 33px;
 				border-radius: 12px;
-				border: 1px solid rgba(196, 196, 196, 0.79);
-				background: #fff;
+				border: 1px solid var(--border-soft);
+				background: var(--bg-card);
 				box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
 				.description-box {
 					width: 100%;
@@ -72,7 +72,7 @@
 						margin-top: 15px;
 						width: 100%;
 						.title {
-							color: #181a20;
+							color: var(--text-primary);
 							font-family: $font;
 							font-size: 14px;
 							font-style: normal;
@@ -85,7 +85,13 @@
 							outline: none;
 							border-radius: 8px;
 							padding: 0px 15px;
-							border: 1px solid #ddd;
+							border: 1px solid var(--border-soft);
+							background: var(--bg-card);
+							color: var(--text-primary);
+							
+							&::placeholder {
+								color: var(--text-secondary);
+							}
 						}
 						.description-text {
 							margin-top: 15px;
@@ -94,10 +100,10 @@
 							border-radius: 8px;
 							padding: 8px 15px;
 							appearance: none;
-							border: 1px solid #ddd;
+							border: 1px solid var(--border-soft);
 							resize: none;
-							background: #fff;
-							color: #717171;
+							background: var(--bg-card);
+							color: var(--text-primary);
 							font-family: $font;
 							font-size: 14px;
 							font-style: normal;
@@ -120,9 +126,9 @@
 							align-items: center;
 							gap: 10px;
 							border-radius: 12px;
-							border: 1px solid #181a20;
+							border: 1px solid var(--border-soft);
 							.prev-button-text {
-								color: #181a20;
+								color: var(--text-primary);
 								font-family: $font;
 								font-size: 15px;
 								font-style: normal;
@@ -151,7 +157,7 @@
 					}
 					.property-title {
 						margin-top: 30px;
-						color: #181a20;
+						color: var(--text-primary);
 						font-family: $font;
 						font-size: 17px;
 						font-style: normal;
@@ -168,7 +174,7 @@
 							width: 100%;
 							gap: 20px;
 							.title {
-								color: #181a20;
+								color: var(--text-primary);
 								font-family: $font;
 								font-size: 14px;
 								font-style: normal;
@@ -181,19 +187,25 @@
 								outline: none;
 								border-radius: 8px;
 								padding: 0px 15px;
-								border: 1px solid #ddd;
+								border: 1px solid var(--border-soft);
+								background: var(--bg-card);
+								color: var(--text-primary);
+								
+								&::placeholder {
+									color: var(--text-secondary);
+								}
 							}
 							.select-description {
 								width: 100%;
 								height: 47px;
 								border-radius: 8px;
-								border: 1px solid #ddd;
-								background: #fff;
+								border: 1px solid var(--border-soft);
+								background: var(--bg-card);
 								outline: none;
 								padding-left: 15px;
 								appearance: none;
 								cursor: pointer;
-								color: #717171;
+								color: var(--text-primary);
 								font-family: $font;
 								font-size: 14px;
 								font-style: normal;
@@ -203,7 +215,7 @@
 							.divider {
 								position: absolute;
 								height: 46px;
-								border-left: 1px solid #ddd;
+								border-left: 1px solid var(--border-soft);
 								right: 52px;
 								top: 42px;
 							}
@@ -211,7 +223,7 @@
 								position: absolute;
 								width: 15px;
 								height: 7px;
-								color: #ddd;
+								color: var(--text-secondary);
 								right: 18px;
 								top: 62px;
 							}
@@ -221,7 +233,7 @@
 				.upload-title {
 					margin-top: 30px;
 					margin-bottom: 30px;
-					color: #181a20;
+					color: var(--text-primary);
 					font-family: $font;
 					font-size: 17px;
 					font-style: normal;
@@ -248,7 +260,7 @@
 							justify-content: center;
 							gap: 5px;
 							.drag-title {
-								color: #181a20;
+								color: var(--text-primary);
 								font-family: $font;
 								font-size: 17px;
 								font-style: normal;
@@ -256,7 +268,7 @@
 								line-height: normal;
 							}
 							.format-title {
-								color: #181a20;
+								color: var(--text-secondary);
 								font-family: $font;
 								font-size: 14px;
 								font-style: normal;
@@ -271,9 +283,9 @@
 							align-items: center;
 							gap: 10px;
 							border-radius: 12px;
-							border: 1px solid #181a20;
+							border: 1px solid var(--border-soft);
 							.browse-button-text {
-								color: #181a20;
+								color: var(--text-primary);
 								font-family: $font;
 								font-size: 15px;
 								font-style: normal;
@@ -308,7 +320,7 @@
 								top: 7px;
 								left: 7px;
 								border-radius: 12px;
-								background: #fff;
+								background: var(--bg-card);
 							}
 						}
 					}
@@ -329,9 +341,9 @@
 						align-items: center;
 						gap: 10px;
 						border-radius: 12px;
-						border: 1px solid #181a20;
+						border: 1px solid var(--border-soft);
 						.prev-button-text {
-							color: #181a20;
+							color: var(--text-primary);
 							font-family: $font;
 							font-size: 15px;
 							font-style: normal;
@@ -383,7 +395,13 @@
 					outline: none;
 					border-radius: 8px;
 					padding: 0px 15px;
-					border: 1px solid #ddd;
+					border: 1px solid var(--border-soft);
+					background: var(--bg-card);
+					color: var(--text-primary);
+					
+					&::placeholder {
+						color: var(--text-secondary);
+					}
 				}
 				.config-row {
 					width: 100%;
@@ -396,7 +414,7 @@
 						width: 100%;
 						gap: 20px;
 						.title {
-							color: #181a20;
+							color: var(--text-primary);
 							font-family: $font;
 							font-size: 14px;
 							font-style: normal;
@@ -409,37 +427,43 @@
 							outline: none;
 							border-radius: 8px;
 							padding: 0px 15px;
-							border: 1px solid #ddd;
+							border: 1px solid var(--border-soft);
+							background: var(--bg-card);
+							color: var(--text-primary);
+							
+							&::placeholder {
+								color: var(--text-secondary);
+							}
 						}
 						.select-description {
 							width: 100%;
 							height: 47px;
 							border-radius: 8px;
-							border: 1px solid #ddd;
-							background: #fff;
+							border: 1px solid var(--border-soft);
+							background: var(--bg-card);
 							outline: none;
 							padding-left: 15px;
 							appearance: none;
 							cursor: pointer;
-							color: #717171;
+							color: var(--text-primary);
 							font-family: $font;
 							font-size: 14px;
 							font-style: normal;
 							font-weight: 400;
 							line-height: 26px;
 						}
-						.divider {
-							position: absolute;
-							height: 46px;
-							border-left: 1px solid #ddd;
+							.divider {
+								position: absolute;
+								height: 46px;
+								border-left: 1px solid var(--border-soft);
 							right: 52px;
 							top: 42px;
 						}
-						.arrow-down {
-							position: absolute;
-							width: 15px;
-							height: 7px;
-							color: #ddd;
+							.arrow-down {
+								position: absolute;
+								width: 15px;
+								height: 7px;
+								color: var(--text-secondary);
 							right: 18px;
 							top: 62px;
 						}
@@ -447,7 +471,7 @@
 				}
 				.map-title {
 					margin-top: 39px;
-					color: #181a20;
+					color: var(--text-primary);
 					font-family: $font;
 					font-size: 17px;
 					font-style: normal;
@@ -473,7 +497,7 @@
 						gap: 20px;
 						margin-bottom: 24px;
 						.title {
-							color: #181a20;
+							color: var(--text-primary);
 							font-family: $font;
 							font-size: 14px;
 							font-style: normal;
@@ -486,37 +510,43 @@
 							outline: none;
 							border-radius: 8px;
 							padding: 0px 15px;
-							border: 1px solid #ddd;
+							border: 1px solid var(--border-soft);
+							background: var(--bg-card);
+							color: var(--text-primary);
+							
+							&::placeholder {
+								color: var(--text-secondary);
+							}
 						}
 						.select-description {
 							width: 100%;
 							height: 47px;
 							border-radius: 8px;
-							border: 1px solid #ddd;
-							background: #fff;
+							border: 1px solid var(--border-soft);
+							background: var(--bg-card);
 							outline: none;
 							padding-left: 15px;
 							appearance: none;
 							cursor: pointer;
-							color: #717171;
+							color: var(--text-primary);
 							font-family: $font;
 							font-size: 14px;
 							font-style: normal;
 							font-weight: 400;
 							line-height: 26px;
 						}
-						.divider {
-							position: absolute;
-							height: 46px;
-							border-left: 1px solid #ddd;
+							.divider {
+								position: absolute;
+								height: 46px;
+								border-left: 1px solid var(--border-soft);
 							right: 52px;
 							top: 42px;
 						}
-						.arrow-down {
-							position: absolute;
-							width: 15px;
-							height: 7px;
-							color: #ddd;
+							.arrow-down {
+								position: absolute;
+								width: 15px;
+								height: 7px;
+								color: var(--text-secondary);
 							right: 18px;
 							top: 62px;
 						}
@@ -524,12 +554,18 @@
 							width: 270px;
 							height: 47.352px;
 							border-radius: 8px;
-							border: 1px solid #ddd;
+							border: 1px solid var(--border-soft);
+							background: var(--bg-card);
+							color: var(--text-primary);
+							
+							&::placeholder {
+								color: var(--text-secondary);
+							}
 						}
 					}
 				}
 				.owner-agent-title {
-					color: #181a20;
+					color: var(--text-primary);
 					font-family: $font;
 					font-size: 14px;
 					font-style: normal;
@@ -542,15 +578,20 @@
 					margin-top: 20px;
 					margin-bottom: 41px;
 					border-radius: 8px;
-					border: 1px solid #ddd;
+					border: 1px solid var(--border-soft);
 					padding: 8px 15px;
 					resize: none;
-					color: #717171;
+					background: var(--bg-card);
+					color: var(--text-primary);
 					font-family: $font;
 					font-size: 14px;
 					font-style: normal;
 					font-weight: 400;
 					line-height: 26px;
+					
+					&::placeholder {
+						color: var(--text-secondary);
+					}
 				}
 				.wrap-box {
 					width: 100%;
@@ -574,7 +615,7 @@
 						.amenity-text {
 							width: 130.856px;
 							height: auto;
-							color: #181a20;
+							color: var(--text-primary);
 							font-family: $font;
 							font-size: 14px;
 							font-style: normal;

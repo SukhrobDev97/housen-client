@@ -1,172 +1,364 @@
+// Design tokens
+$brand-green: #3B3F2B;
+$brand-accent: #E8735A;
+$white: #ffffff;
+$dark-text: #1a1a1a;
+$gray-text: #6b7280;
+$light-gray: #f7f7f5;
+$border-color: #e5e7eb;
+
 #pc-wrap {
 	#member-page {
 		#member-properties-page {
 			width: 100%;
+
+			// ==========================================
+			// HEADER
+			// ==========================================
 			.main-title-box {
-				width: auto;
-				height: auto;
-				flex-direction: row;
+				display: flex;
+				align-items: center;
 				justify-content: space-between;
-				.right-box {
-					width: 315px;
-					.main-title {
-						color: #181a20;
-						font-family: $font;
-						font-size: 30px;
-						font-style: normal;
-						font-weight: 600;
-						line-height: normal;
-						letter-spacing: 0.6px;
-						text-transform: capitalize;
-					}
+				margin-bottom: 20px;
+				padding-bottom: 16px;
+				border-bottom: 1px solid $border-color;
+
+				.main-title {
+					font-family: $font;
+					font-size: 20px;
+					font-weight: 700;
+					color: $dark-text;
+				}
+
+				.total-count {
+					font-family: $font;
+					font-size: 13px;
+					color: $gray-text;
 				}
 			}
-			.properties-list-box {
-				margin-top: 85px;
-				.list-box {
-					.listing-title-box {
-						width: 100%;
-						height: auto;
-						flex-direction: row;
-						gap: 110px;
-						padding: 18px 15px 18px 33px;
-						border-radius: 12px;
-						background: #f6f6f6;
-						.title-text {
-							color: #181a20;
-							font-family: $font;
-							font-size: 15px;
-							font-style: normal;
-							font-weight: 600;
-							line-height: normal;
-						}
-						:first-child {
-							margin-right: 138px;
+
+			// ==========================================
+			// PROJECTS LIST
+			// ==========================================
+			.projects-list {
+				display: flex;
+				flex-direction: column;
+				gap: 0;
+
+				// Table Header
+				.list-header {
+					display: grid;
+					grid-template-columns: 1fr 100px 90px 70px;
+					gap: 12px;
+					align-items: center;
+					padding: 10px 16px;
+					background: $light-gray;
+					border-radius: 8px;
+					margin-bottom: 8px;
+
+					.header-text {
+						font-family: $font;
+						font-size: 10px;
+						font-weight: 600;
+						color: $gray-text;
+						text-transform: uppercase;
+						letter-spacing: 0.5px;
+
+						&.col-views {
+							text-align: center;
 						}
 					}
-					.property-card-box {
-						width: 100%;
-						height: auto;
+				}
+
+				// Project Row Card
+				.project-row {
+					display: grid;
+					grid-template-columns: 1fr 100px 90px 70px;
+					gap: 12px;
+					align-items: center;
+					padding: 12px 16px;
+					background: $white;
+					border-radius: 10px;
+					border: 1px solid $border-color;
+					margin-bottom: 8px;
+					cursor: pointer;
+					transition: all 0.2s ease;
+
+					&:hover {
+						border-color: darken($border-color, 10%);
+						box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+
+						.project-thumbnail img {
+							transform: scale(1.05);
+						}
+					}
+
+					// Column: Project (Thumbnail + Info)
+					.col-project {
+						display: flex;
 						flex-direction: row;
 						align-items: center;
-						margin-top: 30px;
-						padding-bottom: 30px;
-						border-bottom: 1px solid #ddd;
-						.image-box {
-							width: 115px;
-							height: 90px;
+						gap: 12px;
+						min-width: 0;
+						overflow: hidden;
+
+						.project-thumbnail {
+							width: 56px;
+							height: 56px;
+							min-width: 56px;
+							border-radius: 8px;
 							overflow: hidden;
-							margin-right: 25px;
-							padding-top: 1px;
-							cursor: pointer;
+							background: $light-gray;
+
 							img {
 								width: 100%;
 								height: 100%;
-								object-fit: contain;
-								border-radius: 12px;
+								object-fit: cover;
+								transition: transform 0.3s ease;
 							}
 						}
-						.information-box {
-							width: 210px;
-							height: auto;
-							padding: 5px 0px;
-							cursor: pointer;
-							.name {
-								margin-bottom: 8px;
-								color: #181a20;
+
+						.project-info {
+							flex: 1;
+							min-width: 0;
+							display: flex;
+							flex-direction: column;
+							gap: 2px;
+
+							.project-title {
 								font-family: $font;
-								font-size: 13px;
-								font-style: normal;
+								font-size: 14px;
 								font-weight: 600;
-								line-height: normal;
+								color: $dark-text;
+								white-space: nowrap;
+								overflow: hidden;
+								text-overflow: ellipsis;
+								line-height: 1.3;
 							}
-							.address {
-								margin-bottom: 13px;
-								color: #717171;
+
+							.project-style {
 								font-family: $font;
 								font-size: 11px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: normal;
+								color: $gray-text;
+								text-transform: uppercase;
+								letter-spacing: 0.2px;
 							}
-							.price {
-								color: #181a20;
+
+							.project-price {
 								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: normal;
-							}
-						}
-						.date-box {
-							width: 140px;
-							height: 100%;
-							align-items: center;
-							justify-content: center;
-							margin-right: 77px;
-							.date {
-								color: #181a20;
-								font-family: $font;
-								font-size: 12px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: 26px;
-							}
-						}
-						.status-box {
-							width: 100px;
-							height: 100%;
-							align-items: center;
-							justify-content: center;
-							margin-right: 70px;
-							.coloured-box {
-								width: 93px;
-								height: 36px;
-								align-items: center;
-								justify-content: center;
-								border-radius: 60px;
-								.status {
-									font-family: $font;
-									font-size: 12px;
-									font-style: normal;
-									font-weight: 400;
-									line-height: 26px;
-								}
-							}
-						}
-						.views-box {
-							width: 35px;
-							height: 100%;
-							align-items: center;
-							justify-content: center;
-							margin-right: 75px;
-							.views {
-								color: #181a20;
-								font-family: $font;
-								font-size: 12px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: 26px;
+								font-size: 14px;
+								font-weight: 700;
+								color: $brand-green;
 							}
 						}
 					}
-					.pagination-config {
-						width: 100%;
-						height: auto;
-						justify-content: center;
-						align-items: center;
-						margin-top: 30px;
-						.total-result {
-							p {
-								color: #181a20;
-								text-align: center;
-								font-family: $font;
-								font-size: 14px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: 26px;
+
+					// Column: Date
+					.col-date {
+						.date-text {
+							font-family: $font;
+							font-size: 12px;
+							color: $gray-text;
+							white-space: nowrap;
+						}
+					}
+
+					// Column: Status
+					.col-status {
+						.status-badge {
+							display: inline-flex;
+							align-items: center;
+							justify-content: center;
+							padding: 5px 10px;
+							border-radius: 12px;
+							font-family: $font;
+							font-size: 10px;
+							font-weight: 600;
+							text-transform: uppercase;
+							letter-spacing: 0.2px;
+							white-space: nowrap;
+
+							&.status-active {
+								background: #dcfce7;
+								color: #16a34a;
+							}
+
+							&.status-completed {
+								background: #dbeafe;
+								color: #2563eb;
+							}
+
+							&.status-sold {
+								background: #fef2f2;
+								color: #dc2626;
+							}
+
+							&.status-default {
+								background: #f3f4f6;
+								color: #6b7280;
 							}
 						}
+					}
+
+					// Column: Views - ALWAYS IN SAME ROW
+					.col-views {
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+						justify-content: center;
+						gap: 4px;
+						white-space: nowrap;
+
+						svg {
+							width: 14px;
+							height: 14px;
+							color: $gray-text;
+							opacity: 0.6;
+							flex-shrink: 0;
+						}
+
+						.views-count {
+							font-family: $font;
+							font-size: 12px;
+							font-weight: 500;
+							color: $gray-text;
+						}
+					}
+				}
+
+				// ==========================================
+				// EMPTY STATE
+				// ==========================================
+				.empty-state {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					padding: 60px 32px;
+					background: $light-gray;
+					border-radius: 12px;
+					text-align: center;
+
+					img {
+						width: 48px;
+						height: 48px;
+						margin-bottom: 16px;
+						opacity: 0.4;
+					}
+
+					.empty-title {
+						font-family: $font;
+						font-size: 16px;
+						font-weight: 600;
+						color: $dark-text;
+						margin-bottom: 6px;
+					}
+
+					.empty-text {
+						font-family: $font;
+						font-size: 13px;
+						color: $gray-text;
+						max-width: 260px;
+					}
+				}
+
+				// ==========================================
+				// PAGINATION
+				// ==========================================
+				.pagination-box {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					gap: 10px;
+					margin-top: 20px;
+					padding-top: 16px;
+					border-top: 1px solid $border-color;
+
+					.MuiPagination-root {
+						.MuiPaginationItem-root {
+							font-family: $font;
+							font-weight: 500;
+							font-size: 13px;
+
+							&.Mui-selected {
+								background: $brand-green;
+								color: $white;
+							}
+						}
+					}
+
+					.pagination-text {
+						font-family: $font;
+						font-size: 12px;
+						color: $gray-text;
+					}
+				}
+			}
+		}
+	}
+}
+
+// ==========================================
+// RESPONSIVE
+// ==========================================
+@media screen and (max-width: 768px) {
+	#pc-wrap #member-page #member-properties-page {
+		.projects-list {
+			.list-header {
+				display: none;
+			}
+
+			.project-row {
+				grid-template-columns: 1fr auto;
+				grid-template-rows: auto auto;
+				gap: 8px 12px;
+				padding: 14px;
+
+				.col-project {
+					grid-column: 1 / -1;
+				}
+
+				.col-date {
+					grid-column: 1;
+				}
+
+				.col-status {
+					grid-column: 2;
+					justify-self: end;
+				}
+
+				.col-views {
+					grid-column: 1;
+					justify-content: flex-start;
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 480px) {
+	#pc-wrap #member-page #member-properties-page {
+		.main-title-box {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 6px;
+		}
+
+		.projects-list .project-row {
+			.col-project {
+				.project-thumbnail {
+					width: 48px;
+					height: 48px;
+					min-width: 48px;
+				}
+
+				.project-info {
+					.project-title {
+						font-size: 13px;
+					}
+
+					.project-price {
+						font-size: 13px;
 					}
 				}
 			}

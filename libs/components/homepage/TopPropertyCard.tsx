@@ -1,17 +1,17 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 import { Stack, Box, Typography, Button } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import { Project } from '../../types/property/property';
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
-import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 import { REACT_APP_API_URL } from '../../config';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import { sweetTopSmallSuccessAlert } from '../../sweetAlert';
 
 interface TopProjectCardProps {
 	project: Project;
@@ -23,6 +23,10 @@ const TopProjectCard = (props: TopProjectCardProps) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
+	
+	// Independent states for Like and Save
+	const [isSaved, setIsSaved] = useState(false);
+	const isLiked = project?.meLiked && project?.meLiked[0]?.myFavorite;
 	
 	// Refs for parallax effect
 	const cardRef = useRef<HTMLDivElement>(null);
@@ -63,7 +67,7 @@ const TopProjectCard = (props: TopProjectCardProps) => {
 	const handleMouseLeave = useCallback(() => {
 		if (rafRef.current) {
 			cancelAnimationFrame(rafRef.current);
-		}
+	}
 		
 		if (imageRef.current) {
 			imageRef.current.style.transform = 'scale(1) translate(0, 0)';
@@ -72,66 +76,78 @@ const TopProjectCard = (props: TopProjectCardProps) => {
 
 	if (device === 'mobile') {
 		return (
-			<Stack className="top-card-box" key={project._id}>
-				<Box
-					component={'div'}
-					className={'card-img'}
+				<Stack className="top-card-box" key={project._id}>
+					<Box
+						component={'div'}
+						className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${project?.projectImages[0]})` }}
-					onClick={() => pushDetailHandler(project._id)}
-				>
+						onClick={() => pushDetailHandler(project._id)}
+					>
 					{/* Top Rated Badge */}
 					<div className={'top-rated-badge'}>Top Rated</div>
-					<span className="category-badge">{project.projectType}</span>
-				</Box>
-				<Box 
-					component={'div'} className={'card-content'} 
-					onClick={() => pushDetailHandler(project._id)}
-				>
-					<Typography className={'card-title'}>{project.projectTitle}</Typography>
-					<Typography className={'card-price'}>${project.projectPrice.toLocaleString()}</Typography>
-				</Box>
-			</Stack>
+						<span className="category-badge">{project.projectType}</span>
+					</Box>
+					<Box 
+						component={'div'} className={'card-content'} 
+						onClick={() => pushDetailHandler(project._id)}
+					>
+						<Typography className={'card-title'}>{project.projectTitle}</Typography>
+						<Typography className={'card-price'}>${project.projectPrice.toLocaleString()}</Typography>
+					</Box>
+				</Stack>
 		);
 	} else {
 		return (
-			<Stack 
-				className="top-card-box"
+				<Stack 
+					className="top-card-box"
 				ref={cardRef}
-				onClick={() => router.push(`/property/detail?id=${project._id}`)}
+					onClick={() => router.push(`/property/detail?id=${project._id}`)}
 				onMouseMove={handleMouseMove}
 				onMouseLeave={handleMouseLeave}
-			>
-				{/* Image Layer */}
-				<Box className="card-img">
+				>
+					{/* Image Layer */}
+					<Box className="card-img">
 					{/* Top Rated Badge */}
 					<div className={'top-rated-badge'}>Top Rated</div>
 					
-					<img 
+						<img 
 						ref={imageRef}
 						src={`${REACT_APP_API_URL}/${project?.projectImages[0]}`} 
-						alt={project.projectTitle}
-						className="card-image"
-						onClick={() => pushDetailHandler(project._id)}
-					/>
-					<Box className="image-gradient" />
+							alt={project.projectTitle}
+							className="card-image"
+							onClick={() => pushDetailHandler(project._id)}
+						/>
+						<Box className="image-gradient" />
 					{/* Hover Gradient Overlay */}
 					<Box className="hover-gradient-overlay" />
-				</Box>
+					
+					{/* Hover Icons - Top Right (below badge) */}
+					<Box className="hover-icons">
+						<Box 
+							className={`icon-btn like-btn ${isLiked ? 'active' : ''}`}
+							onClick={(e: React.MouseEvent) => {
+								e.stopPropagation();
+								likeProjectHandler(user, project._id);
+							}}
+						>
+							{isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+						</Box>
+						<Box 
+							className={`icon-btn save-btn ${isSaved ? 'active' : ''}`}
+							onClick={async (e: React.MouseEvent) => {
+								e.stopPropagation();
+								const newSavedState = !isSaved;
+								setIsSaved(newSavedState);
+								await sweetTopSmallSuccessAlert(newSavedState ? 'Saved!' : 'Removed from saved', 800);
+							}}
+						>
+							{isSaved ? <BookmarkIcon /> : <BookmarkBorderIcon />}
+							</Box>
+						</Box>
+					</Box>
 				
 				{/* Glass Overlay Info Section */}
 				<Box className="glass-info">
-					{/* Top Info Row - Icons */}
-					<Box className="info-icons">
-						<Box className="icon-item">
-							<AutoAwesomeOutlinedIcon />
-							<span>{project.projectStyle}</span>
-						</Box>
-						<Box className="icon-item">
-							<AccessTimeOutlinedIcon />
-							<span>{project.projectDuration} months</span>
-						</Box>
-					</Box>
-					
 					{/* Title */}
 					<Typography 
 						className="card-title"
@@ -140,29 +156,16 @@ const TopProjectCard = (props: TopProjectCardProps) => {
 						{project.projectTitle}
 					</Typography>
 					
-					{/* Bottom Row: Stats + CTA */}
+					{/* Style + Duration Info */}
+					<Typography className="card-meta">
+						{project.projectStyle} • duration: {project.projectDuration} {project.projectDuration === 1 ? 'month' : 'months'}
+					</Typography>
+					
+					{/* Bottom Row: Price + CTA */}
 					<Box className="bottom-row">
-						{/* Stats */}
-						<Box className="stats-row">
-							<Box className="stat-item">
-								<VisibilityOutlinedIcon />
-								<span>{project?.projectViews || 0}</span>
-							</Box>
-							<Box 
-								className="stat-item clickable"
-								onClick={(e: React.MouseEvent) => {
-									e.stopPropagation();
-									likeProjectHandler(user, project._id);
-								}}
-							>
-								{project?.meLiked && project?.meLiked[0]?.myFavorite ? (
-									<FavoriteIcon className="liked" />
-								) : (
-									<FavoriteBorderIcon />
-								)}
-								<span>{project?.projectLikes || 0}</span>
-							</Box>
-						</Box>
+						<Typography className="card-price">
+							${project.projectPrice.toLocaleString()}
+						</Typography>
 						
 						{/* Ghost CTA Button */}
 						<Button className="ghost-btn">

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Stack, Typography, Box, List, ListItem, Button } from '@mui/material';
+import VerifiedIcon from '@mui/icons-material/Verified';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import Link from 'next/link';
 import { Member } from '../../types/member/member';
@@ -44,7 +45,8 @@ const MemberMenu = (props: MemberMenuProps) => {
 		return <div>MEMBER MENU MOBILE</div>;
 	} else {
 		return (
-			<Stack width={'100%'} padding={'30px 24px'}>
+			<Stack width={'100%'}>
+				{/* Profile Section */}
 				<Stack className={'profile'}>
 					<Box component={'div'} className={'profile-img'}>
 						<img
@@ -54,29 +56,32 @@ const MemberMenu = (props: MemberMenuProps) => {
 					</Box>
 					<Stack className={'user-info'}>
 						<Typography className={'user-name'}>{member?.memberNick}</Typography>
+						<span className="member-type-badge">
+							{member?.memberType === 'AGENCY' && <VerifiedIcon />}
+							{member?.memberType}
+						</span>
 						<Box component={'div'} className={'user-phone'}>
 							<img src={'/img/icons/call.svg'} alt={'icon'} />
 							<Typography className={'p-number'}>{member?.memberPhone}</Typography>
 						</Box>
-						<Typography className={'view-list'}>{member?.memberType}</Typography>
 					</Stack>
 				</Stack>
+
+				{/* Follow Button */}
 				<Stack className="follow-button-box">
 					{member?.meFollowed && member?.meFollowed[0]?.myFollowing ? (
 						<>
 							<Button
-								variant="outlined"
-								sx={{ background: '#b9b9b9' }}
+								className="unfollow-btn"
 								onClick={() => unsubscribeHandler(member?._id, getMemberRefetch, memberId)}
 							>
 								Unfollow
 							</Button>
-							<Typography>Following</Typography>
+							<Typography className="following-text">Following</Typography>
 						</>
 					) : (
 						<Button
-							variant="contained"
-							sx={{ background: '#ff5d18', ':hover': { background: '#ff5d18' } }}
+							className="follow-btn"
 							onClick={() => subscribeHandler(member?._id, getMemberRefetch, memberId)}
 						>
 							Follow

@@ -9,8 +9,11 @@ import TopAgencyCard from './TopAgentCard';
 import { Member } from '../../types/member/member';
 import { AgenciesInquiry } from '../../types/member/member.input';
 import { GET_AGENCIES } from '../../../apollo/user/query';
+import { SUBSCRIBE, UNSUBSCRIBE } from '../../../apollo/user/mutation';
 import { T } from '../../types/common';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation, useReactiveVar } from '@apollo/client';
+import { userVar } from '../../../apollo/store';
+import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 
 interface TopAgenciesProps {
 	initialInput: AgenciesInquiry;
@@ -20,9 +23,13 @@ const TopAgencies = (props: TopAgenciesProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
+	const user = useReactiveVar(userVar);
 	const [topAgencies, setTopAgencies] = useState<Member[]>([]);
 
 	/** APOLLO REQUESTS **/
+	const [subscribe] = useMutation(SUBSCRIBE);
+	const [unsubscribe] = useMutation(UNSUBSCRIBE);
+
 	const {
 		loading: getAgenciesLoading,
 		data: getAgenciesData,
@@ -36,11 +43,43 @@ const TopAgencies = (props: TopAgenciesProps) => {
 			setTopAgencies(data?.getAgencies?.list);
 		},
 	  });
+
 	/** HANDLERS **/
+	const subscribeHandler = async (id: string) => {
+		try {
+			if (!user?._id) {
+				router.push('/account/join');
+				return;
+			}
+			await subscribe({
+				variables: { input: id },
+			});
+			await sweetTopSmallSuccessAlert('Followed!', 800);
+			await getAgenciesRefetch();
+		} catch (err: any) {
+			sweetMixinErrorAlert(err.message).then();
+		}
+	};
+
+	const unsubscribeHandler = async (id: string) => {
+		try {
+			if (!user?._id) {
+				router.push('/account/join');
+				return;
+			}
+			await unsubscribe({
+				variables: { input: id },
+			});
+			await sweetTopSmallSuccessAlert('Unfollowed!', 800);
+			await getAgenciesRefetch();
+		} catch (err: any) {
+			sweetMixinErrorAlert(err.message).then();
+		}
+	};
 
 	if (device === 'mobile') {
 		return (
-			<Stack className={'top-agents'}>
+			<Stack id="top-agents" className={'top-agents'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<span>High Rated Interior Agencies</span>
@@ -56,7 +95,12 @@ const TopAgencies = (props: TopAgenciesProps) => {
 							{topAgencies.map((agency: Member) => {
 								return (
 									<SwiperSlide className={'top-agents-slide'} key={agency?._id}>
-										<TopAgencyCard agency={agency} key={agency?.memberNick} />
+										<TopAgencyCard 
+											agency={agency} 
+											key={agency?.memberNick}
+											subscribeHandler={subscribeHandler}
+											unsubscribeHandler={unsubscribeHandler}
+										/>
 									</SwiperSlide>
 								);
 							})}

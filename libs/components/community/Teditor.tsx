@@ -87,37 +87,37 @@ const TuiEditor = () => {
 			const articleContent = editor?.getInstance().getHTML() as string;
 			memoizedValues.articleContent = articleContent;
 
-			// Validate inputs
-			if (articleTitle === '' || articleTitle.trim() === '') {
-				throw new Error('Please enter an article title');
-			}
-			
-			if (!memoizedValues.articleContent || memoizedValues.articleContent === '' || memoizedValues.articleContent === '<p><br></p>') {
-				throw new Error('Please write some content for your article');
-			}
-
-			await createBoardArticle({
-				variables: {
-					input: {
-						articleTitle,
-						articleContent: memoizedValues.articleContent,
-						articleImage: memoizedValues.articleImage,
-						articleCategory,
-					},
-				},
-			});
-
-			await sweetTopSuccessAlert('Article has been created successfully!', 700);
-
-			await router.push({
-				pathname: '/mypage',
-				query: { category: 'myArticles' },
-			});
-		} catch (err: any) {
-			console.log('Article creation error:', err);
-			const errorMessage = err?.graphQLErrors?.[0]?.message || err?.message || Message.INSERT_ALL_INPUTS;
-			sweetErrorHandling(new Error(errorMessage)).then();
+		// Validate inputs
+		if (articleTitle === '' || articleTitle.trim() === '') {
+			throw new Error('Please enter an article title');
 		}
+		
+		if (!memoizedValues.articleContent || memoizedValues.articleContent === '' || memoizedValues.articleContent === '<p><br></p>') {
+			throw new Error('Please write some content for your article');
+		}
+
+		await createBoardArticle({
+			variables: {
+				input: {
+					articleTitle,
+					articleContent: memoizedValues.articleContent,
+					articleImage: memoizedValues.articleImage,
+					articleCategory,
+				},
+			},
+		});
+
+		await sweetTopSuccessAlert('Article has been created successfully!', 700);
+
+		await router.push({
+			pathname: '/mypage',
+			query: { category: 'myArticles' },
+		});
+	} catch (err: any) {
+		console.log('Article creation error:', err);
+		const errorMessage = err?.graphQLErrors?.[0]?.message || err?.message || Message.INSERT_ALL_INPUTS;
+		sweetErrorHandling(new Error(errorMessage)).then();
+	}
 	};
 
 	return (

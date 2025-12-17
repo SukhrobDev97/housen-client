@@ -4,7 +4,7 @@
 		padding: 0;
     width: 100%;
     height: auto;
-		background: #ffffff;
+		background: var(--bg-page);
 
 		.service-hero {
 			position: relative;
@@ -109,7 +109,7 @@
 		.intro-section {
 			padding: 80px 0 60px;
 			width: 100%;
-			background: #ffffff;
+			background: var(--bg-section);
 			
 			.container {
 				max-width: 1300px;
@@ -122,7 +122,7 @@
           text-align: center;
 				
 				.intro-label {
-          color: #181A20;
+          color: var(--text-secondary);
           font-family: $font;
           font-size: 14px;
           font-style: normal;
@@ -134,7 +134,7 @@
 				}
 				
 				.intro-title {
-					color: #181A20;
+					color: var(--text-primary);
 					font-family: $font;
 					font-size: 42px;
 					font-style: normal;
@@ -149,7 +149,7 @@
 		.services-section {
 			padding: 80px 0 120px;
 			width: 100%;
-			background: #ffffff;
+			background: var(--bg-section);
 			
 			.container {
 				max-width: 1300px;
@@ -167,7 +167,7 @@
 						flex-direction: column;
 						border-radius: 12px;
 						overflow: hidden;
-						background: #ffffff;
+						background: var(--bg-card);
 						box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 						transition: all 0.3s ease;
 						
@@ -199,7 +199,7 @@
             flex-direction: column;
 							
 							.service-title {
-								color: #181A20;
+								color: var(--text-primary);
               font-family: $font;
 								font-size: 24px;
               font-style: normal;
@@ -209,7 +209,7 @@
 							}
 							
 							.service-description {
-								color: #6E7070;
+								color: var(--text-secondary);
 								font-family: $font;
 								font-size: 14px;
 								font-style: normal;
@@ -224,7 +224,7 @@
 								margin: 0 0 32px 0;
 								
 								li {
-              color: #181A20;
+              color: var(--text-primary);
               font-family: $font;
               font-size: 14px;
               font-style: normal;
@@ -237,7 +237,7 @@
 										content: '•';
 										position: absolute;
 										left: 0;
-										color: #364440;
+										color: var(--text-secondary);
 										font-size: 18px;
 										line-height: 1.6em;
 									}
@@ -358,7 +358,7 @@
 		.download-app-section {
 			padding: 120px 0;
 			width: 100%;
-			background: #ffffff;
+			background: var(--bg-section);
 			
       .container {
 				max-width: 1300px;
@@ -382,11 +382,11 @@
 						flex: 1;
 						max-width: 200px;
 						height: 1px;
-						background: #DDE8DD;
+						background: var(--border-soft);
 					}
 					
 					.header-title {
-						color: #181A20;
+						color: var(--text-primary);
           font-family: $font;
 						font-size: 32px;
           font-style: normal;
@@ -413,13 +413,13 @@
 								width: 300px;
 								height: 400px;
 								
-								.person-image {
+									.person-image {
 									position: absolute;
 									width: 140px;
 									height: 140px;
 									border-radius: 50%;
 									overflow: hidden;
-									border: 4px solid #ffffff;
+									border: 4px solid var(--bg-card);
 									box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 									transition: transform 0.3s ease;
 									
@@ -465,7 +465,7 @@
 						max-width: 400px;
 						
 						.download-headline {
-            color: #181A20;
+            color: var(--text-primary);
             font-family: $font;
 							font-size: 42px;
             font-style: normal;
@@ -476,7 +476,7 @@
           }
 						
 						.download-description {
-							color: #6E7070;
+							color: var(--text-secondary);
             font-family: $font;
 							font-size: 16px;
             font-style: normal;
@@ -580,10 +580,10 @@
 								.qr-code {
 									width: 100px;
 									height: 100px;
-									border: 2px solid #E5E5E5;
+									border: 2px solid var(--border-soft);
 									border-radius: 8px;
 									padding: 8px;
-									background: #ffffff;
+									background: var(--bg-card);
 									display: flex;
 									align-items: center;
 									justify-content: center;
@@ -604,11 +604,10 @@
 		}
 	}
 
-	// Dark Mode
+	// Dark Mode - CSS variables handle most styling automatically
+	// Only keep specific adjustments that can't be handled by variables
 	[data-theme='dark'] {
 		.about-page.service-listing-page {
-			background: #1a1a1a;
-			
 			.service-hero {
 				.hero-banner {
 					.hero-overlay {
@@ -617,128 +616,10 @@
 				}
 			}
 			
-			.intro-section {
-				background: #1a1a1a;
-				
-      .container {
-					.intro-label {
-						color: #b0b0b0;
-					}
-					
-					.intro-title {
-						color: #ffffff;
-					}
-				}
-			}
-			
 			.partners {
 				.partners-background {
 					&::after {
 						background: rgba(0, 0, 0, 0.85);
-					}
-				}
-				
-				.container {
-					.partners-title {
-						color: #ffffff;
-					}
-					
-					.partners-wrap {
-						img {
-							opacity: 0.7;
-							
-							&:hover {
-								opacity: 1;
-              }
-            }
-					}
-				}
-			}
-			
-			.download-app-section {
-				background: #2a2a2a;
-				
-				.container {
-					.download-header {
-						.header-line {
-							background: #444;
-						}
-						
-						.header-title {
-							color: #ffffff;
-						}
-					}
-					
-					.download-content {
-						.download-center {
-							.download-headline {
-								color: #ffffff;
-							}
-							
-							.download-description {
-								color: #b0b0b0;
-							}
-						}
-						
-						.download-right {
-							.download-buttons-with-qr {
-								.download-button-qr {
-									.qr-code {
-										background: #333;
-										border-color: #555;
-										
-										img {
-											opacity: 0.95;
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			
-			.services-section {
-				background: #1a1a1a;
-				
-				.container {
-					.services-grid {
-						.service-card {
-							background: #2a2a2a;
-							box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-							
-							&:hover {
-								box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-							}
-							
-							.service-content {
-								.service-title {
-									color: #ffffff;
-								}
-								
-								.service-description {
-									color: #b0b0b0;
-								}
-								
-								.service-features {
-									li {
-										color: #ffffff;
-										
-										&::before {
-											color: #364440;
-										}
-									}
-								}
-								
-								.service-details-btn {
-									background: #364440;
-									
-									&:hover {
-										background: #4a5a56;
-									}
-								}
-							}
-						}
 					}
 				}
 			}
