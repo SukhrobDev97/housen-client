@@ -9,37 +9,66 @@ import MenuItem from '@mui/material/MenuItem';
 import { TabContext } from '@mui/lab';
 import TablePagination from '@mui/material/TablePagination';
 import { PropertyPanelList } from '../../../libs/components/admin/properties/PropertyList';
-import { AllPropertiesInquiry } from '../../../libs/types/property/property.input';
-import { Property } from '../../../libs/types/property/property';
-import { PropertyLocation, PropertyStatus } from '../../../libs/enums/property.enum';
+import { AllProjectsInquiry } from '../../../libs/types/property/property.input';
+import { Project } from '../../../libs/types/property/property';
+import { ProjectStatus, ProjectStyle,  } from '../../../libs/enums/property.enum';
 import { sweetConfirmAlert, sweetErrorHandling } from '../../../libs/sweetAlert';
-import { PropertyUpdate } from '../../../libs/types/property/property.update';
+import { ProjectUpdate } from '../../../libs/types/property/property.update';
+import { T } from '../../../libs/types/common';
+import { REMOVE_PROJECT_BY_ADMIN, UPDATE_PROJET_BY_ADMIN } from '../../../apollo/admin/mutation';
+import { useMutation, useQuery } from '@apollo/client';
+import { GET_ALL_PROJECTS_BY_ADMIN } from '../../../apollo/admin/query';
 
-const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
+const AdminProjects: NextPage = ({ initialInquiry, ...props }: any) => {
 	const [anchorEl, setAnchorEl] = useState<[] | HTMLElement[]>([]);
-	const [propertiesInquiry, setPropertiesInquiry] = useState<AllPropertiesInquiry>(initialInquiry);
-	const [properties, setProperties] = useState<Property[]>([]);
-	const [propertiesTotal, setPropertiesTotal] = useState<number>(0);
+	const [projectsInquiry, setProjectsInquiry] = useState<AllProjectsInquiry>(initialInquiry);
+	const [projects, setProjects] = useState<Project[]>([]);
+	const [projectsTotal, setProjectsTotal] = useState<number>(0);
 	const [value, setValue] = useState(
-		propertiesInquiry?.search?.propertyStatus ? propertiesInquiry?.search?.propertyStatus : 'ALL',
+		projectsInquiry?.search?.projectStatus ? projectsInquiry?.search?.projectStatus : 'ALL',
 	);
 	const [searchType, setSearchType] = useState('ALL');
 
 	/** APOLLO REQUESTS **/
+	const [updateProjectByAdmin] = useMutation(UPDATE_PROJET_BY_ADMIN);
+	const [removeProjectByAdmin] = useMutation(REMOVE_PROJECT_BY_ADMIN);
+
+	const {
+		loading: getAllProjectsByAdminLoading,
+		data: getAllProjectsByAdminData,
+		error: getAllProjectsByAdminError,
+		refetch: getAllProjectsByAdminRefetch,
+	} = useQuery(GET_ALL_PROJECTS_BY_ADMIN, {
+		fetchPolicy: 'network-only',
+		variables: {
+			inquiry: projectsInquiry,
+		},
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			setProjects(data?.getAllProjectsByAdmin?.list);
+			setProjectsTotal(data?.getAllProjectsByAdmin?.metaCounter[0]?.total);
+		},
+	})
+
 
 	/** LIFECYCLES **/
-	useEffect(() => {}, [propertiesInquiry]);
+	useEffect(() => {
+				getAllProjectsByAdminRefetch({ inquiry: projectsInquiry  }).then();
+
+	}, [projectsInquiry]);
 
 	/** HANDLERS **/
 	const changePageHandler = async (event: unknown, newPage: number) => {
-		propertiesInquiry.page = newPage + 1;
-		setPropertiesInquiry({ ...propertiesInquiry });
+		projectsInquiry.page = newPage + 1;
+		await getAllProjectsByAdminRefetch({ inquiry: projectsInquiry  });
+		setProjectsInquiry({ ...projectsInquiry });
 	};
 
 	const changeRowsPerPageHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
-		propertiesInquiry.limit = parseInt(event.target.value, 10);
-		propertiesInquiry.page = 1;
-		setPropertiesInquiry({ ...propertiesInquiry });
+		projectsInquiry.limit = parseInt(event.target.value, 10);
+		await getAllProjectsByAdminRefetch({ inquiry: projectsInquiry  });
+		projectsInquiry.page = 1;
+		setProjectsInquiry({ ...projectsInquiry });
 	};
 
 	const menuIconClickHandler = (e: any, index: number) => {
@@ -55,28 +84,35 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 	const tabChangeHandler = async (event: any, newValue: string) => {
 		setValue(newValue);
 
-		setPropertiesInquiry({ ...propertiesInquiry, page: 1, sort: 'createdAt' });
+		setProjectsInquiry({ ...projectsInquiry, page: 1, sort: 'createdAt' });
 
 		switch (newValue) {
 			case 'ACTIVE':
-				setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: PropertyStatus.ACTIVE } });
+				setProjectsInquiry({ ...projectsInquiry, search: { projectStatus: ProjectStatus.ACTIVE } });
 				break;
 			case 'SOLD':
-				setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: PropertyStatus.SOLD } });
+				setProjectsInquiry({ ...projectsInquiry, search: { projectStatus: ProjectStatus.COMPLETED } });
 				break;
 			case 'DELETE':
-				setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: PropertyStatus.DELETE } });
+				setProjectsInquiry({ ...projectsInquiry, search: { projectStatus: ProjectStatus.DELETE } });
 				break;
 			default:
-				delete propertiesInquiry?.search?.propertyStatus;
-				setPropertiesInquiry({ ...propertiesInquiry });
+				delete projectsInquiry?.search?.projectStatus;
+				setProjectsInquiry({ ...projectsInquiry });
 				break;
 		}
 	};
 
-	const removePropertyHandler = async (id: string) => {
+	const removeProjectHandler = async (id: string) => {
 		try {
 			if (await sweetConfirmAlert('Are you sure to remove?')) {
+				await removeProjectByAdmin({
+					variables: {
+						input: id,
+					},
+				});
+				await getAllProjectsByAdminRefetch({ inquiry: projectsInquiry });
+			
 			}
 			menuIconCloseHandler();
 		} catch (err: any) {
@@ -89,28 +125,34 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 			setSearchType(newValue);
 
 			if (newValue !== 'ALL') {
-				setPropertiesInquiry({
-					...propertiesInquiry,
+				setProjectsInquiry({
+					...projectsInquiry,
 					page: 1,
 					sort: 'createdAt',
 					search: {
-						...propertiesInquiry.search,
-						propertyLocationList: [newValue as PropertyLocation],
+						...projectsInquiry.search,
+						projectStyleList: [newValue as ProjectStyle],
 					},
 				});
 			} else {
-				delete propertiesInquiry?.search?.propertyLocationList;
-				setPropertiesInquiry({ ...propertiesInquiry });
+				delete projectsInquiry?.search?.projectStyleList;
+				setProjectsInquiry({ ...projectsInquiry });
 			}
 		} catch (err: any) {
 			console.log('searchTypeHandler: ', err.message);
 		}
 	};
 
-	const updatePropertyHandler = async (updateData: PropertyUpdate) => {
+	const updateProjectHandler = async (updateData: ProjectUpdate) => {
 		try {
 			console.log('+updateData: ', updateData);
+			await updateProjectByAdmin({
+				variables: {
+					input: updateData,
+				},
+			});
 			menuIconCloseHandler();
+			await getAllProjectsByAdminRefetch({ inquiry: projectsInquiry  });
 		} catch (err: any) {
 			menuIconCloseHandler();
 			sweetErrorHandling(err).then();
@@ -120,7 +162,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 	return (
 		<Box component={'div'} className={'content'}>
 			<Typography variant={'h2'} className={'tit'} sx={{ mb: '24px' }}>
-				Property List
+				Project List
 			</Typography>
 			<Box component={'div'} className={'table-wrap'}>
 				<Box component={'div'} sx={{ width: '100%', typography: 'body1' }}>
@@ -128,28 +170,29 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 						<Box component={'div'}>
 							<List className={'tab-menu'}>
 								<ListItem
-									onClick={(e) => tabChangeHandler(e, 'ALL')}
+									onClick={(e:T) => tabChangeHandler(e, 'ALL')}
+									
 									value="ALL"
 									className={value === 'ALL' ? 'li on' : 'li'}
 								>
 									All
 								</ListItem>
 								<ListItem
-									onClick={(e) => tabChangeHandler(e, 'ACTIVE')}
+									onClick={(e:T) => tabChangeHandler(e, 'ACTIVE')}
 									value="ACTIVE"
 									className={value === 'ACTIVE' ? 'li on' : 'li'}
 								>
 									Active
 								</ListItem>
 								<ListItem
-									onClick={(e) => tabChangeHandler(e, 'SOLD')}
-									value="SOLD"
-									className={value === 'SOLD' ? 'li on' : 'li'}
+									onClick={(e:T) => tabChangeHandler(e, 'COMPLETED')}
+									value="COMPLETED"
+									className={value === 'COMPLETED' ? 'li on' : 'li'}
 								>
-									Sold
+									Completed
 								</ListItem>
 								<ListItem
-									onClick={(e) => tabChangeHandler(e, 'DELETE')}
+									onClick={(e:T) => tabChangeHandler(e, 'DELETE')}
 									value="DELETE"
 									className={value === 'DELETE' ? 'li on' : 'li'}
 								>
@@ -162,9 +205,9 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 									<MenuItem value={'ALL'} onClick={() => searchTypeHandler('ALL')}>
 										ALL
 									</MenuItem>
-									{Object.values(PropertyLocation).map((location: string) => (
-										<MenuItem value={location} onClick={() => searchTypeHandler(location)} key={location}>
-											{location}
+									{Object.values(ProjectStyle).map((style: string) => (
+										<MenuItem value={style} onClick={() => searchTypeHandler(style)} key={style}>
+											{style}
 										</MenuItem>
 									))}
 								</Select>
@@ -172,20 +215,20 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 							<Divider />
 						</Box>
 						<PropertyPanelList
-							properties={properties}
-							anchorEl={anchorEl}
+							projects={projects}
+							anchorEl={anchorEl}	
 							menuIconClickHandler={menuIconClickHandler}
 							menuIconCloseHandler={menuIconCloseHandler}
-							updatePropertyHandler={updatePropertyHandler}
-							removePropertyHandler={removePropertyHandler}
+							updateProjectHandler={updateProjectHandler}
+							removeProjectHandler={removeProjectHandler}
 						/>
 
 						<TablePagination
 							rowsPerPageOptions={[10, 20, 40, 60]}
 							component="div"
-							count={propertiesTotal}
-							rowsPerPage={propertiesInquiry?.limit}
-							page={propertiesInquiry?.page - 1}
+							count={projectsTotal}
+							rowsPerPage={projectsInquiry?.limit}
+							page={projectsInquiry?.page - 1}
 							onPageChange={changePageHandler}
 							onRowsPerPageChange={changeRowsPerPageHandler}
 						/>
@@ -196,7 +239,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 	);
 };
 
-AdminProperties.defaultProps = {
+AdminProjects.defaultProps = {
 	initialInquiry: {
 		page: 1,
 		limit: 10,
@@ -206,4 +249,4 @@ AdminProperties.defaultProps = {
 	},
 };
 
-export default withAdminLayout(AdminProperties);
+export default withAdminLayout(AdminProjects);

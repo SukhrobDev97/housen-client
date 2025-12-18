@@ -47,7 +47,7 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 		},
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setMembers(data?.getAllMembersByAdmin?.members);
+			setMembers(data?.getAllMembersByAdmin?.list);
 			setMembersTotal(data?.getAllMembersByAdmin?.metaCounter[0]?.total);
 		},
 	});
