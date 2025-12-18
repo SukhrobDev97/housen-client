@@ -20,7 +20,7 @@ export const GET_ALL_MEMBERS_BY_ADMIN = gql`
 				memberDesc
 				memberWarnings
 				memberBlocks
-				memberProperties
+				memberProjects
 				memberRank
 				memberArticles
 				memberPoints
@@ -42,30 +42,26 @@ export const GET_ALL_MEMBERS_BY_ADMIN = gql`
  *        PROPERTY        *
  *************************/
 
-export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
-	query GetAllPropertiesByAdmin($input: AllPropertiesInquiry!) {
-		getAllPropertiesByAdmin(input: $input) {
+export const GET_ALL_PROJECTS_BY_ADMIN = gql`
+	query GetAllProjectsByAdmin($input: AllProjectsInquiry!) {
+		getAllProjectsByAdmin(input: $input) {
 			list {
 				_id
-				propertyType
-				propertyStatus
-				propertyLocation
-				propertyAddress
-				propertyTitle
-				propertyPrice
-				propertySquare
-				propertyBeds
-				propertyRooms
-				propertyViews
+				projectType
+				projectStatus
+				projectStyle
+				projectTitle
+				projectPrice
+				projectDuration
+				projectImages
+				projectDesc
+				projectCollaboration
+				projectPublic
+				projectViews
 				projectLikes
-				propertyImages
-				propertyDesc
-				propertyBarter
-				propertyRent
+				projectComments
 				memberId
-				soldAt
 				deletedAt
-				constructedAt
 				createdAt
 				updatedAt
 				memberData {
@@ -81,7 +77,7 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
 					memberDesc
 					memberWarnings
 					memberBlocks
-					memberProperties
+					memberProjects
 					memberRank
 					memberPoints
 					memberLikes
@@ -131,7 +127,7 @@ export const GET_ALL_BOARD_ARTICLES_BY_ADMIN = gql`
 					memberDesc
 					memberWarnings
 					memberBlocks
-					memberProperties
+					memberProjects
 					memberRank
 					memberPoints
 					memberLikes
@@ -178,7 +174,7 @@ export const GET_COMMENTS = gql`
 					memberDesc
 					memberWarnings
 					memberBlocks
-					memberProperties
+					memberProjects
 					memberRank
 					memberPoints
 					memberLikes
