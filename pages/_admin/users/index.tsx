@@ -43,7 +43,7 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 	} = useQuery(GET_ALL_MEMBERS_BY_ADMIN, {
 		fetchPolicy: 'network-only',
 		variables: {
-			inquiry: membersInquiry,
+			input: membersInquiry,
 		},
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {

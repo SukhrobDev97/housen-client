@@ -41,7 +41,7 @@ const AdminProjects: NextPage = ({ initialInquiry, ...props }: any) => {
 	} = useQuery(GET_ALL_PROJECTS_BY_ADMIN, {
 		fetchPolicy: 'network-only',
 		variables: {
-			inquiry: projectsInquiry,
+			input: projectsInquiry,
 		},
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
@@ -171,7 +171,7 @@ const AdminProjects: NextPage = ({ initialInquiry, ...props }: any) => {
 							<List className={'tab-menu'}>
 								<ListItem
 									onClick={(e:T) => tabChangeHandler(e, 'ALL')}
-									
+
 									value="ALL"
 									className={value === 'ALL' ? 'li on' : 'li'}
 								>
