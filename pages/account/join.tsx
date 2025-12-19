@@ -191,10 +191,10 @@ const Join: NextPage = () => {
 
 								{/* Nickname */}
 								<div className={'input-box'}>
-									<label>Agency Name</label>
+									<label>{selectedRole === 'AGENCY' ? 'Agency Name' : 'Name'}</label>
 									<input
 										type="text"
-										placeholder={'Enter Agency Name'}
+										placeholder={selectedRole === 'AGENCY' ? 'Enter Agency Name' : 'Enter Name'}
 										value={input.nick}
 										onChange={(e) => handleInput('nick', e.target.value)}
 										onKeyDown={handleKeyDown}
