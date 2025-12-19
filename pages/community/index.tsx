@@ -175,21 +175,21 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 				{/* Filter Section (Products Style) */}
 				<section className="filter-section">
 					<div className="filter-container">
-						{/* Category Tabs */}
-						<Box className="filter-group">
-							<Typography className="filter-label">Category</Typography>
-							<Box className="category-pills">
-								{tabs.map((tab) => (
-									<button
-										key={tab.value}
-										className={`category-pill ${searchCommunity.search.articleCategory === tab.value ? 'active' : ''}`}
-										onClick={() => tabChangeHandler(tab.value)}
-									>
-										{tab.label}
-									</button>
-								))}
-							</Box>
-						</Box>
+					{/* Category Tabs */}
+					<div className="filter-group">
+						<span className="filter-label">Category</span>
+						<div className="category-pills">
+							{tabs.map((tab) => (
+								<button
+									key={tab.value}
+									className={`category-pill ${searchCommunity.search.articleCategory === tab.value ? 'active' : ''}`}
+									onClick={() => tabChangeHandler(tab.value)}
+								>
+									{tab.label}
+								</button>
+							))}
+						</div>
+					</div>
 
 						{/* Write Button */}
 						<Button
@@ -209,29 +209,29 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 				{/* Posts Grid Section */}
 				<section className="posts-section">
 					<div className="posts-container">
-						<Box className="section-header">
-							<Typography className="section-title">
+						<div className="section-header">
+							<div className="section-title">
 								{tabs.find(t => t.value === searchCommunity.search.articleCategory)?.label || 'All Posts'}
-							</Typography>
-							<Typography className="section-count">{totalCount || 0} articles</Typography>
-						</Box>
+							</div>
+							<div className="section-count">{totalCount || 0} articles</div>
+						</div>
 
-						<Box className="posts-grid">
-							{totalCount ? (
-											boardArticles?.map((article: BoardArticle) => (
-												<ArticleCard
-													key={article?._id}
-													article={article}
-													onLike={likeArticleHandler}
-									/>
-								))
-							) : (
-								<Box className="no-posts">
-									<img src="/img/icons/icoAlert.svg" alt="" />
-									<Typography>No articles found</Typography>
-								</Box>
-							)}
-						</Box>
+					<div className="posts-grid">
+						{totalCount ? (
+										boardArticles?.map((article: BoardArticle) => (
+											<ArticleCard
+												key={article?._id}
+												article={article}
+												onLike={likeArticleHandler}
+								/>
+							))
+						) : (
+							<div className="no-posts">
+								<img src="/img/icons/icoAlert.svg" alt="" />
+								<div>No articles found</div>
+							</div>
+						)}
+					</div>
 					</div>
 				</section>
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Box, Typography, Checkbox } from '@mui/material';
+import { Checkbox } from '@mui/material';
 import Link from 'next/link';
 import { REACT_APP_API_URL } from '../../config';
 import IconButton from '@mui/material/IconButton';
@@ -36,28 +36,28 @@ const AgencyCard = (props: AgencyCardProps) => {
 		return <div>AGENCY CARD</div>;
 	} else {
 		return (
-			<Box 
+			<div 
 				className={`agency-card ${isCompareSelected ? 'compare-selected' : ''}`}
 				style={{ 
 					animationDelay: `${index * 0.08}s`,
 				}}
 			>
 				{/* Compare Checkbox */}
-				<Box className="compare-checkbox">
+				<div className="compare-checkbox">
 					<Checkbox
 						checked={isCompareSelected}
 						onChange={() => onCompareToggle && onCompareToggle(agency)}
 						size="small"
 					/>
 					<span className="compare-label">Compare</span>
-				</Box>
+				</div>
 
 				{/* Trusted Badge */}
 				{isTrusted && (
-					<Box className="trusted-badge">
+					<div className="trusted-badge">
 						<WorkspacePremiumIcon />
 						<span>Trusted</span>
-					</Box>
+					</div>
 				)}
 
 				{/* Card Image */}
@@ -67,52 +67,52 @@ const AgencyCard = (props: AgencyCardProps) => {
 						query: { agencyId: agency?._id },
 					}}
 				>
-					<Box className="card-image">
+					<div className="card-image">
 						<img src={imagePath} alt={agency?.memberNick} />
-						<Box className="image-overlay" />
-						<Box className="project-count">
+						<div className="image-overlay" />
+						<div className="project-count">
 							<span>{agency?.memberProjects || 0}</span>
 							<small>Projects</small>
-						</Box>
-					</Box>
+						</div>
+					</div>
 				</Link>
 
 				{/* Card Content */}
-				<Box className="card-content">
+				<div className="card-content">
 					{/* Agency Info */}
-					<Box className="agency-info">
+					<div className="agency-info">
 						<Link
 							href={{
 								pathname: '/agent/detail',
 								query: { agencyId: agency?._id },
 							}}
 						>
-							<Typography className="agency-name">
+							<div className="agency-name">
 								{agency?.memberFullName ?? agency?.memberNick}
 								{isVerified && <VerifiedIcon className="verified-icon" />}
-							</Typography>
+							</div>
 						</Link>
-						<Typography className="agency-type">Design Agency</Typography>
-					</Box>
+						<div className="agency-type">Design Agency</div>
+					</div>
 
 					{/* Stats Bar */}
-					<Box className="stats-bar">
-						<Box className="stat-item">
+					<div className="stats-bar">
+						<div className="stat-item">
 							<LocationOnIcon />
 							<span>{agency?.memberAddress || 'Seoul, KR'}</span>
-						</Box>
-					</Box>
+						</div>
+					</div>
 
 					{/* Action Bar */}
-					<Box className="action-bar">
-						<Box className="stats">
-							<Box className="stat">
+					<div className="action-bar">
+						<div className="stats">
+							<div className="stat">
 								<IconButton size="small">
-							<RemoveRedEyeIcon />
-						</IconButton>
+									<RemoveRedEyeIcon />
+								</IconButton>
 								<span>{agency?.memberViews || 0}</span>
-							</Box>
-							<Box className="stat">
+							</div>
+							<div className="stat">
 								<IconButton 
 									size="small"
 									onClick={(e: React.MouseEvent) => {
@@ -121,15 +121,15 @@ const AgencyCard = (props: AgencyCardProps) => {
 										likeMemberHandler && likeMemberHandler(user, agency?._id);
 									}}
 								>
-							{agency?.meLiked && agency?.meLiked[0]?.myFavorite ? (
+									{agency?.meLiked && agency?.meLiked[0]?.myFavorite ? (
 										<FavoriteIcon className="liked" />
-							) : (
-								<FavoriteBorderIcon />
-							)}
-						</IconButton>
+									) : (
+										<FavoriteBorderIcon />
+									)}
+								</IconButton>
 								<span>{agency?.memberLikes || 0}</span>
-							</Box>
-						</Box>
+							</div>
+						</div>
 						<Link
 							href={{
 								pathname: '/agent/detail',
@@ -138,9 +138,9 @@ const AgencyCard = (props: AgencyCardProps) => {
 						>
 							<button className="view-btn">View Profile</button>
 						</Link>
-					</Box>
-				</Box>
-			</Box>
+					</div>
+				</div>
+			</div>
 		);
 	}
 };

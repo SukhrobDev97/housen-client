@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Stack, Box } from '@mui/material';
+import { Stack } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
@@ -125,11 +125,11 @@ const TopProjects = (props: TopProjectsProps) => {
 			<Stack id="top-properties" className={'top-properties'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<Box component={'div'} className={'left'}>
+						<div className={'left'}>
 							<span>Leading projects</span>
 							<p>Explore our leading project designs</p>
-						</Box>
-						<Box component={'div'} className={'right'}>
+						</div>
+						<div className={'right'}>
 							<div className={'pagination-box'}>
 								<WestIcon 
 									className={'swiper-top-prev'} 
@@ -151,13 +151,13 @@ const TopProjects = (props: TopProjectsProps) => {
 									}}
 								/>
 							</div>
-						</Box>
+						</div>
 					</Stack>
 					<Stack className={'card-box'}>
 						{displayedProjects.length === 0 ? (
-							<Box component={'div'} className={'empty-list'}>
+							<div className={'empty-list'}>
 								Top Projects Empty
-							</Box>
+							</div>
 						) : (
 							<Stack 
 								className={'top-property-swiper'}
@@ -171,9 +171,9 @@ const TopProjects = (props: TopProjectsProps) => {
 							>
 								{displayedProjects.map((project: Project) => {
 										return (
-										<Box key={project._id} className={'top-property-slide'} sx={{ flex: '1 1 calc(25% - 18px)' }}>
+										<div key={project._id} className={'top-property-slide'} style={{ flex: '1 1 calc(25% - 18px)' }}>
 												<TopProjectCard project={project} likeProjectHandler={likeProjectHandler} />
-											</Box>
+											</div>
 										);
 									})}
 							</Stack>

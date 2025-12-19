@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, IconButton } from '@mui/material';
+import { Typography, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 /* Interior design tips data */
@@ -18,6 +18,8 @@ const STORAGE_KEY = 'housen_inspiration_closed';
 const DailyInspirationBubble = () => {
 	const [isVisible, setIsVisible] = useState(false);
 	const [tip, setTip] = useState('');
+	const [isMobile, setIsMobile] = useState(false);
+	const [isDesktop, setIsDesktop] = useState(false);
 
 	useEffect(() => {
 		// Only run on client side
@@ -31,12 +33,25 @@ const DailyInspirationBubble = () => {
 		const randomTip = TIPS[Math.floor(Math.random() * TIPS.length)];
 		setTip(randomTip);
 
+		// Check window size for responsive styles
+		const checkSize = () => {
+			const width = window.innerWidth;
+			setIsMobile(width < 600);
+			setIsDesktop(width >= 900);
+		};
+		checkSize();
+		const resizeListener = () => checkSize();
+		window.addEventListener('resize', resizeListener);
+
 		// Trigger fade-in animation after mount
 		const timer = setTimeout(() => {
 			setIsVisible(true);
 		}, 400);
 
-		return () => clearTimeout(timer);
+		return () => {
+			clearTimeout(timer);
+			window.removeEventListener('resize', resizeListener);
+		};
 	}, []);
 
 	const handleClose = () => {
@@ -49,14 +64,14 @@ const DailyInspirationBubble = () => {
 
 	// Don't render if no tip or closed
 	if (!tip) return null;
-
+	
 	return (
-		<Box
-			sx={{
+		<div
+			style={{
 				position: 'fixed',
-				bottom: { xs: '120px', md: '180px' },
-				right: { xs: '16px', md: '28px' },
-				width: { xs: 'calc(100% - 32px)', sm: '300px' },
+				bottom: isDesktop ? '180px' : '120px',
+				right: isMobile ? '16px' : '28px',
+				width: isMobile ? 'calc(100% - 32px)' : '300px',
 				maxWidth: '300px',
 				padding: '18px 20px',
 				background: 'rgba(255, 252, 248, 0.96)',
@@ -93,7 +108,7 @@ const DailyInspirationBubble = () => {
 			</IconButton>
 
 			{/* Content */}
-			<Box sx={{ pr: '20px' }}>
+			<div style={{ paddingRight: '20px' }}>
 				<Typography
 					sx={{
 						fontFamily: '"Poppins", sans-serif',
@@ -122,8 +137,8 @@ const DailyInspirationBubble = () => {
 				>
 					"{tip}"
 				</Typography>
-			</Box>
-		</Box>
+			</div>
+		</div>
 	);
 };
 
