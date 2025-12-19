@@ -27,6 +27,20 @@ const MyMenu = () => {
 	const pathname = router.query.category ?? 'myProfile';
 	const category: any = router.query?.category ?? 'myProfile';
 	const user = useReactiveVar(userVar);
+	const isAdmin = user?.memberType === 'ADMIN';
+
+	const goToAdminPage = async () => {
+		if (!isAdmin) return;
+		await router.push('/_admin/users');
+	};
+
+	const handleProfileKeyDown = async (event: React.KeyboardEvent) => {
+		if (!isAdmin) return;
+		if (event.key === 'Enter' || event.key === ' ') {
+			event.preventDefault();
+			await goToAdminPage();
+		}
+	};
 
 	/** HANDLERS **/
 	const logoutHandler = async () => {
@@ -88,7 +102,13 @@ const MyMenu = () => {
 				<Typography className="sidebar-title">My Account</Typography>
 
 				{/* Profile Section */}
-				<Box className="profile-section">
+				<Box
+					className={`profile-section ${isAdmin ? 'admin-clickable' : ''}`}
+					role={isAdmin ? 'button' : undefined}
+					tabIndex={isAdmin ? 0 : undefined}
+					onClick={goToAdminPage}
+					onKeyDown={handleProfileKeyDown}
+				>
 					<Box className="avatar-wrapper">
 						<img
 							src={user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'}

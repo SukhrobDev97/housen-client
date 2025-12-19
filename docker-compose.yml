@@ -1,0 +1,22 @@
+version: '3.3'
+
+services:
+  housen-client:
+    container_name: housen-client
+    restart: always
+    image: node:20.10.0
+    ports:
+      - 4001:3000
+    environment:
+      - PORT=3000
+    volumes:
+      - ./:/usr/src/housen-client
+    working_dir: /usr/src/housen-client
+    networks:
+      - client-network
+    command: bash -c "yarn && yarn run build && yarn run start"
+
+
+networks:
+  client-network:
+    driver: bridge

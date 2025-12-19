@@ -80,7 +80,7 @@ const AddProject = ({ initialValues, ...props }: any) => {
 			}
 
 		// Convert FileList to Array for reliable iteration
-		const filesArr = Array.from(selectedFiles);
+		const filesArr: File[] = Array.from(selectedFiles);
 		const fileCount = filesArr.length;
 		
 		console.log('+Uploading images...', fileCount, 'files');

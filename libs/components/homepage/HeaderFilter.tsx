@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Stack, Box, Modal, Divider, Button, Checkbox } from '@mui/material';
+import { Stack, Modal, Divider, Button, Checkbox } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -207,30 +207,32 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				<Stack className={'premium-filter-card'}>
 					{/* Toggle Buttons */}
 					<Stack className={'filter-toggles'}>
-						<Box 
+						<button 
 							className={`toggle-btn ${listingType === 'sale' ? 'active' : ''}`}
 							onClick={() => setListingType('sale')}
+							type="button"
 						>
 							<span>Public</span>
-						</Box>
-						<Box 
+						</button>
+						<button 
 							className={`toggle-btn ${listingType === 'rent' ? 'active' : ''}`}
 							onClick={() => setListingType('rent')}
+							type="button"
 						>
 							<span>Collaboration</span>
-						</Box>
+						</button>
 					</Stack>
 
 					{/* Filter Dropdowns */}
 					<Stack className={'filter-dropdowns'}>
-						<Box className={'filter-dropdown-group'}>
-							<Box component={'div'} className={`filter-dropdown-btn ${openStyle ? 'active' : ''}`} onClick={styleStateChangeHandler}>
+						<div className={'filter-dropdown-group'}>
+							<button type="button" className={`filter-dropdown-btn ${openStyle ? 'active' : ''}`} onClick={styleStateChangeHandler}>
 								<span className={'filter-label'}>Style</span>
 								<span className={'filter-value'}>
 									{searchFilter?.search?.projectStyleList?.length ? searchFilter?.search?.projectStyleList[0] : 'All Styles'}
 								</span>
 								<ExpandMoreIcon className={`expand-icon ${openStyle ? 'rotated' : ''}`} />
-							</Box>
+							</button>
 							
 							{/* Dropdown Menu */}
 					<div className={`filter-location ${openStyle ? 'on' : ''}`} ref={locationRef}>
@@ -256,16 +258,16 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 							);
 						})}
 					</div>
-						</Box>
+						</div>
 
-						<Box className={'filter-dropdown-group'}>
-							<Box className={`filter-dropdown-btn ${openType ? 'active' : ''}`} onClick={typeStateChangeHandler}>
+						<div className={'filter-dropdown-group'}>
+							<button type="button" className={`filter-dropdown-btn ${openType ? 'active' : ''}`} onClick={typeStateChangeHandler}>
 								<span className={'filter-label'}>Type</span>
 								<span className={'filter-value'}>
 									{searchFilter?.search?.typeList?.length ? searchFilter?.search?.typeList[0] : 'All Types'}
 								</span>
 								<ExpandMoreIcon className={`expand-icon ${openType ? 'rotated' : ''}`} />
-							</Box>
+							</button>
 							
 							{/* Dropdown Menu */}
 					<div className={`filter-type ${openType ? 'on' : ''}`} ref={typeRef}>
@@ -291,20 +293,33 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 							);
 						})}
 					</div>
-						</Box>
+						</div>
 
-						<Box className={'filter-dropdown-group'}>
-							<Box className={`filter-dropdown-btn ${openPrice ? 'active' : ''}`} onClick={priceStateChangeHandler}>
+						<div className={'filter-dropdown-group'}>
+							<button type="button" className={`filter-dropdown-btn ${openPrice ? 'active' : ''}`} onClick={priceStateChangeHandler}>
 								<span className={'filter-label'}>Price</span>
 								<span className={'filter-value'}>
-									{searchFilter?.search?.pricesRange?.start === 0 && searchFilter?.search?.pricesRange?.end === 2000000
-										? 'All Prices'
-										: searchFilter?.search?.pricesRange?.end === 2000000
-										? `$${(searchFilter?.search?.pricesRange?.start / 1000).toFixed(0)}K+`
-										: `$${(searchFilter?.search?.pricesRange?.start / 1000).toFixed(0)}K - $${(searchFilter?.search?.pricesRange?.end / 1000).toFixed(0)}K`}
+									{(() => {
+										const priceStart = searchFilter?.search?.pricesRange?.start;
+										const priceEnd = searchFilter?.search?.pricesRange?.end;
+										
+										if (priceStart === undefined || priceEnd === undefined) {
+											return 'Any Price';
+										}
+										
+										if (priceStart === 0 && priceEnd === 2000000) {
+											return 'All Prices';
+										}
+										
+										if (priceEnd === 2000000) {
+											return `$${(priceStart / 1000).toFixed(0)}K+`;
+										}
+										
+										return `$${(priceStart / 1000).toFixed(0)}K - $${(priceEnd / 1000).toFixed(0)}K`;
+									})()}
 								</span>
 								<ExpandMoreIcon className={`expand-icon ${openPrice ? 'rotated' : ''}`} />
-							</Box>
+							</button>
 							
 							{/* Dropdown Menu */}
 					<div className={`filter-price ${openPrice ? 'on' : ''}`} ref={priceRef}>
@@ -332,15 +347,15 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 							);
 						})}
 					</div>
-						</Box>
+						</div>
 
 						{/* Search Button */}
-						<Box className={'filter-search-btn'} onClick={pushSearchHandler}>
+						<button type="button" className={'filter-search-btn'} onClick={pushSearchHandler}>
 							<span>Search</span>
 							<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
 								<path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
 							</svg>
-						</Box>
+						</button>
 					</Stack>
 				</Stack>
 			</>

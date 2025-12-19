@@ -5,6 +5,13 @@ import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import { Member } from '../../types/member/member';
 import { REACT_APP_API_URL } from '../../config';
 
+// Minimal interface to avoid complex union type inference
+interface CompareItem {
+	_id: string;
+	memberImage?: string;
+	memberNick: string;
+}
+
 interface CompareBarProps {
 	compareList: Member[];
 	onRemove: (agencyId: string) => void;
@@ -14,18 +21,25 @@ interface CompareBarProps {
 const CompareBar = ({ compareList, onRemove, onCompare }: CompareBarProps) => {
 	if (compareList.length === 0) return null;
 
-	const getImagePath = (agency: Member) => {
+	// Narrow type to avoid complex union inference
+	const safeCompareList: CompareItem[] = compareList.map((item) => ({
+		_id: item._id,
+		memberImage: item.memberImage,
+		memberNick: item.memberNick,
+	}));
+
+	const getImagePath = (agency: CompareItem): string => {
 		return agency?.memberImage
 			? `${REACT_APP_API_URL}/${agency.memberImage}`
 			: '/img/profile/defaultUser.svg';
 	};
 
 	return (
-		<Box className="compare-bar">
-			<Box className="compare-content">
-				<Box className="compare-items">
-					{compareList.map((agency) => (
-						<Box key={agency._id} className="compare-item">
+		<Box component="div" className="compare-bar">
+			<Box component="div" className="compare-content">
+				<Box component="div" className="compare-items">
+					{safeCompareList.map((agency: CompareItem) => (
+						<Box key={agency._id} component="div" className="compare-item">
 							<img src={getImagePath(agency)} alt={agency.memberNick} />
 							<span>{agency.memberNick}</span>
 							<button className="remove-btn" onClick={() => onRemove(agency._id)}>
@@ -33,19 +47,19 @@ const CompareBar = ({ compareList, onRemove, onCompare }: CompareBarProps) => {
 							</button>
 						</Box>
 					))}
-					{compareList.length === 1 && (
-						<Box className="compare-placeholder">
+					{safeCompareList.length === 1 && (
+						<Box component="div" className="compare-placeholder">
 							<span>+ Select one more</span>
 						</Box>
 					)}
 				</Box>
 				<Button
 					className="compare-btn"
-					disabled={compareList.length < 2}
+					disabled={safeCompareList.length < 2}
 					startIcon={<CompareArrowsIcon />}
 					onClick={onCompare}
 				>
-					Compare {compareList.length}/2
+					Compare {safeCompareList.length}/2
 				</Button>
 			</Box>
 		</Box>

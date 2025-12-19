@@ -3,7 +3,6 @@ import { Stack, Box } from '@mui/material';
 import Link from 'next/link';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import HeaderFilter from './HeaderFilter';
-import QuoteModal from './QuoteModal';
 
 const HeroSection = () => {
 	const device = useDeviceDetect();
@@ -28,7 +27,6 @@ const HeroSection = () => {
 	const [direction, setDirection] = useState<'next' | 'prev'>('next');
 	const [isTransitioning, setIsTransitioning] = useState(false);
 	const [isContentVisible, setIsContentVisible] = useState(false);
-	const [isQuickQuoteOpen, setIsQuickQuoteOpen] = useState(false);
 
 	// Animate hero content on mount
 	useEffect(() => {
@@ -79,19 +77,13 @@ const HeroSection = () => {
 						</p>
 						<Stack className={'hero-actions mobile'}>
 							<Link href={'/property'}>
-								<Box className={'explore-button mobile'}>
+								<div className={'explore-button mobile'}>
 									<span>Explore Properties</span>
 									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<path d="M2.5 12L21.5 12M21.5 12L15.5 6M21.5 12L15.5 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
 									</svg>
-								</Box>
+								</div>
 							</Link>
-							<Box className={'quick-quote-button mobile'} onClick={() => setIsQuickQuoteOpen(true)}>
-								<span>Quick Quote</span>
-								<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<path d="M2.5 12L21.5 12M21.5 12L15.5 6M21.5 12L15.5 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-								</svg>
-							</Box>
 						</Stack>
 					</Stack>
 					<div className={'hero-image-container'}>
@@ -104,7 +96,6 @@ const HeroSection = () => {
 						<HeaderFilter />
 					</Stack>
 				</Stack>
-				<QuoteModal isOpen={isQuickQuoteOpen} onClose={() => setIsQuickQuoteOpen(false)} />
 			</>
 		);
 	} else {
@@ -150,9 +141,9 @@ const HeroSection = () => {
 						</div>
 					</div>
 					{/* Filter Section - Inside hero-section-inner */}
-					<Box className={'hero-inline-filter'}>
+					<div className={'hero-inline-filter'}>
 						<HeaderFilter />
-					</Box>
+					</div>
 						</Stack>
 					<div className={'slide-images-container'}>
 						<button
@@ -211,19 +202,13 @@ const HeroSection = () => {
 						</div>
 						<Stack className={'hero-actions'}>
 							<Link href={'/property'}>
-								<Box className={'explore-button'}>
+								<div className={'explore-button'}>
 									<span>Explore Projects</span>
 									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<path d="M2.5 12L21.5 12M21.5 12L15.5 6M21.5 12L15.5 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
 									</svg>
-								</Box>
+								</div>
 							</Link>
-							<Box className={'quick-quote-button'} onClick={() => setIsQuickQuoteOpen(true)}>
-								<span>Quick Quote</span>
-								<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<path d="M2.5 12L21.5 12M21.5 12L15.5 6M21.5 12L15.5 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-								</svg>
-							</Box>
 						</Stack>
 					</Stack>
 					<Link href={'/agent'}>
@@ -254,7 +239,6 @@ const HeroSection = () => {
 					</Link>
 					</div>
 				</Stack>
-				<QuoteModal isOpen={isQuickQuoteOpen} onClose={() => setIsQuickQuoteOpen(false)} />
 			</>
 		);
 	}

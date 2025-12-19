@@ -45,28 +45,28 @@ const AdminProjects: NextPage = ({ initialInquiry, ...props }: any) => {
 		},
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setProjects(data?.getAllProjectsByAdmin?.list);
-			setProjectsTotal(data?.getAllProjectsByAdmin?.metaCounter[0]?.total);
+			setProjects(data?.getAllProjectsByAdmin?.list ?? []);
+			setProjectsTotal(data?.getAllProjectsByAdmin?.metaCounter?.[0]?.total ?? 0);
 		},
 	})
 
 
 	/** LIFECYCLES **/
 	useEffect(() => {
-				getAllProjectsByAdminRefetch({ inquiry: projectsInquiry  }).then();
+		getAllProjectsByAdminRefetch({ input: projectsInquiry }).then();
 
 	}, [projectsInquiry]);
 
 	/** HANDLERS **/
 	const changePageHandler = async (event: unknown, newPage: number) => {
 		projectsInquiry.page = newPage + 1;
-		await getAllProjectsByAdminRefetch({ inquiry: projectsInquiry  });
+		await getAllProjectsByAdminRefetch({ input: projectsInquiry });
 		setProjectsInquiry({ ...projectsInquiry });
 	};
 
 	const changeRowsPerPageHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		projectsInquiry.limit = parseInt(event.target.value, 10);
-		await getAllProjectsByAdminRefetch({ inquiry: projectsInquiry  });
+		await getAllProjectsByAdminRefetch({ input: projectsInquiry });
 		projectsInquiry.page = 1;
 		setProjectsInquiry({ ...projectsInquiry });
 	};
@@ -111,7 +111,7 @@ const AdminProjects: NextPage = ({ initialInquiry, ...props }: any) => {
 						input: id,
 					},
 				});
-				await getAllProjectsByAdminRefetch({ inquiry: projectsInquiry });
+				await getAllProjectsByAdminRefetch({ input: projectsInquiry });
 			
 			}
 			menuIconCloseHandler();
@@ -152,7 +152,7 @@ const AdminProjects: NextPage = ({ initialInquiry, ...props }: any) => {
 				},
 			});
 			menuIconCloseHandler();
-			await getAllProjectsByAdminRefetch({ inquiry: projectsInquiry  });
+			await getAllProjectsByAdminRefetch({ input: projectsInquiry });
 		} catch (err: any) {
 			menuIconCloseHandler();
 			sweetErrorHandling(err).then();

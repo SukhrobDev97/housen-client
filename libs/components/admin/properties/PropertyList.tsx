@@ -14,18 +14,18 @@ import {
 } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { Stack } from '@mui/material';
-import { Property } from '../../../types/property/property';
+import { Project } from '../../../types/property/property';
 import { REACT_APP_API_URL } from '../../../config';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Typography from '@mui/material/Typography';
-import { PropertyStatus } from '../../../enums/property.enum';
+import { ProjectStatus } from '../../../enums/property.enum';
 
 interface Data {
 	id: string;
 	title: string;
 	price: string;
 	agent: string;
-	location: string;
+	style: string;
 	type: string;
 	status: string;
 }
@@ -62,13 +62,13 @@ const headCells: readonly HeadCell[] = [
 		id: 'agent',
 		numeric: false,
 		disablePadding: false,
-		label: 'AGENT',
+		label: 'AGENCY',
 	},
 	{
-		id: 'location',
+		id: 'style',
 		numeric: false,
 		disablePadding: false,
-		label: 'LOCATION',
+		label: 'STYLE',
 	},
 	{
 		id: 'type',
@@ -86,7 +86,7 @@ const headCells: readonly HeadCell[] = [
 
 interface EnhancedTableProps {
 	numSelected: number;
-	onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
+	onRequestSort: (event: React.MouseEvent<unknown>, project: keyof Data) => void;
 	onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	order: Order;
 	orderBy: string;
@@ -114,23 +114,25 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 }
 
 interface PropertyPanelListType {
-	properties: Property[];
-	anchorEl: any;
+	projects?: Project[];
+	anchorEl?: any;
 	menuIconClickHandler: any;
 	menuIconCloseHandler: any;
-	updatePropertyHandler: any;
-	removePropertyHandler: any;
+	updateProjectHandler: any;
+	removeProjectHandler: any;
 }
 
 export const PropertyPanelList = (props: PropertyPanelListType) => {
 	const {
-		properties,
+		projects,
 		anchorEl,
 		menuIconClickHandler,
 		menuIconCloseHandler,
-		updatePropertyHandler,
-		removePropertyHandler,
+		updateProjectHandler,
+		removeProjectHandler,
 	} = props;
+	const safeProjects: Project[] = Array.isArray(projects) ? projects : [];
+	const safeAnchorEl: any[] = Array.isArray(anchorEl) ? anchorEl : [];
 
 	return (
 		<Stack>
@@ -139,7 +141,7 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 					{/*@ts-ignore*/}
 					<EnhancedTableHead />
 					<TableBody>
-						{properties.length === 0 && (
+						{safeProjects.length === 0 && (
 							<TableRow>
 								<TableCell align="center" colSpan={8}>
 									<span className={'no-data'}>data not found!</span>
@@ -147,48 +149,49 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 							</TableRow>
 						)}
 
-						{properties.length !== 0 &&
-							properties.map((property: Property, index: number) => {
-								const propertyImage = `${REACT_APP_API_URL}/${property?.propertyImages[0]}`;
+						{safeProjects.length !== 0 &&
+							safeProjects.map((project: Project, index: number) => {
+								const imgPath = project?.projectImages?.[0];
+								const projectImage = imgPath ? `${REACT_APP_API_URL}/${imgPath}` : '';
 
 								return (
-									<TableRow hover key={property?._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-										<TableCell align="left">{property._id}</TableCell>
+									<TableRow hover key={project?._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+										<TableCell align="left">{project._id}</TableCell>
 										<TableCell align="left" className={'name'}>
 											<Stack direction={'row'}>
-												<Link href={`/property/detail?id=${property?._id}`}>
+												<Link href={`/property/detail?id=${project?._id}`}>
 													<div>
-														<Avatar alt="Remy Sharp" src={propertyImage} sx={{ ml: '2px', mr: '10px' }} />
+														<Avatar alt="Remy Sharp" src={projectImage} sx={{ ml: '2px', mr: '10px' }} />
 													</div>
 												</Link>
-												<Link href={`/property/detail?id=${property?._id}`}>
-													<div>{property.propertyTitle}</div>
+												<Link href={`/property/detail?id=${project?._id}`}>
+													<div>{project.projectTitle}</div>
 												</Link>
 											</Stack>
 										</TableCell>
-										<TableCell align="center">{property.propertyPrice}</TableCell>
-										<TableCell align="center">{property.memberData?.memberNick}</TableCell>
-										<TableCell align="center">{property.propertyLocation}</TableCell>
-										<TableCell align="center">{property.propertyType}</TableCell>
+										<TableCell align="center">{project.projectPrice}</TableCell>
+										<TableCell align="center">{project.memberData?.memberNick}</TableCell>
+										<TableCell align="center">{project.projectStyle}</TableCell>
+										<TableCell align="center">{project.projectType}</TableCell>
 										<TableCell align="center">
-											{property.propertyStatus === PropertyStatus.DELETE && (
+											{project.projectStatus === ProjectStatus.DELETE && (
 												<Button
 													variant="outlined"
 													sx={{ p: '3px', border: 'none', ':hover': { border: '1px solid #000000' } }}
-													onClick={() => removePropertyHandler(property._id)}
+													onClick={() => removeProjectHandler(project._id)}
 												>
 													<DeleteIcon fontSize="small" />
 												</Button>
 											)}
 
-											{property.propertyStatus === PropertyStatus.SOLD && (
-												<Button className={'badge warning'}>{property.propertyStatus}</Button>
-											)}
+											{project.projectStatus === ProjectStatus.COMPLETED && (
+												<Button className={'badge warning'}>{project.projectStatus}</Button>
+											)}	
 
-											{property.propertyStatus === PropertyStatus.ACTIVE && (
+											{project.projectStatus === ProjectStatus.ACTIVE && (
 												<>
 													<Button onClick={(e: any) => menuIconClickHandler(e, index)} className={'badge success'}>
-														{property.propertyStatus}
+														{project.projectStatus}
 													</Button>
 
 													<Menu
@@ -196,17 +199,17 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 														MenuListProps={{
 															'aria-labelledby': 'fade-button',
 														}}
-														anchorEl={anchorEl[index]}
-														open={Boolean(anchorEl[index])}
+														anchorEl={safeAnchorEl[index]}
+														open={Boolean(safeAnchorEl[index])}
 														onClose={menuIconCloseHandler}
 														TransitionComponent={Fade}
 														sx={{ p: 1 }}
 													>
-														{Object.values(PropertyStatus)
-															.filter((ele) => ele !== property.propertyStatus)
+														{Object.values(ProjectStatus)
+															.filter((ele) => ele !== project.projectStatus)
 															.map((status: string) => (
 																<MenuItem
-																	onClick={() => updatePropertyHandler({ _id: property._id, propertyStatus: status })}
+																	onClick={() => updateProjectHandler({ _id: project._id, projectStatus: status })}
 																	key={status}
 																>
 																	<Typography variant={'subtitle1'} component={'span'}>

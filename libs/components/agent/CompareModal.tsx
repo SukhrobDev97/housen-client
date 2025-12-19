@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, IconButton } from '@mui/material';
+import { Typography, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -31,25 +31,25 @@ const CompareModal = ({ agencies, isOpen, onClose }: CompareModalProps) => {
 		const isTrusted = (agency?.memberProjects || 0) >= 2;
 
 		return (
-			<Box className="compare-card">
+			<div className="compare-card">
 				{/* Card Header with Image */}
-				<Box className="card-header">
-					<Box className="image-wrapper">
+				<div className="card-header">
+					<div className="image-wrapper">
 						<img src={getImagePath(agency)} alt={agency.memberNick} />
-						<Box className="image-overlay" />
-					</Box>
+						<div className="image-overlay" />
+					</div>
 					{isTrusted && (
-						<Box className="trusted-badge">
+						<div className="trusted-badge">
 							<WorkspacePremiumIcon />
 							<span>Trusted</span>
-						</Box>
+						</div>
 					)}
-				</Box>
+				</div>
 
 				{/* Card Body */}
-				<Box className="card-body">
+				<div className="card-body">
 					{/* Name & Type */}
-					<Box className="info-section name-section">
+					<div className="info-section name-section">
 						<Typography className="agency-name">
 							{agency?.memberFullName ?? agency?.memberNick}
 							{isTrusted && <VerifiedIcon className="verified-icon" />}
@@ -58,102 +58,102 @@ const CompareModal = ({ agencies, isOpen, onClose }: CompareModalProps) => {
 							<BusinessIcon />
 							Design Agency
 						</Typography>
-					</Box>
+					</div>
 
 					{/* Stats */}
-					<Box className="info-section stats-section">
+					<div className="info-section stats-section">
 						<Typography className="section-title">Statistics</Typography>
-						<Box className="stats-grid">
-							<Box className="stat-item">
-								<Box className="stat-icon projects">
+						<div className="stats-grid">
+							<div className="stat-item">
+								<div className="stat-icon projects">
 									<WorkspacePremiumIcon />
-								</Box>
-								<Box className="stat-content">
+								</div>
+								<div className="stat-content">
 									<span className="stat-value">{agency?.memberProjects || 0}</span>
 									<span className="stat-label">Projects</span>
-								</Box>
-							</Box>
-							<Box className="stat-item">
-								<Box className="stat-icon views">
+								</div>
+							</div>
+							<div className="stat-item">
+								<div className="stat-icon views">
 									<RemoveRedEyeIcon />
-								</Box>
-								<Box className="stat-content">
+								</div>
+								<div className="stat-content">
 									<span className="stat-value">{agency?.memberViews || 0}</span>
 									<span className="stat-label">Views</span>
-								</Box>
-							</Box>
-							<Box className="stat-item">
-								<Box className="stat-icon likes">
+								</div>
+							</div>
+							<div className="stat-item">
+								<div className="stat-icon likes">
 									<FavoriteIcon />
-								</Box>
-								<Box className="stat-content">
+								</div>
+								<div className="stat-content">
 									<span className="stat-value">{agency?.memberLikes || 0}</span>
 									<span className="stat-label">Likes</span>
-								</Box>
-							</Box>
-						</Box>
-					</Box>
+								</div>
+							</div>
+						</div>
+					</div>
 
 					{/* Location */}
-					<Box className="info-section location-section">
+					<div className="info-section location-section">
 						<Typography className="section-title">Location</Typography>
-						<Box className="location-content">
+						<div className="location-content">
 							<LocationOnIcon />
 							<span>{agency?.memberAddress || 'Seoul, South Korea'}</span>
-						</Box>
-					</Box>
+						</div>
+					</div>
 
 					{/* Description */}
-					<Box className="info-section description-section">
+					<div className="info-section description-section">
 						<Typography className="section-title">About</Typography>
 						<Typography className="description-text">
 							{agency?.memberDesc || 'A professional design agency specializing in modern interior and architectural solutions. Committed to delivering exceptional results.'}
 						</Typography>
-					</Box>
+					</div>
 
 					{/* Contact Info */}
-					<Box className="info-section contact-section">
+					<div className="info-section contact-section">
 						<Typography className="section-title">Contact</Typography>
-						<Box className="contact-items">
-							<Box className="contact-item">
+						<div className="contact-items">
+							<div className="contact-item">
 								<EmailIcon />
-								<span>{agency?.memberEmail || 'contact@agency.com'}</span>
-							</Box>
-							<Box className="contact-item">
+								<span>{'contact@agency.com'}</span>
+							</div>
+							<div className="contact-item">
 								<PhoneIcon />
 								<span>{agency?.memberPhone || '+82 10-1234-5678'}</span>
-							</Box>
-						</Box>
-					</Box>
-				</Box>
-			</Box>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		);
 	};
 
 	return (
-		<Box className={`compare-modal-overlay ${isOpen ? 'open' : ''}`} onClick={onClose}>
-			<Box className="compare-modal" onClick={(e) => e.stopPropagation()}>
+		<div className={`compare-modal-overlay ${isOpen ? 'open' : ''}`} onClick={onClose}>
+			<div className="compare-modal" onClick={(e) => e.stopPropagation()}>
 				{/* Modal Header */}
-				<Box className="modal-header">
-					<Box className="header-content">
+				<div className="modal-header">
+					<div className="header-content">
 						<Typography className="modal-title">Compare Agencies</Typography>
 						<Typography className="modal-subtitle">Side-by-side comparison</Typography>
-					</Box>
+					</div>
 					<IconButton className="close-btn" onClick={onClose}>
 						<CloseIcon />
 					</IconButton>
-				</Box>
+				</div>
 
 				{/* Modal Body - Comparison Grid */}
-				<Box className="modal-body">
-					<Box className="compare-grid">
+				<div className="modal-body">
+					<div className="compare-grid">
 						{agencies.map((agency) => (
 							<CompareCard key={agency._id} agency={agency} />
 						))}
-					</Box>
-				</Box>
-			</Box>
-		</Box>
+					</div>
+				</div>
+			</div>
+		</div>
 	);
 };
 

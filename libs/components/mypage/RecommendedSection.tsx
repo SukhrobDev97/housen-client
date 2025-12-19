@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Project } from '../../types/property/property';
 import { ProjectsInquiry } from '../../types/property/property.input';
+import { Direction } from '../../enums/common.enum';
 import { GET_PROJECTS } from '../../../apollo/user/query';
 import { T } from '../../types/common';
 import { useQuery } from '@apollo/client';
@@ -26,7 +27,7 @@ const RecommendedSection = (props: RecommendedSectionProps) => {
 		page: 1,
 		limit: 4,
 		sort: 'projectViews',
-		direction: 'DESC',
+		direction: Direction.DESC,
 		search: {},
 		...initialInput,
 	};
@@ -60,58 +61,58 @@ const RecommendedSection = (props: RecommendedSectionProps) => {
 			: '/img/banner/header1.svg';
 
 		return (
-			<Box className={styles.recommendCard} onClick={() => handleViewProject(project._id)}>
-				<Box
+			<div className={styles.recommendCard} onClick={() => handleViewProject(project._id)}>
+				<div
 					className={styles.cardImage}
 					style={{ backgroundImage: `url(${imagePath})` }}
 				/>
-				<Box className={styles.cardContent}>
+				<div className={styles.cardContent}>
 					<Typography className={styles.cardTitle}>{project.projectTitle}</Typography>
-					<Box className={styles.cardMeta}>
+					<div className={styles.cardMeta}>
 						<span className={styles.metaItem}>
 							<PaletteIcon />
 							{project.projectStyle}
 						</span>
-					</Box>
-					<Box className={styles.cardFooter}>
+					</div>
+					<div className={styles.cardFooter}>
 						<Typography className={styles.cardPrice}>
 							${project.projectPrice?.toLocaleString()}
 						</Typography>
 						<button className={styles.viewBtn}>
 							View <ArrowForwardIcon />
 						</button>
-					</Box>
-				</Box>
-			</Box>
+					</div>
+				</div>
+			</div>
 		);
 	};
 
 	if (device === 'mobile') {
 		return (
-			<Box className={styles.recommendedSection}>
-				<Box className={styles.sectionHeader}>
+			<div className={styles.recommendedSection}>
+				<div className={styles.sectionHeader}>
 					<Typography className={styles.sectionTitle}>Recommended for you</Typography>
-				</Box>
-				<Box className={styles.cardsContainerMobile}>
+				</div>
+				<div className={styles.cardsContainerMobile}>
 					{recommendedProjects.map((project: Project) => (
 						<RecommendCard key={project._id} project={project} />
 					))}
-				</Box>
-			</Box>
+				</div>
+			</div>
 		);
 	} else {
 		return (
-			<Box className={styles.recommendedSection}>
-				<Box className={styles.sectionHeader}>
+			<div className={styles.recommendedSection}>
+				<div className={styles.sectionHeader}>
 					<Typography className={styles.sectionTitle}>Recommended for you</Typography>
 					<Typography className={styles.sectionSubtitle}>Projects you might be interested in</Typography>
-				</Box>
-				<Box className={styles.cardsGrid}>
+				</div>
+				<div className={styles.cardsGrid}>
 					{recommendedProjects.map((project: Project) => (
 						<RecommendCard key={project._id} project={project} />
 					))}
-				</Box>
-			</Box>
+				</div>
+			</div>
 		);
 	}
 };
