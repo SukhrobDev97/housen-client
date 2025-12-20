@@ -2981,26 +2981,104 @@ body::-webkit-scrollbar {
 	}
 
 	.chatting {
-		.chat-button {
-			border: none;
+		.chat-button-wrapper {
 			position: fixed;
 			bottom: 90px;
 			right: 30px;
-			height: 50px;
-			width: 50px;
+			z-index: 999;
+		}
+		.chat-button {
+			border: none;
+			height: 56px;
+			width: 56px;
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			border-radius: 50%;
-			height: 50px;
-			background: #fff;
-			box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.2);
-			transition: transform 0.3s;
-			z-index: 999;
+			background: #364440;
+			box-shadow: 0px 4px 16px rgba(54, 68, 64, 0.3);
+			transition: transform 0.2s ease, box-shadow 0.2s ease;
+			position: relative;
 			&:hover {
 				cursor: pointer;
-				transform: scale(1.1);
-				background-color: #fff;
+				transform: scale(1.08);
+				box-shadow: 0px 6px 20px rgba(54, 68, 64, 0.4);
+			}
+			.ai-chat-icon {
+				width: 24px;
+				height: 24px;
+				display: block;
+			}
+			.chat-button-online-dot {
+				position: absolute;
+				top: 4px;
+				right: 4px;
+				width: 10px;
+				height: 10px;
+				background: #33c1c1;
+				border-radius: 50%;
+				border: 2px solid #364440;
+				box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+				animation: pulse 2s ease-in-out infinite;
+				@keyframes pulse {
+					0%, 100% {
+						opacity: 1;
+						transform: scale(1);
+					}
+					50% {
+						opacity: 0.8;
+						transform: scale(1.1);
+					}
+				}
+			}
+		}
+		.chat-dropdown {
+			position: absolute;
+			bottom: 60px;
+			right: 0;
+			background: #fff;
+			border-radius: 12px;
+			box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+			padding: 8px;
+			min-width: 180px;
+			animation: slideUp 0.2s ease-out;
+			@keyframes slideUp {
+				from {
+					opacity: 0;
+					transform: translateY(10px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+			.chat-dropdown-item {
+				width: 100%;
+				display: flex;
+				align-items: center;
+				gap: 12px;
+				padding: 12px 16px;
+				border: none;
+				background: transparent;
+				border-radius: 8px;
+				cursor: pointer;
+				transition: background-color 0.2s;
+				font-family: 'Inter', sans-serif;
+				font-size: 14px;
+				font-weight: 500;
+				color: #0D0D0C;
+				&:hover {
+					background-color: #f5f5f5;
+				}
+				svg {
+					width: 20px;
+					height: 20px;
+					flex-shrink: 0;
+				}
+				span {
+					flex: 1;
+					text-align: left;
+				}
 			}
 		}
 		.chat-frame {
@@ -3100,6 +3178,187 @@ body::-webkit-scrollbar {
 				display: flex;
 				background: #d0ece8;
 				border-radius: 20px 20px 0px 20px;
+			}
+		}
+
+		// AI Chat Modal Styles
+		.ai-chat-overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: rgba(0, 0, 0, 0.4);
+			backdrop-filter: blur(4px);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			z-index: 1000;
+			animation: fadeIn 0.2s ease-out;
+			@keyframes fadeIn {
+				from {
+					opacity: 0;
+				}
+				to {
+					opacity: 1;
+				}
+			}
+		}
+
+		.ai-chat-modal {
+			width: 90%;
+			max-width: 600px;
+			max-height: 80vh;
+			background: #fff;
+			border-radius: 20px;
+			box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.2);
+			display: flex;
+			flex-direction: column;
+			overflow: hidden;
+			animation: slideUpModal 0.3s ease-out;
+			@keyframes slideUpModal {
+				from {
+					opacity: 0;
+					transform: translateY(20px) scale(0.95);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0) scale(1);
+				}
+			}
+		}
+
+		.ai-chat-header {
+			padding: 24px;
+			border-bottom: 1px solid #e5e5e5;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			h3 {
+				margin: 0;
+				font-family: 'Inter', sans-serif;
+				font-size: 24px;
+				font-weight: 600;
+				color: #0D0D0C;
+			}
+			.ai-chat-close-btn {
+				background: transparent;
+				border: none;
+				cursor: pointer;
+				padding: 8px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border-radius: 8px;
+				transition: background-color 0.2s;
+				color: #666;
+				&:hover {
+					background-color: #f5f5f5;
+					color: #0D0D0C;
+				}
+				svg {
+					width: 24px;
+					height: 24px;
+				}
+			}
+		}
+
+		.ai-chat-answer {
+			flex: 1;
+			padding: 24px;
+			overflow-y: auto;
+			min-height: 200px;
+			max-height: 400px;
+			background: #fafafa;
+			.ai-chat-loading {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: 12px;
+				padding: 40px;
+				color: #666;
+				font-family: 'Inter', sans-serif;
+				font-size: 16px;
+			}
+			.ai-chat-text {
+				font-family: 'Inter', sans-serif;
+				font-size: 16px;
+				line-height: 1.6;
+				color: #0D0D0C;
+				white-space: pre-wrap;
+				word-wrap: break-word;
+			}
+			.ai-chat-placeholder {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				height: 100%;
+				color: #999;
+				font-family: 'Inter', sans-serif;
+				font-size: 16px;
+				text-align: center;
+				padding: 40px;
+			}
+		}
+
+		.ai-chat-input-area {
+			padding: 20px 24px;
+			border-top: 1px solid #e5e5e5;
+			display: flex;
+			gap: 12px;
+			align-items: flex-end;
+			background: #fff;
+			.ai-chat-textarea {
+				flex: 1;
+				padding: 16px;
+				border: 1px solid #e5e5e5;
+				border-radius: 12px;
+				font-family: 'Inter', sans-serif;
+				font-size: 16px;
+				line-height: 1.5;
+				resize: none;
+				outline: none;
+				transition: border-color 0.2s;
+				&:focus {
+					border-color: #33c1c1;
+				}
+				&:disabled {
+					background: #f5f5f5;
+					cursor: not-allowed;
+				}
+				&::placeholder {
+					color: #999;
+				}
+			}
+			.ai-chat-send-btn {
+				width: 48px;
+				height: 48px;
+				border: none;
+				background: #33c1c1;
+				border-radius: 12px;
+				cursor: pointer;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				transition: background-color 0.2s, transform 0.1s;
+				color: #fff;
+				flex-shrink: 0;
+				&:hover:not(:disabled) {
+					background: #2aa8a8;
+					transform: scale(1.05);
+				}
+				&:active:not(:disabled) {
+					transform: scale(0.95);
+				}
+				&:disabled {
+					background: #ccc;
+					cursor: not-allowed;
+					opacity: 0.6;
+				}
+				svg {
+					width: 20px;
+					height: 20px;
+				}
 			}
 		}
 	}
