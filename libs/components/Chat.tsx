@@ -154,14 +154,7 @@ const Chat = () => {
 			return;
 		}
 
-		const optimisticMessage: MessagePayload = {
-			event: 'message',
-			text: messageInput,
-			senderId: user._id,
-			memberData: null,
-		};
-
-		setMessagesList(prev => [...prev, optimisticMessage]);
+		// Remove optimistic update - wait for backend response to avoid duplicates
 		socket.send(messageInput);
 		setMessageInput('');
 	};
