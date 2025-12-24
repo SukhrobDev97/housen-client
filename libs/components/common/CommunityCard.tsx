@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Stack, Typography, Box } from '@mui/material';
+import { Stack, Typography, Box, Avatar } from '@mui/material';
 import { BoardArticle } from '../../types/board-article/board-article';
 import Moment from 'react-moment';
 import { REACT_APP_API_URL } from '../../config';
@@ -26,6 +26,9 @@ const CommunityCard = (props: CommunityCardProps) => {
 	const imagePath: string = boardArticle?.articleImage
 		? `${REACT_APP_API_URL}/${boardArticle?.articleImage}`
 		: '/img/community/communityImg.png';
+	const memberImage: string = boardArticle?.memberData?.memberImage
+		? `${REACT_APP_API_URL}/${boardArticle.memberData.memberImage}`
+		: '/img/profile/defaultUser.svg';
 
 	/** HANDLERS **/
 	const chooseArticleHandler = (e: React.SyntheticEvent, boardArticle: BoardArticle) => {
@@ -65,36 +68,50 @@ const CommunityCard = (props: CommunityCardProps) => {
 					</Box>
 				</Box>
 				<Box className="card-content">
-					<Typography
-						className="author"
-						onClick={(e: any) => {
-							e.stopPropagation();
-							goMemberPage(boardArticle?.memberData?._id as string);
-						}}
-					>
-						{boardArticle?.memberData?.memberNick}
-					</Typography>
 					<Typography className="title">{boardArticle?.articleTitle}</Typography>
-					<Box className="card-stats">
-						<Box className="stat-item">
-							<RemoveRedEyeIcon />
-							<span>{boardArticle?.articleViews}</span>
+					<Box className="card-meta">
+						<Box 
+							className="author-section"
+							onClick={(e: any) => {
+								e.stopPropagation();
+								goMemberPage(boardArticle?.memberData?._id as string);
+							}}
+						>
+							<Avatar 
+								src={memberImage} 
+								alt={boardArticle?.memberData?.memberNick}
+								className="author-avatar"
+							/>
+							<Box className="author-info">
+								<Typography className="author-name">
+									{boardArticle?.memberData?.memberNick}
+								</Typography>
+								<Typography className="author-date">
+									<Moment format="MMM DD, YYYY">{boardArticle?.createdAt}</Moment>
+								</Typography>
+							</Box>
 						</Box>
-						<Box className="stat-item">
-							<IconButton
-								className="like-btn"
-								onClick={(e: any) => {
-									e.stopPropagation();
-									likeArticleHandler(e, user, boardArticle?._id);
-								}}
-							>
-								{boardArticle?.meLiked && boardArticle?.meLiked[0]?.myFavorite ? (
-									<FavoriteIcon className="liked" />
-								) : (
-									<FavoriteBorderIcon />
-								)}
-							</IconButton>
-							<span>{boardArticle?.articleLikes}</span>
+						<Box className="stats-section">
+							<Box className="stat-item">
+								<RemoveRedEyeIcon />
+								<span>{boardArticle?.articleViews}</span>
+							</Box>
+							<Box className="stat-item">
+								<IconButton
+									className="like-btn"
+									onClick={(e: any) => {
+										e.stopPropagation();
+										likeArticleHandler(e, user, boardArticle?._id);
+									}}
+								>
+									{boardArticle?.meLiked && boardArticle?.meLiked[0]?.myFavorite ? (
+										<FavoriteIcon className="liked" />
+									) : (
+										<FavoriteBorderIcon />
+									)}
+								</IconButton>
+								<span>{boardArticle?.articleLikes}</span>
+							</Box>
 						</Box>
 					</Box>
 				</Box>

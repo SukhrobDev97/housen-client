@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Stack, Box, Typography, Button, Skeleton } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { useQuery } from '@apollo/client';
@@ -7,6 +7,7 @@ import { Project } from '../../types/property/property';
 import { Member } from '../../types/member/member';
 import { GET_PROJECTS } from '../../../apollo/user/query';
 import { ProjectType, ProjectStyle } from '../../enums/property.enum';
+import { Direction } from '../../enums/common.enum';
 import { REACT_APP_API_URL } from '../../config';
 import { T } from '../../types/common';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -48,37 +49,36 @@ const GetMatchedSection = () => {
 	const [suggestedProjects, setSuggestedProjects] = useState<Project[]>([]);
 	const [matchedAgency, setMatchedAgency] = useState<Member | null>(null);
 
-	// Build query input
-	const getQueryInput = () => ({
+	// Build query input: Fetch broad set of projects, filter client-side
+	// Removed typeList and projectStyleList to avoid backend AND filtering
+	const queryInput = useMemo(() => ({
 		page: 1,
-		limit: 10,
+		limit: 50, // Increased to ensure enough projects for client-side filtering
 		sort: 'createdAt',
-		direction: 'DESC',
+		direction: Direction.DESC,
 		search: {
-			...(selectedType && { typeList: [selectedType] }),
-			...(selectedStyle && { projectStyleList: [selectedStyle] }),
 			pricesRange: {
 				start: 0,
 				end: 2000000,
 			},
 		},
-	});
+	}), []); // Empty deps - query is constant, filtering happens in onCompleted
 
 	/** APOLLO REQUESTS **/
 	const {
 		loading: matchingLoading,
 		data: matchingData,
 		error: matchingError,
-		refetch: matchingRefetch,
 	} = useQuery(GET_PROJECTS, {
 		fetchPolicy: 'network-only',
-		variables: { input: getQueryInput() },
+		variables: { input: queryInput },
 		notifyOnNetworkStatusChange: true,
 		skip: !selectedType || !selectedStyle,
 		onCompleted: (data: T) => {
 			console.log('GET_PROJECTS completed:', data);
 			const allProjects = data?.getProjects?.list || [];
 			console.log('All projects count:', allProjects.length);
+			console.log('Selected filters:', { selectedType, selectedStyle });
 			
 			// Filter projects based on selected type and style
 			let filtered = allProjects;
@@ -88,12 +88,14 @@ const GetMatchedSection = () => {
 				filtered = allProjects.filter((p: Project) => 
 					p.projectType === selectedType && p.projectStyle === selectedStyle
 				);
+				console.log('Exact match count:', filtered.length);
 				
 				// If no exact match, try matching just type
 				if (filtered.length === 0) {
 					filtered = allProjects.filter((p: Project) => 
 						p.projectType === selectedType
 					);
+					console.log('Type match count:', filtered.length);
 				}
 				
 				// If still no match, try matching just style
@@ -101,14 +103,17 @@ const GetMatchedSection = () => {
 					filtered = allProjects.filter((p: Project) => 
 						p.projectStyle === selectedStyle
 					);
+					console.log('Style match count:', filtered.length);
 				}
 				
 				// If still nothing, show all available
 				if (filtered.length === 0) {
 					filtered = allProjects;
+					console.log('Showing all projects:', filtered.length);
 				}
 			}
 			
+			console.log('Final filtered projects:', filtered.length);
 			setSuggestedProjects(filtered.slice(0, 3));
 		},
 		onError: (error) => {
@@ -117,14 +122,6 @@ const GetMatchedSection = () => {
 	});
 
 	/** LIFECYCLES **/
-	useEffect(() => {
-		// Refetch when both type and style are selected
-		if (selectedType && selectedStyle && matchingRefetch) {
-			console.log('Refetching with:', { selectedType, selectedStyle });
-			matchingRefetch({ input: getQueryInput() });
-		}
-	}, [selectedType, selectedStyle]);
-
 	useEffect(() => {
 		if (selectedProject && selectedProject.memberData) {
 			setMatchedAgency(selectedProject.memberData);

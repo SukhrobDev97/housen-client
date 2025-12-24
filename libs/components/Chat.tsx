@@ -1,12 +1,11 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Avatar, Box, Stack } from '@mui/material';
+import React, { useEffect, useRef, useState } from 'react';
+import { Avatar, Box, Stack, IconButton } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
-import Badge from '@mui/material/Badge';
-import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
+import MinimizeIcon from '@mui/icons-material/Minimize';
+import CloseIcon from '@mui/icons-material/Close';
 import MarkChatUnreadIcon from '@mui/icons-material/MarkChatUnread';
 import { useRouter } from 'next/router';
 import ScrollableFeed from 'react-scrollable-feed';
-import { RippleBadge } from '../../scss/MaterialTheme/styled';
 import { useReactiveVar } from '@apollo/client';
 import { socketVar, userVar } from '../../apollo/store';
 import { Member } from '../types/member/member';
@@ -14,33 +13,12 @@ import { Messages, REACT_APP_API_URL } from '../config';
 import { sweetErrorAlert } from '../sweetAlert';
 import AIChat from './AIChat';
 
-const NewMessage = (type: any) => {
-	if (type === 'right') {
-		return (
-			<Box
-				component={'div'}
-				flexDirection={'row'}
-				style={{ display: 'flex' }}
-				alignItems={'flex-end'}
-				justifyContent={'flex-end'}
-				sx={{ m: '10px 0px' }}
-			>
-				<div className={'msg_right'}></div>
-			</Box>
-		);
-	} else {
-		return (
-			<Box flexDirection={'row'} style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component={'div'}>
-				<Avatar alt={'jonik'} src={'/img/profile/defaultUser.svg'} />
-				<div className={'msg-left'}></div>
-			</Box>
-		);
-	}
-};
+// NewMessage component removed - not used anymore
 
 interface MessagePayload {
 	event: string;
 	text: string;
+	senderId?: string | null;
 	memberData?: Member | null;
   }
   
@@ -67,27 +45,46 @@ const Chat = () => {
 
 	/** LIFECYCLES **/
 	useEffect(() => {
+		if (typeof window === 'undefined') return;
 		if (!socket) return;
-		socket.onmessage = (msg) => {
-			const data = JSON.parse(msg.data);
-			console.log('Received data:', data);
-			switch (data.event) {
-				case "info": 
-					const newInfo: InfoPayload = data;
-					setOnlineUsers(newInfo.totalClients);
-					break;
-				case "getMessages": 
-					const list: MessagePayload[] = data.list;
-					setMessagesList(list);
-					break;
-				case "message": 
-					const newMessage: MessagePayload = data;
-					messagesList.push(newMessage);
-					setMessagesList([...messagesList]);
-					break;
+		
+		const handleMessage = (msg: MessageEvent) => {
+			try {
+				const data = JSON.parse(msg.data);
+				console.log('Received data:', data);
+				switch (data.event) {
+					case "info": 
+						const newInfo: InfoPayload = data;
+						setOnlineUsers(newInfo.totalClients);
+						break;
+					case "getMessages": 
+						const list: MessagePayload[] = data.list || [];
+						setMessagesList(list);
+						break;
+					case "message": 
+						const newMessage: MessagePayload = data;
+						setMessagesList(prev => [...prev, newMessage]);
+						break;
+				}
+			} catch (err) {
+				console.error('Error parsing message:', err);
 			}
+		};
+		
+		socket.onmessage = handleMessage;
+		
+		return () => {
+			if (socket.onmessage === handleMessage) {
+				socket.onmessage = null;
+			}
+		};
+	}, [socket]);
+
+	useEffect(() => {
+		if (chatContentRef.current) {
+			chatContentRef.current.scrollTop = chatContentRef.current.scrollHeight;
 		}
-	}, [socket, messagesList]);
+	}, [messagesList]);
 
 	useEffect(() => {
 		const timeoutId = setTimeout(() => {
@@ -132,13 +129,9 @@ const Chat = () => {
 		setShowAIChat(true);
 	};
 
-	const getInputMessageHandler = useCallback(
-		(e: any) => {
-			const text = e.target.value;
-			setMessageInput(text);
-		},
-		[messageInput],
-	);
+	const getInputMessageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setMessageInput(e.target.value);
+	};
 
 	const getKeyHandler = (e: any) => {
 		try {
@@ -151,16 +144,33 @@ const Chat = () => {
 	};
 
 	const onClickHandler = () => {
-		if(!messageInput) sweetErrorAlert(Messages.error4);
-		else{
-			socket?.send(JSON.stringify({event: 'message', data: messageInput}));
-			setMessageInput('');	
+		if (!messageInput.trim()) {
+			sweetErrorAlert(Messages.error4);
+			return;
 		}
+
+		if (!socket || socket.readyState !== WebSocket.OPEN) {
+			sweetErrorAlert('WebSocket connection is not ready');
+			return;
+		}
+
+		const optimisticMessage: MessagePayload = {
+			event: 'message',
+			text: messageInput,
+			senderId: user._id,
+			memberData: null,
+		};
+
+		setMessagesList(prev => [...prev, optimisticMessage]);
+		socket.send(messageInput);
+		setMessageInput('');
 	};
+
+	const [isMinimized, setIsMinimized] = useState(false);
 
 	return (
 		<Stack className="chatting">
-			{openButton ? (
+			{openButton && !open ? (
 				<div className="chat-button-wrapper" ref={dropdownRef}>
 					<button className="chat-button" onClick={handleButtonClick} aria-label="AI Assistant">
 						<svg 
@@ -171,23 +181,19 @@ const Chat = () => {
 							fill="none" 
 							xmlns="http://www.w3.org/2000/svg"
 						>
-							{/* Chat bubble */}
 							<path 
 								d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" 
 								fill="white"
 							/>
-							{/* Sparkle 1 - top right */}
 							<g opacity="0.95">
 								<circle cx="17" cy="5" r="0.8" fill="white"/>
 								<path d="M17 4L17 6M16 5L18 5" stroke="white" strokeWidth="1" strokeLinecap="round"/>
 							</g>
-							{/* Sparkle 2 - small accent */}
 							<g opacity="0.85">
 								<circle cx="7" cy="8" r="0.6" fill="white"/>
 								<path d="M7 7.5L7 8.5M6.5 8L7.5 8" stroke="white" strokeWidth="0.8" strokeLinecap="round"/>
 							</g>
 						</svg>
-						{/* Online indicator dot */}
 						<span className="chat-button-online-dot"></span>
 					</button>
 					{showDropdown && (
@@ -206,72 +212,107 @@ const Chat = () => {
 					)}
 				</div>
 			) : null}
-			<Stack className={`chat-frame ${open ? 'open' : ''}`}>
-				<Box className={'chat-top'} component={'div'}>
-					<div style={{ fontFamily: 'Nunito', display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-						<span>Online Chat</span>
-						<button 
-							onClick={() => setOpen(false)} 
-							style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center' }}
-							aria-label="Close chat"
-						>
-							<CloseFullscreenIcon />
-						</button>
-					</div>
-					<RippleBadge style={{margin: "-18px 0 0 21px"}} badgeContent={onlineUsers} />
-				</Box>
-				<Box className={'chat-top'} component={'div'}>
-					<div style={{ fontFamily: 'Nunito' }}>Online Chat</div>
-					<RippleBadge style={{margin: "-18px 0 0 21px"}} badgeContent={onlineUsers} />
-				</Box>
-				<Box className={'chat-content'} id="chat-content" ref={chatContentRef} component={'div'}>
-					<ScrollableFeed>
-						<Stack className={'chat-main'}>
-							<Box flexDirection={'row'} style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component={'div'}>
-								<div className={'welcome'}>Welcome to Live chat!</div>
+			
+			{open && (
+				<Box className={`premium-chat-container ${isMinimized ? 'minimized' : ''}`}>
+					{/* Header */}
+					<Box className="premium-chat-header">
+						<Box className="premium-chat-header-left">
+							<Box className="premium-chat-header-title">
+								Housen Support
 							</Box>
-							{messagesList.map((ele: MessagePayload) =>{
-								const {text, memberData} = ele;
-								const memberImage = memberData?.memberImage 
-									? `${REACT_APP_API_URL}/${memberData.memberImage}`
-									: '/img/profile/defaultUser.svg';
+							<Box className="premium-chat-online-status">
+								<Box className="premium-chat-online-dot" />
+								<Box className="premium-chat-online-text">
+									Online
+								</Box>
+							</Box>
+						</Box>
+						<Box className="premium-chat-header-actions">
+							<IconButton
+								size="small"
+								onClick={() => setIsMinimized(!isMinimized)}
+								className="premium-chat-icon-btn"
+							>
+								<MinimizeIcon fontSize="small" />
+							</IconButton>
+							<IconButton
+								size="small"
+								onClick={() => {
+									setOpen(false);
+									setIsMinimized(false);
+								}}
+								className="premium-chat-icon-btn"
+							>
+								<CloseIcon fontSize="small" />
+							</IconButton>
+						</Box>
+					</Box>
 
-								return memberData?._id === user._id ? (
-									<Box
-									component={'div'}
-									flexDirection={'row'}
-									style={{ display: 'flex' }}
-									alignItems={'flex-end'}
-									justifyContent={'flex-end'}
-									sx={{ m: '10px 0px' }}
+					{!isMinimized && (
+						<>
+							{/* Messages Content */}
+							<Box ref={chatContentRef} className="premium-chat-messages">
+								<ScrollableFeed>
+									{/* Welcome Message */}
+									<Box className="premium-chat-welcome-message">
+										<Box className="premium-chat-welcome-bubble">
+											Hi 👋 Welcome to Housen messanger!
+										</Box>
+									</Box>
+
+									{/* Messages List */}
+									{messagesList.map((ele: MessagePayload, index: number) => {
+										const { text, senderId, memberData } = ele;
+										const isOwnMessage = senderId === user?._id || memberData?._id === user?._id;
+										const memberImage = memberData?.memberImage
+											? `${REACT_APP_API_URL}/${memberData.memberImage}`
+											: '/img/profile/defaultUser.svg';
+
+										return (
+											<Box
+												key={index}
+												className={`premium-chat-message-wrapper ${isOwnMessage ? 'own-message' : 'other-message'}`}
+											>
+												{!isOwnMessage && (
+													<Avatar
+														src={memberImage}
+														alt={memberData?.memberNick || 'User'}
+														className="premium-chat-message-avatar"
+													/>
+												)}
+												<Box className={`premium-chat-message-bubble ${isOwnMessage ? 'own' : 'other'}`}>
+													{text}
+												</Box>
+											</Box>
+										);
+									})}
+								</ScrollableFeed>
+							</Box>
+
+							{/* Input Area */}
+							<Box className="premium-chat-input-area">
+								<input
+									type="text"
+									className="premium-chat-input"
+									placeholder="write a message…"
+									value={messageInput}
+									onChange={getInputMessageHandler}
+									onKeyDown={getKeyHandler}
+								/>
+								<button
+									onClick={onClickHandler}
+									disabled={!messageInput.trim()}
+									className="premium-chat-send-btn"
+									type="button"
 								>
-									<div className={'msg-right'}>{text}</div>
-								</Box>
-								) : (
-									<Box flexDirection={'row'} style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component={'div'}>
-									<Avatar alt={'jonik'} src={memberImage} />
-									<div className={'msg-left'}>{text}</div>
-								</Box>
-								)
-							})}
-						</Stack>
-					</ScrollableFeed>
+									<SendIcon fontSize="small" />
+								</button>
+							</Box>
+						</>
+					)}
 				</Box>
-				<Box className={'chat-bott'} component={'div'}>
-					<input
-						type={'text'}
-						name={'message'}
-						className={'msg-input'}
-						placeholder={'Type message'}
-						value={messageInput}
-						onChange={getInputMessageHandler}
-						onKeyDown={getKeyHandler}
-					/>
-					<button className={'send-msg-btn'} onClick={onClickHandler}>
-						<SendIcon style={{ color: '#fff' }} />
-					</button>
-				</Box>
-			</Stack>
+			)}
 			<AIChat open={showAIChat} onClose={() => setShowAIChat(false)} />
 		</Stack>
 	);

@@ -58,22 +58,24 @@ const CommunityCard = (props: CommunityCardProps) => {
 	} else {
 		return (
 			<Stack 
-				className="community-card-box" 
+				className="community-card" 
 				onClick={() => router.push(`/community/detail?articleCategory=${article?.articleCategory}&id=${article._id}`)}
 			>
-				<Box
-					component={'div'}
-					className={'card-img'}
-					style={{ backgroundImage: `url(${articleImage})` }}
-				>
+				<div className="card-image">
+					<div 
+						className="card-img-bg"
+						style={{ backgroundImage: `url(${articleImage})` }}
+					/>
 					<Box className={'category-badge'} sx={{ backgroundColor: getCategoryColor(article?.articleCategory || '') }}>
 						<Typography className={'category-text'}>
 							{getCategoryLabel(article?.articleCategory || '')}
 						</Typography>
 					</Box>
-				</Box>
-				<Box component={'div'} className={'info'}>
+				</div>
+				<div className="card-content">
 					<strong className={'title'}>{article?.articleTitle}</strong>
+				</div>
+				<div className="card-footer">
 					<div className={'meta-info'}>
 						<Typography className={'date'}>
 							<Moment format="MMM DD, YYYY">{article?.createdAt}</Moment>
@@ -95,7 +97,7 @@ const CommunityCard = (props: CommunityCardProps) => {
 					>
 						Read More
 					</Button>
-				</Box>
+				</div>
 			</Stack>
 		);
 	}

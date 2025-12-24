@@ -62,8 +62,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 		{ label: '$100K - $300K', start: 100000, end: 300000 },
 		{ label: '$300K - $500K', start: 300000, end: 500000 },
 		{ label: '$500K - $750K', start: 500000, end: 750000 },
-		{ label: '$750K - $1M', start: 750000, end: 1000000 },
-		{ label: '$1M+', start: 1000000, end: 2000000 },
+		
 	];
 
 	/** LIFECYCLES **/
@@ -178,21 +177,48 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 
 	const pushSearchHandler = async () => {
 		try {
-			if (searchFilter?.search?.projectStyleList?.length == 0) {
-				delete searchFilter.search.projectStyleList;
+			const updatedFilter = { ...searchFilter };
+			
+			// Ensure search object exists
+			if (!updatedFilter.search) {
+				updatedFilter.search = {};
+			}
+			
+			// Clean up empty arrays
+			if (updatedFilter.search.projectStyleList && updatedFilter.search.projectStyleList.length === 0) {
+				delete updatedFilter.search.projectStyleList;
+			}
+			if (updatedFilter.search.typeList && updatedFilter.search.typeList.length === 0) {
+				delete updatedFilter.search.typeList;
 			}
 
-			if (searchFilter?.search?.typeList?.length == 0) {
-				delete searchFilter.search.typeList;
+			// Ensure pricesRange exists
+			if (!updatedFilter.search.pricesRange) {
+				updatedFilter.search.pricesRange = { start: 0, end: 2000000 };
 			}
 
-			if (!searchFilter?.search?.pricesRange) {
-				searchFilter.search.pricesRange = { start: 0, end: 2000000 };
+			// Add options based on listingType
+			if (!updatedFilter.search.options) {
+				updatedFilter.search.options = [];
+			}
+			// Remove existing options first
+			updatedFilter.search.options = updatedFilter.search.options.filter(
+				opt => opt !== 'projectPublic' && opt !== 'projectCollaboration'
+			);
+			// Add the selected option
+			if (listingType === 'sale') {
+				updatedFilter.search.options.push('projectPublic');
+			} else if (listingType === 'rent') {
+				updatedFilter.search.options.push('projectCollaboration');
+			}
+			// Remove if empty
+			if (updatedFilter.search.options.length === 0) {
+				delete updatedFilter.search.options;
 			}
 
 			await router.push(
-				`/property?input=${JSON.stringify(searchFilter)}`,
-				`/property?input=${JSON.stringify(searchFilter)}`,
+				`/property?input=${encodeURIComponent(JSON.stringify(updatedFilter))}`,
+				`/property?input=${encodeURIComponent(JSON.stringify(updatedFilter))}`,
 			);
 		} catch (err: any) {
 			console.log('ERROR, pushSearchHandler:', err);

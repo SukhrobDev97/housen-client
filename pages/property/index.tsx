@@ -1,4 +1,4 @@
-import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, MouseEvent, useEffect, useState, useMemo, useRef } from 'react';
 import { NextPage } from 'next';
 import { Box, Button, Pagination, Stack, Typography, IconButton, Rating } from '@mui/material';
 import PropertyCard from '../../libs/components/property/PropertyCard';
@@ -37,9 +37,85 @@ const ProjectList: NextPage = ({ initialInput, ...props }: any) => {
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const { addToCart } = useCart();
-	const [searchFilter, setSearchFilter] = useState<ProjectsInquiry>(
-		router?.query?.input ? JSON.parse(router?.query?.input as string) : initialInput,
-	);
+	// Parse initial filter from URL (handles both encoded JSON and individual query params)
+	const parseInitialFilter = (): ProjectsInquiry => {
+		// First, try to parse from 'input' query parameter (JSON format)
+		if (router?.query?.input) {
+			try {
+				let inputStr = router.query.input as string;
+				// Try to decode if encoded
+				try {
+					inputStr = decodeURIComponent(inputStr);
+				} catch (e) {
+					// Already decoded or raw JSON, use as-is
+				}
+				return JSON.parse(inputStr);
+			} catch (error) {
+				console.error('Error parsing initial filter from URL (input param):', error);
+			}
+		}
+		
+		// Fallback: Parse from individual query parameters (legacy format)
+		if (router?.query) {
+			const query = router.query;
+			const filter: ProjectsInquiry = {
+				page: query.page ? parseInt(query.page as string) : 1,
+				limit: query.limit ? parseInt(query.limit as string) : 9,
+				search: {},
+			};
+			
+			// Parse projectStyleList
+			if (query.projectStyleList) {
+				const styles = Array.isArray(query.projectStyleList) 
+					? query.projectStyleList 
+					: [query.projectStyleList];
+				filter.search.projectStyleList = styles as any[];
+			}
+			
+			// Parse typeList
+			if (query.typeList) {
+				const types = Array.isArray(query.typeList) 
+					? query.typeList 
+					: [query.typeList];
+				filter.search.typeList = types as any[];
+			}
+			
+			// Parse budget/price range
+			if (query.budget) {
+				const budget = query.budget as string;
+				const [start, end] = budget.split('-').map(Number);
+				if (!isNaN(start) && !isNaN(end)) {
+					filter.search.pricesRange = { start, end };
+				}
+			}
+			
+			// Parse options
+			if (query.options) {
+				const options = Array.isArray(query.options) 
+					? query.options 
+					: [query.options];
+				filter.search.options = options as string[];
+			}
+			
+			// Parse text
+			if (query.text) {
+				filter.search.text = query.text as string;
+			}
+			
+			// Parse sort and direction
+			if (query.sort) filter.sort = query.sort as string;
+			if (query.direction) filter.direction = query.direction as any;
+			
+			// Only return if we found some filters
+			if (Object.keys(filter.search).length > 0 || filter.sort || filter.direction) {
+				return filter;
+			}
+		}
+		
+		return initialInput;
+	};
+
+	const [searchFilter, setSearchFilter] = useState<ProjectsInquiry>(parseInitialFilter());
 	const [projects, setProjects] = useState<Project[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const [currentPage, setCurrentPage] = useState<number>(1);
@@ -49,8 +125,68 @@ const ProjectList: NextPage = ({ initialInput, ...props }: any) => {
 	// Recommended products (4 items)
 	const recommendedProducts = products.slice(0, 4);
 
+	// Clean filter: remove empty arrays and default price range before sending to API
+	const cleanFilterForAPI = (filter: ProjectsInquiry): ProjectsInquiry => {
+		const cleaned: ProjectsInquiry = {
+			page: filter.page || 1,
+			limit: filter.limit || 9,
+			search: {},
+		};
+		
+		if (filter.sort) cleaned.sort = filter.sort;
+		if (filter.direction) cleaned.direction = filter.direction;
+		
+		const search = filter.search || {};
+		
+		// Only include arrays if they have items (empty arrays = zero results)
+		if (search.projectStyleList && search.projectStyleList.length > 0) {
+			cleaned.search.projectStyleList = search.projectStyleList;
+			console.log('[DEBUG] Sending projectStyleList:', search.projectStyleList);
+		}
+		if (search.typeList && search.typeList.length > 0) {
+			cleaned.search.typeList = search.typeList;
+		}
+		if (search.options && search.options.length > 0) {
+			cleaned.search.options = search.options;
+		}
+		// Remove default price range (0-2000000) - DO NOT include if it's default
+		if (search.pricesRange) {
+			const isDefault = search.pricesRange.start === 0 && search.pricesRange.end === 2000000;
+			if (!isDefault) {
+				cleaned.search.pricesRange = search.pricesRange;
+			}
+		}
+		if (search.text && search.text.trim()) {
+			cleaned.search.text = search.text.trim();
+		}
+		if (search.memberId) {
+			cleaned.search.memberId = search.memberId;
+		}
+		
+		// If search object is empty, don't include it
+		if (Object.keys(cleaned.search).length === 0) {
+			cleaned.search = {};
+		}
+		
+		return cleaned;
+	};
+
 	/** APOLLO REQUESTS **/
 	const [likeTargetProject] = useMutation(LIKE_TARGET_PROJECT)
+
+	// Clean filter for API call - memoize to prevent unnecessary recalculations
+	const cleanedFilter = useMemo(() => {
+		const cleaned = cleanFilterForAPI(searchFilter);
+		console.log('[DEBUG] searchFilter:', searchFilter);
+		console.log('[DEBUG] cleanedFilter:', cleaned);
+		console.log('[DEBUG] Apollo variables:', JSON.stringify(cleaned));
+		console.log('[DEBUG] projectStyleList in cleaned:', cleaned.search.projectStyleList);
+		console.log('[DEBUG] typeList in cleaned:', cleaned.search.typeList);
+		return cleaned;
+	}, [searchFilter]);
+
+	// Track if this is initial mount to avoid double fetch
+	const isInitialMount = useRef(true);
 
 	const {
 		loading: getProjectsLoading,
@@ -59,39 +195,87 @@ const ProjectList: NextPage = ({ initialInput, ...props }: any) => {
 		refetch: getProjectsRefetch,
 	  } = useQuery(GET_PROJECTS, {
 		fetchPolicy: 'network-only',
-		variables: { input: searchFilter },
+		variables: { input: cleanedFilter },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T ) => {
-		  setProjects(data?.getProjects?.list);
-		  setTotal(data?.getProjects?.metaCounter[0].total);
+		  console.log('[DEBUG] Apollo completed - Full data:', JSON.stringify(data, null, 2));
+		  console.log('[DEBUG] Apollo completed - getProjects:', data?.getProjects);
+		  console.log('[DEBUG] Apollo completed - list:', data?.getProjects?.list);
+		  console.log('[DEBUG] Apollo completed - list length:', data?.getProjects?.list?.length);
+		  console.log('[DEBUG] Apollo completed - metaCounter:', data?.getProjects?.metaCounter);
+		  console.log('[DEBUG] Apollo completed - metaCounter[0]:', data?.getProjects?.metaCounter?.[0]);
+		  console.log('[DEBUG] Apollo completed - total:', data?.getProjects?.metaCounter?.[0]?.total);
+		  
+		  const projectsList = data?.getProjects?.list || [];
+		  const totalCount = data?.getProjects?.metaCounter?.[0]?.total || 0;
+		  
+		  console.log('[DEBUG] Setting projects:', projectsList);
+		  console.log('[DEBUG] Setting total:', totalCount);
+		  
+		  setProjects(projectsList);
+		  setTotal(totalCount);
 		},
 	  });
 
-	/** LIFECYCLES **/
+	// Refetch when searchFilter changes (but skip initial mount)
 	useEffect(() => {
-		if (router.query.input) {
-			const inputObj = JSON.parse(router?.query?.input as string);
-			setSearchFilter(inputObj);
+		if (isInitialMount.current) {
+			isInitialMount.current = false;
+			return;
 		}
+		console.log('[DEBUG] searchFilter changed, refetching...');
+		getProjectsRefetch({ input: cleanedFilter });
+	}, [searchFilter, cleanedFilter, getProjectsRefetch]);
 
-		setCurrentPage(searchFilter.page === undefined ? 1 : searchFilter.page);
-	}, [router]);
-
+	/** LIFECYCLES **/
+	// Update state from Apollo data hook (fallback if onCompleted doesn't fire)
 	useEffect(() => {
-		console.log("searchFilter:", searchFilter);
-	}, [searchFilter]);
+		if (getProjectsData?.getProjects) {
+			console.log('[DEBUG] useEffect - Updating from hook data:', getProjectsData);
+			const projectsList = getProjectsData.getProjects.list || [];
+			const totalCount = getProjectsData.getProjects.metaCounter?.[0]?.total || 0;
+			console.log('[DEBUG] useEffect - Setting projects:', projectsList);
+			console.log('[DEBUG] useEffect - Setting total:', totalCount);
+			setProjects(projectsList);
+			setTotal(totalCount);
+		}
+	}, [getProjectsData]);
+
+	// Debug: Also log data from hook return when it changes
+	useEffect(() => {
+		console.log('[DEBUG] Apollo hook - loading:', getProjectsLoading);
+		console.log('[DEBUG] Apollo hook - error:', getProjectsError);
+		console.log('[DEBUG] Apollo hook - data:', getProjectsData);
+		console.log('[DEBUG] Apollo hook - projects state:', projects);
+		console.log('[DEBUG] Apollo hook - total state:', total);
+	}, [getProjectsLoading, getProjectsError, getProjectsData, projects, total]);
+
+	// Sync URL -> State when router.query changes (handles back/forward navigation)
+	useEffect(() => {
+		const parsed = parseInitialFilter();
+		if (parsed) {
+			console.log('[DEBUG] URL -> State sync:', parsed);
+			setSearchFilter(parsed);
+			setCurrentPage(parsed.page || 1);
+		} else {
+			setCurrentPage(searchFilter.page || 1);
+		}
+	}, [router.query]);
 
 	/** HANDLERS **/
 	const handlePaginationChange = async (event: ChangeEvent<unknown>, value: number) => {
-		searchFilter.page = value;
+		// Create new filter object (no mutation)
+		const updatedFilter = { ...searchFilter, page: value };
+		setSearchFilter(updatedFilter);
+		setCurrentPage(value);
+		// Update URL (pagination is one of the allowed router.push cases)
 		await router.push(
-			`/property?input=${JSON.stringify(searchFilter)}`,
-			`/property?input=${JSON.stringify(searchFilter)}`,
+			`/property?input=${encodeURIComponent(JSON.stringify(updatedFilter))}`,
+			`/property?input=${encodeURIComponent(JSON.stringify(updatedFilter))}`,
 			{
 				scroll: false,
 			},
 		);
-		setCurrentPage(value);
 	};
 
 
@@ -116,17 +300,34 @@ const ProjectList: NextPage = ({ initialInput, ...props }: any) => {
 	const sortingHandler = (sortOption: string) => {
 		setActiveSortOption(sortOption);
 		
+		let sort: string = 'createdAt';
+		let direction: Direction = Direction.DESC;
+		
 		switch (sortOption) {
 			case 'new':
-				setSearchFilter({ ...searchFilter, sort: 'createdAt', direction: Direction.ASC });
+				sort = 'createdAt';
+				direction = Direction.DESC;
 				break;
 			case 'lowest':
-				setSearchFilter({ ...searchFilter, sort: 'projectPrice', direction: Direction.ASC });
+				sort = 'projectPrice';
+				direction = Direction.ASC;
 				break;
 			case 'highest':
-				setSearchFilter({ ...searchFilter, sort: 'projectPrice', direction: Direction.DESC });
+				sort = 'projectPrice';
+				direction = Direction.DESC;
 				break;
 		}
+		
+		// Create new filter object (no mutation), reset page to 1
+		// Only update state (no router.push - only Search button and Pagination call router.push)
+		const updatedFilter = {
+			...searchFilter,
+			page: 1,
+			sort,
+			direction,
+		};
+		setSearchFilter(updatedFilter);
+		setCurrentPage(1);
 	};
 
 	// Product handlers
@@ -201,7 +402,11 @@ const ProjectList: NextPage = ({ initialInput, ...props }: any) => {
 						</Stack>
 						<Stack className="main-config" mb={'76px'}>
 							<Stack className={'list-config'}>
-								{projects?.length === 0 ? (
+								{getProjectsLoading ? (
+									<div className={'no-data'}>
+										<p>Loading projects...</p>
+									</div>
+								) : projects?.length === 0 ? (
 									<div className={'no-data'}>
 										<img src="/img/icons/icoAlert.svg" alt="" />
 										<p>No Projects found!</p>

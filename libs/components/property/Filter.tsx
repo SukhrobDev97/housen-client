@@ -83,254 +83,149 @@ const Filter = (props: FilterType) => {
 	}, [topProjects, topProjectsPage, topProjectsPerPage]);
 
 	useEffect(() => {
-
-		if (searchFilter?.search?.projectStyleList?.length == 0) {
-			delete searchFilter.search.projectStyleList;
+		// Update showMore based on projectStyleList (no mutation, no router.push)
+		if (searchFilter?.search?.projectStyleList && searchFilter.search.projectStyleList.length > 0) {
+			setShowMore(true);
+		} else {
 			setShowMore(false);
-			router.push(`/property?input=${JSON.stringify({
-				...searchFilter,
-				search: {
-					...searchFilter.search,
-				},
-			})}`, `/property?input=${JSON.stringify({
-				...searchFilter,
-				search: {
-					...searchFilter.search,
-				},
-			})}`, { scroll: false }).then();
 		}
+	}, [searchFilter?.search?.projectStyleList]);
 
-		if (searchFilter?.search?.typeList?.length == 0) {
-			delete searchFilter.search.typeList;
-			router.push(`/property?input=${JSON.stringify({
-				...searchFilter,
-				search: {
-					...searchFilter.search,
-				},
-			})}`, `/property?input=${JSON.stringify({
-				...searchFilter,
-				search: {
-					...searchFilter.search,
-				},
-			})}`, { scroll: false }).then();
+	// Sync searchText with filter from URL
+	useEffect(() => {
+		if (searchFilter?.search?.text) {
+			setSearchText(searchFilter.search.text);
+		} else {
+			setSearchText('');
 		}
-
-		if (searchFilter?.search?.options?.length == 0) {
-			delete searchFilter.search.options;
-			router.push(`/property?input=${JSON.stringify({
-				...searchFilter,
-				search: {
-					...searchFilter.search,
-				},
-			})}`, `/property?input=${JSON.stringify({
-				...searchFilter,
-				search: {
-					...searchFilter.search,
-				},
-			})}`, { scroll: false }).then();
-		}
-
-		if (searchFilter?.search?.projectStyleList) setShowMore(true);
-	}, [searchFilter]);
+	}, [searchFilter?.search?.text]);
 
 	/** HANDLERS **/
 	const projectStyleSelectHandler = useCallback(
-		async (e: any) => {
-			try {
-				const isChecked = e.target.checked;
-				const value = e.target.value;
-				if (isChecked) {
-					await router.push(
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: { ...searchFilter.search, projectStyleList: [...(searchFilter?.search?.projectStyleList || []), value] },
-						})}`,
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: { ...searchFilter.search, projectStyleList: [...(searchFilter?.search?.projectStyleList || []), value] },
-						})}`,
-						{ scroll: false },
-					);
-				} else if (searchFilter?.search?.projectStyleList?.includes(value)) {
-					await router.push(
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: {
-								...searchFilter.search,
-								projectStyleList: searchFilter?.search?.projectStyleList?.filter((item: string) => item !== value),
-							},
-						})}`,
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: {
-								...searchFilter.search,
-								projectStyleList: searchFilter?.search?.projectStyleList?.filter((item: string) => item !== value),
-							},
-						})}`,
-						{ scroll: false },
-					);
-				}
-
-				if (searchFilter?.search?.typeList?.length == 0) {
-					alert('error');
-				}
-
-				console.log('projectStyleSelectHandler:', e.target.value);
-			} catch (err: any) {
-				console.log('ERROR, projectStyleSelectHandler:', err);
+		(e: any) => {
+			const isChecked = e.target.checked;
+			const value = e.target.value;
+			
+			// Create new filter object (no mutation, no router.push)
+			const currentList = searchFilter?.search?.projectStyleList || [];
+			let newList: string[];
+			
+			if (isChecked) {
+				newList = [...currentList, value];
+			} else {
+				newList = currentList.filter((item: string) => item !== value);
 			}
+			
+			const updatedFilter = {
+				...searchFilter,
+				page: 1, // Reset page when filter changes
+				search: {
+					...searchFilter.search,
+					projectStyleList: newList.length > 0 ? newList : undefined,
+				},
+			};
+			
+			// Remove empty array from object
+			if (!updatedFilter.search.projectStyleList) {
+				delete updatedFilter.search.projectStyleList;
+			}
+			
+			setSearchFilter(updatedFilter);
 		},
-		[searchFilter],
+		[searchFilter, setSearchFilter],
 	);
 
 	const projectTypeSelectHandler = useCallback(
-		async (e: any) => {
-			try {
-				const isChecked = e.target.checked;
-				const value = e.target.value;
-				if (isChecked) {
-					await router.push(
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: { ...searchFilter.search, typeList: [...(searchFilter?.search?.typeList || []), value] },
-						})}`,
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: { ...searchFilter.search, typeList: [...(searchFilter?.search?.typeList || []), value] },
-						})}`,
-						{ scroll: false },
-					);
-				} else if (searchFilter?.search?.typeList?.includes(value)) {
-					await router.push(
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: {
-								...searchFilter.search,
-								typeList: searchFilter?.search?.typeList?.filter((item: string) => item !== value),
-							},
-						})}`,
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: {
-								...searchFilter.search,
-								typeList: searchFilter?.search?.typeList?.filter((item: string) => item !== value),
-							},
-						})}`,
-						{ scroll: false },
-					);
-				}
-
-				if (searchFilter?.search?.typeList?.length == 0) {
-					alert('error');
-				}
-
-				console.log('projectTypeSelectHandler:', e.target.value);
-			} catch (err: any) {
-				console.log('ERROR, propertyTypeSelectHandler:', err);
+		(e: any) => {
+			const isChecked = e.target.checked;
+			const value = e.target.value;
+			
+			// Create new filter object (no mutation, no router.push)
+			const currentList = searchFilter?.search?.typeList || [];
+			let newList: string[];
+			
+			if (isChecked) {
+				newList = [...currentList, value];
+			} else {
+				newList = currentList.filter((item: string) => item !== value);
 			}
+			
+			const updatedFilter = {
+				...searchFilter,
+				page: 1, // Reset page when filter changes
+				search: {
+					...searchFilter.search,
+					typeList: newList.length > 0 ? newList : undefined,
+				},
+			};
+			
+			// Remove empty array from object
+			if (!updatedFilter.search.typeList) {
+				delete updatedFilter.search.typeList;
+			}
+			
+			setSearchFilter(updatedFilter);
 		},
-		[searchFilter],
+		[searchFilter, setSearchFilter],
 	);
 
 	const projectOptionSelectHandler = useCallback(
-		async (e: any) => {
-			try {
-				const isChecked = e.target.checked;
-				const value = e.target.value;
-				if (isChecked) {
-					await router.push(
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: { ...searchFilter.search, options: [...(searchFilter?.search?.options || []), value] },
-						})}`,
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: { ...searchFilter.search, options: [...(searchFilter?.search?.options || []), value] },
-						})}`,
-						{ scroll: false },
-					);
-				} else if (searchFilter?.search?.options?.includes(value)) {
-					await router.push(
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: {
-								...searchFilter.search,
-								options: searchFilter?.search?.options?.filter((item: string) => item !== value),
-							},
-						})}`,
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: {
-								...searchFilter.search,
-								options: searchFilter?.search?.options?.filter((item: string) => item !== value),
-							},
-						})}`,
-						{ scroll: false },
-					);
-				}
-
-				console.log('projectOptionSelectHandler:', e.target.value);
-			} catch (err: any) {
-				console.log('ERROR, projectOptionSelectHandler:', err);
+		(e: any) => {
+			const isChecked = e.target.checked;
+			const value = e.target.value;
+			
+			// Create new filter object (no mutation, no router.push)
+			const currentList = searchFilter?.search?.options || [];
+			let newList: string[];
+			
+			if (isChecked) {
+				newList = [...currentList, value];
+			} else {
+				newList = currentList.filter((item: string) => item !== value);
 			}
+			
+			const updatedFilter = {
+				...searchFilter,
+				page: 1, // Reset page when filter changes
+				search: {
+					...searchFilter.search,
+					options: newList.length > 0 ? newList : undefined,
+				},
+			};
+			
+			// Remove empty array from object
+			if (!updatedFilter.search.options) {
+				delete updatedFilter.search.options;
+			}
+			
+			setSearchFilter(updatedFilter);
 		},
-		[searchFilter],
+		[searchFilter, setSearchFilter],
 	);
 
 	const projectPriceHandler = useCallback(
-		async (value: number, type: string) => {
-			if (type == 'start') {
-				await router.push(
-					`/property?input=${JSON.stringify({
-						...searchFilter,
-						search: {
-							...searchFilter.search,
-							pricesRange: { ...searchFilter.search.pricesRange, start: value * 1 },
-						},
-					})}`,
-					`/property?input=${JSON.stringify({
-						...searchFilter,
-						search: {
-							...searchFilter.search,
-							pricesRange: { ...searchFilter.search.pricesRange, start: value * 1 },
-						},
-					})}`,
-					{ scroll: false },
-				);
-			} else {
-				await router.push(
-					`/property?input=${JSON.stringify({
-						...searchFilter,
-						search: {
-							...searchFilter.search,
-							pricesRange: { ...searchFilter.search.pricesRange, end: value * 1 },
-						},
-					})}`,
-					`/property?input=${JSON.stringify({
-						...searchFilter,
-						search: {
-							...searchFilter.search,
-							pricesRange: { ...searchFilter.search.pricesRange, end: value * 1 },
-						},
-					})}`,
-					{ scroll: false },
-				);
-			}
+		(value: number, type: string) => {
+			// Create new filter object (no mutation, no router.push)
+			const updatedFilter = {
+				...searchFilter,
+				page: 1, // Reset page when filter changes
+				search: {
+					...searchFilter.search,
+					pricesRange: { 
+						...searchFilter.search.pricesRange, 
+						[type === 'start' ? 'start' : 'end']: value * 1 
+					},
+				},
+			};
+			setSearchFilter(updatedFilter);
 		},
-		[searchFilter],
+		[searchFilter, setSearchFilter],
 	);
 
-	const refreshHandler = async () => {
-		try {
-			setSearchText('');
-			await router.push(
-				`/property?input=${JSON.stringify(initialInput)}`,
-				`/property?input=${JSON.stringify(initialInput)}`,
-				{ scroll: false },
-			);
-		} catch (err: any) {
-			console.log('ERROR, refreshHandler:', err);
-		}
+	const refreshHandler = () => {
+		setSearchText('');
+		// Reset to initial filter (only update state, no router.push)
+		setSearchFilter(initialInput);
 	};
 
 	const handleTopProjectsPageChange = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -357,10 +252,20 @@ const Filter = (props: FilterType) => {
 								onChange={(e: any) => setSearchText(e.target.value)}
 								onKeyDown={(event: any) => {
 									if (event.key == 'Enter') {
-										setSearchFilter({
+										// Create new filter object (no mutation, no router.push)
+										const updatedFilter = {
 											...searchFilter,
-											search: { ...searchFilter.search, text: searchText },
-										});
+											page: 1, // Reset page when filter changes
+											search: {
+												...searchFilter.search,
+												text: searchText.trim() || undefined,
+											},
+										};
+										// Remove empty text
+										if (!updatedFilter.search.text) {
+											delete updatedFilter.search.text;
+										}
+										setSearchFilter(updatedFilter);
 									}
 								}}
 								startAdornment={null}
