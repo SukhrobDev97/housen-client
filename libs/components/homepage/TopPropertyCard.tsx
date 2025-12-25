@@ -75,6 +75,64 @@ const TopProjectCard = (props: TopProjectCardProps) => {
 	}, []);
 
 	if (device === 'mobile') {
+		const isHomePage = router.pathname === '/';
+		
+		// Homepage Mobile - Match TrendProjects style with desktop icons
+		if (isHomePage) {
+			return (
+				<Stack className="top-card-box homepage-mobile-top-card" key={project._id}>
+					<Box
+						component={'div'}
+						className={'card-img homepage-mobile-top-card-img'}
+						style={{ backgroundImage: `url(${REACT_APP_API_URL}/${project?.projectImages[0]})` }}
+						onClick={() => pushDetailHandler(project._id)}
+					>
+						{/* Desktop-style Icons on Image - Top Right */}
+						<Box className="homepage-mobile-top-card-icons">
+							<Box 
+								className={`homepage-icon-btn homepage-like-btn ${isLiked ? 'active' : ''}`}
+								onClick={(e: React.MouseEvent) => {
+									e.stopPropagation();
+									if (user?._id && likeProjectHandler) {
+										likeProjectHandler(user, project._id);
+									}
+								}}
+							>
+								{isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+							</Box>
+							<Box 
+								className={`homepage-icon-btn homepage-save-btn ${isSaved ? 'active' : ''}`}
+								onClick={async (e: React.MouseEvent) => {
+									e.stopPropagation();
+									const newSavedState = !isSaved;
+									setIsSaved(newSavedState);
+									await sweetTopSmallSuccessAlert(newSavedState ? 'Saved!' : 'Removed from saved', 800);
+								}}
+							>
+								{isSaved ? <BookmarkIcon /> : <BookmarkBorderIcon />}
+							</Box>
+						</Box>
+						
+						{/* Top Rated Badge - Top Left */}
+						<div className={'homepage-top-rated-badge'}>Top Rated</div>
+						
+						{/* Category Badge - Bottom Left */}
+						<span className="homepage-top-category-badge">{project.projectType}</span>
+					</Box>
+					<Box 
+						component={'div'} 
+						className={'card-content homepage-mobile-top-card-content'} 
+						onClick={() => pushDetailHandler(project._id)}
+					>
+						<Typography className={'homepage-top-card-title'}>{project.projectTitle}</Typography>
+						<Typography className={'homepage-top-card-subtext'}>{project.projectType}</Typography>
+						<Typography className={'homepage-top-card-price'}>${project.projectPrice.toLocaleString()}</Typography>
+					</Box>
+				</Stack>
+			);
+		}
+
+		// Other Mobile Pages - Original Layout (fallback for non-homepage)
 		return (
 				<Stack className="top-card-box" key={project._id}>
 					<Box

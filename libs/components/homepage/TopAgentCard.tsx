@@ -55,6 +55,50 @@ const TopAgencyCard = (props: TopAgencyProps) => {
 	};
 
 	if (device === 'mobile') {
+		// Homepage Mobile - Premium Airbnb Style
+		if (router.pathname === '/') {
+			const reviewsCount = agency.memberProjects || 0;
+			return (
+				<Stack className="top-agent-card homepage-mobile-agent-card">
+					{/* Top Section: Logo, Name, Verified */}
+					<Box className="homepage-agent-header">
+						<Box className="homepage-agent-logo-container">
+							<img src={agencyImage} alt={agency?.memberNick || 'Agency'} />
+						</Box>
+						<Box className="homepage-agent-name-row">
+							<Typography className="homepage-agent-name">
+								{agency?.memberFullName ?? agency?.memberNick}
+							</Typography>
+							<Box className="homepage-agent-verified">
+								<CheckCircleIcon sx={{ fontSize: 14, color: '#4CAF50' }} />
+							</Box>
+						</Box>
+					</Box>
+					
+					{/* Middle Section: Rating */}
+					<Box className="homepage-agent-rating-row">
+						<Box className="homepage-agent-rating">
+							<span className="homepage-star">⭐</span>
+							<span className="homepage-rating-value">{rating}</span>
+						</Box>
+						<Typography className="homepage-agent-reviews">
+							{reviewsCount} {reviewsCount === 1 ? 'project' : 'projects'}
+						</Typography>
+					</Box>
+					
+					{/* Bottom Section: CTA Button */}
+					<Button 
+						className="homepage-view-agency-btn"
+						onClick={handleViewProfile}
+						fullWidth
+					>
+						View Agency
+					</Button>
+				</Stack>
+			);
+		}
+
+		// Other Mobile Pages - Original Layout
 		return (
 			<Stack className="top-agent-card">
 				<Box className="agent-image-container">

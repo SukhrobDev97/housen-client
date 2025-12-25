@@ -33,23 +33,23 @@ const withLayoutMain = (Component: any) => {
 						<title>Housen</title>
 						<meta name={'title'} content={`Housen`} />
 					</Head>
-					<Stack id="mobile-wrap">
-						<Stack id={'top'}>
-							<Top />
-						</Stack>
-
-						<Stack className={'header-main'}>
-							<Hero />
-						</Stack>
-
-						<Stack id={'main'}>
-							<Component {...props} />
-						</Stack>
-
-						<Stack id={'footer'}>
-							<Footer />
-						</Stack>
+				<Stack id="mobile-wrap" spacing={0} sx={{ margin: 0, padding: 0 }}>
+					<Stack id={'top'} spacing={0} sx={{ margin: 0, padding: 0 }}>
+						<Top />
 					</Stack>
+
+					<Stack className={'header-main'} spacing={0} sx={{ margin: 0, padding: 0 }}>
+						<Hero />
+					</Stack>
+
+					<Stack id={'main'} spacing={0} sx={{ margin: 0, padding: 0, minHeight: 'auto', height: 'auto' }}>
+						<Component {...props} />
+					</Stack>
+
+					<Stack id={'footer'} spacing={0} sx={{ margin: 0, padding: 0 }}>
+						<Footer />
+					</Stack>
+				</Stack>
 				</>
 			);
 		} else {

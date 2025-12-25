@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Stack, Box, Button } from '@mui/material';
+import { Stack, Box, Button, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
+import { useMobileLang } from '../../hooks/useMobileLang';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
@@ -23,6 +24,8 @@ const TopAgencies = (props: TopAgenciesProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
+	const mobileLang = useMobileLang();
+	const isHomePage = router.pathname === '/';
 	const user = useReactiveVar(userVar);
 	const [topAgencies, setTopAgencies] = useState<Member[]>([]);
 
@@ -78,6 +81,48 @@ const TopAgencies = (props: TopAgenciesProps) => {
 	};
 
 	if (device === 'mobile') {
+		// Homepage Mobile - Airbnb Style Layout
+		if (isHomePage) {
+			return (
+				<Stack id="top-agents" className={'top-agents homepage-mobile-top-agents'} spacing={0} sx={{ margin: 0, padding: 0 }}>
+					<Stack className={'container'} spacing={0} sx={{ margin: 0, padding: 0 }}>
+						{/* Header */}
+						<Box className={'homepage-mobile-agents-header'}>
+							<Typography className={'homepage-agents-title'}>
+								{mobileLang === 'ko' ? '인기 인테리어 에이전시' : 'Top Interior Agencies'}
+							</Typography>
+							<Typography className={'homepage-agents-subtitle'}>
+								{mobileLang === 'ko' ? '신뢰할 수 있는 검증된 전문가들' : 'Trusted & verified professionals'}
+							</Typography>
+						</Box>
+						{/* Horizontal Scroll Cards */}
+						<Box className={'homepage-mobile-agents-scroll-container'}>
+							{topAgencies.length === 0 ? (
+								<Box component={'div'} className={'empty-list'}>
+									Top Agencies Empty
+								</Box>
+							) : (
+								<Box className={'homepage-mobile-agents-scroll'}>
+									{topAgencies.map((agency: Member) => {
+										return (
+											<Box key={agency._id} className={'homepage-mobile-agent-card-wrapper'}>
+												<TopAgencyCard 
+													agency={agency} 
+													subscribeHandler={subscribeHandler}
+													unsubscribeHandler={unsubscribeHandler}
+												/>
+											</Box>
+										);
+									})}
+								</Box>
+							)}
+						</Box>
+					</Stack>
+				</Stack>
+			);
+		}
+
+		// Other Mobile Pages - Original Layout
 		return (
 			<Stack id="top-agents" className={'top-agents'}>
 				<Stack className={'container'}>

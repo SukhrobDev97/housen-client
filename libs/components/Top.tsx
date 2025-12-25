@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { useRouter, withRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { getJwtToken, logOut, updateUserInfo } from '../auth';
-import { Stack, Box, IconButton } from '@mui/material';
+import { Stack, Box, IconButton, Dialog, DialogContent, Typography, Backdrop, Popover, List, ListItemButton, ListItemText } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import { alpha, styled } from '@mui/material/styles';
@@ -50,6 +51,9 @@ const Top = () => {
 	const cartRef = useRef<HTMLDivElement>(null);
 	const { cartItems, updateQuantity, removeFromCart, clearCart, getCartTotal, getCartCount } = useCart();
 	const { directCheckoutItems, checkoutOpen, setCheckoutOpen, setDirectCheckoutItems } = useCheckout();
+	const [comingSoonModalOpen, setComingSoonModalOpen] = useState<boolean>(false);
+	const [langAnchorEl, setLangAnchorEl] = useState<null | HTMLElement>(null);
+	const [mobileLang, setMobileLang] = useState<'en' | 'ko'>('en');
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -58,6 +62,15 @@ const Top = () => {
 			setLang('en');
 		} else {
 			setLang(localStorage.getItem('locale'));
+		}
+
+		// Load mobile language preference from localStorage
+		const savedMobileLang = localStorage.getItem('mobileLang') as 'en' | 'ko' | null;
+		if (savedMobileLang === 'en' || savedMobileLang === 'ko') {
+			setMobileLang(savedMobileLang);
+		} else {
+			setMobileLang('en');
+			localStorage.setItem('mobileLang', 'en');
 		}
 
 		// Load theme from localStorage
@@ -172,6 +185,36 @@ const Top = () => {
 		setMobileMenuOpen(false);
 	};
 
+	const handleMenuClick = (path: string) => {
+		if (path === '/') {
+			closeMobileMenu();
+			router.push('/');
+		} else {
+			closeMobileMenu();
+			setComingSoonModalOpen(true);
+		}
+	};
+
+	const handleLangClick = (event: React.MouseEvent<HTMLElement>) => {
+		setLangAnchorEl(event.currentTarget);
+	};
+
+	const handleLangClose = () => {
+		setLangAnchorEl(null);
+	};
+
+	const handleLangSelect = (selectedLang: 'en' | 'ko') => {
+		setMobileLang(selectedLang);
+		localStorage.setItem('mobileLang', selectedLang);
+		// Dispatch custom event to notify other components
+		if (typeof window !== 'undefined') {
+			window.dispatchEvent(new Event('mobileLangChanged'));
+		}
+		handleLangClose();
+	};
+
+	const langOpen = Boolean(langAnchorEl);
+
 	const toggleNotification = () => {
 		setNotificationOpen(!notificationOpen);
 		setCartOpen(false);
@@ -233,6 +276,243 @@ const Top = () => {
 	}
 
 	if (device == 'mobile') {
+		const isHomePage = router.pathname === '/';
+
+		if (isHomePage) {
+			return (
+				<Stack className={'navbar mobile-navbar homepage-mobile-navbar'}>
+					<Stack className={'navbar-main mobile homepage-mobile'}>
+						<Stack className={'container'}>
+							<IconButton
+								className={'homepage-burger'}
+								onClick={toggleMobileMenu}
+								sx={{
+									padding: '8px',
+									color: '#222',
+								}}
+							>
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+									<line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+									<line x1="3" y1="18" x2="21" y2="18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+								</svg>
+							</IconButton>
+
+							<Box
+								component="input"
+								type="text"
+								placeholder={mobileLang === 'ko' ? '프로젝트 또는 에이전시 검색' : 'Search projects or agencies'}
+								className={'homepage-search-input'}
+								onClick={() => router.push('/property')}
+							/>
+
+							<Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+								<IconButton
+									className={'homepage-icon-btn'}
+									onClick={handleLangClick}
+									sx={{
+										padding: '8px',
+										color: '#222',
+									}}
+								>
+									<span style={{ fontSize: '20px' }}>🌐</span>
+								</IconButton>
+
+								{/* Language Dropdown */}
+								<Popover
+									open={langOpen}
+									anchorEl={langAnchorEl}
+									onClose={handleLangClose}
+									anchorOrigin={{
+										vertical: 'bottom',
+										horizontal: 'right',
+									}}
+									transformOrigin={{
+										vertical: 'top',
+										horizontal: 'right',
+									}}
+									PaperProps={{
+										sx: {
+											mt: 1,
+											borderRadius: '12px',
+											boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+											minWidth: 120,
+											backgroundColor: '#FFFFFF',
+										},
+									}}
+								>
+									<List sx={{ p: 0 }}>
+										<ListItemButton
+											selected={mobileLang === 'en'}
+											onClick={() => handleLangSelect('en')}
+											sx={{
+												py: 1.5,
+												px: 2,
+												'&.Mui-selected': {
+													backgroundColor: '#F3F4F6',
+												},
+											}}
+										>
+											<ListItemText primary="English" />
+										</ListItemButton>
+										<ListItemButton
+											selected={mobileLang === 'ko'}
+											onClick={() => handleLangSelect('ko')}
+											sx={{
+												py: 1.5,
+												px: 2,
+												'&.Mui-selected': {
+													backgroundColor: '#F3F4F6',
+												},
+											}}
+										>
+											<ListItemText primary="한국어" />
+										</ListItemButton>
+									</List>
+								</Popover>
+								{!user?._id && (
+									<IconButton
+										className={'homepage-icon-btn'}
+										onClick={() => setComingSoonModalOpen(true)}
+										sx={{
+											padding: '8px',
+											color: '#222',
+										}}
+									>
+										<AccountCircleOutlinedIcon />
+									</IconButton>
+								)}
+							</Stack>
+						</Stack>
+					</Stack>
+
+					{/* Backdrop */}
+					{mobileMenuOpen && (
+						<Backdrop
+							open={mobileMenuOpen}
+							onClick={closeMobileMenu}
+							sx={{
+								position: 'fixed',
+								top: 0,
+								left: 0,
+								right: 0,
+								bottom: 0,
+								backgroundColor: 'rgba(0, 0, 0, 0.15)',
+								zIndex: 1300,
+							}}
+						/>
+					)}
+
+					{/* Mobile Menu Container */}
+					{mobileMenuOpen && (
+						<Box className="mobile-burger-menu-container">
+							{/* Header */}
+							<Box className="mobile-burger-menu-header">
+								<Stack direction="row" spacing={1.5} alignItems="center" sx={{ flex: 1 }}>
+									<svg width="32" height="28" viewBox="0 0 62 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M26.5484 33.3874L29.6755 31.1775V55.9973H26.5484V33.3874ZM46.9149 26.2033V14.3923L26.5484 0V25.848L23.0738 28.3028V14.4004L0 30.7065V56H3.1271V32.2461L19.944 20.3624V30.518L9.97059 37.5648V56H23.0711V35.8448L19.944 38.0547V52.9692H13.0977V39.1017L29.6755 27.3876V5.96203L43.785 15.9319V23.9935L34.0896 17.1432V55.9973H37.2167V23.1025L58.8701 38.4019V52.9665H46.9121V33.74L43.785 31.5328V55.9973H62V36.865L46.9149 26.2033Z" fill="#111827"/>
+									</svg>
+									<Typography className="mobile-burger-menu-brand">HOUSEN</Typography>
+								</Stack>
+								<IconButton
+									onClick={closeMobileMenu}
+									sx={{
+										padding: '4px',
+										color: '#111827',
+									}}
+								>
+									<CloseIcon />
+								</IconButton>
+							</Box>
+
+							{/* Menu Items */}
+							<Box className="mobile-burger-menu-items">
+								<div className="mobile-burger-menu-item" onClick={() => handleMenuClick('/')}>
+									<span>{mobileLang === 'ko' ? '홈' : 'Home'}</span>
+								</div>
+								<div className="mobile-burger-menu-item" onClick={() => handleMenuClick('/about')}>
+									<span>{mobileLang === 'ko' ? '서비스' : 'Services'}</span>
+								</div>
+								<div className="mobile-burger-menu-item" onClick={() => handleMenuClick('/property')}>
+									<span>{mobileLang === 'ko' ? '프로젝트' : 'Projects'}</span>
+								</div>
+								<div className="mobile-burger-menu-item" onClick={() => handleMenuClick('/agent')}>
+									<span>{mobileLang === 'ko' ? '에이전시' : 'Agencies'}</span>
+								</div>
+								<div className="mobile-burger-menu-item" onClick={() => handleMenuClick('/community')}>
+									<span>{mobileLang === 'ko' ? '커뮤니티' : 'Community'}</span>
+								</div>
+							</Box>
+						</Box>
+					)}
+
+					{/* Coming Soon Modal */}
+					<Dialog
+						open={comingSoonModalOpen}
+						onClose={() => setComingSoonModalOpen(false)}
+						PaperProps={{
+							sx: {
+								borderRadius: '16px',
+								maxWidth: '300px',
+								width: '90%',
+								boxShadow: '0 4px 20px rgba(0, 0, 0, 0.12)',
+							},
+						}}
+					>
+						<DialogContent sx={{ padding: '20px', textAlign: 'center' }}>
+							<Box sx={{ marginBottom: '16px' }}>
+								<span style={{ fontSize: '48px' }}>🛠️</span>
+							</Box>
+							<Typography
+								sx={{
+									fontFamily: "'Inter', sans-serif",
+									fontSize: '20px',
+									fontWeight: 600,
+									color: '#111827',
+									marginBottom: '12px',
+								}}
+							>
+								Coming Soon
+							</Typography>
+							<Typography
+								sx={{
+									fontFamily: "'Inter', sans-serif",
+									fontSize: '14px',
+									fontWeight: 400,
+									color: '#6B7280',
+									marginBottom: '24px',
+									lineHeight: '1.5',
+								}}
+							>
+								This page is under development.
+								<br />
+								We'll launch it very soon.
+							</Typography>
+							<Button
+								fullWidth
+								onClick={() => setComingSoonModalOpen(false)}
+								sx={{
+									height: '40px',
+									borderRadius: '10px',
+									backgroundColor: '#111827',
+									color: '#FFFFFF',
+									fontFamily: "'Inter', sans-serif",
+									fontSize: '14px',
+									fontWeight: 500,
+									textTransform: 'none',
+									'&:hover': {
+										backgroundColor: '#1F2937',
+									},
+								}}
+							>
+								Got it
+							</Button>
+						</DialogContent>
+					</Dialog>
+				</Stack>
+			);
+		}
+
 		return (
 			<Stack className={'navbar mobile-navbar'}>
 				<Stack className={'navbar-main mobile'}>

@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { light } from '../scss/MaterialTheme';
 import { ApolloProvider } from '@apollo/client';
 import { useApollo } from '../apollo/client';
@@ -16,6 +16,23 @@ const App = ({ Component, pageProps }: AppProps) => {
 	// @ts-ignore
 	const [theme, setTheme] = useState(createTheme(light));
 	const client = useApollo(pageProps.initialApolloState);
+
+	// Fix body overflow and padding issues on mobile (Issue 1)
+	useEffect(() => {
+		if (typeof window !== 'undefined') {
+			// Remove any runtime styles that might cause horizontal scroll
+			const body = document.body;
+			const html = document.documentElement;
+			
+			// Force remove padding-right and overflow styles
+			body.style.paddingRight = '';
+			body.style.overflow = '';
+			html.style.overflowX = 'hidden';
+			
+			// Ensure body doesn't exceed viewport
+			body.style.maxWidth = '100vw';
+		}
+	}, []);
 
 	return (
 		<ApolloProvider client={client}>

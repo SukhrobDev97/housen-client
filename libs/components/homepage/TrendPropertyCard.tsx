@@ -40,32 +40,53 @@ const TrendProjectCard = (props: TrendProjectCardProps) => {
 
 	if (device === 'mobile') {
 		return (
-			<Stack className={`trend-card-box ${isCompareSelected ? 'compare-selected' : ''}`} key={project._id} data-project-id={project._id}>
-					<Box
-						component={'div'}
-						className={'card-img'}
+			<Stack className={`trend-card-box homepage-mobile-trend-card ${isCompareSelected ? 'compare-selected' : ''}`} key={project._id} data-project-id={project._id}>
+				<Box
+					component={'div'}
+					className={'card-img homepage-mobile-card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${project?.projectImages[0]})` }}
-						onClick={() => pushDetailHandler(project._id)}
-					>
-						<span className="category-badge">{project.projectType}</span>
-					{/* Compare Checkbox */}
-					{onCompareToggle && (
+					onClick={() => pushDetailHandler(project._id)}
+				>
+					{/* Desktop-style Icons on Image - Top Right */}
+					<Box className="homepage-mobile-card-icons">
 						<Box 
-							className={`compare-checkbox ${isCompareSelected ? 'active' : ''}`}
-							onClick={handleCompareClick}
+							className={`homepage-icon-btn homepage-like-btn ${project?.meLiked && project?.meLiked[0]?.myFavorite ? 'active' : ''}`}
+							onClick={(e: React.MouseEvent) => {
+								e.stopPropagation();
+								if (user?._id) {
+									likeProjectHandler(user, project._id);
+								}
+							}}
 						>
-							{isCompareSelected && <CheckIcon />}
+							{project?.meLiked && project?.meLiked[0]?.myFavorite ? (
+								<FavoriteIcon />
+							) : (
+								<FavoriteBorderIcon />
+							)}
 						</Box>
-					)}
+						{onCompareToggle && (
+							<Box 
+								className={`homepage-icon-btn homepage-compare-btn ${isCompareSelected ? 'active' : ''}`}
+								onClick={handleCompareClick}
+							>
+								{isCompareSelected ? <CheckIcon /> : <CompareArrowsIcon />}
+							</Box>
+						)}
 					</Box>
-					<Box
-						component={'div'} className={'card-content'} 
-						onClick={() => pushDetailHandler(project._id)}
-					>
-						<Typography className={'card-title'}>{project.projectTitle}</Typography>
-						<Typography className={'card-price'}>${project.projectPrice.toLocaleString()}</Typography>
-					</Box>
-				</Stack>
+					
+					{/* Category Badge - Bottom Left */}
+					<span className="homepage-category-badge">{project.projectType}</span>
+				</Box>
+				<Box
+					component={'div'} 
+					className={'card-content homepage-mobile-card-content'} 
+					onClick={() => pushDetailHandler(project._id)}
+				>
+					<Typography className={'homepage-card-title'}>{project.projectTitle}</Typography>
+					<Typography className={'homepage-card-subtext'}>{project.projectStyle || project.projectType}</Typography>
+					<Typography className={'homepage-card-price'}>${project.projectPrice.toLocaleString()}</Typography>
+				</Box>
+			</Stack>
 		);
 	} else {
 		return (

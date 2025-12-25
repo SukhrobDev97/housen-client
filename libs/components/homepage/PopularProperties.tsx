@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Stack, Box, Button } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
+import { useMobileLang } from '../../hooks/useMobileLang';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper';
 import WestIcon from '@mui/icons-material/West';
@@ -27,6 +28,8 @@ const PopularProjects = (props: PopularProjectsProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
+	const mobileLang = useMobileLang();
+	const isHomePage = router.pathname === '/';
 	const user = useReactiveVar(userVar);
 	const [popularProjects, setPopularProjects] = useState<Project[]>([]);
 	const [currentPage, setCurrentPage] = useState<number>(1);
@@ -121,6 +124,56 @@ const PopularProjects = (props: PopularProjectsProps) => {
 	if (!popularProjects || popularProjects.length === 0) return null;
 
 	if (device === 'mobile') {
+		// Homepage Mobile - Airbnb Style Layout
+		if (isHomePage) {
+			return (
+				<Stack id="popular-properties" className={'popular-properties homepage-mobile-popular-properties'}>
+					<Stack className={'container'}>
+						<Stack className={'info-box homepage-mobile-info-box'}>
+							<span>{mobileLang === 'ko' ? '추천 프로젝트' : 'Featured projects'}</span>
+						</Stack>
+						{/* Horizontal Scrollable Pill Filter */}
+						<Box className={'homepage-mobile-category-filters'}>
+							<Button 
+								className={`homepage-filter-pill ${selectedType === null ? 'active' : ''}`}
+								onClick={() => handleTypeFilter(null)}
+							>
+								ALL
+							</Button>
+							{Object.values(ProjectType).map((type) => (
+								<Button
+									key={type}
+									className={`homepage-filter-pill ${selectedType === type ? 'active' : ''}`}
+									onClick={() => handleTypeFilter(type)}
+								>
+									{type}
+								</Button>
+							))}
+						</Box>
+						{/* Horizontal Scroll Cards */}
+						<Box className={'homepage-mobile-popular-scroll-container'}>
+							{filteredProjects.length === 0 ? (
+								<Box component={'div'} className={'empty-list'}>
+									Popular Projects Empty
+								</Box>
+							) : (
+								<Box className={'homepage-mobile-popular-scroll'}>
+									{filteredProjects.map((project: Project) => {
+										return (
+											<Box key={project._id} className={'homepage-mobile-popular-card-wrapper'}>
+												<PopularProjectCard project={project} likeProjectHandler={likeProjectHandler} />
+											</Box>
+										);
+									})}
+								</Box>
+							)}
+						</Box>
+					</Stack>
+				</Stack>
+			);
+		}
+
+		// Other Mobile Pages - Original Layout
 		return (
 			<Stack id="popular-properties" className={'popular-properties'}>
 				<Stack className={'container'}>

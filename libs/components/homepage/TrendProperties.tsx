@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Stack, Box, Typography, Button, IconButton } from '@mui/material';
+import { useRouter } from 'next/router';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
+import { useMobileLang } from '../../hooks/useMobileLang';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
 import CloseIcon from '@mui/icons-material/Close';
@@ -29,6 +31,9 @@ interface TrendProjectsProps {
 const TrendProjects = (props: TrendProjectsProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
+	const router = useRouter();
+	const mobileLang = useMobileLang();
+	const isHomePage = router.pathname === '/';
 	const [trendProjects, setTrendProjects] = useState<Project[]>([]);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [displayedProjects, setDisplayedProjects] = useState<Project[]>([]);
@@ -256,6 +261,46 @@ const TrendProjects = (props: TrendProjectsProps) => {
 	};
 
 	if (device === 'mobile') {
+		// Homepage Mobile - Airbnb Style Layout
+		if (isHomePage) {
+			return (
+				<>
+					<Stack className={'trend-properties homepage-mobile-trend-properties'}>
+						<Stack className={'container'}>
+							<Stack className={'info-box homepage-mobile-info-box'}>
+								<span>{mobileLang === 'ko' ? '인기 디자인' : 'Trending Designs'}</span>
+							</Stack>
+							<Box className={'homepage-mobile-card-scroll-container'}>
+								{trendProjects.length === 0 ? (
+									<Box component={'div'} className={'empty-list'}>
+										Trending Projects Empty
+									</Box>
+								) : (
+									<Box className={'homepage-mobile-trend-scroll'}>
+										{trendProjects.map((project: Project) => {
+											return (
+												<Box key={project._id} className={'homepage-mobile-trend-card-wrapper'}>
+													<TrendProjectCard 
+														project={project} 
+														likeProjectHandler={likeProjectHandler}
+														isCompareSelected={isProjectSelected(project._id)}
+														onCompareToggle={handleCompareToggle}
+													/>
+												</Box>
+											);
+										})}
+									</Box>
+								)}
+							</Box>
+						</Stack>
+					</Stack>
+					<CompareBar />
+					<CompareModal />
+				</>
+			);
+		}
+
+		// Other Mobile Pages - Original Swiper Layout
 		return (
 			<>
 			<Stack className={'trend-properties'}>

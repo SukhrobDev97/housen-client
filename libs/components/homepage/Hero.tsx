@@ -4,6 +4,9 @@ import { useReactiveVar } from '@apollo/client';
 import { ProjectType, ProjectStyle } from '../../enums/property.enum';
 import { userVar } from '../../../apollo/store';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
+import useDeviceDetect from '../../hooks/useDeviceDetect';
+import { useMobileLang } from '../../hooks/useMobileLang';
+import { Stack, Typography, Box } from '@mui/material';
 import styles from '../../../scss/pc/homepage/Hero.module.scss';
 
 interface FilterState {
@@ -15,7 +18,10 @@ interface FilterState {
 
 const Hero = () => {
 	const router = useRouter();
+	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
+	const mobileLang = useMobileLang();
+	const isHomePage = router.pathname === '/';
 	const [filters, setFilters] = useState<FilterState>({
 		style: '',
 		type: '',
@@ -51,6 +57,21 @@ const Hero = () => {
 			await sweetMixinErrorAlert('Only Agencies can create projects!');
 		}
 	};
+
+	if (device === 'mobile' && isHomePage) {
+		return (
+			<Stack className={'homepage-mobile-hero'}>
+				<Box className={'homepage-mobile-hero-content'}>
+					<Typography className={'homepage-mobile-hero-small-title'}>
+						{mobileLang === 'ko' ? '프로젝트 둘러보기' : 'Discover Projects'}
+					</Typography>
+					<Typography className={'homepage-mobile-hero-title'}>
+						{mobileLang === 'ko' ? '나에게 딱 맞는 인테리어 찾기' : 'Find Your Perfect Interior Match'}
+					</Typography>
+				</Box>
+			</Stack>
+		);
+	}
 
 	return (
 		<>

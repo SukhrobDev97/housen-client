@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Stack } from '@mui/material';
+import { Stack, Box } from '@mui/material';
+import { useRouter } from 'next/router';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
+import { useMobileLang } from '../../hooks/useMobileLang';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -22,6 +24,9 @@ interface TopProjectsProps {
 const TopProjects = (props: TopProjectsProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
+	const router = useRouter();
+	const mobileLang = useMobileLang();
+	const isHomePage = router.pathname === '/';
 	const [topProjects, setTopProjects] = useState<Project[]>([]);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [displayedProjects, setDisplayedProjects] = useState<Project[]>([]);
@@ -92,6 +97,38 @@ const TopProjects = (props: TopProjectsProps) => {
 	};
 
 	if (device === 'mobile') {
+		// Homepage Mobile - Airbnb Style Layout
+		if (isHomePage) {
+			return (
+				<Stack id="top-properties" className={'top-properties homepage-mobile-top-properties'} spacing={0} sx={{ margin: 0, padding: 0 }}>
+					<Stack className={'container'} spacing={0} sx={{ margin: 0, padding: 0 }}>
+						<Stack className={'info-box homepage-mobile-info-box'} spacing={0} sx={{ margin: 0, padding: 0 }}>
+							<span>{mobileLang === 'ko' ? '인기 프로젝트' : 'Top Projects'}</span>
+						</Stack>
+						{/* Horizontal Scroll Cards */}
+						<Box className={'homepage-mobile-top-scroll-container'} sx={{ margin: 0, padding: 0 }}>
+							{topProjects.length === 0 ? (
+								<Box component={'div'} className={'empty-list'}>
+									Top Projects Empty
+								</Box>
+							) : (
+								<Box className={'homepage-mobile-top-scroll'}>
+									{topProjects.map((project: Project) => {
+										return (
+											<Box key={project._id} className={'homepage-mobile-top-card-wrapper'}>
+												<TopProjectCard project={project} likeProjectHandler={likeProjectHandler} />
+											</Box>
+										);
+									})}
+								</Box>
+							)}
+						</Box>
+					</Stack>
+				</Stack>
+			);
+		}
+
+		// Other Mobile Pages - Original Layout
 		return (
 			<Stack id="top-properties" className={'top-properties'}>
 				<Stack className={'container'}>
