@@ -22,8 +22,10 @@ import { userVar } from '../../apollo/store';
 import { Logout } from '@mui/icons-material';
 import { REACT_APP_API_URL } from '../config';
 import { useCart } from '../context/CartContext';
+import { useCheckout } from '../context/CheckoutContext';
 import { sweetTopSmallSuccessAlert } from '../sweetAlert';
 import UserMenu from './UserMenu';
+import CheckoutModal from './checkout/CheckoutModal';
 
 const Top = () => {
 	const device = useDeviceDetect();
@@ -47,6 +49,7 @@ const Top = () => {
 	const [cartOpen, setCartOpen] = useState<boolean>(false);
 	const cartRef = useRef<HTMLDivElement>(null);
 	const { cartItems, updateQuantity, removeFromCart, clearCart, getCartTotal, getCartCount } = useCart();
+	const { directCheckoutItems, checkoutOpen, setCheckoutOpen, setDirectCheckoutItems } = useCheckout();
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -339,6 +342,7 @@ const Top = () => {
 		);
 	} else {
 		return (
+			<>
 			<Stack className={'navbar'}>
 				<Stack className={`navbar-main ${colorChange ? 'transparent' : ''} ${bgColor ? 'transparent' : ''}`}>
 					<Stack className={'container'}>
@@ -568,9 +572,9 @@ const Top = () => {
 													<button 
 														className={'checkout-btn'}
 														onClick={() => {
-															sweetTopSmallSuccessAlert('Order created!', 1500);
-															clearCart();
 															setCartOpen(false);
+															setDirectCheckoutItems(null);
+															setCheckoutOpen(true);
 														}}
 													>
 														Order
@@ -588,6 +592,26 @@ const Top = () => {
 					</Stack>
 				</Stack>
 			</Stack>
+
+			<CheckoutModal
+				open={checkoutOpen}
+				onClose={() => {
+					setCheckoutOpen(false);
+					setDirectCheckoutItems(null);
+				}}
+				cartItems={directCheckoutItems || cartItems}
+				total={directCheckoutItems 
+					? directCheckoutItems.reduce((sum, item) => sum + item.product.price * item.quantity, 0)
+					: getCartTotal()}
+				onClearCart={() => {
+					if (directCheckoutItems) {
+						setDirectCheckoutItems(null);
+					} else {
+						clearCart();
+					}
+				}}
+			/>
+			</>
 		);
 	}
 };

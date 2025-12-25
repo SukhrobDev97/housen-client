@@ -4,6 +4,8 @@ import SendIcon from '@mui/icons-material/Send';
 import CloseIcon from '@mui/icons-material/Close';
 import CircularProgress from '@mui/material/CircularProgress';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 interface AIChatProps {
 	open: boolean;
 	onClose: () => void;
@@ -50,7 +52,7 @@ const AIChat: React.FC<AIChatProps> = ({ open, onClose }) => {
 		setAnswer('');
 
 		try {
-			const response = await fetch('/api/ask-ai', {
+			const response = await fetch(`${API_URL}/api/ask-ai`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -84,7 +86,7 @@ const AIChat: React.FC<AIChatProps> = ({ open, onClose }) => {
 		setLoading(true);
 		setAnswer('');
 	  
-		fetch('/api/ask-ai', {
+		fetch(`${API_URL}/api/ask-ai`, {
 		  method: 'POST',
 		  headers: { 'Content-Type': 'application/json' },
 		  body: JSON.stringify({ question: prompt.trim() }),

@@ -16,6 +16,7 @@ import { userVar } from '../../apollo/store';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import { products, categories, featuredProduct, Product } from '../../libs/data/productsData';
 import { useCart } from '../../libs/context/CartContext';
+import { useCheckout } from '../../libs/context/CheckoutContext';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
@@ -104,6 +105,7 @@ const ProductsPage: NextPage = () => {
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const { addToCart } = useCart();
+	const { setDirectCheckoutItems, setCheckoutOpen } = useCheckout();
 	const [selectedCategory, setSelectedCategory] = useState('All');
 	const [sortBy, setSortBy] = useState('featured');
 	const [searchQuery, setSearchQuery] = useState('');
@@ -125,6 +127,17 @@ const ProductsPage: NextPage = () => {
 		}
 		addToCart(product);
 		sweetTopSmallSuccessAlert('Added to cart!', 800);
+	};
+
+	// Direct checkout handler for featured product
+	const handleShopNow = (product: Product) => {
+		if (!user?._id) {
+			sweetMixinErrorAlert('Please login to checkout');
+			router.push('/account/join');
+			return;
+		}
+		setDirectCheckoutItems([{ product, quantity: 1 }]);
+		setCheckoutOpen(true);
 	};
 
 	// Filter and sort products
@@ -278,7 +291,7 @@ const ProductsPage: NextPage = () => {
 									<span>{featuredProduct.rating}</span>
 								</Box>
 							</Box>
-							<Button className="featured-cta">
+							<Button className="featured-cta" onClick={() => handleShopNow(featuredProduct)}>
 								Shop Now
 								<ArrowForwardIcon />
 							</Button>
