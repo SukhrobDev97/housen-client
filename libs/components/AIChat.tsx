@@ -50,7 +50,7 @@ const AIChat: React.FC<AIChatProps> = ({ open, onClose }) => {
 		setAnswer('');
 
 		try {
-			const response = await fetch('http://localhost:4000/api/ask-ai', {
+			const response = await fetch('/api/ask-ai', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -81,34 +81,20 @@ const AIChat: React.FC<AIChatProps> = ({ open, onClose }) => {
 
 	const handleSuggestedPrompt = (prompt: string) => {
 		setQuestion(prompt);
-		// Auto-submit - use the prompt directly to avoid async state issues
 		setLoading(true);
 		setAnswer('');
-		
-		fetch('http://localhost:4000/api/ask-ai', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({ question: prompt.trim() }),
+	  
+		fetch('/api/ask-ai', {
+		  method: 'POST',
+		  headers: { 'Content-Type': 'application/json' },
+		  body: JSON.stringify({ question: prompt.trim() }),
 		})
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error('Failed to get AI response');
-				}
-				return response.json();
-			})
-			.then((data) => {
-				setAnswer(data.answer || data.response || 'No response received');
-			})
-			.catch((error) => {
-				console.error('AI Chat Error:', error);
-				setAnswer('Sorry, I encountered an error. Please try again later.');
-			})
-			.finally(() => {
-				setLoading(false);
-			});
-	};
+		  .then(r => r.json())
+		  .then(data => setAnswer(data.answer || 'No response'))
+		  .catch(() => setAnswer('Sorry, error'))
+		  .finally(() => setLoading(false));
+	  };
+	  
 
 	if (!open) return null;
 

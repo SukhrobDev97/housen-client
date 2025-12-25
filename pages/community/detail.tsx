@@ -22,6 +22,7 @@ import { T } from '../../libs/types/common';
 import EditIcon from '@mui/icons-material/Edit';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { BoardArticle } from '../../libs/types/board-article/board-article';
+import { BoardArticleCategory } from '../../libs/enums/board-article.enum';
 import { CREATE_COMMENT, LIKE_TARGET_BOARD_ARTICLE, UPDATE_COMMENT } from '../../apollo/user/mutation';
 import { GET_BOARD_ARTICLE, GET_BOARD_ARTICLES, GET_COMMENTS } from '../../apollo/user/query';
 import { sweetConfirmAlert, sweetMixinErrorAlert, sweetMixinSuccessAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
@@ -29,7 +30,49 @@ import { CommentUpdate } from '../../libs/types/comment/comment.update';
 import { Message } from '../../libs/enums/common.enum';
 const ToastViewerComponent = dynamic(() => import('../../libs/components/community/TViewer'), { ssr: false });
 
-export const getStaticProps = async ({ locale }: any) => ({
+/**
+ * Utility function to remove the first <img> tag from HTML string
+ * Safe for production - uses DOMParser to avoid breaking HTML structure
+ * Only removes the first image, keeps all other images intact
+ */
+const removeFirstImage = (html: string | undefined | null): string => {
+	if (!html || typeof html !== 'string') {
+		return html || '';
+	}
+
+	// Use DOMParser for safe HTML parsing (browser environment)
+	if (typeof window !== 'undefined' && window.DOMParser) {
+		try {
+			const parser = new DOMParser();
+			// Wrap in a container div to preserve structure
+			const wrappedHtml = `<div>${html}</div>`;
+			const doc = parser.parseFromString(wrappedHtml, 'text/html');
+			const container = doc.querySelector('div');
+			
+			if (container) {
+				const firstImg = container.querySelector('img');
+				
+				if (firstImg) {
+					firstImg.remove();
+					// Return innerHTML without the wrapper div
+					return container.innerHTML;
+				}
+			}
+			
+			return html;
+		} catch (error) {
+			console.error('Error parsing HTML:', error);
+			// Fallback to regex if DOMParser fails (only first match)
+			return html.replace(/<img[^>]*\/?>/i, '');
+		}
+	}
+	
+	// Fallback for SSR or when DOMParser is not available
+	// Regex that matches self-closing and regular img tags (only first match)
+	return html.replace(/<img[^>]*\/?>/i, '');
+};
+
+export const getServerSideProps = async ({ locale }: any) => ({
 	props: {
 		...(await serverSideTranslations(locale, ['common'])),
 	},
@@ -78,11 +121,13 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 				page: 1, 
 				limit: 2, 
 				sort: 'createdAt', 
-				direction: 'DESC' 
+				direction: 'DESC',
+				search: {
+					articleCategory: (articleCategory as BoardArticleCategory) || 'FREE',
+				}
 			} 
 		},
 		onCompleted(data: any) {
-			console.log('Latest articles data:', data);
 			if (data?.getBoardArticles?.list) {
 				setLatestArticles(data.getBoardArticles.list);
 			}
@@ -133,6 +178,15 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	/** LIFECYCLES **/
 	useEffect(() => {
 		if (articleId) setSearchFilter({ ...searchFilter, search: { commentRefId: articleId } });
+	}, [articleId]);
+
+	// Reset article state when articleId changes to prevent flicker
+	useEffect(() => {
+		if (articleId) {
+			// Clear previous article data immediately when route changes
+			setBoardArticle(undefined);
+			setMemberImage('/img/community/articleImg.png');
+		}
 	}, [articleId]);
 
 	/** HANDLERS **/
@@ -311,163 +365,172 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 				</Box>
 			</Stack>
 
-			{/* MAIN CONTENT - Piller Two Column Layout */}
+			{/* MAIN CONTENT - Premium Editorial Layout */}
 			<Stack className="content-wrapper">
 				<Stack className="main-container">
-					{/* LEFT COLUMN */}
-					<Stack className="left-column">
-						{/* Title Header - Above Article Section */}
-						<Stack className="page-header">
-							<Stack className="header-content">
-								<Typography className="header-title">{articleCategory} BOARD</Typography>
-								<Typography className="header-subtitle">Share your thoughts with the community</Typography>
+					{/* CENTERED ARTICLE CARD */}
+					<Stack className="article-wrapper">
+						<Stack className="article-card">
+							{/* Loading Skeleton */}
+							{getBoardArticleLoading || !boardArticle ? (
+								<Stack className="article-skeleton">
+									<Box className="skeleton-image" />
+									<Stack className="skeleton-meta">
+										<Box className="skeleton-avatar" />
+										<Box className="skeleton-text skeleton-text-short" />
+									</Stack>
+									<Box className="skeleton-text skeleton-text-title" />
+									<Box className="skeleton-text" />
+									<Box className="skeleton-text" />
 								</Stack>
-								<Button
-								className="write-btn"
-								onClick={() => router.push({ pathname: '/mypage', query: { category: 'writeArticle' } })}
-								>
-									Write
-								</Button>
-							</Stack>
-
-						{/* Article Content */}
-						<Stack className="article-section">
-						{/* Featured Image */}
-						<Box className="article-featured-image">
-							<img
-								src={
-									boardArticle?.articleImage
-										? `${process.env.REACT_APP_API_URL}/${boardArticle.articleImage}`
-										: '/img/community/communityImg.png'
-								}
-								alt={boardArticle?.articleTitle || 'Article'}
-							/>
-						</Box>
-
-						{/* Meta Info Row */}
-						<Stack className="article-meta">
-												<img
-													src={memberImage}
-													alt=""
-								className="author-avatar"
-													onClick={() => goMemberPage(boardArticle?.memberData?._id)}
-												/>
-							<Typography className="author-name" onClick={() => goMemberPage(boardArticle?.memberData?._id)}>
-													{boardArticle?.memberData?.memberNick}
-												</Typography>
-							<span className="meta-dot">•</span>
-							<Moment className="meta-date" format="DD/MM/YYYY">{boardArticle?.createdAt}</Moment>
-							<span className="meta-dot">•</span>
-							<Typography className="meta-category">{articleCategory}</Typography>
-											</Stack>
-
-						{/* Article Title */}
-						<Typography className="article-title">{boardArticle?.articleTitle}</Typography>
-
-						{/* Article Content */}
-						<Stack className="article-body">
-							<ToastViewerComponent markdown={boardArticle?.articleContent} className="ytb_play" />
-										</Stack>
-
-						{/* Action Bar */}
-						<Stack className="action-bar">
-							<Button
-								className={`action-btn ${boardArticle?.meLiked?.[0]?.myFavorite ? 'liked' : ''}`}
-								onClick={() => likeArticleHandler(user, boardArticle?._id)}
-							>
-								{boardArticle?.meLiked?.[0]?.myFavorite ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
-								<span>{boardArticle?.articleLikes || 0}</span>
-							</Button>
-							<Stack className="action-btn">
-												<VisibilityIcon />
-								<span>{boardArticle?.articleViews || 0}</span>
-											</Stack>
-							<Stack className="action-btn">
-													<ChatBubbleOutlineRoundedIcon />
-								<span>{total || 0}</span>
-											</Stack>
-										</Stack>
-
-						{/* Comments Section */}
-						<Stack className="comments-section">
-							<Typography className="section-title">Comments ({total})</Typography>
-
-							{/* Comment Input */}
-							<Stack className="comment-input-box">
-										<input
-											type="text"
-									placeholder="Leave a comment..."
-											value={comment}
-											onChange={(e) => {
-												if (e.target.value.length > 100) return;
-												setWordsCnt(e.target.value.length);
-												setComment(e.target.value);
-											}}
+							) : (
+								<>
+									{/* Featured Image - 16:9 ratio, rounded */}
+									<Box className="article-featured-image">
+										<img
+											src={
+												boardArticle?.articleImage
+													? `${process.env.REACT_APP_API_URL}/${boardArticle.articleImage}`
+													: '/img/community/communityImg.png'
+											}
+											alt={boardArticle?.articleTitle || 'Article'}
 										/>
-								<Stack className="comment-input-footer">
-									<Typography className="char-count">{wordsCnt}/100</Typography>
-									<Button className="submit-btn" onClick={creteCommentHandler}>Submit</Button>
-								</Stack>
+									</Box>
+
+									{/* Article Header */}
+									<Stack className="article-header">
+										{/* Meta Info Row */}
+										<Stack className="article-meta">
+											<img
+												src={memberImage}
+												alt=""
+												className="author-avatar"
+												onClick={() => goMemberPage(boardArticle?.memberData?._id)}
+											/>
+											<Typography className="author-name" onClick={() => goMemberPage(boardArticle?.memberData?._id)}>
+												{boardArticle?.memberData?.memberNick}
+											</Typography>
+											<span className="meta-dot">•</span>
+											<Moment className="meta-date" format="MMM DD, YYYY">{boardArticle?.createdAt}</Moment>
+											<span className="meta-dot">•</span>
+											<Typography className="meta-category">{articleCategory}</Typography>
+										</Stack>
+
+										{/* Article Title */}
+										<Typography className="article-title">{boardArticle?.articleTitle}</Typography>
 									</Stack>
 
-							{/* Comments List */}
-							<Stack className="comments-list">
-								{comments?.map((commentData) => (
-									<Stack className="comment-item" key={commentData?._id}>
-										<Stack className="comment-header">
-											<img
-												src={getCommentMemberImage(commentData?.memberData?.memberImage)}
-												alt=""
-														onClick={() => goMemberPage(commentData?.memberData?._id as string)}
+									{/* Article Content */}
+									<Stack className="article-body">
+										<ToastViewerComponent 
+											markdown={removeFirstImage(boardArticle?.articleContent)} 
+											className="ytb_play" 
+										/>
+									</Stack>
+
+									{/* Action Bar - Premium Style */}
+									{!getBoardArticleLoading && boardArticle && (
+										<Stack className="action-bar">
+											<Button
+												className={`action-btn ${boardArticle?.meLiked?.[0]?.myFavorite ? 'liked' : ''}`}
+												onClick={() => likeArticleHandler(user, boardArticle?._id)}
+											>
+												{boardArticle?.meLiked?.[0]?.myFavorite ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
+												<span>{boardArticle?.articleLikes || 0}</span>
+											</Button>
+											<Stack className="action-btn">
+												<VisibilityIcon />
+												<span>{boardArticle?.articleViews || 0}</span>
+											</Stack>
+											<Stack className="action-btn">
+												<ChatBubbleOutlineRoundedIcon />
+												<span>{total || 0}</span>
+											</Stack>
+										</Stack>
+									)}
+
+									{/* Comments Section */}
+									<Stack className="comments-section">
+										<Typography className="section-title">Comments ({total})</Typography>
+
+										{/* Comment Input */}
+										<Stack className="comment-input-box">
+											<input
+												type="text"
+												placeholder="Leave a comment..."
+												value={comment}
+												onChange={(e) => {
+													if (e.target.value.length > 100) return;
+													setWordsCnt(e.target.value.length);
+													setComment(e.target.value);
+												}}
 											/>
-											<Stack className="comment-author">
-												<Typography className="name" onClick={() => goMemberPage(commentData?.memberData?._id as string)}>
-													{commentData?.memberData?.memberNick}
-															</Typography>
-												<Moment className="date" format="DD.MM.YY HH:mm">{commentData?.createdAt}</Moment>
+											<Stack className="comment-input-footer">
+												<Typography className="char-count">{wordsCnt}/100</Typography>
+												<Button className="submit-btn" onClick={creteCommentHandler}>Submit</Button>
+											</Stack>
+										</Stack>
+
+									{/* Comments List */}
+									<Stack className="comments-list">
+										{comments?.map((commentData) => (
+											<Stack className="comment-item" key={commentData?._id}>
+												<Stack className="comment-header">
+													<img
+														src={getCommentMemberImage(commentData?.memberData?.memberImage)}
+														alt=""
+														onClick={() => goMemberPage(commentData?.memberData?._id as string)}
+													/>
+													<Stack className="comment-author">
+														<Typography className="name" onClick={() => goMemberPage(commentData?.memberData?._id as string)}>
+															{commentData?.memberData?.memberNick}
+														</Typography>
+														<Moment className="date" format="DD.MM.YY HH:mm">{commentData?.createdAt}</Moment>
 													</Stack>
 													{commentData?.memberId === user?._id && (
-												<Stack className="comment-actions">
-													<IconButton onClick={() => {
-																	setUpdatedComment(commentData?.commentContent);
-																	setUpdatedCommentWordsCnt(commentData?.commentContent?.length);
-																	setUpdatedCommentId(commentData?._id);
-																	setOpenBackdrop(true);
-													}}>
-														<EditIcon />
-													</IconButton>
-													<IconButton onClick={() => {
-														setUpdatedCommentId(commentData?._id);
-														updateButtonHandler(commentData?._id, CommentStatus.DELETE);
-													}}>
-														<DeleteForeverIcon />
+														<Stack className="comment-actions">
+															<IconButton onClick={() => {
+																setUpdatedComment(commentData?.commentContent);
+																setUpdatedCommentWordsCnt(commentData?.commentContent?.length);
+																setUpdatedCommentId(commentData?._id);
+																setOpenBackdrop(true);
+															}}>
+																<EditIcon />
 															</IconButton>
+															<IconButton onClick={() => {
+																setUpdatedCommentId(commentData?._id);
+																updateButtonHandler(commentData?._id, CommentStatus.DELETE);
+															}}>
+																<DeleteForeverIcon />
+															</IconButton>
+														</Stack>
+													)}
 												</Stack>
-											)}
+												<Typography className="comment-text">{commentData?.commentContent}</Typography>
+											</Stack>
+										))}
+									</Stack>
+
+									{/* Pagination */}
+									{total > searchFilter.limit && (
+										<Stack className="pagination-box">
+											<Pagination
+												count={Math.ceil(total / searchFilter.limit) || 1}
+												page={searchFilter.page}
+												shape="circular"
+												color="primary"
+												onChange={paginationHandler}
+											/>
 										</Stack>
-										<Typography className="comment-text">{commentData?.commentContent}</Typography>
-									</Stack>
-								))}
-							</Stack>
-
-							{/* Pagination */}
-							{total > searchFilter.limit && (
-									<Stack className="pagination-box">
-										<Pagination
-											count={Math.ceil(total / searchFilter.limit) || 1}
-											page={searchFilter.page}
-											shape="circular"
-											color="primary"
-											onChange={paginationHandler}
-										/>
-									</Stack>
-								)}
-						</Stack>
+									)}
+								</Stack>
+							</>
+						)}
 					</Stack>
-					</Stack>
+				</Stack>
 
-					{/* RIGHT: Sidebar (30%) */}
-					<Stack className="sidebar">
+				{/* RIGHT: Sticky Sidebar */}
+				<Stack className="sidebar">
 						{/* Search */}
 						<Stack className="sidebar-section">
 							<Typography className="sidebar-title">Search</Typography>
@@ -578,7 +641,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 
 			{/* Edit Comment Backdrop */}
 			<Backdrop className="edit-backdrop" open={openBackdrop} onClick={cancelButtonHandler}>
-				<Stack className="edit-modal" onClick={(e) => e.stopPropagation()}>
+				<Stack className="edit-modal" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
 					<Typography className="modal-title">Update Comment</Typography>
 					<input
 						autoFocus

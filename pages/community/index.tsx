@@ -20,7 +20,7 @@ import { Messages } from '../../libs/config';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { userVar } from '../../apollo/store';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getServerSideProps = async ({ locale }: any) => ({
 	props: {
 		...(await serverSideTranslations(locale, ['common'])),
 	},
@@ -34,14 +34,19 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const { query } = router;
-	const articleCategory = query?.articleCategory as string;
-	const [searchCommunity, setSearchCommunity] = useState<BoardArticlesInquiry>(initialInput);
+	const articleCategory = (query?.articleCategory as string) || 'FREE';
+	const [searchCommunity, setSearchCommunity] = useState<BoardArticlesInquiry>({
+		...initialInput,
+		search: {
+			...initialInput.search,
+			articleCategory: (articleCategory as BoardArticleCategory) || initialInput.search.articleCategory,
+		},
+	});
 	const [boardArticles, setBoardArticles] = useState<BoardArticle[]>([]);
 	const [totalCount, setTotalCount] = useState<number>(0);
 	const [latestArticles, setLatestArticles] = useState<BoardArticle[]>([]);
 	const [searchQuery, setSearchQuery] = useState<string>('');
 	const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
-	if (articleCategory) initialInput.search.articleCategory = articleCategory;
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetBoardArticle] = useMutation(LIKE_TARGET_BOARD_ARTICLE);
@@ -56,12 +61,12 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 		variables: { input: searchCommunity },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setBoardArticles(data?.getBoardArticles?.list);
-			setTotalCount(data?.getBoardArticles?.metaCounter?.[0]?.total);
+			setBoardArticles(data?.getBoardArticles?.list || []);
+			setTotalCount(data?.getBoardArticles?.metaCounter?.[0]?.total || 0);
 		},
 	});
 
-	// Fetch latest articles for sidebar
+	// Fetch latest articles for sidebar (all categories)
 	const { loading: latestLoading } = useQuery(GET_BOARD_ARTICLES, {
 		fetchPolicy: 'network-only',
 		variables: { 
@@ -69,14 +74,19 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 				page: 1, 
 				limit: 3, 
 				sort: 'createdAt', 
-				direction: 'DESC' 
+				direction: 'DESC',
+				search: {
+					articleCategory: 'FREE' as BoardArticleCategory, // Default category for latest posts
+				}
 			} 
 		},
 		onCompleted(data: T) {
-			console.log('Latest articles data:', data);
 			if (data?.getBoardArticles?.list) {
 				setLatestArticles(data.getBoardArticles.list);
 			}
+		},
+		onError(error: any) {
+			console.error('Latest articles error:', error);
 		},
 	});
 
@@ -85,18 +95,40 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 		if (!query?.articleCategory) {
 			router.push(
 				{ pathname: router.pathname, query: { articleCategory: 'FREE' } },
-				router.pathname,
+				undefined,
 				{ shallow: true }
 			);
 		}
 	}, []);
 
+	// Sync articleCategory from URL to searchCommunity state
+	useEffect(() => {
+		if (articleCategory) {
+			setSearchCommunity((prev) => ({
+				...prev,
+				page: 1,
+				search: {
+					...prev.search,
+					articleCategory: articleCategory as BoardArticleCategory,
+				},
+			}));
+		}
+	}, [articleCategory]);
+
 	/** HANDLERS **/
 	const tabChangeHandler = async (value: string) => {
-		setSearchCommunity({ ...searchCommunity, page: 1, search: { articleCategory: value as BoardArticleCategory } });
+		const newSearch = {
+			...searchCommunity,
+			page: 1,
+			search: {
+				...searchCommunity.search,
+				articleCategory: value as BoardArticleCategory,
+			},
+		};
+		setSearchCommunity(newSearch);
 		await router.push(
 			{ pathname: '/community', query: { articleCategory: value } },
-			router.pathname,
+			undefined,
 			{ shallow: true }
 		);
 	};
@@ -129,7 +161,16 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 	};
 
 	const handleCategoryClick = (category: string) => {
-		router.push({ pathname: '/community', query: { articleCategory: category } });
+		const newSearch = {
+			...searchCommunity,
+			page: 1,
+			search: {
+				...searchCommunity.search,
+				articleCategory: category as BoardArticleCategory,
+			},
+		};
+		setSearchCommunity(newSearch);
+		router.push({ pathname: '/community', query: { articleCategory: category } }, undefined, { shallow: true });
 	};
 
 	const handleContactSubmit = (e: React.FormEvent) => {
