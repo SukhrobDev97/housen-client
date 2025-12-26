@@ -23,9 +23,34 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article, onLike, compact = fa
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 
-	const imagePath = article?.articleImage
-		? `${REACT_APP_API_URL}/${article.articleImage}`
-		: '/img/community/communityImg.png';
+	// Get article image with priority order: images[0] > thumbnail > articleImage > fallback
+	const getArticleImagePath = (article: BoardArticle): string => {
+		// Priority 1: article.images[0]
+		if (article && 'images' in article && Array.isArray((article as any).images) && (article as any).images.length > 0) {
+			const firstImage = (article as any).images[0];
+			if (firstImage && typeof firstImage === 'string' && firstImage.trim() !== '') {
+				return `${REACT_APP_API_URL}/${firstImage.trim()}`;
+			}
+		}
+
+		// Priority 2: article.thumbnail
+		if (article && 'thumbnail' in article) {
+			const thumbnail = (article as any).thumbnail;
+			if (thumbnail && typeof thumbnail === 'string' && thumbnail.trim() !== '') {
+				return `${REACT_APP_API_URL}/${thumbnail.trim()}`;
+			}
+		}
+
+		// Priority 3: article.articleImage
+		if (article?.articleImage && typeof article.articleImage === 'string' && article.articleImage.trim() !== '') {
+			return `${REACT_APP_API_URL}/${article.articleImage.trim()}`;
+		}
+
+		// Priority 4: fallback image
+		return '/img/community/communityImg.png';
+	};
+
+	const imagePath = getArticleImagePath(article);
 
 	const authorImage = article?.memberData?.memberImage
 		? `${REACT_APP_API_URL}/${article.memberData.memberImage}`
@@ -81,12 +106,13 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article, onLike, compact = fa
 		<Stack className={styles.articleCard} onClick={handleCardClick}>
 			{/* Image Header */}
 			<Box className={styles.imageWrapper}>
-				<img src={imagePath} alt={article?.articleTitle} />
-				
-				{/* Category Badge */}
-				<span className={styles.categoryBadge}>
-					{getCategoryLabel(article?.articleCategory)}
-				</span>
+				<img 
+					src={imagePath} 
+					alt={article?.articleTitle}
+					onError={(e: any) => {
+						e.target.src = '/img/community/communityImg.png';
+					}}
+				/>
 
 				{/* Like Button (appears on hover) */}
 				<IconButton 
@@ -102,6 +128,18 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article, onLike, compact = fa
 
 			{/* Content Section */}
 			<Stack className={styles.content}>
+				{/* TOP META LINE */}
+				<Stack className={styles.metaLine} direction="row" spacing={1} alignItems="center">
+					<span className={styles.categoryBadge}>
+						{getCategoryLabel(article?.articleCategory)}
+					</span>
+					<span className={styles.metaDot}>•</span>
+					<Typography className={styles.postTime}>
+						<Moment fromNow>{article?.createdAt}</Moment>
+					</Typography>
+				</Stack>
+
+				{/* CONTENT CORE */}
 				<Typography className={styles.title}>
 					{article?.articleTitle}
 				</Typography>
@@ -109,47 +147,43 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article, onLike, compact = fa
 				<Typography className={styles.excerpt}>
 					{article?.articleContent?.replace(/<[^>]*>/g, '').substring(0, 120)}...
 				</Typography>
-
-				{/* Author Info */}
-				<Stack className={styles.authorRow}>
-					<Stack className={styles.author}>
-						<img 
-							src={authorImage} 
-							alt={article?.memberData?.memberNick || 'Author'} 
-							className={styles.authorAvatar}
-						/>
-						<Stack className={styles.authorInfo}>
-							<Typography className={styles.authorName}>
-								{article?.memberData?.memberNick || 'Anonymous'}
-							</Typography>
-							<Typography className={styles.postDate}>
-								<Moment fromNow>{article?.createdAt}</Moment>
-							</Typography>
-						</Stack>
-					</Stack>
-				</Stack>
 			</Stack>
 
-			{/* Footer */}
-			<Stack className={styles.footer}>
-				<Stack className={styles.stats}>
-					<span className={styles.statItem}>
-						<RemoveRedEyeIcon />
-						{article?.articleViews || 0}
-					</span>
-					<span className={styles.statItem}>
-						<ChatBubbleOutlineIcon />
-						{article?.articleComments || 0}
-					</span>
-					<span className={styles.statItem}>
-						<FavoriteIcon />
-						{article?.articleLikes || 0}
+			{/* FOOTER BAR */}
+			<Stack className={styles.footer} direction="row" justifyContent="space-between" alignItems="center">
+				{/* LEFT: Author */}
+				<Stack className={styles.author} direction="row" spacing={1} alignItems="center">
+					<img 
+						src={authorImage} 
+						alt={article?.memberData?.memberNick || 'Author'} 
+						className={styles.authorAvatar}
+					/>
+					<Typography className={styles.authorName}>
+						{article?.memberData?.memberNick || 'Anonymous'}
+					</Typography>
+				</Stack>
+
+				{/* RIGHT: Stats + Read Link */}
+				<Stack className={styles.footerRight} direction="row" spacing={2} alignItems="center">
+					<Stack className={styles.stats} direction="row" spacing={1.5}>
+						<span className={styles.statItem}>
+							<RemoveRedEyeIcon />
+							{article?.articleViews || 0}
+						</span>
+						<span className={styles.statItem}>
+							<ChatBubbleOutlineIcon />
+							{article?.articleComments || 0}
+						</span>
+						<span className={styles.statItem}>
+							<FavoriteIcon />
+							{article?.articleLikes || 0}
+						</span>
+					</Stack>
+					
+					<span className={styles.readLink} onClick={(e) => e.stopPropagation()}>
+						Read <ArrowForwardIcon />
 					</span>
 				</Stack>
-				
-				<span className={styles.readMore}>
-					Read article <ArrowForwardIcon />
-				</span>
 			</Stack>
 		</Stack>
 	);

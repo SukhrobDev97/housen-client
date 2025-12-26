@@ -647,27 +647,27 @@ const Top = () => {
 							</Link>
 							<Link href={'/about'}>
 								<div className={'menu-item'}>
-									<span>Services</span>
+									<span>{t('Services')}</span>
 								</div>
 							</Link>
 							<Link href={'/property'}>
 								<div className={'menu-item'}>
-									<span>Projects</span>
+									<span>{t('Projects')}</span>
 								</div>
 							</Link>
 							<Link href={'/products'}>
 								<div className={'menu-item'}>
-									<span>Products</span>
+									<span>{t('Products')}</span>
 								</div>
 							</Link>
 							<Link href={'/agent'}>
 								<div className={'menu-item'}>
-									<span>Agencies</span>
+									<span>{t('Agencies')}</span>
 								</div>
 							</Link>
 							<Link href={'/community?articleCategory=FREE'}>
 								<div className={'menu-item'}>
-									<span>Community</span>
+									<span>{t('Community')}</span>
 								</div>
 							</Link>
 						</Box>

@@ -6,6 +6,7 @@ import { userVar } from '../../../apollo/store';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { useMobileLang } from '../../hooks/useMobileLang';
+import { useTranslation } from 'next-i18next';
 import { Stack, Typography, Box } from '@mui/material';
 import styles from '../../../scss/pc/homepage/Hero.module.scss';
 
@@ -21,6 +22,7 @@ const Hero = () => {
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const mobileLang = useMobileLang();
+	const { t } = useTranslation('common');
 	const isHomePage = router.pathname === '/';
 	const [filters, setFilters] = useState<FilterState>({
 		style: '',
@@ -80,20 +82,17 @@ const Hero = () => {
 					<div className={styles.heroGrid}>
 						{/* Left Column - Text */}
 						<div className={styles.heroText}>
-							<span className={styles.heroLabel}>PREMIUM INTERIOR PLATFORM</span>
-							<h1 className={styles.heroHeadline}>
-								Discover Spaces<br />
-								That Define Your Lifestyle
-							</h1>
+							<span className={styles.heroLabel}>{t('hero.label')}</span>
+							<h1 className={styles.heroHeadline} dangerouslySetInnerHTML={{ __html: t('hero.title') }} />
 							<p className={styles.heroDescription}>
-								We connect you with top designers and verified agencies to build timeless interiors that reflect your unique vision and elevate everyday living.
+								{t('hero.description')}
 							</p>
 							<div className={styles.heroActions}>
 								<button
 									className={styles.btnPrimary}
 									onClick={() => router.push('/property')}
 								>
-									Explore Projects
+									{t('hero.exploreProjects')}
 								</button>
 								<div className={styles.createProjectWrapper}>
 									<span className={styles.agencyHint}>Agency?</span>
@@ -101,7 +100,7 @@ const Hero = () => {
 										className={styles.btnSecondary}
 										onClick={handleCreateProject}
 									>
-										Create Project
+										{t('hero.createProject')}
 									</button>
 								</div>
 							</div>
@@ -109,21 +108,21 @@ const Hero = () => {
 							<div className={styles.howItWorks}>
 								<div className={styles.step}>
 									<span className={styles.stepNumber}>1</span>
-									<span className={styles.stepText}>Choose style</span>
+									<span className={styles.stepText}>{t('hero.step1')}</span>
 								</div>
 								<svg className={styles.stepArrow} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
 								</svg>
 								<div className={styles.step}>
 									<span className={styles.stepNumber}>2</span>
-									<span className={styles.stepText}>Pick project</span>
+									<span className={styles.stepText}>{t('hero.step2')}</span>
 								</div>
 								<svg className={styles.stepArrow} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
 								</svg>
 								<div className={styles.step}>
 									<span className={styles.stepNumber}>3</span>
-									<span className={styles.stepText}>Match with agency</span>
+									<span className={styles.stepText}>{t('hero.step3')}</span>
 								</div>
 							</div>
 						</div>

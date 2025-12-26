@@ -258,6 +258,11 @@
 									margin-bottom: 0;
 								}
 								
+								&.show-more {
+									max-height: none !important;
+									overflow-y: auto;
+								}
+								
 								&:hover {
 									max-height: 253px;
 								}
@@ -389,22 +394,56 @@
 										width: 100%;
 										height: 52px;
 										border-radius: 12px;
-										border: 2px solid var(--border-soft);
-										background: var(--bg-card);
-										outline: none;
+										background: #FFFFFF;
+										outline: none !important;
 										padding-left: 48px !important;
 										padding-right: 16px !important;
-										color: var(--text-primary);
+										color: #1a1a1a;
 										font-family: $font;
 										font-size: 15px;
 										font-style: normal;
 										font-weight: 400;
 										line-height: 1.5;
-										transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-										box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+										transition: all 0.2s ease;
+										box-shadow: none;
+										
+										// Remove MUI default border/outline
+										fieldset {
+											border: 1px solid #E5E7EB !important;
+											border-radius: 12px;
+										}
+										
+										&:hover {
+											fieldset {
+												border-color: #E5E7EB !important;
+											}
+											box-shadow: none;
+											~ .search-icon-wrapper .search-icon {
+												opacity: 0.8;
+											}
+										}
+										
+										&.Mui-focused {
+											fieldset {
+												border: 1px solid #111827 !important;
+												border-width: 1px !important;
+											}
+											box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.08) !important;
+											outline: none !important;
+											
+											~ .search-icon-wrapper .search-icon {
+												opacity: 1;
+											}
+										}
+										
+										&.Mui-error {
+											fieldset {
+												border-color: #E5E7EB !important;
+											}
+										}
 										
 										&::placeholder {
-											color: var(--text-secondary);
+											color: #9CA3AF;
 											font-family: $font;
 											font-size: 15px;
 											font-style: normal;
@@ -414,7 +453,7 @@
 										}
 										
 										&::-webkit-input-placeholder {
-											color: var(--text-secondary);
+											color: #9CA3AF;
 											font-family: $font;
 											font-size: 15px;
 											font-style: normal;
@@ -423,7 +462,7 @@
 										}
 										
 										&::-moz-placeholder {
-											color: var(--text-secondary);
+											color: #9CA3AF;
 											font-family: $font;
 											font-size: 15px;
 											font-style: normal;
@@ -432,30 +471,12 @@
 										}
 										
 										&:-ms-input-placeholder {
-											color: var(--text-secondary);
+											color: #9CA3AF;
 											font-family: $font;
 											font-size: 15px;
 											font-style: normal;
 											font-weight: 400;
 											opacity: 1;
-										}
-										
-										&:hover {
-											border-color: #d0d0d0;
-											box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-										}
-										
-										&:hover ~ .search-icon-wrapper .search-icon {
-											opacity: 0.8;
-										}
-										
-										&.Mui-focused {
-											border-color: #3B3F2B;
-											box-shadow: 0 0 0 4px rgba(59, 63, 43, 0.1), 0 4px 16px rgba(0, 0, 0, 0.08);
-											
-											~ .search-icon-wrapper .search-icon {
-												opacity: 1;
-											}
 										}
 									}
 								}

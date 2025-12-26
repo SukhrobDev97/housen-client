@@ -32,6 +32,10 @@ const PopularProjectCard = (props: PopularProjectCardProps) => {
 
 	/** HANDLERS **/
 	const pushDetailHandler = async (projectId: string) => {
+		// Disable navigation on mobile homepage
+		if (device === 'mobile' && router.pathname === '/') {
+			return;
+		}
 		console.log('CLICKED_PROPERTY_ID:', projectId);
 		await router.push({pathname: '/property/detail', query: { id : projectId}});
 	}

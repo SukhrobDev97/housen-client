@@ -2,6 +2,7 @@ import type { AppProps } from 'next/app';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
 import { light } from '../scss/MaterialTheme';
 import { ApolloProvider } from '@apollo/client';
 import { useApollo } from '../apollo/client';
@@ -40,6 +41,10 @@ const App = ({ Component, pageProps }: AppProps) => {
 				<CheckoutProvider>
 					<ThemeProvider theme={theme}>
 						<CssBaseline />
+						<Head>
+							<title>Housen</title>
+							<meta name="title" content="Housen" />
+						</Head>
 						<Component {...pageProps} />
 					</ThemeProvider>
 				</CheckoutProvider>

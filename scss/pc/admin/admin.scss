@@ -1,4 +1,7 @@
-#pc-wrap {
+#pc-wrap.admin {
+  background: #F5F7FA;
+  min-height: 100vh;
+  
   .MuiAppBar-root {
     height: 64px;
     display: flex;
@@ -101,6 +104,11 @@
     margin-left: auto;
     padding: 116px 24px;
     align-items: center;
+    background: #F5F7FA;
+    
+    .admin-stats-wrapper {
+      margin-bottom: 32px;
+    }
     .flex-space {
       display: flex;
       flex-direction: row;

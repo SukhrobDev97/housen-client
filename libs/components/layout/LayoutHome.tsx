@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import Head from 'next/head';
 import Top from '../Top';
 import Footer from '../Footer';
 import { Stack } from '@mui/material';
@@ -29,10 +28,6 @@ const withLayoutMain = (Component: any) => {
 		if (device == 'mobile') {
 			return (
 				<>
-					<Head>
-						<title>Housen</title>
-						<meta name={'title'} content={`Housen`} />
-					</Head>
 				<Stack id="mobile-wrap" spacing={0} sx={{ margin: 0, padding: 0 }}>
 					<Stack id={'top'} spacing={0} sx={{ margin: 0, padding: 0 }}>
 						<Top />
@@ -55,10 +50,6 @@ const withLayoutMain = (Component: any) => {
 		} else {
 			return (
 				<>
-					<Head>
-						<title>Housen</title>
-						<meta name={'title'} content={`Housen`} />
-					</Head>
 					<Stack id="pc-wrap">
 						<Stack id={'top'}>
 							<Top />

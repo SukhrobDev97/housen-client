@@ -249,24 +249,23 @@ const Filter = (props: FilterType) => {
 								type={'text'}
 								className={'search-input'}
 								placeholder={'Search...'}
-								onChange={(e: any) => setSearchText(e.target.value)}
-								onKeyDown={(event: any) => {
-									if (event.key == 'Enter') {
-										// Create new filter object (no mutation, no router.push)
-										const updatedFilter = {
-											...searchFilter,
-											page: 1, // Reset page when filter changes
-											search: {
-												...searchFilter.search,
-												text: searchText.trim() || undefined,
-											},
-										};
-										// Remove empty text
-										if (!updatedFilter.search.text) {
-											delete updatedFilter.search.text;
-										}
-										setSearchFilter(updatedFilter);
+								onChange={(e: any) => {
+									const value = e.target.value;
+									setSearchText(value);
+									// Update filter on each keystroke (live search)
+									const updatedFilter = {
+										...searchFilter,
+										page: 1, // Reset page when filter changes
+										search: {
+											...searchFilter.search,
+											text: value.trim() || undefined,
+										},
+									};
+									// Remove empty text
+									if (!updatedFilter.search.text) {
+										delete updatedFilter.search.text;
 									}
+									setSearchFilter(updatedFilter);
 								}}
 								startAdornment={null}
 								endAdornment={null}
@@ -295,10 +294,10 @@ const Filter = (props: FilterType) => {
 						)}
 					</Stack>
 					<Stack
-						className={`property-location ${openStyle ? 'open' : 'closed'}`}
+						className={`property-location ${openStyle ? 'open' : 'closed'} ${showMore ? 'show-more' : ''}`}
 						onMouseEnter={() => setShowMore(true)}
 						onMouseLeave={() => {
-							if (!searchFilter?.search?.projectStyleList) {
+							if (!searchFilter?.search?.projectStyleList || searchFilter.search.projectStyleList.length === 0) {
 								setShowMore(false);
 							}
 						}}
